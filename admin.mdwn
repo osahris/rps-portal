@@ -1,0 +1,6 @@
+Notes about systems administration
+
+Administrative tasks to be performed regularly:
+
+ * [[Security updates|admin/security-updates]] provided by the software distributor need to be applied
+ * [[Backups|backups]] need to be run manually or verified that they are running
