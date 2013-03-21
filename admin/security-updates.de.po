@@ -1,25 +1,23 @@
-# SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# German translation of GhostrouteKB page.
+# Copyright © 2013 Philipp Kaluza
+# This file is distributed under the same terms as GhostrouteKB itself.
+# Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2013-03-21 16:37+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-03-21 18:15+0100\n"
+"Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
+"Language-Team: None\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. type: Plain text
 #, no-wrap
 msgid "[[!meta title=\"Applying security updates\"]]\n"
-msgstr ""
+msgstr "[[!meta title=\"Sicherheitsupdates einspielen\"]]\n"
 
 #. type: Plain text
 msgid ""
@@ -27,34 +25,39 @@ msgid ""
 "(e.g. once per week).  For servers running Debian or Ubuntu, please do the "
 "following:"
 msgstr ""
+"Es sollten regelmäßig (z.B. 1x wöchentlich) die Sicherheitsupdates der "
+"Distribution eingespielt werden. Gehen Sie für Server unter Debian oder "
+"Ubuntu wie folgt vor:"
 
 #. type: Bullet: ' * '
 msgid "Login as a user with administrative rights."
-msgstr ""
+msgstr "Als Nutzer mit Administratorrechten einloggen."
 
 #. type: Bullet: ' * '
 msgid "Execute the following commands:"
-msgstr ""
+msgstr "Folgende Befehle ausführen:"
 
 #. type: Plain text
 #, no-wrap
 msgid "\tsudo apt-get update\n"
-msgstr ""
+msgstr "\tsudo apt-get update\n"
 
 #. type: Plain text
 #, no-wrap
 msgid "\tsudo apt-get upgrade\n"
-msgstr ""
+msgstr "\tsudo apt-get upgrade\n"
 
 #. type: Plain text
 msgid ""
 "The following software was not installed via the distribution's package "
 "system, therefore updates need to be applied manually:"
 msgstr ""
+"Die folgende Software wurde nicht über die Distribution installiert, "
+"daher müssen Sicherheitsupdates manuell eingepflegt werden:"
 
 #. type: Bullet: ' * '
 msgid "(none so far)"
-msgstr ""
+msgstr "(bisher keine)"
 
 #. type: Plain text
 msgid ""
@@ -63,3 +66,8 @@ msgid ""
 "administrative team are subscribed to the announcement mailing list of the "
 "respective projects, so that no updates which fix security bugs are missed."
 msgstr ""
+"(Bitte diese Liste aktualisieren, wenn etwas Neues installiert wird.) Hierzu "
+"ist es empfehlenswert, dass die Administratorin / das Administratoren-Team "
+"auf die Ankündigungs-Mailinglisten dieser Software-Projekte eingetragen "
+"werden, damit man Releases, die Sicherheitsprobleme beheben, zeitnah "
+"mitbekommt."

@@ -1,12 +1,12 @@
-# German translation of basewiki/index page for ikiwiki.
-# Copyright © 2010 Sebastian Kuhnert <mail@sebastian-kuhnert.de>
-# Redistribution and use in source and compiled forms, with or without
-# modification, are permitted under any circumstances. No warranty.
+# German translation of GhostrouteKB index page.
+# Copyright © 2013 Philipp Kaluza
+# This file is distributed under the same terms as GhostrouteKB itself.
+# Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2013-03-21 16:37+0100\n"
-"PO-Revision-Date: 2010-03-12 09:40+0530\n"
-"Last-Translator: Sebastian Kuhnert <mail@sebastian-kuhnert.de>\n"
+"PO-Revision-Date: 2013-03-21 18:15+0100\n"
+"Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -16,25 +16,27 @@ msgstr ""
 
 #. type: Plain text
 msgid "Welcome to Ghostroute Consulting's Knowledge Base."
-msgstr ""
+msgstr "Willkommen in der Wissensbasis von Ghostroute Consulting"
 
 #. type: Plain text
 msgid ""
 "Here we collect information about different aspects of daily IT life, and "
 "share it with select customers."
 msgstr ""
+"Hier sammeln wir Informationen zum täglichen IT-Leben und teilen diese "
+"mit ausgewählten Kunden."
 
 #. type: Plain text
 msgid "The knowledge base is structured as follows:"
-msgstr ""
+msgstr "Die Wissensdatenbank ist folgendermaßen gegliedert:"
 
 #. type: Bullet: ' * '
 msgid "[[end-user help|enduser]]"
-msgstr ""
+msgstr "[[Dokumente für Endbenutzer|enduser]]"
 
 #. type: Bullet: ' * '
 msgid "[[administrator documentation|admin]]"
-msgstr ""
+msgstr "[[Dokumentation für Administratoren|admin]]"
 
 #. type: Plain text
 msgid ""
@@ -44,14 +46,10 @@ msgid ""
 "later version. By adding something to this wiki, you agree to license your "
 "further contributions also under that license."
 msgstr ""
+"+Da diese Seite ein [[Wiki|enduser/wiki]] ist, können Sie gerne fehlende "
+"Informationen jeglicher Art hinzufügen. Alle Texte hier werden unter der "
+"GNU Lesser General Public License angeboten, entweder gemäß Version 3 der "
+"Lizenz oder (nach Ihrer Option) jeder späteren Version. Indem Sie etwas "
+"diesem Wiki hinzufügen, stimmen Sie zu, Ihre Änderungen auch unter dieser "
+"Lizenz freizugeben."
 
-#~ msgid "Welcome to your new wiki."
-#~ msgstr "Willkommen in Ihrem neuen Wiki."
-
-#~ msgid "All wikis are supposed to have a [[SandBox]], so this one does too."
-#~ msgstr ""
-#~ "Alle Wikis sollten einen [[Sandkasten|SandBox]] haben, also hat dieses "
-#~ "auch einen."
-
-#~ msgid "This wiki is powered by [[ikiwiki]]."
-#~ msgstr "Dieses Wiki wird mit [[ikiwiki]] betrieben."

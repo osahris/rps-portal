@@ -1,37 +1,38 @@
-# SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# German translation of GhostrouteKB page.
+# Copyright © 2013 Philipp Kaluza
+# This file is distributed under the same terms as GhostrouteKB itself.
+# Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2013-03-21 16:37+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-03-21 18:15+0100\n"
+"Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
+"Language-Team: None\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. type: Plain text
 msgid "Notes about systems administration"
-msgstr ""
+msgstr "Informationssammung zur Administration"
 
 #. type: Plain text
 msgid "Administrative tasks to be performed regularly:"
-msgstr ""
+msgstr "Regelmäßige Administrationsaufgaben:"
 
 #. type: Bullet: ' * '
 msgid ""
 "[[Security updates|admin/security-updates]] provided by the software "
 "distributor need to be applied"
 msgstr ""
+"[[Sicherheits-Updates|admin/security-updates]] der Distribution einspielen"
 
 #. type: Bullet: ' * '
 msgid ""
 "[[Backups|backups]] need to be run manually or verified that they are "
 "running"
 msgstr ""
+"[[Backups|backups]] machen, bzw. verfizieren, dass automatisierte Backups "
+"laufen"
