@@ -1,0 +1,65 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-03-21 16:37+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Plain text
+#, no-wrap
+msgid "[[!meta title=\"Applying security updates\"]]\n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"Security updates provided by the distribution should be applied regularly "
+"(e.g. once per week).  For servers running Debian or Ubuntu, please do the "
+"following:"
+msgstr ""
+
+#. type: Bullet: ' * '
+msgid "Login as a user with administrative rights."
+msgstr ""
+
+#. type: Bullet: ' * '
+msgid "Execute the following commands:"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "\tsudo apt-get update\n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "\tsudo apt-get upgrade\n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"The following software was not installed via the distribution's package "
+"system, therefore updates need to be applied manually:"
+msgstr ""
+
+#. type: Bullet: ' * '
+msgid "(none so far)"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"(Please update this list when something new is installed out-of-band.)  For "
+"such software it is highly recommended that the administrator / "
+"administrative team are subscribed to the announcement mailing list of the "
+"respective projects, so that no updates which fix security bugs are missed."
+msgstr ""
