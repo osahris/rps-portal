@@ -1,24 +1,22 @@
-# SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# German translation of GhostrouteKB index page.
+# Copyright © 2013 Philipp Kaluza
+# This file is distributed under the same terms as GhostrouteKB itself.
+# Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2013-04-11 17:25+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-04-11 17:34+0100\n"
+"Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
+"Language-Team: None\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. type: Plain text
 msgid "Dear users,"
-msgstr ""
+msgstr "Sehr geehrte Benutzer,"
 
 #. type: Plain text
 msgid ""
@@ -29,19 +27,25 @@ msgid ""
 "point falls into your area of expertise, you are of course invited to extend "
 "the page yourself.)"
 msgstr ""
+"in diesem Bereich finden Sie Informationen, die Ihnen das Arbeiten mit "
+"unserer Infrastruktur erleichtern sollen. Bitte lesen Sie die für Sie "
+"relevante Seite aufmerksam durch. Wenn Informationen unvollständig sein "
+"oder fehlen sollten, würden wir uns über eine kurze Rückmeldung freuen. "
+"(Falls Sie sich in dem entsprechenden Bereich selber auskennen, sind Sie "
+"auch herzlich eingeladen, die entsprechende Seite selbständig zu erweitern.)"
 
 #. type: Plain text
 msgid "Available topics:"
-msgstr ""
+msgstr "Vorhandene Informationsseiten:"
 
 #. type: Bullet: ' * '
 msgid "[[Using the email system|email]]"
-msgstr ""
+msgstr "[[Umgang mit dem Email-System|email]]"
 
 #. type: Bullet: ' * '
 msgid "[[Usage of the mailing lists|mailinglists]]"
-msgstr ""
+msgstr "[[Verwendung der Mailing-Listen|mailinglists]]"
 
 #. type: Bullet: ' * '
 msgid "[[The main wiki|wiki]]"
-msgstr ""
+msgstr "[[zentrales Wiki|wiki]]"
