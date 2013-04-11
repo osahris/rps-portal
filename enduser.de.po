@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-04-11 17:25+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Plain text
+msgid "Dear users,"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"in this area you will find information that hopefully will easy your working "
+"with our infrastructure.  Please study the page concerning your use case "
+"carefully. If you happen to find any information lacking or missing "
+"completely, we would appreciate a quick feedback. (Should you feel that a "
+"point falls into your area of expertise, you are of course invited to extend "
+"the page yourself.)"
+msgstr ""
+
+#. type: Plain text
+msgid "Available topics:"
+msgstr ""
+
+#. type: Bullet: ' * '
+msgid "[[Using the email system|email]]"
+msgstr ""
+
+#. type: Bullet: ' * '
+msgid "[[Usage of the mailing lists|mailinglists]]"
+msgstr ""
+
+#. type: Bullet: ' * '
+msgid "[[The main wiki|wiki]]"
+msgstr ""
