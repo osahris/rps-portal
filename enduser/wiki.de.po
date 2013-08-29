@@ -1,35 +1,35 @@
-# SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# German translation of GhostrouteKB page.
+# Copyright © 2013 Philipp Kaluza
+# This file is distributed under the same terms as GhostrouteKB itself.
+# Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2013-08-29 05:52+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-08-29 05:53+0200\n"
+"Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
+"Language-Team: None\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. type: Plain text
 msgid ""
 "The wiki is used to centrally collect information, for example on the usage "
 "and administration of the IT system."
 msgstr ""
+"Im Wiki werden zentral Informationen gesammelt, unter anderem zur Benutzung "
+"und zur Administration des IT-Systems."
 
 #. type: Plain text
 msgid "The wiki is reachable at address <https://...> ."
-msgstr ""
+msgstr "Das Wiki läuft unter der Adresse <https://...> ."
 
 #. type: Title ###
 #, no-wrap
 msgid "Registering a user account"
-msgstr ""
+msgstr "Benutzer-Account registrieren"
 
 #. type: Plain text
 msgid ""
@@ -41,11 +41,18 @@ msgid ""
 "wiki system cannot automatically inform you about events of interest to you, "
 "such as changes to certain pages."
 msgstr ""
+"Sie können selber beliebige Seiten des Wikis verändern. Erstellen Sie sich "
+"dazu (soweit noch nicht vorhanden) selbständig einen Account durch Klicken "
+"des \"Edit\"-Links oben auf einer beliebigen Seite. Im zweiten Schritt muss "
+"dann auf \"Register\" geklickt und ein beliebiger Nutzername und ein "
+"Passwort ausgesucht werden. Die Angabe einer Email-Adresse ist optional; "
+"ohne die Adresse kann das Wiki-System Sie allerdings nicht über bestimmte "
+"Vorkommnisse automatisiert informieren."
 
 #. type: Title ###
 #, no-wrap
 msgid "Editing pages"
-msgstr ""
+msgstr "Seiten editieren"
 
 #. type: Plain text
 msgid ""
@@ -55,6 +62,12 @@ msgid ""
 "[[Markdown format|ikiwiki/markdown]]. The page [[Formatting wiki "
 "pages|ikiwiki/formatting]] contains some tipps on using this format."
 msgstr ""
+"Um eine vorhandene Seite zu editieren, klicken Sie auf \"Edit\" oberhalb des "
+"Seitentextes. Sie gelangen auf die Editier-Seite, in dem der Text der zu "
+"editierenden Seite in einem großen Text-Feld erscheint. Üblicherweise wird "
+"er im [[Markdown-Format|ikiwiki/markdown]] gehalten sein. Die Seite "
+"[[Wiki-Seiten formatieren|ikiwiki/formatting]] enthält einige Tipps zum "
+"Umgang mit diesem Format."
 
 #. type: Plain text
 msgid ""
@@ -66,11 +79,19 @@ msgid ""
 "\"Save Page\". Our sincere thanks, you have successfully contributed to the "
 "wiki."
 msgstr ""
+"Wenn Sie das Editieren abgeschlossen haben, sollten Sie über den Knopf "
+"\"Preview\" eine Voransicht des Textes erstellen und diese begutachten. "
+"Fehler in der Markdown-Formatierung werden so schnell offensichtlich. Wenn "
+"Alles in Ordnung ist, geben Sie in der einzelnen Textzeile unterhalb des "
+"großen Eingabefeldes noch eine Beschreibung dazu ein, was Sie verändert "
+"haben (z.B. \"Liste der Flugsaurier vervollständigt\"). Klicken Sie nun "
+"abschließend auf \"Save Page\". Herzlichen Dank, Sie haben erfolgreich zum "
+"Wiki beigetragen."
 
 #. type: Title ###
 #, no-wrap
 msgid "Creating new pages"
-msgstr ""
+msgstr "Neue Seiten erstellen"
 
 #. type: Plain text
 msgid ""
@@ -78,10 +99,13 @@ msgid ""
 "a link. Instead a small question mark appears next to the link. This will "
 "look like in the following example:"
 msgstr ""
+"Manchmal werden Sie im Wiki auf einen Referenz-Text stoßen, der kein Link "
+"ist. Stattdessen erscheint neben dem Link ein kleines Fragezeichen. Das "
+"sieht dann zum Beispiel so aus:"
 
 #. type: Bullet: '* '
 msgid "[[Catalogue of known plesiosaurs|plesiosaurs]]"
-msgstr ""
+msgstr "[[Verzeichnis der bekannten Plesiosaurier|plesiosaurs]]"
 
 #. type: Plain text
 msgid ""
@@ -91,3 +115,8 @@ msgid ""
 "pages happens as described above. The page should be created in English, and "
 "possibly be [[translated|translate]] afterwards."
 msgstr ""
+"Um eine solche Seite zu erstellen, klicken Sie einfach auf das Fragezeichen. "
+"Als nächstes Wählen Sie unter \"Page location\" aus, wie die Seite einzu"
+"ordnen ist. Das eigentliche Editieren des Textes funktioniert wie oben "
+"beschrieben. Die Seite sollte zunächst auf Deutsch erstellt, und später "
+"gegebenenfalls [[übersetzt|translate]] werden."
