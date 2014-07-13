@@ -1,7 +1,7 @@
 # German translation of GhostrouteKB index page.
 # Copyright © 2013 Philipp Kaluza
 # This file is distributed under the same terms as GhostrouteKB itself.
-# Philipp Kaluza <consult@ghostroute.eu>, 2013
+# Philipp Kaluza <consult@ghostroute.eu>, 2013-2014
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2014-07-13 17:18+0200\n"
@@ -40,7 +40,7 @@ msgstr "Vorhandene Informationsseiten:"
 
 #. type: Bullet: ' * '
 msgid "[[Router|router]] for internet access"
-msgstr ""
+msgstr "Internet-Zugangs-[[Router|router]]"
 
 #. type: Bullet: ' * '
 msgid "[[Using the email system|email]]"
@@ -56,4 +56,4 @@ msgstr "[[zentrales Wiki|wiki]]"
 
 #. type: Bullet: ' * '
 msgid "[[Remote access|remote_access]]"
-msgstr ""
+msgstr "[[Fernzugriff|remote_access]]"
