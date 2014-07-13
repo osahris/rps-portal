@@ -4,7 +4,7 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2013-04-11 17:25+0200\n"
+"POT-Creation-Date: 2014-07-13 17:18+0200\n"
 "PO-Revision-Date: 2013-04-11 17:34+0100\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
@@ -29,14 +29,18 @@ msgid ""
 msgstr ""
 "in diesem Bereich finden Sie Informationen, die Ihnen das Arbeiten mit "
 "unserer Infrastruktur erleichtern sollen. Bitte lesen Sie die für Sie "
-"relevante Seite aufmerksam durch. Wenn Informationen unvollständig sein "
-"oder fehlen sollten, würden wir uns über eine kurze Rückmeldung freuen. "
-"(Falls Sie sich in dem entsprechenden Bereich selber auskennen, sind Sie "
-"auch herzlich eingeladen, die entsprechende Seite selbständig zu erweitern.)"
+"relevante Seite aufmerksam durch. Wenn Informationen unvollständig sein oder "
+"fehlen sollten, würden wir uns über eine kurze Rückmeldung freuen. (Falls "
+"Sie sich in dem entsprechenden Bereich selber auskennen, sind Sie auch "
+"herzlich eingeladen, die entsprechende Seite selbständig zu erweitern.)"
 
 #. type: Plain text
 msgid "Available topics:"
 msgstr "Vorhandene Informationsseiten:"
+
+#. type: Bullet: ' * '
+msgid "[[Router|router]] for internet access"
+msgstr ""
 
 #. type: Bullet: ' * '
 msgid "[[Using the email system|email]]"
@@ -49,3 +53,7 @@ msgstr "[[Verwendung der Mailing-Listen|mailinglists]]"
 #. type: Bullet: ' * '
 msgid "[[The main wiki|wiki]]"
 msgstr "[[zentrales Wiki|wiki]]"
+
+#. type: Bullet: ' * '
+msgid "[[Remote access|remote_access]]"
+msgstr ""
