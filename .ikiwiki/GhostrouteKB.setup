@@ -34,6 +34,7 @@ rcs: git
 add_plugins:
 - goodstuff
 - websetup
+- theme
 - po
 # plugins to disable
 disable_plugins: []
@@ -54,7 +55,7 @@ indexpages: 0
 # enable Discussion pages?
 discussion: 1
 # name of Discussion pages
-discussionpage: Diskussion
+discussionpage: Discussion
 # generate HTML5?
 html5: 1
 # only send cookies over SSL connections?
@@ -66,7 +67,7 @@ htmlext: html
 # strftime format string to display date
 timeformat: '%c'
 # UTF-8 locale to use
-locale: de_DE.UTF-8
+locale: en_US.UTF-8
 # put user pages below specified page
 userdir: ''
 # how many backlinks to show before hiding excess (0 to show all)
@@ -268,7 +269,7 @@ omega_cgi: /usr/lib/cgi-bin/omega/omega
 
 # theme plugin
 # name of theme to enable
-#theme: actiontabs
+theme: blueview
 
 # websetup plugin
 # list of plugins that cannot be enabled/disabled via the web interface
