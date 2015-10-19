@@ -1,2 +1,6 @@
 /.ikiwiki
 *.pot
+*.log
+*.aux
+*.synctex.gz
+*.pdf
