@@ -4,8 +4,8 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2015
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2015-10-19 15:07+0200\n"
-"PO-Revision-Date: 2015-10-19 15:21+0200\n"
+"POT-Creation-Date: 2015-10-19 16:47+0200\n"
+"PO-Revision-Date: 2015-10-19 16:52+0100\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
 "Language: \n"
@@ -24,9 +24,9 @@ msgid ""
 "When setting up a new machine or virtual machine and installing the "
 "operating system of your choice, make sure to follow these steps:"
 msgstr ""
-"Wenn Sie eine neues System oder eine virtuelle Maschine aufsetzen und "
-"das Betriebssystem Ihrer Wahl installieren, achten Sie bitte auf "
-"folgende Feinheiten:"
+"Wenn Sie eine neues System oder eine virtuelle Maschine aufsetzen und das "
+"Betriebssystem Ihrer Wahl installieren, achten Sie bitte auf folgende "
+"Feinheiten:"
 
 #. type: Title -
 #, no-wrap
@@ -38,26 +38,16 @@ msgid ""
 "If the disk is not already partitioned, initialize it using the \"GUID "
 "Partition Table\" (GPT)."
 msgstr ""
-"Sofern die Festplatte / virtuelle Festplatte noch nicht partitioniert "
-" ist, intialisieren Sie diese mit der GUID Partition Table\" (GPT)."
+"Sofern die Festplatte / virtuelle Festplatte noch nicht partitioniert  ist, "
+"intialisieren Sie diese mit der GUID Partition Table\" (GPT)."
 
 #. type: Plain text
 msgid ""
 "As first partition, create an \"EFI System Partition\" (ESP) of about 500 "
 "MiB size."
 msgstr ""
-"Als erste Partition legen Sie eine \"EFI System Partition\" (ESP) mit "
-"einer Größe von ungefähr 500 MiB an."
-
-#. type: Plain text
-msgid ""
-"If installing Windows™, partitioning the system drive using GPT means you "
-"_have_ to boot using UEFI - so make sure your mainboard is new enough to "
-"handle this."
-msgstr ""
-"Falls Sie Windows™ installieren, bedeutet die Verwendung von GPT, dass "
-"Sie auch unter Verwendung von UEFI booten _müssen_. Stellen Sie also "
-"sicher, dass Ihr Mainboard neu genug dazu ist."
+"Als erste Partition legen Sie eine \"EFI System Partition\" (ESP) mit einer "
+"Größe von ungefähr 500 MiB an."
 
 #. type: Title -
 #, no-wrap
