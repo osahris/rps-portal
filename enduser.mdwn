@@ -5,8 +5,8 @@ Please study the page concerning your use case carefully. If you happen to find 
 
 Available topics:
 
- * [[Router|router]] for internet access
- * [[Using the email system|email]]
- * [[Usage of the mailing lists|mailinglists]]
- * [[The main wiki|wiki]]
- * [[Remote access|remote_access]]
+ * [Router](router) for internet access
+ * [Using the email system](email)
+ * [Usage of the mailing lists](mailinglists)
+ * [The main wiki](wiki)
+ * [Remote access](remote_access)
