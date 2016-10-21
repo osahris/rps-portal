@@ -4,8 +4,8 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2013-2014
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2014-07-13 17:18+0200\n"
-"PO-Revision-Date: 2013-04-11 17:34+0100\n"
+"POT-Creation-Date: 2016-10-21 17:02+0200\n"
+"PO-Revision-Date: 2016-10-21 17:20+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
 "Language: \n"
@@ -39,21 +39,21 @@ msgid "Available topics:"
 msgstr "Vorhandene Informationsseiten:"
 
 #. type: Bullet: ' * '
-msgid "[[Router|router]] for internet access"
-msgstr "Internet-Zugangs-[[Router|router]]"
+msgid "[Router](router) for internet access"
+msgstr "Internet-Zugangs-[Router](router)"
 
 #. type: Bullet: ' * '
-msgid "[[Using the email system|email]]"
-msgstr "[[Umgang mit dem Email-System|email]]"
+msgid "[Using the email system](email)"
+msgstr "[Umgang mit dem Email-System](email)"
 
 #. type: Bullet: ' * '
-msgid "[[Usage of the mailing lists|mailinglists]]"
-msgstr "[[Verwendung der Mailing-Listen|mailinglists]]"
+msgid "[Usage of the mailing lists](mailinglists)"
+msgstr "[Verwendung der Mailing-Listen](mailinglists)"
 
 #. type: Bullet: ' * '
-msgid "[[The main wiki|wiki]]"
-msgstr "[[zentrales Wiki|wiki]]"
+msgid "[The main wiki](wiki)"
+msgstr "[zentrales Wiki](wiki)"
 
 #. type: Bullet: ' * '
-msgid "[[Remote access|remote_access]]"
-msgstr "[[Fernzugriff|remote_access]]"
+msgid "[Remote access](remote_access)"
+msgstr "[Fernzugriff](remote_access)"
