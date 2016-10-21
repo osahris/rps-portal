@@ -8,7 +8,7 @@ You can change any page in the wiki yourself. If you do not yet have a wiki acco
 
 ### Editing pages
 
-To edit an existing page, click the "edit" link above the main page text. You will reach the Editor page, which displays the markup text of the page-to-be-edited in a large editing area. Usually this will be in [Markdown format](ikiwiki/markdown). The page [Formatting wiki pages](ikiwiki/formatting) contains some tips on using this format.
+To edit an existing page, click the "edit" link above the main page text. You will reach the Editor page, which displays the markup text of the page-to-be-edited in a large editing area. Usually this will be in [Markdown format](../ikiwiki/markdown). The page [Formatting wiki pages](../ikiwiki/formatting) contains some tips on using this format.
 
 Once you are finished editing, use the "Preview" button to render a preview of the modified text. Any mistakes in markdown formatting will quickly become obvious this way. If everything looks fine to you, please enter a short description on what you changed into the single line below the main text field (e.g "completed list of pterosaurs"). Finally, klick on "Save Page". Our sincere thanks, you have successfully contributed to the wiki.
 
