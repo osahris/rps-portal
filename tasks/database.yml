@@ -1,0 +1,23 @@
+---
+
+- name: mysql user
+  mysql_user:
+    name: "{{ openproject_database_user }}"
+    host: "{{ ssh_ip }}"
+    password: "{{ openproject_database_password }}"
+    priv: "{{ openproject_database_name }}.*:ALL"
+  delegate_to: "{{ openproject_database_host }}"
+
+# - name: mysql database absent
+#   mysql_db:
+#     name: "{{ openproject_database_name }}"
+#     state: absent
+#   delegate_to: "{{ openproject_database_host }}"
+
+- name: mysql database
+  mysql_db:
+    name: "{{ openproject_database_name }}"
+    encoding: utf8
+    collation: utf8_unicode_ci
+    state: present
+  delegate_to: "{{ openproject_database_host }}"

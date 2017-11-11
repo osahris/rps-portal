@@ -1,0 +1,7 @@
+---
+
+- name: disable upsale block on homepage
+  copy:
+    content: ""
+    dest: "{{openproject_path}}/openproject/app/views/homescreen/blocks/_upsale.html.erb"
+  notify: restart openproject

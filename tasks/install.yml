@@ -1,0 +1,79 @@
+---
+
+- name: install openproject dependencies
+  apt:
+    name: '{{item}}'
+  with_items:
+    - memcached
+    - default-libmysqlclient-dev
+    - zlib1g-dev
+    - build-essential
+    - libssl-dev
+    - libreadline-dev
+    - libyaml-dev
+    - libgdbm-dev
+    - libncurses5-dev
+    - automake
+    - imagemagick
+    - libmagickcore-dev
+    - libmagickwand-dev
+    - libtool
+    - bison
+    - libffi-dev
+    - git
+    - curl
+    - libxml2
+    - libxml2-dev
+    - libxslt1-dev
+
+- name: clone openproject
+  git:
+    repo: https://github.com/opf/openproject-ce.git
+    dest: '{{openproject_path}}/openproject'
+    version: stable/7
+    force: yes
+  async: 3600
+  poll: 1
+  register: cloned_openproject
+  notify: restart openproject
+
+# do not run this as a handler but as a task here because we will need this before
+# end of playbook execution.
+- name: change ownership of openproject
+  file:
+    path: '{{openproject_path}}/openproject'
+    owner: '{{openproject_user}}'
+    group: '{{openproject_group}}'
+    recurse: yes
+
+- name: install bundler
+  gem:
+    name: bundler
+    state: present
+    executable: ~{{openproject_user}}/.rbenv/shims/gem
+    user_install: no
+  become: yes
+  become_user: '{{openproject_user}}'
+  become_method: su
+
+- name: install openproject ruby dependencies
+  bundler:
+    chdir: '{{openproject_path}}/openproject'
+    deployment_mode: yes
+    extra_args: '--without postgres sqlite rmagick development test therubyracer'
+    executable: ~{{openproject_user}}/.rbenv/shims/bundler
+  become: yes
+  become_user: '{{openproject_user}}'
+  become_method: su
+  async: 3600
+  poll: 1
+
+- name: install openproject node dependencies
+  npm:
+    path: '{{openproject_path}}/openproject'
+    executable: ~{{openproject_user}}/.nodenv/shims/npm
+  become: yes
+  become_user: '{{openproject_user}}'
+  become_method: su
+  async: 3600
+  poll: 1

@@ -1,0 +1,46 @@
+---
+
+# shamelessly copied from https://github.com/fabianfreyer/ansible-openproject
+
+- include: user.yml
+
+- include: rbenv.yml
+  vars:
+    ruby_version: 2.4.2
+    rbenv_directory: "{{openproject_path}}/.rbenv"
+    rbenv_user: '{{openproject_user}}'
+    rbenv_group: '{{openproject_group}}'
+  tags: ruby
+
+- include: nodenv.yml
+  vars:
+    node_version: 6.11.5
+    nodenv_directory: "{{openproject_path}}/.nodenv"
+    nodenv_user: '{{openproject_user}}'
+    nodenv_group: '{{openproject_group}}'
+  tags: node
+
+- debug:
+    msg: RAILS_ENV=production PATH={{openproject_env_path}}:$PATH
+
+- include: install.yml
+
+- include: database.yml
+  tags: mysql
+
+- include: memcached.yml
+
+- include: customize.yml
+
+- include: configure.yml
+
+- include: unicorn.yml
+
+- include: nginx.yml
+  tags: nginx
+
+#- include: cron.yml
+#  tags: cron
+
+- name: flush handlers
+  meta: flush_handlers

@@ -1,0 +1,1 @@
+openproject_env_path: "{{openproject_path}}/.rbenv/bin:{{openproject_path}}/.rbenv/shims:{{openproject_path}}/.nodenv/bin:{{openproject_path}}/.nodenv/shims"
