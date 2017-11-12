@@ -8,6 +8,9 @@
     - database
     #- configuration
   notify: restart openproject
+  become: yes
+  become_user: '{{openproject_user}}'
+  become_method: su
 
 # https://community.openproject.com/projects/openproject/work_packages/26147/activity
 # - name: fix openproject bug \#26147

@@ -5,3 +5,6 @@
     content: ""
     dest: "{{openproject_path}}/openproject/app/views/homescreen/blocks/_upsale.html.erb"
   notify: restart openproject
+  become: yes
+  become_user: '{{openproject_user}}'
+  become_method: su

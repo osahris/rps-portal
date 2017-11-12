@@ -25,6 +25,7 @@
     - libxml2
     - libxml2-dev
     - libxslt1-dev
+    - libsqlite3-dev
 
 - name: clone openproject
   git:
@@ -36,15 +37,9 @@
   poll: 1
   register: cloned_openproject
   notify: restart openproject
-
-# do not run this as a handler but as a task here because we will need this before
-# end of playbook execution.
-- name: change ownership of openproject
-  file:
-    path: '{{openproject_path}}/openproject'
-    owner: '{{openproject_user}}'
-    group: '{{openproject_group}}'
-    recurse: yes
+  become: yes
+  become_user: '{{openproject_user}}'
+  become_method: su
 
 - name: install bundler
   gem:

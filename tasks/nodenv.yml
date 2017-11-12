@@ -6,6 +6,9 @@
     dest: "{{nodenv_directory}}"
     depth: 1
   register: cloned_nodenv
+  become: yes
+  become_user: '{{nodenv_user}}'
+  become_method: su
 
 - name: setup nodenv
   lineinfile:
@@ -14,6 +17,9 @@
   with_items:
   - 'export PATH="{{nodenv_directory}}/bin:$PATH"'
   - 'eval "$(nodenv init -)"'
+  become: yes
+  become_user: '{{nodenv_user}}'
+  become_method: su
 
 - name: setup node-build
   git:
@@ -21,16 +27,9 @@
     dest: "{{nodenv_directory}}/plugins/node-build"
     depth: 1
   register: cloned_node_build
-
-# do not run this as a handler but as a task here because we will need this before
-# end of playbook execution.
-- name: change ownership of nodenv
-  file:
-    path: "{{nodenv_directory}}"
-    owner: '{{nodenv_user}}'
-    group: '{{nodenv_group}}'
-    recurse: yes
-  when: cloned_node_build.changed or cloned_nodenv.changed
+  become: yes
+  become_user: '{{nodenv_user}}'
+  become_method: su
 
 - name: get installed node versions
   command: nodenv versions
