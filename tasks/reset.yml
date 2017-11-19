@@ -1,0 +1,12 @@
+---
+
+- name: delete openproject
+  file:
+    path: "{{openproject_path}}/openproject"
+    state: absent
+
+- name: mysql database absent
+  mysql_db:
+    name: "{{ openproject_database_name }}"
+    state: absent
+  delegate_to: "{{ openproject_database_host }}"

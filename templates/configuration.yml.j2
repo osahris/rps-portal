@@ -1,8 +1,12 @@
 ---
-
-{#
-
 default:
+
+{% if openproject_subdirectory != "/" %}
+  rails_relative_url_root: "{{ openproject_subdirectory }}"
+{% endif %}
+
+  email_delivery_method: :sendmail
+{#
 {% if mail_method == "sendmail" %}
   email_delivery_method: :sendmail
 {% elif mail_method == "smtp" %}
@@ -17,5 +21,4 @@ default:
   rails_force_ssl: false
   rails_cache_store: :memcache
 {%endif%}
-
 #}

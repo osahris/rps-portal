@@ -16,6 +16,7 @@
     line: '{{item}}'
   with_items:
   - 'export PATH="{{nodenv_directory}}/bin:$PATH"'
+  - 'export PATH="{{nodenv_directory}}/shims:$PATH"'
   - 'eval "$(nodenv init -)"'
   become: yes
   become_user: '{{nodenv_user}}'

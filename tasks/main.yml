@@ -2,6 +2,9 @@
 
 # shamelessly copied from https://github.com/fabianfreyer/ansible-openproject
 
+- include: reset.yml
+  when: openproject_state == "reinstalled"
+
 - include: user.yml
 
 - include: rbenv.yml
@@ -20,8 +23,8 @@
     nodenv_group: '{{openproject_group}}'
   tags: node
 
-- debug:
-    msg: RAILS_ENV=production PATH={{openproject_env_path}}:$PATH
+# - debug:
+#     msg: RAILS_ENV=production PATH={{openproject_env_path}}:$PATH
 
 - include: install.yml
 
@@ -36,10 +39,12 @@
 
 - include: unicorn.yml
 
+- include: certificate.yml
+
 - include: nginx.yml
   tags: nginx
 
-#- include: cron.yml
+# - include: cron.yml
 #  tags: cron
 
 - name: flush handlers
