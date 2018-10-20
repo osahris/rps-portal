@@ -1,1 +1,8 @@
 ansible role discourse
+
+variables:
+
+discourse_hostname: fqdn
+discourse_admin_users: list of emails
+discourse_letsencrypt_account_email: email
+discourse_database_password: password

@@ -1,1 +1,6 @@
 ---
+locales:
+  lang: de_DE.UTF-8
+  language: de
+
+discourse_postgres_db_default_text_search_config: pg_catalog.german
