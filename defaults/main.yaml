@@ -4,3 +4,9 @@ locales:
   language: de
 
 discourse_postgres_db_default_text_search_config: pg_catalog.german
+
+discourse_smtp_port: 587
+
+discourse_api_username: system
+
+discourse_mail_domain: "{{discourse_hostname}}"

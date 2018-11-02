@@ -1,5 +1,8 @@
 ---
 
+- import_role:
+    name: docker
+
 - name: discourse docker repo
   git:
     repo: https://github.com/discourse/discourse_docker.git
@@ -13,5 +16,6 @@
     - postgres
     - redis
     - web
+    - mail-receiver
   register: _discourse_container_config
   notify: rebuild discourse containers
