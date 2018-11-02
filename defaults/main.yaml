@@ -10,3 +10,5 @@ discourse_smtp_port: 587
 discourse_api_username: system
 
 discourse_mail_domain: "{{discourse_hostname}}"
+
+discourse_web_ratelimited: true
