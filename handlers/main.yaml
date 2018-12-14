@@ -1,7 +1,1 @@
 ---
-
-- name: rebuild discourse containers
-  command: ./launcher rebuild "{{item}}"
-  args:
-    chdir: /var/lib/discourse
-  with_items: "{{_discourse_container_config | json_query(\"results[?changed].item\") }}"

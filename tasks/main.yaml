@@ -12,10 +12,10 @@
   template:
     src: "{{item}}.yaml.j2"
     dest: /var/lib/discourse/containers/{{item}}.yml
-  with_items:
-    - postgres
-    - redis
-    - web
-    - mail-receiver
-  register: _discourse_container_config
-  notify: rebuild discourse containers
+  with_items: "{{ discourse_containers }}"
+
+- name: rebuild discourse containers
+  command: ./launcher rebuild "{{item}}"
+  args:
+    chdir: /var/lib/discourse
+  with_items: "{{ discourse_containers }}"
