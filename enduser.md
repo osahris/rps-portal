@@ -1,6 +1,6 @@
 Dear users,
 
-in this area you will find information that hopefully will easy your working with our infrastructure.
+in this area you will find information that hopefully will ease your working with our infrastructure.
 Please study the page concerning your use case carefully. If you happen to find any information lacking or missing completely, we would appreciate a quick feedback. (Should you feel that a point falls into your area of expertise, you are of course invited to extend the page yourself.)
 
 Available topics:
