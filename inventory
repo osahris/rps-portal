@@ -1,0 +1,5 @@
+[keycloak_servers]
+account.napkon.de
+
+[discourse_servers]
+dialog.napkon.de
