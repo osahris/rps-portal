@@ -1,3 +1,6 @@
 [submodule "roles/discourse"]
 	path = roles/discourse
 	url = ../ansible-role-discourse.git
+[submodule "roles/docker"]
+	path = roles/docker
+	url = https://git.thengo.net/ka/ansible-role-docker.git
