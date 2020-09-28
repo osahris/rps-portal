@@ -89,8 +89,8 @@ hooks:
     - exec:
         cd: $home/plugins
         cmd:
-          - git clone https://github.com/discourse/docker_manager.git
-          - git clone https://github.com/gdpelican/babble.git
+          - sudo -E -u discourse git clone https://github.com/discourse/docker_manager.git
+          - sudo -E -u discourse git clone https://github.com/gdpelican/babble.git
 
 ## Remember, this is YAML syntax - you can only have one block with a name
 run:
