@@ -4,3 +4,5 @@ discourse_containers:
   - redis
   - web
   - mail-receiver
+  
+discourse_api_username: system
