@@ -1,0 +1,22 @@
+discourse_hostname: test-discourse.idcohorts.net
+discourse_database_password: ooJuphahmeluD1eiyei5OoGa
+discourse_admin_users:
+  - markus.brechtel@thengo.net
+discourse_letsencrypt_account_email: markus.brechtel@thengo.net
+
+discourse_smtp_address: mail.mindsky.de
+discourse_smtp_user_name: test-discourse@test-discourse.idcohorts.net
+discourse_smtp_password: giNeichee9eC
+
+discourse_api_key: 749660264efd96f1d99a18a3ee314c5a809163be06e1e577d76bfbe302e925ab
+
+discourse_mail_domain: test-discourse.idcohorts.net
+
+discourse_web_ratelimited: false
+
+virt_memory: 512
+locales:
+  lang: de_DE.UTF-8
+  language: de
+
+discourse_mail_domain: test-discourse.idcohorts.net
