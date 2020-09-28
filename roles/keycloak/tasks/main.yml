@@ -1,0 +1,54 @@
+---
+
+- import_role:
+    name: docker
+
+- name: create traefik dir
+  file:
+    path: /var/lib/traefik
+    state: directory
+
+- name: install docker python
+  apt:
+    name: python-docker
+    state: present
+
+- name: traefik config
+  template:
+    src: "traefik.toml.j2"
+    dest: /var/lib/traefik/traefik.toml
+
+- name: create ingress network
+  community.general.docker_network:
+    name: ingress
+
+- name: install traefik
+  community.general.docker_container:
+    name: traefik
+    image: traefik:v2.3
+    restart_policy: always
+    ports:
+      - 80:80
+      - 443:443
+      - 127.0.0.1:8080:8080
+    networks:
+      - name: ingress
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/traefik/traefik.toml:/etc/traefik/traefik.toml
+      - /var/lib/traefik/certs:/var/traefik_certs
+
+- name: keycloak
+  community.general.docker_container:
+    name: keycloak
+    image: jboss/keycloak
+    restart_policy: always
+    networks:
+      - name: ingress
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.keycloak-https.rule: Host(`{{ inventory_hostname }}`)
+      traefik.http.routers.keycloak-https.entrypoints: https
+      traefik.http.routers.keycloak-https.tls.certresolver: letsencrypt
+      traefik.http.routers.keycloak-http.rule: Host(`{{ inventory_hostname }}`)
+      traefik.http.routers.keycloak-http.entrypoints: http
