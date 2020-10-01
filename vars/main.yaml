@@ -6,3 +6,7 @@ discourse_containers:
   - mail-receiver
   
 discourse_api_username: system
+
+discourse_open_id_protocol: "{{ disable_ssl | default(false) | ternary('http', 'https') }}"
+discourse_open_id_hostname: "{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}"
+discourse_open_id_discovery_uri: "{{ discourse_open_id_protocol }}://{{ discourse_open_id_hostname }}/auth/realms/master/.well-known/openid-configuration"

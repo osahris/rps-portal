@@ -3,7 +3,7 @@ templates:
 {% if discourse_web_ratelimited %}
   - "templates/web.ratelimited.template.yml"
 {% endif %}
-{% if discourse_letsencrypt_account_email is defined %}
+{% if discourse_letsencrypt_account_email is defined and not disable_ssl|default(false) %}
   - "templates/web.ssl.template.yml"
   - "templates/web.letsencrypt.ssl.template.yml"
 {% endif %}
@@ -91,6 +91,7 @@ hooks:
         cmd:
           - sudo -E -u discourse git clone https://github.com/discourse/docker_manager.git
           - sudo -E -u discourse git clone https://github.com/gdpelican/babble.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-openid-connect.git
 
 ## Remember, this is YAML syntax - you can only have one block with a name
 run:
@@ -104,6 +105,21 @@ run:
   ## If you want to authorized additional users, uncomment and change:
   #- exec: ssh-import-id username
   #- exec: ssh-import-id anotherusername
+
+  # openid settings
+  - exec: rails r "SiteSetting.enable_local_logins=false"
+  - exec: rails r "SiteSetting.enable_local_logins_via_email=false"
+  - exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
+  - exec: rails r "SiteSetting.login_required=true"
+  - exec: rails r "SiteSetting.openid_connect_enabled=true"
+  - exec: rails r "SiteSetting.openid_connect_overrides_email=true"
+  - exec: rails r "SiteSetting.openid_connect_discovery_document='{{ discourse_open_id_discovery_uri }}'"
+  - exec: rails r "SiteSetting.openid_connect_client_id='discourse'"
+  - exec: rails r "SiteSetting.openid_connect_client_secret='{{ open_id_client_secret }}'"
+  - exec: rails r "SiteSetting.email_editable=false"
+  - exec: rails r "SiteSetting.sso_overrides_username=true"
+  - exec: rails r "SiteSetting.sso_overrides_email=true"
+  - exec: rails r "SiteSetting.sso_overrides_name=true"
 
   - exec: echo "End of custom commands"
   - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
