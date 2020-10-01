@@ -6,4 +6,4 @@
 	url = https://git.thengo.net/ka/ansible-role-docker.git
 [submodule "roles/keycloak"]
 	path = roles/keycloak
-	url = ../ansible-role-keycloak.git
+	url = git@gitlab.com:research-project-suite/ansible-role-keycloak.git
