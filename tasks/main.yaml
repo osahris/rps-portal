@@ -13,9 +13,18 @@
     src: "{{item}}.yaml.j2"
     dest: /var/lib/discourse/containers/{{item}}.yml
   with_items: "{{ discourse_containers }}"
+  register: changed_config
 
 - name: rebuild discourse containers
-  command: ./launcher rebuild "{{item}}"
+  command: ./launcher rebuild "{{item[0]}}"
   args:
     chdir: /var/lib/discourse
-  with_items: "{{ discourse_containers }}"
+  loop: "{{ discourse_containers | zip(changed_config.results) | list }}"
+  # only rebuild if config changed
+  when: item[1].changed
+
+- name: ensure all started
+  command: ./launcher start "{{item}}"
+  args:
+    chdir: /var/lib/discourse
+  loop: "{{ discourse_containers }}"
