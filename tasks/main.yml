@@ -105,9 +105,9 @@
       client_id: "admin-cli"
   register: keycloak_token
 
-- name: "Find out, if Realm {{ keycloak_realm.realm }} for service Keycloak exists"
+- name: "Find out, if Realm {{ keycloak_realm_name }} for service Keycloak exists"
   uri:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm.realm }}"
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
     method: GET
     status_code:
      - 200
@@ -117,11 +117,13 @@
       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
   register: keycloak_realm_exists
 
-- name: "Create Realm {{ keycloak_realm.realm }} for service Keycloak"
+- name: "Create Realm {{ keycloak_realm_name }} for service Keycloak"
   uri:
     url: "{{ keycloak_frontend_url }}/admin/realms"
     method: POST
-    body: "{{ lookup('template', 'users-realm.json.j2') | to_json }}"
+    body:
+      enabled: true
+      realm: "{{ keycloak_realm_name }}"
     body_format: "json"
     remote_src: "no"
     status_code:
@@ -133,14 +135,14 @@
   register: keycloak_realm_create
   when: "keycloak_realm_exists.status == 404"
 
-- debug:
-    msg: "{{ keycloak_realm|to_json }}"
-
-- name: "Update Realm {{ keycloak_realm.realm }} for service Keycloak"
+- name: "Update Realm {{ keycloak_realm_name }} for service Keycloak"
   uri:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm.realm }}"
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
     method: PUT
-    body: "{{ keycloak_realm|to_json }}"
+    body:
+      enabled: true
+      realm: "{{ keycloak_realm_name }}"
+    body_format: "json"
     remote_src: "no"
     status_code:
      - 204
@@ -151,19 +153,3 @@
   register: keycloak_realm_create
   when: "keycloak_realm_exists.status == 200"
 
-- name: ensure discourse client
-  local_action:
-    module: keycloak_client
-    auth_client_id: admin-cli
-    auth_keycloak_url: "{{ keycloak_frontend_url }}"
-    auth_realm: master
-    auth_username: admin
-    auth_password: "{{ keycloak_admin_password }}"
-    client_id: discourse
-    realm: "{{ keycloak_realm.realm }}"
-    redirect_uris: [
-      "{{ keycloak_discourse_redirect_uri }}"
-    ]
-    client_authenticator_type: client-secret
-    secret: "{{ open_id_client_secret }}"
-    state: present

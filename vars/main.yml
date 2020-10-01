@@ -4,14 +4,7 @@
 keycloak_postgres_password: uPou4Reing3theisai
 keycloak_admin_password: Po6daisheeCeiR2Edeuj
 
-keycloak_discourse_redirect_protocol: "{{ disable_ssl | default(false) | ternary('http', 'https') }}"
-keycloak_discourse_redirect_hostname: "{{ hostvars[groups['discourse_servers'][0]].inventory_hostname }}"
-keycloak_discourse_redirect_uri: "{{ keycloak_discourse_redirect_protocol }}://{{ keycloak_discourse_redirect_hostname }}/auth/oidc/callback"
-
 keycloak_protocol: "{{ disable_ssl | default(false) | ternary('http', 'https') }}"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ inventory_hostname }}/auth"
 
-keycloak_realm: {
-  enabled: true,
-  realm: "users"
-}
+keycloak_realm_name: "users"
