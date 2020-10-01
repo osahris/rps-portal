@@ -1,4 +1,3 @@
-discourse_hostname: "{{ inventory_hostname }}"
 discourse_database_password: ooJuphahmeluD1eiyei5OoGa
 discourse_admin_users:
   - markus.brechtel@thengo.net
