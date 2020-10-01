@@ -1,0 +1,33 @@
+[log]
+
+[api]
+dashboard = true
+insecure = true
+
+[providers]
+    [providers.docker]
+        exposedByDefault = false
+        endpoint = "unix:///var/run/docker.sock"
+        network = "ingress"
+
+[entryPoints]
+    [entryPoints.http]
+        address = ":80"
+{% if not disable_ssl|default(false) %}
+    [entryPoints.http.http]
+      [entryPoints.http.http.redirections]
+        [entryPoints.http.http.redirections.entrypoint]
+          to = "https"
+          scheme = "https"
+{% endif %}
+    [entryPoints.https]
+        address = ":443"
+
+[certificatesResolvers.letsencrypt.acme]
+    email = "{{ letsencrypt_account_email }}"
+    storage = "/var/traefik_certs/acme.json"
+    [certificatesResolvers.letsencrypt.acme.httpChallenge]
+        entryPoint = "http"
+
+[serversTransport]
+  insecureSkipVerify = true

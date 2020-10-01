@@ -1,0 +1,130 @@
+---
+
+- import_role:
+    name: docker
+
+- name: create traefik dir
+  file:
+    path: /var/lib/traefik
+    state: directory
+
+# required so the docker ansible module works
+- name: install docker python
+  apt:
+    name: python-docker
+    state: present
+
+- name: traefik config
+  template:
+    src: "traefik.toml.j2"
+    dest: /var/lib/traefik/traefik.toml
+
+- name: create ingress network
+  community.general.docker_network:
+    name: ingress
+
+- name: install traefik
+  community.general.docker_container:
+    name: traefik
+    image: traefik:v2.3
+    restart_policy: always
+    ports:
+      - 80:80
+      - 443:443
+      - 127.0.0.1:8080:8080 # dashboard. should not be publically visible. use ssh tunnel to view it
+    networks:
+      - name: ingress
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/traefik/traefik.toml:/etc/traefik/traefik.toml
+      - /var/lib/traefik/certs:/var/traefik_certs
+
+- name: create keycloak network
+  community.general.docker_network:
+    name: keycloak
+
+# hmm deploy via docker or standalone? docker way for now
+- name: postgres
+  community.general.docker_container:
+    name: keycloak-postgres
+    image: postgres:12.4 # postgres 13 is just out. use more stable version
+    restart_policy: always
+    networks:
+      - name: keycloak
+    volumes:
+      - /var/lib/postgres/:/var/lib/postgresql/data # maybe use docker volume instead host volume?
+    env:
+      POSTGRES_USER: keycloak
+      POSTGRES_DB: keycloak # explicitly (default == POSTGRES_USER)
+      POSTGRES_PASSWORD: "{{ keycloak_postgres_password }}"
+
+- name: keycloak
+  community.general.docker_container:
+    name: keycloak
+    image: jboss/keycloak:11.0.2
+    restart_policy: always
+    state: started
+    networks:
+      - name: ingress
+      - name: keycloak
+    env:
+      DB_VENDOR: postgres
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: "{{ keycloak_admin_password }}"
+      KEYCLOAK_FRONTEND_URL: "{{ keycloak_frontend_url }}"
+      DB_ADDR: keycloak-postgres
+      DB_DATABASE: keycloak # also default but specify explicitly
+      DB_USER: keycloak
+      DB_PASSWORD: "{{ keycloak_postgres_password }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.keycloak-https.rule: Host(`{{ inventory_hostname }}`)
+      traefik.http.routers.keycloak-https.entrypoints: https
+      traefik.http.routers.keycloak-https.tls.certresolver: letsencrypt
+      traefik.http.routers.keycloak-http.rule: Host(`{{ inventory_hostname }}`)
+      traefik.http.routers.keycloak-http.entrypoints: http
+
+- name: install jq
+  apt:
+    name: jq
+    state: present
+
+- name: check docker keycloak ip
+  shell: docker inspect keycloak | jq '.[0].NetworkSettings.Networks.ingress.IPAddress'
+  register: result
+
+- name: set docker keycloak ip
+  set_fact:
+    keycloak_ip: "{{ result.stdout | from_json }}"
+
+- name: Wait for keycloak
+  wait_for:
+    port: 8080
+    host: "{{ keycloak_ip }}"
+
+# evil because if somebody should enter container they have access :S
+- name: authenticate cli
+  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://localhost:8080/auth --realm master --user admin --password "{{ keycloak_admin_password }}"
+
+- name: retrieve clients
+  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh get clients -q clientId=discourse
+  register: result
+
+- name: parse clients
+  set_fact:
+    active_clients: "{{ result.stdout | from_json }}"
+
+- name: create discourse client
+  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh create clients -r master -s clientId=discourse -s 'redirectUris=["{{ keycloak_discourse_redirect_uri }}"]'
+  when: active_clients|length == 0
+
+- name: retrieve client
+  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh get clients -q clientId=discourse | jq .[0].id
+  register: result
+
+- name: set clientId
+  set_fact:
+    clientId: "{{ result.stdout | from_json }}"
+
+- name: set secret
+  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh update clients/{{ clientId }}  -s secret={{ open_id_client_secret }}
