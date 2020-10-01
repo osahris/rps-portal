@@ -1,4 +1,7 @@
 ---
+
+discourse_hostname: "{{ inventory_hostname }}"
+
 locales:
   lang: de_DE.UTF-8
   language: de
