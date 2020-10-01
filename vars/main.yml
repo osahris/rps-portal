@@ -1,0 +1,10 @@
+---
+
+# ansible vault?
+keycloak_postgres_password: uPou4Reing3theisai
+keycloak_admin_password: Po6daisheeCeiR2Edeuj
+
+keycloak_protocol: "{{ disable_ssl | default(false) | ternary('http', 'https') }}"
+keycloak_frontend_url: "{{ keycloak_protocol }}://{{ inventory_hostname }}/auth"
+
+keycloak_realm_name: "users"
