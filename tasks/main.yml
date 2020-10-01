@@ -84,47 +84,86 @@
       traefik.http.routers.keycloak-http.rule: Host(`{{ inventory_hostname }}`)
       traefik.http.routers.keycloak-http.entrypoints: http
 
-- name: install jq
-  apt:
-    name: jq
-    state: present
-
-- name: check docker keycloak ip
-  shell: docker inspect keycloak | jq '.[0].NetworkSettings.Networks.ingress.IPAddress'
-  register: result
-
-- name: set docker keycloak ip
-  set_fact:
-    keycloak_ip: "{{ result.stdout | from_json }}"
-
 - name: Wait for keycloak
-  wait_for:
-    port: 8080
-    host: "{{ keycloak_ip }}"
-
-# evil because if somebody should enter container they have access :S
-- name: authenticate cli
-  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh config credentials --server http://localhost:8080/auth --realm master --user admin --password "{{ keycloak_admin_password }}"
-
-- name: retrieve clients
-  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh get clients -q clientId=discourse
+  uri:
+    url: "{{ keycloak_frontend_url }}"
+    status_code: 200
   register: result
+  until: result.status == 200
+  retries: 60
+  delay: 1
 
-- name: parse clients
-  set_fact:
-    active_clients: "{{ result.stdout | from_json }}"
+- name: "Create Token for service Keycloak"
+  uri:
+    url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    body_format: form-urlencoded
+    body:
+      username: "admin"
+      password: "{{ keycloak_admin_password }}"
+      grant_type: "password"
+      client_id: "admin-cli"
+  register: keycloak_token
 
-- name: create discourse client
-  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh create clients -r master -s clientId=discourse -s 'redirectUris=["{{ keycloak_discourse_redirect_uri }}"]'
-  when: active_clients|length == 0
+- name: "Find out, if Realm {{ keycloak_realm.realm }} for service Keycloak exists"
+  uri:
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm.realm }}"
+    method: GET
+    status_code:
+     - 200
+     - 404
+    headers:
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+  register: keycloak_realm_exists
 
-- name: retrieve client
-  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh get clients -q clientId=discourse | jq .[0].id
-  register: result
+- name: "Create Realm {{ keycloak_realm.realm }} for service Keycloak"
+  uri:
+    url: "{{ keycloak_frontend_url }}/admin/realms"
+    method: POST
+    body: "{{ lookup('template', 'users-realm.json.j2') | to_json }}"
+    body_format: "json"
+    remote_src: "no"
+    status_code:
+     - 201
+    headers:
+      Content-type: "application/json"
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+  register: keycloak_realm_create
+  when: "keycloak_realm_exists.status == 404"
 
-- name: set clientId
-  set_fact:
-    clientId: "{{ result.stdout | from_json }}"
+- debug:
+    msg: "{{ keycloak_realm|to_json }}"
 
-- name: set secret
-  shell: docker exec keycloak /opt/jboss/keycloak/bin/kcadm.sh update clients/{{ clientId }}  -s secret={{ open_id_client_secret }}
+- name: "Update Realm {{ keycloak_realm.realm }} for service Keycloak"
+  uri:
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm.realm }}"
+    method: PUT
+    body: "{{ keycloak_realm|to_json }}"
+    remote_src: "no"
+    status_code:
+     - 204
+    headers:
+      Content-type: "application/json"
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+  register: keycloak_realm_create
+  when: "keycloak_realm_exists.status == 200"
+
+- name: ensure discourse client
+  local_action:
+    module: keycloak_client
+    auth_client_id: admin-cli
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    auth_realm: master
+    auth_username: admin
+    auth_password: "{{ keycloak_admin_password }}"
+    client_id: discourse
+    realm: "{{ keycloak_realm.realm }}"
+    redirect_uris: [
+      "{{ keycloak_discourse_redirect_uri }}"
+    ]
+    client_authenticator_type: client-secret
+    secret: "{{ open_id_client_secret }}"
+    state: present
