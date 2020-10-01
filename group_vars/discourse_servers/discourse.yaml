@@ -1,8 +1,8 @@
-discourse_hostname: test-discourse.idcohorts.net
 discourse_database_password: ooJuphahmeluD1eiyei5OoGa
 discourse_admin_users:
   - markus.brechtel@thengo.net
-discourse_letsencrypt_account_email: markus.brechtel@thengo.net
+  - andreas@mop.koeln
+discourse_letsencrypt_account_email: "{{ letsencrypt_account_email }}"
 
 discourse_smtp_address: mail.mindsky.de
 discourse_smtp_user_name: test-discourse@test-discourse.idcohorts.net
@@ -19,4 +19,4 @@ locales:
   lang: de_DE.UTF-8
   language: de
 
-discourse_mail_domain: test-discourse.idcohorts.net
+discourse_mail_domain: "{{ inventory_hostname }}"
