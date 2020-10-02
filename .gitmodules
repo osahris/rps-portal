@@ -7,4 +7,3 @@
 [submodule "roles/keycloak"]
 	path = roles/keycloak
 	url = ../ansible-role-keycloak.git
-	branch = feature/initial-keycloak
