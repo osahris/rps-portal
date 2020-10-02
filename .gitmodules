@@ -22,3 +22,6 @@
 [submodule "roles/postgresql"]
 	path = roles/postgresql
 	url = https://git.thengo.net/ka/ansible-role-postgresql.git
+[submodule "roles/php"]
+	path = roles/php
+	url = https://git.thengo.net/ka/ansible-role-php.git
