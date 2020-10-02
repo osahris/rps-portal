@@ -13,3 +13,9 @@
 [submodule "roles/secrets"]
 	path = roles/secrets
 	url = https://git.thengo.net/ka/ansible-role-secrets.git
+[submodule "roles/certificate"]
+	path = roles/certificate
+	url = https://git.thengo.net/ka/ansible-role-certificate.git
+[submodule "roles/apache"]
+	path = roles/apache
+	url = https://git.thengo.net/ka/ansible-role-apache.git
