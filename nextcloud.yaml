@@ -1,0 +1,14 @@
+---
+- hosts: nextcloud_servers
+  remote_user: root
+  vars:
+  roles:
+    - role: postgresql
+    - role: secrets
+      secrets_definitions:
+        nextcloud_database_pass:
+          store: local_facts
+        nextcloud_admin_pass:
+          store: local_facts
+    - name: nextcloud
+      nextcloud_state: installed

@@ -3,3 +3,6 @@ testaccount.idcohorts.net
 
 [discourse_servers]
 test-discourse.idcohorts.net
+
+[nextcloud_servers]
+testcloud.idcohorts.net
