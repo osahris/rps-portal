@@ -10,3 +10,6 @@
 [submodule "roles/nextcloud"]
 	path = roles/nextcloud
 	url = ../ansible-role-nextcloud.git
+[submodule "roles/secrets"]
+	path = roles/secrets
+	url = https://git.thengo.net/ka/ansible-role-secrets.git
