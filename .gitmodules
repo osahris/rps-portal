@@ -7,3 +7,6 @@
 [submodule "roles/keycloak"]
 	path = roles/keycloak
 	url = ../ansible-role-keycloak.git
+[submodule "roles/nextcloud"]
+	path = roles/nextcloud
+	url = ../ansible-role-nextcloud.git
