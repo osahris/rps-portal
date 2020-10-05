@@ -13,13 +13,11 @@ insecure = true
 [entryPoints]
     [entryPoints.http]
         address = ":80"
-{% if not disable_ssl|default(false) %}
     [entryPoints.http.http]
       [entryPoints.http.http.redirections]
         [entryPoints.http.http.redirections.entrypoint]
           to = "https"
           scheme = "https"
-{% endif %}
     [entryPoints.https]
         address = ":443"
 
