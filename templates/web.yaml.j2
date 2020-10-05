@@ -92,6 +92,10 @@ hooks:
           - sudo -E -u discourse git clone https://github.com/discourse/docker_manager.git
           - sudo -E -u discourse git clone https://github.com/gdpelican/babble.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-openid-connect.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-user-notes.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-canned-replies.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-solved.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-assign.git
 
 ## Remember, this is YAML syntax - you can only have one block with a name
 run:
@@ -120,6 +124,9 @@ run:
   - exec: rails r "SiteSetting.sso_overrides_username=true"
   - exec: rails r "SiteSetting.sso_overrides_email=true"
   - exec: rails r "SiteSetting.sso_overrides_name=true"
+  # these have special flags to enable them
+  - exec: rails r "SiteSetting.assign_enabled=true"
+  - exec: rails r "SiteSetting.user_notes_enabled=true"
 
   - exec: echo "End of custom commands"
   - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
