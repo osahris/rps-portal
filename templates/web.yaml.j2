@@ -3,7 +3,7 @@ templates:
 {% if discourse_web_ratelimited %}
   - "templates/web.ratelimited.template.yml"
 {% endif %}
-{% if discourse_letsencrypt_account_email is defined and not disable_ssl|default(false) %}
+{% if discourse_letsencrypt_account_email is defined %}
   - "templates/web.ssl.template.yml"
   - "templates/web.letsencrypt.ssl.template.yml"
 {% endif %}
