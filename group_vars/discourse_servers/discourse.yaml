@@ -8,9 +8,7 @@ discourse_smtp_address: mail.mindsky.de
 discourse_smtp_user_name: test-discourse@test-discourse.idcohorts.net
 discourse_smtp_password: giNeichee9eC
 
-discourse_api_key: 749660264efd96f1d99a18a3ee314c5a809163be06e1e577d76bfbe302e925ab
-
-discourse_mail_domain: test-discourse.idcohorts.net
+discourse_api_key: "{{ secrets.discourse_api_key }}"
 
 discourse_web_ratelimited: false
 
