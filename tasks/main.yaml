@@ -33,3 +33,20 @@
   args:
     chdir: /var/lib/discourse
   loop: "{{ discourse_containers }}"
+
+- name: ensure discourse client
+  local_action:
+    module: keycloak_client
+    auth_client_id: admin-cli
+    auth_keycloak_url: "{{ discourse_keycloak_frontend_url }}"
+    auth_realm: master
+    auth_username: admin
+    auth_password: "{{ discourse_keycloak_admin_password }}"
+    client_id: discourse
+    realm: "{{ discourse_keycloak_realm_name }}"
+    redirect_uris: [
+      "{{ discourse_keycloak_redirect_uri }}"
+    ]
+    client_authenticator_type: client-secret
+    secret: "{{ open_id_client_secret }}"
+    state: present
