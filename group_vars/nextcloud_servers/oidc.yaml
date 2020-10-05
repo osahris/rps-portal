@@ -1,0 +1,10 @@
+nextcloud_oidc_login_client_id: nextcloud
+nextcloud_oidc_login_client_secret: d723149d-ba94-4dca-926e-d348edc79f72
+nextcloud_oidc_login_provider_url: "https://{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}/auth/realms/users"
+nextcloud_oidc_login_logout_url: "https://{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}/auth/realms/users/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ inventory_hostname }}%2F/logout"
+nextcloud_oidc_login_tls_verify: false
+
+nextcloud_keycloak_url: "https://{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}"
+nextcloud_keycloak_admin_user: admin
+nextcloud_keycloak_admin_password: Po6daisheeCeiR2Edeuj
+nextcloud_keycloak_realm: users
