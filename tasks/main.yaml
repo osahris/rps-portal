@@ -3,7 +3,7 @@
 - import_role:
     name: docker
 
-- name: install git
+- name: debian requirements
   apt:
     pkg:
       - git
