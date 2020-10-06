@@ -1,9 +1,6 @@
 ---
 # defaults file for keycloak
 
-keycloak_postgres_password: supersecret1
-keycloak_admin_password: supersecret2
-
 keycloak_protocol: "{{ disable_ssl | default(false) | ternary('http', 'https') }}"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ inventory_hostname }}/auth"
 
