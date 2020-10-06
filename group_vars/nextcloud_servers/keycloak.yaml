@@ -1,0 +1,3 @@
+---
+nextcloud_keycloak_admin_user: "{{ keycloak_management_user }}"
+nextcloud_keycloak_admin_password: "{{ keycloak_management_password }}"
