@@ -3,6 +3,11 @@
 - import_role:
     name: docker
 
+- name: debian requirements
+  apt:
+    pkg:
+      - git
+
 - name: discourse docker repo
   git:
     repo: https://github.com/discourse/discourse_docker.git
