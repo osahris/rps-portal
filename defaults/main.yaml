@@ -7,10 +7,6 @@ locales:
   lang: de_DE.UTF-8
   language: de
 
-discourse_openid_client_secret: secret
-discourse_keycloak_management_username: admin
-discourse_keycloak_management_password: password
-
 discourse_postgres_db_default_text_search_config: pg_catalog.german
 
 discourse_smtp_port: 587
