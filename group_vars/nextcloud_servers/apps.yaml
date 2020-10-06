@@ -1,0 +1,5 @@
+nextcloud_apps:
+  - contacts
+  - calendar
+  - tasks
+  - oidc_login
