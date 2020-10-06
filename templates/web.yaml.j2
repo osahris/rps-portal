@@ -119,7 +119,7 @@ run:
   - exec: rails r "SiteSetting.openid_connect_overrides_email=true"
   - exec: rails r "SiteSetting.openid_connect_discovery_document='{{ discourse_open_id_discovery_uri }}'"
   - exec: rails r "SiteSetting.openid_connect_client_id='discourse'"
-  - exec: rails r "SiteSetting.openid_connect_client_secret='{{ open_id_client_secret }}'"
+  - exec: rails r "SiteSetting.openid_connect_client_secret='{{ discourse_openid_client_secret }}'"
   - exec: rails r "SiteSetting.email_editable=false"
   - exec: rails r "SiteSetting.sso_overrides_username=true"
   - exec: rails r "SiteSetting.sso_overrides_email=true"
