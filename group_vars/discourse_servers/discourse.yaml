@@ -2,6 +2,7 @@ discourse_database_password: ooJuphahmeluD1eiyei5OoGa
 discourse_admin_users:
   - markus.brechtel@thengo.net
   - andreas@mop.koeln
+  - maximilian.schons@uk-koeln.de
 discourse_letsencrypt_account_email: "{{ letsencrypt_account_email }}"
 
 discourse_smtp_address: mail.mindsky.de
