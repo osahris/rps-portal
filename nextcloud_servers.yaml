@@ -4,6 +4,5 @@
   vars:
   roles:
     - role: postgresql
-    - role: secrets
     - name: nextcloud
       nextcloud_state: installed

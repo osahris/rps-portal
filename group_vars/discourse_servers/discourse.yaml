@@ -1,4 +1,3 @@
-discourse_database_password: ooJuphahmeluD1eiyei5OoGa
 discourse_admin_users:
   - markus.brechtel@thengo.net
   - andreas@mop.koeln
@@ -6,10 +5,10 @@ discourse_admin_users:
 discourse_letsencrypt_account_email: "{{ letsencrypt_account_email }}"
 
 discourse_smtp_address: mail.mindsky.de
-discourse_smtp_user_name: test-discourse@test-discourse.idcohorts.net
-discourse_smtp_password: giNeichee9eC
+discourse_mail_domain: test-discourse.idcohorts.net
 
-discourse_api_key: "{{ secrets.discourse_api_key }}"
+discourse_keycloak_management_username: "{{ keycloak_management_username }}"
+discourse_keycloak_management_password: "{{ keycloak_management_password }}"
 
 discourse_web_ratelimited: false
 
