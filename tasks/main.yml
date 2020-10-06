@@ -121,9 +121,7 @@
   uri:
     url: "{{ keycloak_frontend_url }}/admin/realms"
     method: POST
-    body:
-      enabled: true
-      realm: "{{ keycloak_realm_name }}"
+    body: "{{ keycloak_realm }}"
     body_format: "json"
     remote_src: "no"
     status_code:
@@ -139,9 +137,7 @@
   uri:
     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
     method: PUT
-    body:
-      enabled: true
-      realm: "{{ keycloak_realm_name }}"
+    body: "{{ keycloak_realm }}"
     body_format: "json"
     remote_src: "no"
     status_code:

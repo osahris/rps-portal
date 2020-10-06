@@ -1,1 +1,16 @@
 ---
+# better make this a proper variable. needs to be the same in two locations
+keycloak_realm:
+  enabled: true
+  realm: "{{ keycloak_realm_name }}"
+  verifyEmail: true
+  resetPasswordAllowed: true
+  smtpServer:
+    starttls: true
+    auth: true
+    port: 25
+    host: "{{ keycloak_smtp_host }}"
+    from: "{{ keycloak_smtp_from }}"
+    ssl: ""
+    user: "{{ keycloak_smtp_user_name }}"
+    password: "{{ keycloak_smtp_password }}"
