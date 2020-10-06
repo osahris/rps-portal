@@ -3,6 +3,11 @@
 - import_role:
     name: docker
 
+- name: install git
+  apt:
+    pkg:
+      - git
+
 - name: discourse docker repo
   git:
     repo: https://github.com/discourse/discourse_docker.git
@@ -35,13 +40,13 @@
     auth_client_id: admin-cli
     auth_keycloak_url: "{{ discourse_keycloak_frontend_url }}"
     auth_realm: master
-    auth_username: admin
-    auth_password: "{{ discourse_keycloak_admin_password }}"
+    auth_username: "{{ discourse_keycloak_management_username }}"
+    auth_password: "{{ discourse_keycloak_management_password }}"
     client_id: discourse
     realm: "{{ discourse_keycloak_realm_name }}"
     redirect_uris: [
       "{{ discourse_keycloak_redirect_uri }}"
     ]
     client_authenticator_type: client-secret
-    secret: "{{ open_id_client_secret }}"
+    secret: "{{ discourse_openid_client_secret }}"
     state: present
