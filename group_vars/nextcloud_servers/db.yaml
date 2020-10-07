@@ -2,6 +2,4 @@ nextcloud_database_type: postgresql
 nextcloud_database_host: localhost
 nextcloud_database_name: nextcloud
 nextcloud_database_user: nextcloud
-nextcloud_database_pass: "{{ secrets.nextcloud_database_pass }}"
 nextcloud_admin_user: admin
-nextcloud_admin_pass: "{{ secrets.nextcloud_admin_pass }}"

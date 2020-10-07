@@ -4,7 +4,6 @@
   vars:
   roles:
     - role: postgresql
-    - role: secrets
     - name: nextcloud
       nextcloud_state: updated
       nextcloud_version: 20.0.0
