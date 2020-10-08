@@ -109,6 +109,9 @@ run:
   ## If you want to authorized additional users, uncomment and change:
   #- exec: ssh-import-id username
   #- exec: ssh-import-id anotherusername
+{% if discourse_theme is defined %}
+  - exec: echo '--{"napkon-theme":{"url":"{{ discourse_theme }}","default":true}}' rake themes:install
+{% endif %}
 
   # openid settings
   - exec: rails r "SiteSetting.enable_local_logins=false"
@@ -127,6 +130,7 @@ run:
   # these have special flags to enable them
   - exec: rails r "SiteSetting.assign_enabled=true"
   - exec: rails r "SiteSetting.user_notes_enabled=true"
+
 
   - exec: echo "End of custom commands"
   - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
