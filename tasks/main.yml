@@ -8,10 +8,9 @@
     path: /var/lib/traefik
     state: directory
 
-# required so the docker ansible module works
-- name: install docker python
+- name: install git # we need to fetch the theme
   apt:
-    name: python-docker
+    name: git
     state: present
 
 - name: traefik config
@@ -58,7 +57,24 @@
       POSTGRES_DB: keycloak # explicitly (default == POSTGRES_USER)
       POSTGRES_PASSWORD: "{{ keycloak_postgres_password }}"
 
-- name: keycloak
+- block:
+    - name: fetch keycloak theme
+      git:
+        repo: "{{ keycloak_theme }}"
+        dest: "/var/lib/keycloak/themes/ansible-theme"
+
+    - name: set themes
+      set_fact:
+        keycloak_realm: "{{ keycloak_realm | combine({'loginTheme': 'ansible-theme', 'accountTheme': 'ansible-theme'}) }}"
+
+    - name: keycloak volumes
+      set_fact:
+        keycloak_volumes:
+          - "/var/lib/keycloak/themes/ansible-theme:/opt/jboss/keycloak/themes/ansible-theme"
+
+  when: keycloak_theme is defined
+
+- name: keycloak docker deployment
   community.general.docker_container:
     name: keycloak
     image: jboss/keycloak:11.0.2
@@ -67,6 +83,7 @@
     networks:
       - name: ingress
       - name: keycloak
+    volumes: "{{ keycloak_volumes | default([]) }}"
     env:
       DB_VENDOR: postgres
       KEYCLOAK_USER: admin
