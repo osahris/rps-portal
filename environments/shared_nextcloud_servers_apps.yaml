@@ -1,5 +1,5 @@
 nextcloud_apps:
   - contacts
-  - calendar
+  # - calendar # TODO: find out why upgrade is broken? :S
   - tasks
   - oidc_login
