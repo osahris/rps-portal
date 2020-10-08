@@ -1,0 +1,4 @@
+---
+
+keycloak_theme: "https://{{ gitlab_deploy_token}}@gitlab.com/research-project-suite/keycloak-theme"
+

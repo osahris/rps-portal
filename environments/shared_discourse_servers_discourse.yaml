@@ -18,3 +18,5 @@ locales:
   language: de
 
 discourse_mail_domain: "{{ inventory_hostname }}"
+
+discourse_theme: "https://{{ gitlab_deploy_token }}@gitlab.com/research-project-suite/discourse-theme"
