@@ -74,6 +74,9 @@ env:
   ## The CDN address for this Discourse instance (configured to pull)
   #DISCOURSE_CDN_URL: //discourse-cdn.example.com
 
+  ## Admin API rate limits
+  DISCOURSE_MAX_ADMIN_API_REQS_PER_KEY_PER_MINUTE : 1000
+
 volumes:
   - volume:
       host: /var/lib/discourse/shared/web
