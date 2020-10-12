@@ -14,3 +14,7 @@ keycloak_realm:
     ssl: ""
     user: "{{ keycloak_smtp_user_name }}"
     password: "{{ keycloak_smtp_password }}"
+  internationalizationEnabled: true
+  defaultLocale: "de"
+  supportedLocales:
+    - "de"
