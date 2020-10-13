@@ -14,6 +14,11 @@ update_pups: false
 
 expose:
   - "25:25"   # SMTP
+{% if discourse_mail_reveiver_tls_enabled %}
+  - "465:465"   # SMTPs
+  - "587:587"   # SMTPs
+{% endif %}
+
 
 env:
   LANG: en_US.UTF-8
