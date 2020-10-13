@@ -41,6 +41,7 @@ env:
   DISCOURSE_API_USERNAME: "{{discourse_api_username}}"
 
 {% if discourse_mail_reveiver_tls_enabled %}
+  # rebuild every time {{ansible_date_time.epoch}} TODO
   # enable tls https://review.discourse.org/t/add-commented-sections-to-enable-incoming-tls/5353
   POSTCONF_smtpd_tls_key_file:  /letsencrypt/{{discourse_hostname}}/{{discourse_hostname}}.key
   POSTCONF_smtpd_tls_cert_file:  /letsencrypt/{{discourse_hostname}}/fullchain.cer
