@@ -36,7 +36,22 @@ env:
   ## renamed the `system` user, you should leave this as-is.
   DISCOURSE_API_USERNAME: "{{discourse_api_username}}"
 
+{% if discourse_mail_reveiver_tls_enabled %}
+  # enable tls https://review.discourse.org/t/add-commented-sections-to-enable-incoming-tls/5353
+  POSTCONF_smtpd_tls_key_file:  /letsencrypt/{{discourse_hostname}}/prop.ltcmp.net.key
+  POSTCONF_smtpd_tls_cert_file:  /letsencrypt/{{discourse_hostname}}/fullchain.cer
+  POSTCONF_smtpd_tls_security_level: may
+{% endif %}
+
+
+
 volumes:
   - volume:
       host: /var/discourse/shared/mail-receiver/postfix-spool
-guest: /var/spool/postfix
+      guest: /var/spool/postfix
+{% if discourse_mail_reveiver_tls_enabled %}
+  # enable tls https://review.discourse.org/t/add-commented-sections-to-enable-incoming-tls/5353
+  - volume:
+      host: /var/discourse/shared/standalone/letsencrypt
+      guest: /letsencrypt
+{% endif %}
