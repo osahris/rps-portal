@@ -134,6 +134,9 @@ run:
   # these have special flags to enable them
   - exec: rails r "SiteSetting.assign_enabled=true"
   - exec: rails r "SiteSetting.user_notes_enabled=true"
+{% if discourse_mail_from is defined %}
+  - exec: rails r "SiteSetting.notification_email='{{ discourse_mail_from }}'"
+{% endif %}
 
 
   - exec: echo "End of custom commands"
