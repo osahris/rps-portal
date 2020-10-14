@@ -1,0 +1,10 @@
+---
+- hosts: all
+  remote_user: root
+  tasks:
+    - name: ensure an updated apt cache
+      apt:
+        update_cache: yes
+    - name: ensure all all apt packages are updated to their latest version
+      apt:
+        state: latest

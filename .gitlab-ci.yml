@@ -3,6 +3,7 @@ workflow:
     - if: $CI_COMMIT_BRANCH == "master"
 
 stages:
+  - common
   - keycloak
   - applications
 
@@ -18,6 +19,11 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 image: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/ansible-docker:main
+
+common:
+  stage: common
+  script:
+    - ansible-playbook --vault-password-file $ANSIBLE_VAULT_SECRET -i environments/$SERVER_ENVIRONMENT/ ./common.yaml --verbose
 
 keycloak:
   stage: keycloak
