@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e
+
+(cd /opt/group-sync/lib/sync-keycloak-groups && \
+    pipenv run ./sync_keycloak_groups.py \
+    --keycloak-url "{{ keycloak_frontend_url }}/" \
+    --keycloak-password "{{ keycloak_admin_password }}" \
+    --discourse-url "{{ keycloak_discourse_url }}" \
+    --discourse-api-key "{{ keycloak_discourse_api_key }}" \
+    --discourse-username system \
+    --keycloak-realm users \
+)
+(cd /opt/group-sync/lib/sync-nextcloud-groups && \
+    pipenv run ./sync_nextcloud_groups.py \
+    --keycloak-url "{{ keycloak_frontend_url }}/" \
+    --keycloak-password "{{ keycloak_admin_password }}" \
+    --nextcloud-url "{{ keycloak_nextcloud_url }}" \
+    --nextcloud-password "{{ keycloak_nextcloud_password }}" \
+    --keycloak-realm users
+)

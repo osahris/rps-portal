@@ -1,0 +1,6 @@
+[Unit]
+Description=Execute group sync
+
+[Service]
+Type=oneshot
+ExecStart=/opt/group-sync/bin/group-sync.sh
