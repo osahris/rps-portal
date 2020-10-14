@@ -114,7 +114,7 @@ run:
   #- exec: ssh-import-id username
   #- exec: ssh-import-id anotherusername
 {% if discourse_theme is defined %}
-  - exec: echo '--{"napkon-theme":{"url":"{{ discourse_theme }}","default":true}}' rake themes:install
+  - exec: echo '{"napkon-theme":{"url":"{{ discourse_theme }}","default":true}}' | rake themes:install
 {% endif %}
 
   # openid settings
