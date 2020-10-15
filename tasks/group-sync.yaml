@@ -39,7 +39,7 @@
   args:
     chdir: /opt/group-sync/lib/sync-nextcloud-groups
 
-- name: copy sync script
+- name: copy group-sync script
   template:
     src: group-sync.sh.j2
     dest: /opt/group-sync/bin/group-sync.sh
@@ -47,17 +47,25 @@
     group: root
     mode: '0755'
 
-- name: install unit
+- name: install group-sync systemd unit
   copy:
     src: group-sync.service
     dest: /etc/systemd/system/group-sync.service
   notify:
     - reload systemd
 
-- name: install timer
+- name: install group-sync systemd timer
   copy:
     src: run-group-sync.timer
     dest: /etc/systemd/system/run-group-sync.timer
   notify:
     - reload systemd
-    - enable timer
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: ensure group-sync systemd timer is enabled and started
+  systemd:
+    name: run-group-sync.timer
+    state: started
+    enabled: yes

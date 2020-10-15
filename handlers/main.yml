@@ -2,9 +2,3 @@
 - name: reload systemd
   systemd:
     daemon_reload: yes
-
-- name: enable timer
-  systemd:
-    name: run-group-sync.timer
-    state: started
-    enabled: yes
