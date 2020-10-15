@@ -25,3 +25,15 @@
 [submodule "roles/dashboard"]
 	path = roles/dashboard
 	url = ../ansible-role-dashboard.git
+[submodule "roles/wordpress-export"]
+	path = roles/wordpress-export
+	url = ../ansible-role-wordpress-export.git
+[submodule "roles/wordpress-import"]
+	path = roles/wordpress-import
+	url = ../ansible-role-wordpress-import.git
+[submodule "roles/wordpress"]
+	path = roles/wordpress
+	url = ../ansible-role-wordpress.git
+[submodule "roles/nginx"]
+	path = roles/nginx
+	url = ../ansible-role-nginx.git
