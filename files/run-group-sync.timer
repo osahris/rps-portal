@@ -1,0 +1,11 @@
+[Unit]
+Description=Runs group-sync every 15 mins
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=15m
+RandomizedDelaySec=1m
+Unit=group-sync.service
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,71 @@
+---
+- name: require pipenv
+  apt:
+    pkg:
+      - pipenv
+
+- name: create sync jobs dir
+  file:
+    path: /opt/group-sync
+    state: directory
+
+- name: create sync jobs bin dir
+  file:
+    path: /opt/group-sync/bin
+    state: directory
+
+- name: create sync jobs lib dir
+  file:
+    path: /opt/group-sync/lib
+    state: directory
+
+- name: fetch discourse -> keycloak group sync
+  git:
+    repo: "https://{{ gitlab_deploy_token }}@gitlab.com/research-project-suite/sync-keycloak-groups.git"
+    dest: /opt/group-sync/lib/sync-keycloak-groups
+
+- name: install sync-keycloak-groups deps
+  shell: pipenv install --deploy
+  args:
+    chdir: /opt/group-sync/lib/sync-keycloak-groups
+
+- name: fetch keycloak -> nextcloud group sync
+  git:
+    repo: "https://{{ gitlab_deploy_token }}@gitlab.com/research-project-suite/sync-nextcloud-groups.git"
+    dest: /opt/group-sync/lib/sync-nextcloud-groups
+
+- name: install sync-nextcloud-groups deps
+  shell: pipenv install --deploy
+  args:
+    chdir: /opt/group-sync/lib/sync-nextcloud-groups
+
+- name: copy group-sync script
+  template:
+    src: group-sync.sh.j2
+    dest: /opt/group-sync/bin/group-sync.sh
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: install group-sync systemd unit
+  copy:
+    src: group-sync.service
+    dest: /etc/systemd/system/group-sync.service
+  notify:
+    - reload systemd
+
+- name: install group-sync systemd timer
+  copy:
+    src: run-group-sync.timer
+    dest: /etc/systemd/system/run-group-sync.timer
+  notify:
+    - reload systemd
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: ensure group-sync systemd timer is enabled and started
+  systemd:
+    name: run-group-sync.timer
+    state: started
+    enabled: yes
