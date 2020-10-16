@@ -37,3 +37,6 @@
 [submodule "roles/nginx"]
 	path = roles/nginx
 	url = ../ansible-role-nginx.git
+[submodule "roles/mariadb"]
+	path = roles/mariadb
+	url = ../ansible-role-mariadb.git
