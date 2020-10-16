@@ -17,6 +17,7 @@
   template:
     src: "traefik.toml.j2"
     dest: /var/lib/traefik/traefik.toml
+  register: traefik_conf
 
 - name: create ingress network
   community.general.docker_network:
@@ -37,6 +38,7 @@
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/lib/traefik/certs:/var/traefik_certs
+    restart: "{{ traefik_conf.changed }}"
 
 - name: create keycloak network
   community.general.docker_network:
@@ -62,6 +64,7 @@
       git:
         repo: "{{ keycloak_theme }}"
         dest: "/var/lib/keycloak/themes/ansible-theme"
+      register: theme
 
     - name: set themes
       set_fact:
@@ -71,7 +74,6 @@
       set_fact:
         keycloak_volumes:
           - "/var/lib/keycloak/themes/ansible-theme:/opt/jboss/keycloak/themes/ansible-theme"
-
   when: keycloak_theme is defined
 
 - name: keycloak docker deployment
@@ -84,11 +86,14 @@
       - name: ingress
       - name: keycloak
     volumes: "{{ keycloak_volumes | default([]) }}"
+    restart: "{{ theme.changed }}"
     env:
       DB_VENDOR: postgres
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: "{{ keycloak_admin_password }}"
       KEYCLOAK_FRONTEND_URL: "{{ keycloak_frontend_url }}"
+      # KEYCLOAK_LOGLEVEL: TRACE
+      PROXY_ADDRESS_FORWARDING: "true"
       DB_ADDR: keycloak-postgres
       DB_DATABASE: keycloak # also default but specify explicitly
       DB_USER: keycloak
