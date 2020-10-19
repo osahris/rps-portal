@@ -1,0 +1,10 @@
+nginx_sites:
+  - name: 'napkon-prod'
+    server_name: '{{ inventory_hostname }}'
+    redirect_server_names: []
+    acme_challenge: http
+    is_wordpress: true
+    is_php: true
+    has_lightspeed_cache_plugin: false
+    csp: ''
+    cors: ''
