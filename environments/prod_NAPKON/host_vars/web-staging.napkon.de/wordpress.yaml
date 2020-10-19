@@ -1,0 +1,5 @@
+wordpress_title: 'NAPKON Testseite'
+wordpress_instance_name: napkon-staging
+wordpress_db_name: napkonstaging
+wordpress_db_user: napkonstaging
+wordpress_table_prefix: wp_

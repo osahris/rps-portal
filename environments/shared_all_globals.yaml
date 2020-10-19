@@ -1,2 +1,3 @@
 ansible_python_interpreter: /usr/bin/python3
 letsencrypt_account_email: markus.brechtel@uk-koeln.de
+admin_email: markus.brechtel@uk-koeln.de

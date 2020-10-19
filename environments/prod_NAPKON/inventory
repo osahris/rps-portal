@@ -6,3 +6,6 @@ dialog.napkon.de
 
 [nextcloud_servers]
 cloud.napkon.de
+
+[wordpress_servers]
+web-staging.napkon.de
