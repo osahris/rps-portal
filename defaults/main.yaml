@@ -14,4 +14,4 @@ discourse_smtp_port: 587
 discourse_mail_domain: "{{discourse_hostname}}"
 
 discourse_web_ratelimited: true
-discourse_mail_reveiver_tls_enabled: true
+discourse_mail_reveiver_tls_enabled: false
