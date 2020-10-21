@@ -6,3 +6,6 @@ test-discourse.idcohorts.net
 
 [nextcloud_servers]
 testcloud.idcohorts.net
+
+[wordpress_servers]
+testwebseite.idcohorts.net ansible_host=165.227.132.158
