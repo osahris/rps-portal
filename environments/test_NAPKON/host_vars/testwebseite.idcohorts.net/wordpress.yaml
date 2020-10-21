@@ -4,3 +4,4 @@ wordpress_db_name: testwebseite
 wordpress_db_user: testwebseite
 wordpress_table_prefix: wp_
 #wordpress_disable_login: true
+env: testing
