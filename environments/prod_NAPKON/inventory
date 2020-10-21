@@ -9,4 +9,4 @@ cloud.napkon.de
 
 [wordpress_servers]
 web-staging.napkon.de
-web-prod.napkon.de
+#web-prod.napkon.de
