@@ -19,6 +19,16 @@
     path: /opt/group-sync/lib
     state: directory
 
+- name: fetch group-hierarchy fixup
+  git:
+    repo: "https://{{ gitlab_deploy_token }}@gitlab.com/research-project-suite/fixup-group-membership.git"
+    dest: /opt/group-sync/lib/fixup-group-membership
+
+- name: install group-hierarchy fixup deps
+  shell: pipenv install --deploy
+  args:
+    chdir: /opt/group-sync/lib/fixup-group-membership
+
 - name: fetch discourse -> keycloak group sync
   git:
     repo: "https://{{ gitlab_deploy_token }}@gitlab.com/research-project-suite/sync-keycloak-groups.git"
