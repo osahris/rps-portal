@@ -71,10 +71,21 @@
       set_fact:
         keycloak_realm: "{{ keycloak_realm | combine({'loginTheme': 'ansible-theme', 'accountTheme': 'ansible-theme'}) }}"
 
+    - name: keycloak script directory
+      file:
+        path: /var/lib/keycloak/scripts
+        state: directory
+
+    - name: copy disable theme cache script
+      copy:
+        src: disable-theme-cache.cli
+        dest: /var/lib/keycloak/scripts/disable-theme-cache.cli
+
     - name: keycloak volumes
       set_fact:
         keycloak_volumes:
           - "/var/lib/keycloak/themes/ansible-theme:/opt/jboss/keycloak/themes/ansible-theme"
+          - "/var/lib/keycloak/scripts/disable-theme-cache.cli:/opt/jboss/startup-scripts/disable-theme-cache.cli"
   when: keycloak_theme is defined
 
 - name: keycloak docker deployment
