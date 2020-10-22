@@ -122,7 +122,7 @@ run:
   - exec: rails r "SiteSetting.enable_local_logins=false"
   - exec: rails r "SiteSetting.enable_local_logins_via_email=false"
   - exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
-  - exec: rails r "SiteSetting.login_required=true"
+  #- exec: rails r "SiteSetting.login_required=true"
   - exec: rails r "SiteSetting.openid_connect_enabled=true"
   - exec: rails r "SiteSetting.openid_connect_overrides_email=true"
   - exec: rails r "SiteSetting.openid_connect_discovery_document='{{ discourse_open_id_discovery_uri }}'"
