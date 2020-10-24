@@ -34,3 +34,12 @@
 [submodule "roles/mariadb"]
 	path = roles/mariadb
 	url = ../ansible-role-mariadb.git
+[submodule "roles/postfix"]
+	path = roles/postfix
+	url = https://git.thengo.net/ka/ansible-role-postfix.git
+[submodule "roles/postfixadmin"]
+	path = roles/postfixadmin
+	url = https://git.thengo.net/ka/ansible-role-postfixadmin.git
+[submodule "roles/dovecot"]
+	path = roles/dovecot
+	url = https://git.thengo.net/ka/ansible-role-dovecot.git
