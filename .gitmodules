@@ -43,3 +43,9 @@
 [submodule "roles/dovecot"]
 	path = roles/dovecot
 	url = https://git.thengo.net/ka/ansible-role-dovecot.git
+[submodule "roles/opendkim"]
+	path = roles/opendkim
+	url = https://git.thengo.net/ka/ansible-role-opendkim.git
+[submodule "roles/opendmarc"]
+	path = roles/opendmarc
+	url = https://git.thengo.net/ka/ansible-role-opendmarc.git
