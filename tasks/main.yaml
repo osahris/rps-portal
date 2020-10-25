@@ -57,3 +57,4 @@
     docker container exec mail-receiver bash -c "echo '  -o syslog_name=postfix/smtps' >> /etc/postfix/master.cf"
     docker container exec mail-receiver bash -c "echo '  -o smtpd_tls_wrappermode=yes' >> /etc/postfix/master.cf"
     docker container restart mail-receiver
+  when: discourse_mail_reveiver_tls_enabled
