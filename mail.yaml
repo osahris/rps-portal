@@ -3,6 +3,8 @@
 - hosts: mail_servers
   remote_user: root
   roles:
+    #- apache
+    - certificate
     - mariadb
     - postfixadmin
     - postfix
