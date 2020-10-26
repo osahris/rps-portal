@@ -47,6 +47,7 @@ env:
   POSTCONF_smtpd_tls_cert_file:  /letsencrypt/{{discourse_hostname}}/fullchain.cer
   POSTCONF_smtpd_tls_security_level: may
 {% endif %}
+  POSTCONF_message_size_limit: 52428800
 
 
 
