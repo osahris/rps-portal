@@ -1,0 +1,55 @@
+---
+
+- hosts: localhost
+  tasks:
+    - name: clone header repo
+      git:
+        repo: https://{{gitlab_deploy_token}}@gitlab.com/research-project-suite/header.git
+        dest: header
+        version: auth
+        version: master
+    - name: satisfy headers npm requirements
+      npm:
+        path: header
+    - name: compile header
+      command: rollup --config
+      args:
+        chdir: header
+
+- hosts: keycloak_servers
+  remote_user: root
+  tasks:
+    - name: deploy theme header to keycloak account theme
+      copy:
+        src: header/header.js
+        dest: /var/lib/keycloak/themes/ansible-theme/account/resources/js/
+    - name: deploy theme header to keycloak login theme
+      copy:
+        src: header/header.js
+        dest: /var/lib/keycloak/themes/ansible-theme/login/resources/js/
+
+- hosts: wordpress_servers
+  remote_user: root
+  tasks:
+    - name: deploy header to websites
+      copy:
+        src: header/header.js
+        dest: /var/www/testwebseite/
+
+- hosts: discourse_servers
+  remote_user: root
+  tasks:
+    - name: deploy header to discourse
+      copy:
+        src: header/header.js
+        dest: ~/header.js
+    - name: copy header into discourse docker container
+      command: docker cp ~/header.js web:/var/www/discourse/public
+
+- hosts: nextcloud_servers
+  remote_user: root
+  tasks:
+    - name: deploy header to nextcloud
+      copy:
+        src: header/header.js
+        dest: /var/www/nextcloud/
