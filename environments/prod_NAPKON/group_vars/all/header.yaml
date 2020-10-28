@@ -1,38 +1,49 @@
 header_cookie_domain: .napkon.de
-header_keycloak_logout_redirect_uri: https://web-staging.napkon.de
+header_keycloak_logout_redirect_uri: https://cloud.napkon.de/logout.php
 header_keycloak_auth_url: https://account.napkon.de/auth
 header_links:
   - title: Suite
-    link: https://dialog.napkon.de
+    link: https://napkon.de/suite
     requireLogin: true
     children:
-      - title: Forum
-        link: https://dialog.napkon.de
-        #submenu:
-        #  - title: Alle Nutzer:innen
-        #    link: https://dialog.napkon.de/g
-        #  - title: Nutzer
-        #    link: http://localhost:8080/
+      - title: Handbuch
+        link: https://dialog.napkon.de/c/handbuch/
       - title: Gruppen
         link: https://dialog.napkon.de/g
-        #submenu:
-        #  - title: Meine Gruppen
-        #    link: https://test-discourse.idcohorts.net/g
+      - title: Forum
+        link: https://dialog.napkon.de
       - title: Dateien
-        link: https://cloud.napkon.de/apps/files
+        link: https://cloud.napkon.de/apps/files/
+      - title: Kalender
+        link: https://cloud.napkon.de/apps/calendar/
       - title: Einstellungen
         link: https://account.napkon.de/auth/realms/users/account
-  # - title: Projekt
-  #   link: https://testwebseite.idcohorts.net
-  #   children:
-  #     - title: "Über das Projekt"
-  #       link: https://testwebseite.idcohorts.net/about
-  # - title: "Über uns"
-  #   link: https://testwebseite.idcohorts.net/team
-  #   children:
-  #     - title: Team
-  #       link: https://testwebseite.idcohorts.net/team
-  #     - title: Ansprechpartner
-  #       link: https://testwebseite.idcohorts.net/ansprechpartner
-  #     - title: Kontakt
-  #       link: https://testwebseite.idcohorts.net/kontakt
+  - title: Projekt
+    link: https://napkon.de/projekt
+    children:
+      - title: Historie
+        link: https://napkon.de/historie
+      - title: Koordination
+        link: https://napkon.de/koordination
+      - title: Ansprechpersonen
+        link: https://napkon.de/ansprechpersonen
+      - title: Daten und Statistiken
+        link: https://napkon.de/daten
+  - title: Aktuelles
+    link: https://napkon.de/aktuelles
+    children:
+      - title: Blog
+        link: https://napkon.de/blog
+      - title: Newsletter
+        link: https://napkon.de/newsletter
+  - title: Service
+    link: https://napkon.de/service
+    children:
+      - title: Für Studienstandorte
+        link: https://napkon.de/service/studienstandorte
+      - title: Für Wissenschaftler*innen
+        link: https://napkon.de/service/wissenschaftlerinnen
+      - title: Für Patient*innen
+        link: https://napkon.de/service/patientinnen
+      - title: Für Externe
+        link: https://napkon.de/service/externe
