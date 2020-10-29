@@ -124,8 +124,8 @@
     status_code: 200
   register: result
   until: result.status == 200
-  retries: 120
-  delay: 30
+  retries: 180
+  delay: 1
 
 - name: "Create Token for service Keycloak"
   uri:
