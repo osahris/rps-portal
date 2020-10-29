@@ -117,6 +117,7 @@
       traefik.http.routers.keycloak-https.tls.certresolver: letsencrypt
       traefik.http.routers.keycloak-http.rule: Host(`{{ inventory_hostname }}`)
       traefik.http.routers.keycloak-http.entrypoints: http
+      traefik.http.middlewares.test-ratelimit.ratelimit.burst: '100'
 
 - name: Wait for keycloak
   uri:
