@@ -27,6 +27,7 @@ header_links:
         link: https://web-staging.napkon.de/standorte/
   - title: Service
     link: https://web-staging.napkon.de/service
+    children:
       - title: Fragen & Antworten
         link: https://web-staging.napkon.de/faq
 #    children:
