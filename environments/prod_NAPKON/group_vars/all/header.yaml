@@ -18,8 +18,6 @@ header_links:
         link: https://cloud.napkon.de/apps/calendar/
       - title: Einstellungen
         link: https://account.napkon.de/auth/realms/users/account
-  - title: Startseite
-    link: https://web-staging.napkon.de/
   - title: Das Projekt
     link: https://web-staging.napkon.de/das-projekt/
     children:
@@ -29,8 +27,8 @@ header_links:
         link: https://web-staging.napkon.de/standorte/
   - title: Service
     link: https://web-staging.napkon.de/service
-  - title: Fragen & Antworten
-    link: https://web-staging.napkon.de/faq
+      - title: Fragen & Antworten
+        link: https://web-staging.napkon.de/faq
 #    children:
 #      - title: Für Studienstandorte
 #        link: https://web-staging.napkon.de/service/studienstandorte/
