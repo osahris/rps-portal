@@ -21,15 +21,19 @@ header_links:
   - title: Das Projekt
     link: https://web-staging.napkon.de/das-projekt/
     children:
+      - title: Ziele und Komponenten
+        link: https://web-staging.napkon.de/das-projekt/
       - title: Ansprechpersonen
-        link: https://dialog.napkon.de/c/handbuch/
+        link: https://web-staging.napkon.de/ansprechpersonen
       - title: Standorte
         link: https://web-staging.napkon.de/standorte/
   - title: Service
     link: https://web-staging.napkon.de/service
     children:
+      - title: NAPKON Services
+        link: https://web-staging.napkon.de/service/
       - title: Fragen & Antworten
-        link: https://web-staging.napkon.de/faq
+        link: https://web-staging.napkon.de/faq/
 #    children:
 #      - title: Für Studienstandorte
 #        link: https://web-staging.napkon.de/service/studienstandorte/
