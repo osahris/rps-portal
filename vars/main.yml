@@ -8,10 +8,10 @@ keycloak_realm:
   smtpServer:
     starttls: true
     auth: true
-    port: 25
+    port: "{{ keycloak_smtp_port }}"
     host: "{{ keycloak_smtp_host }}"
     from: "{{ keycloak_smtp_from }}"
-    ssl: ""
+    ssl: false
     user: "{{ keycloak_smtp_user_name }}"
     password: "{{ keycloak_smtp_password }}"
   internationalizationEnabled: true
