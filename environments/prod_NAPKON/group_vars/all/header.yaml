@@ -1,9 +1,10 @@
 header_cookie_domain: .napkon.de
 header_keycloak_logout_redirect_uri: https://cloud.napkon.de/logout.php
 header_keycloak_auth_url: https://account.napkon.de/auth
+header_contact_url: https://napkon.de/kontakt/
 header_links:
   - title: Suite
-    link: https://web-staging.napkon.de/suite
+    link: https://napkon.de/suite
     requireLogin: true
     children:
       - title: Handbuch
@@ -19,27 +20,27 @@ header_links:
       - title: Einstellungen
         link: https://account.napkon.de/auth/realms/users/account
   - title: Das Projekt
-    link: https://web-staging.napkon.de/das-projekt/
+    link: https://napkon.de/das-projekt/
     children:
       - title: Ziele und Komponenten
-        link: https://web-staging.napkon.de/das-projekt/
+        link: https://napkon.de/das-projekt/
       - title: Ansprechpersonen
-        link: https://web-staging.napkon.de/ansprechpersonen
+        link: https://napkon.de/ansprechpersonen
       - title: Standorte
-        link: https://web-staging.napkon.de/standorte/
+        link: https://napkon.de/standorte/
   - title: Service
-    link: https://web-staging.napkon.de/service
+    link: https://napkon.de/service
     children:
       - title: NAPKON Services
-        link: https://web-staging.napkon.de/service/
+        link: https://napkon.de/service/
       - title: Fragen & Antworten
-        link: https://web-staging.napkon.de/faq/
+        link: https://napkon.de/faq/
 #    children:
 #      - title: Für Studienstandorte
-#        link: https://web-staging.napkon.de/service/studienstandorte/
+#        link: https://napkon.de/service/studienstandorte/
 #      - title: Für Wissenschaftler*innen
-#        link: https://web-staging.napkon.de/service/wissenschaftlerinnen/
+#        link: https://napkon.de/service/wissenschaftlerinnen/
 #      - title: Für Patient*innen
-#        link: https://web-staging.napkon.de/service/patientinnen/
+#        link: https://napkon.de/service/patientinnen/
 #      - title: Für Externe
-#        link: https://web-staging.napkon.de/service/externe/
+#        link: https://napkon.de/service/externe/
