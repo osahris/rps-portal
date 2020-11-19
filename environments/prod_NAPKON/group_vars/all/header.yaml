@@ -28,6 +28,8 @@ header_links:
         link: https://napkon.de/ansprechpersonen
       - title: Standorte
         link: https://napkon.de/standorte/
+      - title: Rekrutierungsvorbereitung
+        link: https://napkon.de/rekrutierungsvorbereitung/
   - title: Service
     link: https://napkon.de/service
     children:
