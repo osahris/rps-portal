@@ -2,5 +2,8 @@
 
 - hosts: dashboard_servers
   remote_user: root
+  vars_files:
+    - vars/globals.yaml
+    - vars/secrets.yaml
   roles:
     - role: dashboard

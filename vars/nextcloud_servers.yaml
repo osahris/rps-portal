@@ -1,5 +1,16 @@
+certificate_provider: letsencrypt
+#certificate_provider: selfsigned
+
+nextcloud_apps:
+  - contacts
+  # - calendar # TODO: find out why upgrade is broken? :S
+  - tasks
+  - oidc_login
+
+nextcloud_keycloak_admin_user: "{{ keycloak_management_username }}"
+nextcloud_keycloak_admin_password: "{{ keycloak_management_password }}"
+
 nextcloud_oidc_login_client_id: nextcloud
-nextcloud_oidc_login_client_secret: d723149d-ba94-4dca-926e-d348edc79f72
 nextcloud_oidc_login_provider_url: "https://{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}/auth/realms/users"
 nextcloud_oidc_login_logout_url: "https://{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}/auth/realms/users/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ inventory_hostname }}%2F/logout"
 nextcloud_oidc_login_tls_verify: false

@@ -1,6 +1,5 @@
 discourse_admin_users:
-  - markus.brechtel@thengo.net
-  - andreas@mop.koeln
+  - markus.brechtel@uk-koeln.de
   - maximilian.schons@uk-koeln.de
 discourse_letsencrypt_account_email: "{{ letsencrypt_account_email }}"
 

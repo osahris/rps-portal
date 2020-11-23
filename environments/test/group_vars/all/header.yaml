@@ -1,6 +1,7 @@
 header_cookie_domain: .idcohorts.net
 header_keycloak_logout_redirect_uri: https://testwebseite.idcohorts.net
 header_keycloak_auth_url: https://testaccount.idcohorts.net/auth
+header_contact_url: https://testwebseite.idcohorts.net/kontakt
 header_links:
   - title: Suite
     link: https://test-discourse.idcohorts.net

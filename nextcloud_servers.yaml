@@ -1,7 +1,10 @@
 ---
 - hosts: nextcloud_servers
   remote_user: root
-  vars:
+  vars_files:
+    - vars/globals.yaml
+    - vars/secrets.yaml
+    - vars/nextcloud_servers.yaml
   roles:
     - role: postgresql
     - name: nextcloud

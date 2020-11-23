@@ -1,5 +1,3 @@
 ---
-
 keycloak_theme: "https://{{ gitlab_deploy_token}}@gitlab.com/research-project-suite/keycloak-theme"
 keycloak_discourse_api_key: "{{ discourse_api_key | default('') }}"
-
