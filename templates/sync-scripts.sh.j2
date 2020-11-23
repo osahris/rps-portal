@@ -2,14 +2,14 @@
 
 set -e
 
-(cd /opt/group-sync/lib/fixup-group-membership && \
+(cd /opt/sync-scripts/lib/user-management-scripts && \
     pipenv run ./fixup-group-membership.py \
     --discourse-url "{{ keycloak_discourse_url }}" \
     --discourse-api-key "{{ keycloak_discourse_api_key }}" \
     --discourse-username system \
     ./napkon.json
 )
-(cd /opt/group-sync/lib/sync-keycloak-groups && \
+(cd /opt/sync-scripts/lib/user-management-scripts && \
     pipenv run ./sync_keycloak_groups.py \
     --keycloak-url "{{ keycloak_frontend_url }}/" \
     --keycloak-password "{{ keycloak_admin_password }}" \
@@ -18,7 +18,7 @@ set -e
     --discourse-username system \
     --keycloak-realm users
 )
-(cd /opt/group-sync/lib/sync-nextcloud-groups && \
+(cd /opt/sync-scripts/lib/user-management-scripts && \
     pipenv run ./sync_nextcloud_groups.py \
     --keycloak-url "{{ keycloak_frontend_url }}/" \
     --keycloak-password "{{ keycloak_admin_password }}" \
