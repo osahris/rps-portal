@@ -17,3 +17,10 @@ nextcloud_oidc_login_tls_verify: false
 
 nextcloud_keycloak_url: "https://{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}"
 nextcloud_keycloak_realm: users
+
+nextcloud_database_type: postgresql
+nextcloud_database_host: localhost
+nextcloud_database_name: nextcloud
+nextcloud_database_user: nextcloud
+
+nextcloud_admin_user: admin
