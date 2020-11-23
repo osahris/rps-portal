@@ -12,6 +12,7 @@
       keycloakLogoutRedirectUri: "{{ header_keycloak_logout_redirect_uri }}"
       cookieDomain: "{{ header_cookie_domain }}"
       links: "{{ header_links }}"
+      contactUrl: "{{ header_contact_url }}"
 
   tasks:
     - name: clone header repo
@@ -50,7 +51,7 @@
     - name: deploy header to websites
       copy:
         src: header/header.js
-        dest: /var/www/testwebseite/
+        dest: /var/www/{{wordpress_instance_name}}/
 
 - hosts: discourse_servers
   remote_user: root
