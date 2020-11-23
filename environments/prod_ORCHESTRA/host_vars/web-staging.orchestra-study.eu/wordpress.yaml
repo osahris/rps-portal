@@ -1,0 +1,7 @@
+wordpress_title: 'ORCHESTRA Testseite'
+wordpress_instance_name: orchestra-staging
+wordpress_db_name: orchestra
+wordpress_db_user: orchestra
+wordpress_table_prefix: wp_
+env: testing
+wordpress_add_plugins: []

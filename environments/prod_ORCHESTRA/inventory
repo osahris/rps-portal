@@ -1,0 +1,14 @@
+[keycloak_servers]
+account.orchestra-cohort.eu
+
+[discourse_servers]
+dialog.orchestra-cohort.eu
+
+[nextcloud_servers]
+cloud.orchestra-cohort.eu
+
+[wordpress_servers]
+web-staging.orchestra-cohort.eu
+
+#[mail_servers]
+#mail.orchestra-cohort.eu
