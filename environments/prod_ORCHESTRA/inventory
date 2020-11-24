@@ -1,3 +1,6 @@
+[wordpress_servers]
+web-staging.orchestra-cohort.eu
+
 [keycloak_servers]
 account.orchestra-cohort.eu
 
