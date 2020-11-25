@@ -9,7 +9,7 @@
 
 - import_tasks: rbenv.yml
   vars:
-    ruby_version: 2.4.2
+    ruby_version: "{{openproject_ruby_version}}"
     rbenv_directory: "{{openproject_path}}/.rbenv"
     rbenv_user: '{{openproject_user}}'
     rbenv_group: '{{openproject_group}}'
@@ -17,7 +17,7 @@
 
 - import_tasks: nodenv.yml
   vars:
-    node_version: 6.11.5
+    node_version: "{{openproject_node_version}}"
     nodenv_directory: "{{openproject_path}}/.nodenv"
     nodenv_user: '{{openproject_user}}'
     nodenv_group: '{{openproject_group}}'
