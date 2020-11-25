@@ -49,3 +49,6 @@
 [submodule "roles/opendmarc"]
 	path = roles/opendmarc
 	url = https://git.thengo.net/ka/ansible-role-opendmarc.git
+[submodule "roles/openproject"]
+	path = roles/openproject
+	url = ../ansible-role-openproject.git
