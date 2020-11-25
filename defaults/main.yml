@@ -4,6 +4,8 @@ openproject_subdirectory: /
 openproject_user: openproject
 openproject_group: openproject
 
+openproject_version: stable/11
+
 openproject_ruby_version: 2.7.1
 openproject_node_version: 8.12.0
 
@@ -20,3 +22,7 @@ memcached:
   port: 11211
 
 openproject_state: installed
+
+openproject_database_host: localhost
+openproject_database_user: openproject
+openproject_database_name: openproject

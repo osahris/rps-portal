@@ -5,7 +5,6 @@
     name: '{{item}}'
   with_items:
     - memcached
-    - default-libmysqlclient-dev
     - zlib1g-dev
     - build-essential
     - libssl-dev
@@ -29,9 +28,9 @@
 
 - name: clone openproject
   git:
-    repo: https://github.com/opf/openproject-ce.git
+    repo: https://github.com/opf/openproject.git
     dest: '{{openproject_path}}/openproject'
-    version: stable/7
+    version: "{{openproject_version}}"
     force: yes
   async: 3600
   poll: 1
@@ -55,7 +54,7 @@
   bundler:
     chdir: '{{openproject_path}}/openproject'
     deployment_mode: yes
-    extra_args: '--without postgres sqlite rmagick development test therubyracer'
+    extra_args: '--without mysql2 sqlite development test therubyracer docker'
     executable: ~{{openproject_user}}/.rbenv/shims/bundler
   become: yes
   become_user: '{{openproject_user}}'
