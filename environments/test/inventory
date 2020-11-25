@@ -9,3 +9,6 @@ testcloud.idcohorts.net
 
 [wordpress_servers]
 testwebseite.idcohorts.net ansible_host=165.227.132.158
+
+[openproject_servers]
+test-project.idcohorts.net

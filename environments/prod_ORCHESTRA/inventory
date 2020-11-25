@@ -15,3 +15,6 @@ web-staging.orchestra-cohort.eu
 
 #[mail_servers]
 #mail.orchestra-cohort.eu
+
+[openproject_servers]
+project.orchestra-cohort.eu
