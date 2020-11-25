@@ -1,0 +1,9 @@
+---
+openproject_subdirectory: ""
+
+openproject_version: stable/11
+
+openproject_database_host: localhost
+openproject_database_user: openproject
+openproject_database_name: openproject
+openproject_postgresql_lc: de_DE.UTF-8

@@ -1,0 +1,5 @@
+---
+
+- import_role:
+    name: certificate
+  when: openproject_database_host == 'localhost'
