@@ -1,6 +1,6 @@
 ---
 
-- include_role:
+- import_role:
     name: certificate
   vars:
     certificate_name: openproject

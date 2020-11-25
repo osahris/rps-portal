@@ -1,6 +1,6 @@
 ---
 
-- include_role:
+- import_role:
     name: nginx
   vars:
     nginx_vhosts: "{{ _openproject_nginx_vhosts }}"

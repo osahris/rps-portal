@@ -2,12 +2,12 @@
 
 # shamelessly copied from https://github.com/fabianfreyer/ansible-openproject
 
-- include: reset.yml
+- import_tasks: reset.yml
   when: openproject_state == "reinstalled"
 
-- include: user.yml
+- import_tasks: user.yml
 
-- include: rbenv.yml
+- import_tasks: rbenv.yml
   vars:
     ruby_version: 2.4.2
     rbenv_directory: "{{openproject_path}}/.rbenv"
@@ -15,7 +15,7 @@
     rbenv_group: '{{openproject_group}}'
   tags: ruby
 
-- include: nodenv.yml
+- import_tasks: nodenv.yml
   vars:
     node_version: 6.11.5
     nodenv_directory: "{{openproject_path}}/.nodenv"
@@ -26,25 +26,25 @@
 # - debug:
 #     msg: RAILS_ENV=production PATH={{openproject_env_path}}:$PATH
 
-- include: install.yml
+- import_tasks: install.yml
 
-- include: database.yml
+- import_tasks: database.yml
   tags: mysql
 
-- include: memcached.yml
+- import_tasks: memcached.yml
 
-- include: customize.yml
+- import_tasks: customize.yml
 
-- include: configure.yml
+- import_tasks: configure.yml
 
-- include: unicorn.yml
+- import_tasks: unicorn.yml
 
-- include: certificate.yml
+- import_tasks: certificate.yml
 
-- include: nginx.yml
+- import_tasks: nginx.yml
   tags: nginx
 
-# - include: cron.yml
+# - import_tasks: cron.yml
 #  tags: cron
 
 - name: flush handlers
