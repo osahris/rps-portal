@@ -6,7 +6,7 @@
     - vars/globals.yaml
     - vars/secrets.yaml
   roles:
-    #- apache
+    - apache
     - certificate
     - mariadb
     - postfixadmin

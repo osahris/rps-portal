@@ -10,6 +10,3 @@ cloud.napkon.de
 [wordpress_servers]
 web-staging.napkon.de
 napkon.de
-
-[mail_servers]
-mail.napkon.de
