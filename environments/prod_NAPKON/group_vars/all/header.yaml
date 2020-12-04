@@ -35,6 +35,8 @@ header_links:
     children:
       - title: NAPKON Services
         link: https://napkon.de/service/
+      - title: Rekrutierungsvorbereitung
+        link: https://napkon.de/rekrutierungsvorbereitung/
       - title: Fragen & Antworten
         link: https://napkon.de/faq/
 #    children:
