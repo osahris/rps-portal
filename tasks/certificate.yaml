@@ -2,4 +2,4 @@
 
 - import_role:
     name: certificate
-  when: openproject_database_host == 'localhost'
+  when: openproject_db_host == 'localhost'

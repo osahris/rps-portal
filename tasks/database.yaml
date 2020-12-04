@@ -1,40 +1,46 @@
 ---
 
-- name: debian packages required for database management
-  apt:
-    pkg: python-psycopg2
-  delegate_to: "{{ (openproject_database_host != 'localhost') | ternary(openproject_database_host,inventory_hostname) }}"
+- name: ensure that openproject database host is set to localhost
+  assert:
+    that:
+      - openproject_db_host == "localhost"
+    fail_msg: "'openproject_db_host' must be set to localhost, external database isntallation not supported yet"
 
-- import_role:
-    name: postgresql
-  when: openproject_database_host == 'localhost'
-
-- name: postgresql user
-  postgresql_user:
-    name: "{{ openproject_database_user }}"
-    password: "{{ openproject_database_pass }}"
-  delegate_to: "{{ (openproject_database_host != 'localhost') | ternary(openproject_database_host,inventory_hostname) }}"
-  become: yes
-  become_user: postgres
-
-- name: postgresql database
-  postgresql_db:
-    name: "{{openproject_database_name}}"
-    encoding: UTF-8
-    lc_collate: "{{openproject_postgresql_lc}}"
-    lc_ctype: "{{openproject_postgresql_lc}}"
-    template: template0
-    owner: "{{openproject_database_user}}"
-  delegate_to: "{{ (openproject_database_host != 'localhost') | ternary(openproject_database_host,inventory_hostname) }}"
-  become: yes
-  become_user: postgres
-
-- name: postgresql access
-  postgresql_privs:
-    db: "{{openproject_database_name}}"
-    privs: ALL
-    type: database
-    role: "{{ openproject_database_user }}"
-  delegate_to: "{{ (openproject_database_host != 'localhost') | ternary(openproject_database_host,inventory_hostname) }}"
-  become: yes
-  become_user: postgres
+# - name: debian packages required for database management
+#   apt:
+#     pkg: python-psycopg2
+#   delegate_to: "{{ (openproject_db_host != 'localhost') | ternary(openproject_db_host,inventory_hostname) }}"
+#
+# - import_role:
+#     name: postgresql
+#   when: openproject_db_host == 'localhost'
+#
+# - name: postgresql user
+#   postgresql_user:
+#     name: "{{ openproject_db_user }}"
+#     password: "{{ openproject_db_pass }}"
+#   delegate_to: "{{ (openproject_db_host != 'localhost') | ternary(openproject_db_host,inventory_hostname) }}"
+#   become: yes
+#   become_user: postgres
+#
+# - name: postgresql database
+#   postgresql_db:
+#     name: "{{openproject_db_name}}"
+#     encoding: UTF-8
+#     lc_collate: "{{openproject_postgresql_lc}}"
+#     lc_ctype: "{{openproject_postgresql_lc}}"
+#     template: template0
+#     owner: "{{openproject_db_user}}"
+#   delegate_to: "{{ (openproject_db_host != 'localhost') | ternary(openproject_db_host,inventory_hostname) }}"
+#   become: yes
+#   become_user: postgres
+#
+# - name: postgresql access
+#   postgresql_privs:
+#     db: "{{openproject_db_name}}"
+#     privs: ALL
+#     type: database
+#     role: "{{ openproject_db_user }}"
+#   delegate_to: "{{ (openproject_db_host != 'localhost') | ternary(openproject_db_host,inventory_hostname) }}"
+#   become: yes
+#   become_user: postgres

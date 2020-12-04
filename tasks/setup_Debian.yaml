@@ -22,3 +22,4 @@
 - name: debian openproject apt package
   apt:
     pkg: openproject
+    state: latest
