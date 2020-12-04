@@ -1,2 +1,11 @@
+[keycloak_servers]
+account.idcohorts.net
+
 [wordpress_servers]
 web-staging.idcohorts.net
+
+[openproject_servers]
+project.idcohorts.net
+
+[mail_servers]
+mail.idcohorts.net

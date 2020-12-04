@@ -1,0 +1,3 @@
+postfix_transport_maps:
+  - domain: dialog.napkon.de
+    transport: 'smtp:[dialog.napkon.de]'
