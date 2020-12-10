@@ -85,79 +85,102 @@ group_hierarchy:
           - name: site-uk-aachen
             children:
               - name: site-uk-aachen-suep
+              - name: site-uk-aachen-vote
           - name: site-uk-augsburg
             children:
               - name: site-uk-augsburg-suep
+              - name: site-uk-augsburg-vote
           - name: site-uk-berlin
             children:
               - name: site-uk-berlin-hap
               - name: site-uk-berlin-pop
+              - name: site-uk-berlin-vote
           - name: site-uk-bielefeld
             children:
               - name: site-uk-bielefeld-suep
+              - name: site-uk-bielefeld-vote
           - name: site-uk-bochum
             children:
               - name: site-uk-bochum-suep
+              - name: site-uk-bochum-vote
           - name: site-uk-bonn
             children:
               - name: site-uk-bonn-suep
+              - name: site-uk-bonn-vote
           - name: site-uk-dresden
             children:
               - name: site-uk-dresden-suep
+              - name: site-uk-dresden-vote
           - name: site-uk-duesseldorf
             children:
               - name: site-uk-duesseldorf-suep
+              - name: site-uk-duesseldorf-vote
           - name: site-uk-erlangen
             children:
               - name: site-uk-erlangen-suep
+              - name: site-uk-erlangen-vote
           - name: site-uk-essen
             children:
               - name: site-uk-essen-suep
+              - name: site-uk-essen-vote
           - name: site-uk-frankfurt
             children:
               - name: site-uk-frankfurt-suep
               - name: site-uk-frankfurt-hap
+              - name: site-uk-frankfurt-vote
           - name: site-uk-freiburg
             children:
               - name: site-uk-freiburg-hap
               - name: site-uk-freiburg-suep
+              - name: site-uk-freiburg-vote
           - name: site-uk-giessenmarburg
             children:
               - name: site-uk-giessenmarburg-hap
+              - name: site-uk-giessenmarburg-vote
           - name: site-uk-goettingen
             children:
               - name: site-uk-goettingen-suep
+              - name: site-uk-goettingen-vote
           - name: site-uk-greifswald
             children:
               - name: site-uk-greifswald-suep
+              - name: site-uk-greifswald-vote
           - name: site-uk-halle
             children:
               - name: site-uk-halle-suep
+              - name: site-uk-halle-vote
           - name: site-uk-hamburg
             children:
               - name: site-uk-hamburg-suep
+              - name: site-uk-hamburg-vote
           - name: site-uk-hannover
             children:
               - name: site-uk-hannover-hap
+              - name: site-uk-hannover-vote
           - name: site-uk-heidelberg
             children:
               - name: site-uk-heidelberg-hap
+              - name: site-uk-heidelberg-vote
           - name: site-uk-homburg
             children:
               - name: site-uk-homburg-suep
+              - name: site-uk-homburg-vote
           - name: site-uk-jena
             children:
               - name: site-uk-jena-hap
+              - name: site-uk-jena-vote
           - name: site-uk-kiel
             children:
               - name: site-uk-kiel-hap
-              - name: site-uk-kiel-pop
+              - name: site-uk-kiel-pop           
           - name: site-uk-koeln
             children:
               - name: site-uk-koeln-hap
+              - name: site-uk-koeln-vote
           - name: site-uk-leipzig
             children:
               - name: site-uk-leipzig-suep
+              - name: site-uk-leipzig-vote
           - name: site-uk-luebeck
             children:
               - name: site-uk-luebeck-suep
@@ -166,38 +189,49 @@ group_hierarchy:
           - name: site-uk-magdeburg
             children:
               - name: site-uk-magdeburg-suep
+              - name: site-uk-magdeburg-vote
           - name: site-uk-mainz
             children:
               - name: site-uk-mainz-suep
+              - name: site-uk-mainz-vote
           - name: site-uk-mannheim
             children:
               - name: site-uk-mannheim-suep
+              - name: site-uk-mannheim-vote
           - name: site-uk-muenchenlmu
             children:
               - name: site-uk-muenchenlmu-hap
+              - name: site-uk-muenchenlmu-vote
           - name: site-uk-muenchentum
             children:
               - name: site-uk-muenchentum-suep
+              - name: site-uk-muenchentum-vote
           - name: site-uk-muenster
             children:
               - name: site-uk-muenster-suep
+              - name: site-uk-muenster-vote
           - name: site-uk-oldenburg
             children:
               - name: site-kr-oldenburg-klinikum
               - name: site-kr-oldenburg-pius
+              - name: site-uk-oldenburg-vote
           - name: site-uk-regensburg
             children:
               - name: site-uk-regensburg-suep
+              - name: site-uk-regensburg-vote
           - name: site-uk-rostock
             children:
               - name: site-uk-rostock-suep
+              - name: site-uk-rostock-vote
           - name: site-uk-sh
             children:
               - name: site-uk-kiel
               - name: site-uk-luebeck
+              - name: site-uk-sh-vote
           - name: site-uk-tuebingen
             children:
               - name: site-uk-tuebingen-suep
+              - name: site-uk-tuebingen-vote
           - name: site-uk-ulm
             children:
               - name: site-uk-ulm-suep
@@ -205,6 +239,7 @@ group_hierarchy:
             children:
               - name: site-uk-wuerzburg-hap
               - name: site-uk-wuerzburg-pop
+              - name: site-uk-wuerzburg-vote
           - name: site-wuppertal
             children:
               - name: site-wuppertal-suep
