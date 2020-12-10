@@ -55,6 +55,9 @@ group_hierarchy:
       - name: fosa-psychische-gesundheit
         children:
           - name: fosa-psychische-gesundheit-vote
+      - name: fosa-schmerzmedizin
+        children:
+          - name: fosa-schmerzmedizin-vote
       - name: fosa-virologie
         children:
           - name: fosa-virologie-vote
