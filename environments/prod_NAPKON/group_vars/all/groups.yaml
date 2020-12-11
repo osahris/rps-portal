@@ -172,7 +172,7 @@ group_hierarchy:
           - name: site-uk-kiel
             children:
               - name: site-uk-kiel-hap
-              - name: site-uk-kiel-pop           
+              - name: site-uk-kiel-pop
           - name: site-uk-koeln
             children:
               - name: site-uk-koeln-hap
