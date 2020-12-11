@@ -356,7 +356,7 @@ group_hierarchy:
           - name: fosa-laboratoriumsmedizin-vorstand
           - name: fosa-neurologie-vorstand
           - name: fosa-notfallmedizin-vorstand
-          - name: fosa-paediatrie-vorstand 
+          - name: fosa-paediatrie-vorstand
           - name: fosa-palliativmedizin-vorstand
           - name: fosa-pneumologie-vorstand
           - name: fosa-psychische-gesundheit-vorstand
@@ -367,6 +367,7 @@ group_hierarchy:
           - name: gov-lenkungsausschus-vertretung
           - name: gov-lenkungsausschus-vote
       - name: gov-vollversammlung
+        children:
           - name: gov-vollversammlung-vote
             children:
               - name: site-uk-aachen-vote
@@ -404,4 +405,3 @@ group_hierarchy:
               - name: site-uk-tuebingen-vote
               - name: site-uk-wuerzburg-vote
           - name: gov-lenkungsausschus-vertretung
-
