@@ -1,5 +1,5 @@
 ```
-git clone --recursive git@gitlab.com:NAPKON-Infrastruktur/napkon-infrastruktur.git NAPKON-Infrastruktur
-cd NAPKON-Infrastruktur
-ansible-playbook -i inventory-test discourse_servers.yaml
+git clone --recursive git@gitlab.com:infektiologie-ukkoeln/research-project-suite/research-project-suite.git research-project-suite
+cd research-project-suite
+ansible-playbook -i environments/local/ all.yaml
 ```
