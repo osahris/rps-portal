@@ -4,7 +4,6 @@
   remote_user: root
   vars_files:
     - vars/globals.yaml
-    - vars/access.yaml
   tasks:
     - name: ssh authorized keys
       ansible.posix.authorized_key:
