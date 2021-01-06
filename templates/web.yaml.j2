@@ -57,7 +57,7 @@ env:
   DISCOURSE_SMTP_PORT: "{{discourse_smtp_port}}"
   DISCOURSE_SMTP_USER_NAME: "{{discourse_smtp_user_name}}"
   DISCOURSE_SMTP_PASSWORD: "{{discourse_smtp_password}}"
-  #DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
+  DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
 
 {% if discourse_letsencrypt_account_email is defined %}
   ## If you added the Lets Encrypt template, uncomment below to get a free SSL certificate
