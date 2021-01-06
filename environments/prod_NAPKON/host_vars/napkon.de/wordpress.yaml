@@ -1,7 +1,0 @@
-wordpress_title: 'NAPKON Testseite'
-wordpress_instance_name: napkon-prod
-wordpress_db_name: napkonprod
-wordpress_db_user: napkonprod
-wordpress_table_prefix: wp_
-wordpress_disable_login: true
-env: production

@@ -1,6 +1,0 @@
-wordpress_title: 'AG Kohorten Testseite'
-wordpress_instance_name: idcohorts-staging
-wordpress_db_name: idcohortsstaging
-wordpress_db_user: idcohortsstaging
-wordpress_table_prefix: wp_
-env: testing

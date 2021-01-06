@@ -1,7 +1,0 @@
-wordpress_title: ORCHESTRA
-wordpress_instance_name: orchestra-prod
-wordpress_db_name: orchestraprod
-wordpress_db_user: orchestraprod
-wordpress_table_prefix: wp_
-env: production
-wordpress_add_plugins: []
