@@ -9,6 +9,3 @@ keycloak_realm_name: "users"
 keycloak_smtp_host: mail.mindsky.de
 keycloak_smtp_port: 587
 keycloak_smtp_from: admin@test-discourse.idcohorts.net
-
-keycloak_discourse_url: https://{{ hostvars[groups['discourse_servers'][0]].inventory_hostname }}
-keycloak_nextcloud_url: https://{{ hostvars[groups['nextcloud_servers'][0]].inventory_hostname }}
