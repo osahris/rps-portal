@@ -1,18 +1,11 @@
 ---
 
 - hosts: localhost
-  vars:
-    client_config:
-      keycloak_management_url: https://testaccount.idcohorts.net/auth/
-      keycloak_management_username: "{{keycloak_management_username}}"
-      keycloak_management_username: "{{keycloak_management_password}}"
-      keycloak_management_realm: master
-      keycloak_realm: users
-      discourse_url: https://test-discourse.idcohorts.net/
-      discourse_username: system
-      discourse_api_key: "{{ discourse_api_key }}"
-
+  vars_files:
+    - vars/globals.yaml
+    - vars/client_config.yaml
   tasks:
     - name: write project config file
       copy:
-        content:
+        content: "{{client_config|to_yaml}}"
+        dest: configs/config.{{project_name}}.yaml

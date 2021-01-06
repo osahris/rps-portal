@@ -1,0 +1,24 @@
+client_config:
+  project_name: "{{project_name}}"
+
+  keycloak_management_url: https://{{groups['keycloak_servers'][0]}}/auth/
+  keycloak_management_username: "{{keycloak_management_username}}"
+  keycloak_management_password: "{{keycloak_management_password}}"
+  keycloak_management_realm: master
+  keycloak_realm: users
+
+  discourse_url: https://{{groups['discourse_servers'][0]}}/
+  discourse_username: system
+  discourse_api_key: "{{ discourse_api_key }}"
+
+  nextcloud_url: https://{{ groups['nextcloud_servers'][0] }}
+  nextcloud_admin_user: "{{ nextcloud_admin_user }}"
+  nextcloud_admin_pass: "{{ nextcloud_admin_pass }}"
+
+  user_first_name_label: "{{user_first_name_label}}"
+  user_last_name_label: "{{user_last_name_label}}"
+  user_email_label: "{{user_email_label}}"
+  user_username_label: "{{user_username_label}}"
+
+  user_attributes: "{{ user_attributes }}"
+  group_hierarchy: "{{ group_hierarchy }}"

@@ -1,0 +1,17 @@
+user_first_name_label: Vorname
+user_last_name_label: Nachname
+user_username_label: Benutzername
+user_email_label: E-Mail
+user_attributes:
+  - key: Anrede
+    label: Anrede
+  - key: Titel
+    label: Titel
+  - key: Ort
+    label: Ort
+  - key: Institution
+    label: Institution
+  - key: Abteilung
+    label: Abteilung
+  - key: Telefon
+    label: Telefon

@@ -3,7 +3,7 @@ certificate_provider: letsencrypt
 
 nextcloud_apps:
   - contacts
-  # - calendar # TODO: find out why upgrade is broken? :S
+  - calendar
   - tasks
   - oidc_login
 
@@ -22,5 +22,3 @@ nextcloud_database_type: postgresql
 nextcloud_database_host: localhost
 nextcloud_database_name: nextcloud
 nextcloud_database_user: nextcloud
-
-nextcloud_admin_user: admin
