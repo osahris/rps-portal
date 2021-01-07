@@ -1,0 +1,15 @@
+---
+
+- hosts: rps_management_interface_servers
+  remote_user: root
+  vars_files:
+    - vars/globals.yaml
+    - vars/secrets.yaml
+    - vars/rps_management_interface_servers.yaml
+  roles:
+    - role: rps-management-interface
+  tasks:
+    - name: copy configuration files
+      copy:
+        src: configs/
+        dest: /var/www/rps-management-interface/backend_interface/user_interface/configs/
