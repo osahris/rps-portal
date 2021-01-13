@@ -1,6 +1,0 @@
-[Unit]
-Description=Execute sync scripts
-
-[Service]
-Type=simple
-ExecStart=/opt/sync-scripts/bin/group-sync.sh
