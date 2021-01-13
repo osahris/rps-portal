@@ -1,9 +1,6 @@
 ---
 
 - hosts: localhost
-  vars_files:
-    - vars/globals.yaml
-    - vars/client_config.yaml
   tasks:
     - name: write project config file
       copy:

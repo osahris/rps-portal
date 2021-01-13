@@ -1,9 +1,6 @@
 ---
 - hosts: all
   remote_user: root
-  vars_files:
-    - vars/globals.yaml
-    - vars/secrets.yaml
   tasks:
     - name: ensure an updated apt cache
       apt:
