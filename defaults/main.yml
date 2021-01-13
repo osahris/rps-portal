@@ -6,6 +6,6 @@ keycloak_frontend_url: "{{ keycloak_protocol }}://{{ inventory_hostname }}/auth"
 
 keycloak_realm_name: "users"
 
-keycloak_smtp_host: mail.mindsky.de
+# keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587
-keycloak_smtp_from: admin@test-discourse.idcohorts.net
+# keycloak_smtp_from: admin@test-discourse.idcohorts.net
