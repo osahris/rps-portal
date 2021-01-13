@@ -58,3 +58,6 @@
 [submodule "roles/rps-management-interface"]
 	path = roles/rps-management-interface
 	url = ../ansible-role-rps-management-interface.git
+[submodule "roles/sync-scripts"]
+	path = roles/sync-scripts
+	url = ../ansible-role-sync-scripts.git
