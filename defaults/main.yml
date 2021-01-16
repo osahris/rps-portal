@@ -10,4 +10,4 @@ keycloak_realm_name: "users"
 keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
 
-nginx_letsencrypt_email: '{{ admin_email }}'
+letsencrypt_account_email: '{{ admin_email }}'
