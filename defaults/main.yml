@@ -11,3 +11,5 @@ keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
 
 letsencrypt_account_email: '{{ admin_email }}'
+
+keycloak_theme: "https://{{ gitlab_deploy_token}}@gitlab.com/research-project-suite/keycloak-theme"
