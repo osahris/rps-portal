@@ -1,2 +1,0 @@
----
-keycloak_discourse_api_key: "{{ discourse_api_key | default('') }}"
