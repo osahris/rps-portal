@@ -1,0 +1,7 @@
+certificate_provider: letsencrypt
+dovecot_certificate_fullchain_file: "{{certificate_fullchain_file}}"
+dovecot_certificate_private_key_file: "{{certificate_private_key_file}}"
+postfix_certificate_fullchain_file: "{{certificate_fullchain_file}}"
+postfix_certificate_private_key_file: "{{certificate_private_key_file}}"
+postfixadmin_certificate_fullchain_file: "{{certificate_fullchain_file}}"
+postfixadmin_certificate_private_key_file: "{{certificate_private_key_file}}"
