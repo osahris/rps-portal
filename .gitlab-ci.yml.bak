@@ -1,0 +1,41 @@
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+
+stages:
+  - common
+  - keycloak
+  - applications
+
+before_script:
+  - mkdir -p ~/.ssh
+  - cp $SERVER_SSH_KEY ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - echo "StrictHostKeyChecking=no" > ~/.ssh/config
+
+variables:
+  SERVER_ENVIRONMENT: test_NAPKON
+  ANSIBLE_CONFIG: "./ansible.cfg" # needed because repo is world writeable and ansible will ignore it by default
+  GIT_SUBMODULE_STRATEGY: recursive
+
+image: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/ansible-docker:main
+
+common:
+  stage: common
+  script:
+    - ansible-playbook --vault-password-file $ANSIBLE_VAULT_SECRET -i environments/$SERVER_ENVIRONMENT/ ./common.yaml --verbose
+
+keycloak:
+  stage: keycloak
+  script:
+    - ansible-playbook --vault-password-file $ANSIBLE_VAULT_SECRET -i environments/$SERVER_ENVIRONMENT/ ./keycloak_servers.yaml --verbose
+
+discourse:
+  stage: applications
+  script:
+    - ansible-playbook --vault-password-file $ANSIBLE_VAULT_SECRET -i environments/$SERVER_ENVIRONMENT/ discourse_servers.yaml --verbose
+
+nextcloud:
+  stage: applications
+  script:
+    - ansible-playbook --vault-password-file $ANSIBLE_VAULT_SECRET -i environments/$SERVER_ENVIRONMENT/ nextcloud_servers.yaml --verbose
