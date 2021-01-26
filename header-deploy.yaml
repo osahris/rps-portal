@@ -22,6 +22,11 @@
       copy:
         content: "{{ header_config_json_content | to_json}}"
         dest: header/config.json
+    - name: select theme
+      file:
+        src: "themes/{{header_theme}}"
+        dest: header/theme
+        state: link
     - name: satisfy headers npm requirements
       npm:
         path: header
