@@ -19,6 +19,9 @@ client_config:
   user_last_name_label: "{{user_last_name_label}}"
   user_email_label: "{{user_email_label}}"
   user_username_label: "{{user_username_label}}"
+  
+  user_import_group_owner_label: "{{user_import_group_owner_label}}"
+  user_import_group_membership_label: "{{user_import_group_membership_label}}"
 
   user_attributes: "{{ user_attributes }}"
   group_hierarchy: "{{ group_hierarchy }}"
