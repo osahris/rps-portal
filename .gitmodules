@@ -61,3 +61,6 @@
 [submodule "roles/sync-scripts"]
 	path = roles/sync-scripts
 	url = ../ansible-role-sync-scripts.git
+[submodule "external/sympa-ansible"]
+	path = external/sympa-ansible
+	url = https://github.com/sympa-community/sympa-ansible.git
