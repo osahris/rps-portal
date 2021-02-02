@@ -27,6 +27,7 @@
         src: "themes/{{header_theme}}"
         dest: header/theme
         state: link
+        force: yes
     - name: satisfy headers npm requirements
       npm:
         path: header
