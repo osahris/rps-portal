@@ -10,16 +10,16 @@ header_links:
     children:
       - title: Forum
         link: http://localhost:8080/
-        submenu:
-          - title: Alle Nutzer:innen
-            link: https://test-discourse.idcohorts.net/g
-          - title: Nutzer
-            link: http://localhost:8080/
+        # submenu:
+        #   - title: Alle Nutzer:innen
+        #     link: https://test-discourse.idcohorts.net/g
+        #   - title: Nutzer
+        #     link: http://localhost:8080/
       - title: Gruppen
         link: https://test-discourse.idcohorts.net/g
-        submenu:
-          - title: Meine Gruppen
-            link: https://test-discourse.idcohorts.net/g
+        # submenu:
+        #   - title: Meine Gruppen
+        #     link: https://test-discourse.idcohorts.net/g
       - title: Dateien
         link: https://testcloud.idcohorts.net/apps/files
       - title: Einstellungen
