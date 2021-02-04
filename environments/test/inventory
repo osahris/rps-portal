@@ -14,3 +14,6 @@ testwebseite.idcohorts.net
 test-project.idcohorts.net
 
 [rps_management_interface_servers]
+
+[mailinglist_servers]
+testlists.idcohorts.net
