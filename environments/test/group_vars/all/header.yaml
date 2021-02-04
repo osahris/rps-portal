@@ -26,9 +26,6 @@ header_links:
         link: https://testaccount.idcohorts.net/auth/realms/users/account
   - title: Projekt
     link: https://testwebseite.idcohorts.net
-    children:
-      - title: "Über das Projekt"
-        link: https://testwebseite.idcohorts.net/about
   - title: "Über uns"
     link: https://testwebseite.idcohorts.net/team
     children:
