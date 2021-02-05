@@ -1,8 +1,0 @@
----
-
-mail:
-  force_smtp_route: 1
-  outgoing_server: mail.idcohorts.net
-  incoming_smtp: mail.idcohorts.net
-  alias_files:
-    basic: /etc/aliases

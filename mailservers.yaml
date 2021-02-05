@@ -1,6 +1,6 @@
 ---
 
-- hosts: mail_servers
+- hosts: mailservers
   remote_user: root
   roles:
     - apache
@@ -9,4 +9,3 @@
     - postfixadmin
     - postfix
     - dovecot
-    - sympa
