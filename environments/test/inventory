@@ -15,5 +15,5 @@ test-project.idcohorts.net
 
 [rps_management_interface_servers]
 
-[mailinglist_servers]
-testlists.idcohorts.net
+[mail_servers]
+testmail.idcohorts.net
