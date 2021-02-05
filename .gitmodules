@@ -64,3 +64,6 @@
 [submodule "external/sympa-ansible"]
 	path = external/sympa-ansible
 	url = https://github.com/sympa-community/sympa-ansible.git
+[submodule "roles/sympa"]
+	path = roles/sympa
+	url = ../ansible-role-sympa.git
