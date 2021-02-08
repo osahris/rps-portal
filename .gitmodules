@@ -22,9 +22,6 @@
 [submodule "roles/php"]
 	path = roles/php
 	url = ../ansible-role-php.git
-[submodule "roles/dashboard"]
-	path = roles/dashboard
-	url = ../ansible-role-dashboard.git
 [submodule "roles/wordpress"]
 	path = roles/wordpress
 	url = ../ansible-role-wordpress.git
@@ -61,3 +58,6 @@
 [submodule "roles/sync-scripts"]
 	path = roles/sync-scripts
 	url = ../ansible-role-sync-scripts.git
+[submodule "roles/sympa"]
+	path = roles/sympa
+	url = ../ansible-role-sympa.git

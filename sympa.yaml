@@ -1,0 +1,6 @@
+---
+
+- hosts: mailservers
+  remote_user: root
+  roles:
+    - sympa

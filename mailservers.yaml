@@ -1,6 +1,6 @@
 ---
 
-- hosts: mail_servers
+- hosts: mailservers
   remote_user: root
   roles:
     - apache

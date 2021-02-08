@@ -1,0 +1,10 @@
+postfix_submission_service: true
+
+postfix_with_postfixadmin: true
+postfix_with_sympa: true
+
+postfix_with_opendkim: false
+postfix_with_opendmarc: false
+postfix_with_dovecot_lmtp: true
+
+postfix_postfixadmin_mysql_password: "{{ postfixadmin_mysql_password }}"
