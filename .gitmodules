@@ -61,3 +61,6 @@
 [submodule "roles/sympa"]
 	path = roles/sympa
 	url = ../ansible-role-sympa.git
+[submodule "roles/sympa-mailinglists"]
+	path = roles/sympa-mailinglists
+	url = ../ansible-role-sympa-mailinglists.git
