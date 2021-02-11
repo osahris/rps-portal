@@ -1,3 +1,25 @@
+global_groups:
+  - name: hello
+    title: Hello!
+    description: bla
+    mailinglist:
+      type: incoming
+  - name: news
+    title: News and Announcements
+    description: News and Announcements
+    mailinglist:
+      type: newsletter
+  - name: workgroup
+    title: Working Group
+    mailinglist:
+      type: internal
+  - name: maingroup
+    title: Hauptgruppe
+    mailinglist:
+      type: internal
+      send: private
+
+
 group_hierarchy:
   - name: maingroup
     children:
