@@ -25,3 +25,4 @@ client_config:
 
   user_attributes: "{{ user_attributes }}"
   group_hierarchy: "{{ group_hierarchy }}"
+  global_groups: "{{ global_groups }}"
