@@ -65,6 +65,7 @@
         repo: "{{ keycloak_theme }}"
         dest: "/var/lib/keycloak/themes/ansible-theme"
         version: master
+        force: true
       register: theme
 
     - name: set themes
