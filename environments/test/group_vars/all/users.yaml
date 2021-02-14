@@ -15,3 +15,5 @@ user_attributes:
     label: Abteilung
   - key: Telefon
     label: Telefon
+user_import_group_membership_label: groups
+user_import_group_owner_label: owner of groups
