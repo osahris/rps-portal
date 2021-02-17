@@ -17,3 +17,7 @@ test-project.idcohorts.net
 
 [mailservers]
 testmail.idcohorts.net
+
+[mailinglist_servers]
+testlists.idcohorts.net
+vtestlists.idcohorts.net
