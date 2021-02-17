@@ -18,7 +18,7 @@
         repo: https://{{gitlab_deploy_token}}@gitlab.com/research-project-suite/header.git
         dest: header
         version: auth
-        version: master
+        version: "{{ header_version }}"
     - name: write header config
       copy:
         content: "{{ header_config_json_content | to_json}}"
