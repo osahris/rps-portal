@@ -1,0 +1,6 @@
+---
+
+- hosts: lxd_hosts
+  remote_user: root
+  roles:
+    - name: lxd

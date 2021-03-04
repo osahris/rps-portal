@@ -64,3 +64,6 @@
 [submodule "roles/apache"]
 	path = roles/apache
 	url = ../ansible-role-apache.git
+[submodule "roles/lxd"]
+	path = roles/lxd
+	url = ../ansible-role-lxd.git
