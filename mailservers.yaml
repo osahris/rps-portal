@@ -6,7 +6,7 @@
     - apache
     - certificate
     - mariadb
-    - postfixadmin
-    - postfix
     - dovecot
     - sympa
+    - postfixadmin
+    - postfix
