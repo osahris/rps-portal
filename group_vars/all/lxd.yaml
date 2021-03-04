@@ -1,0 +1,4 @@
+lxd_host: test-lxd
+lxd_container_config:
+  limits.cpu: "2"
+  limits.memory: 4GB

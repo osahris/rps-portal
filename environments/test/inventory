@@ -1,6 +1,8 @@
 [hosts]
 test-lxd ansible_host=64.227.119.81
 
+[containers]
+
 [keycloak_servers]
 testaccount.idcohorts.net
 
