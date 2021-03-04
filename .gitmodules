@@ -64,6 +64,12 @@
 [submodule "roles/lxd"]
 	path = roles/lxd
 	url = ../ansible-role-lxd.git
+<<<<<<< HEAD
 [submodule "roles/proskive"]
 	path = roles/proskive
 	url = ../ansible-role-proskive.git
+=======
+[submodule "connection_plugins/lxc_ssh"]
+	path = connection_plugins/lxc_ssh
+	url = https://github.com/andreasscherbaum/ansible-lxc-ssh.git
+>>>>>>> lxc-ssh ansible connection plugin
