@@ -9,8 +9,17 @@
       mode: pull
       server: https://images.linuxcontainers.org
       protocol: lxd
+<<<<<<< HEAD
       alias: debian/buster/amd64
+=======
+      alias: "{{ lxd_container_image | default('debian/buster/amd64') }}"
+    lxd_container_config:
+      limits.cpu: "{{ lxd_container_limits_cpu | default(2) | string}}"
+      limits.memory: "{{ lxd_container_limits_memory | default('2GB') | string }}"
+      security.nesting: "{{ lxd_container_security_nesting | default(false) | string }}"
+>>>>>>> container playbook
   tasks:
+
     - name: lxd container installed and started
       community.general.lxd_container:
         name: "{{inventory_hostname}}"
@@ -21,24 +30,18 @@
         wait_for_ipv4_addresses: true
         timeout: 600
       delegate_to: "{{ lxd_host }}"
+
     - name: install python3 in lxd container
       command: lxc exec {{inventory_hostname}} -- apt-get -y install python3
       delegate_to: "{{ lxd_host }}"
+      when: "debian" in (lxd_container_image | default('debian/buster/amd64'))
 
-- hosts: containers
-  remote_user: root
-  connection: lxc_ssh
-  gather_facts: false
-  vars:
-    ansible_host: "{{hostvars[lxd_host].ansible_host}}"
-    ansible_ssh_extra_args: "{{inventory_hostname}}"
-  tasks:
-    - setup:
     - name: make sure host_vars directory is present for host
       local_action: file
       args:
         path: "{{inventory_dir}}/host_vars/{{inventory_hostname}}"
         state: directory
+
     - name: record lxd containers IPv6 address for connection in host_vars
       local_action: copy
       args:
@@ -50,3 +53,8 @@
 
 # - hosts: containers
 #   remote_user: root
+#   connection: lxc_ssh
+#   gather_facts: false
+#   vars:
+#     ansible_host: "{{hostvars[lxd_host].ansible_host}}"
+#     ansible_ssh_extra_args: "{{inventory_hostname}}"

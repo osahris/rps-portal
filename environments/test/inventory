@@ -1,7 +1,15 @@
 [hosts]
 test-lxd ansible_host=64.227.119.81
 
+<<<<<<< HEAD
 [containers]
+=======
+[containers:children]
+reverse_proxies
+
+[reverse_proxies]
+reverse-proxy
+>>>>>>> container playbook
 
 [keycloak_servers]
 testaccount.idcohorts.net
