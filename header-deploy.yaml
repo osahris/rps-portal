@@ -10,7 +10,7 @@
         version: "{{ header_version }}"
     - name: write header config
       copy:
-        content: "{{ header_config_json_content | to_json}}"
+        content: "{{ header_config | to_json}}"
         dest: header/config.json
     - name: select theme
       file:

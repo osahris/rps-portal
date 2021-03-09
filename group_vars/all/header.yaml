@@ -1,5 +1,5 @@
 ---
-header_config_json_content:
+header_config:
   keycloakUrl: "{{ header_keycloak_auth_url }}"
   keycloakRealm: users
   keycloakClientId: header
