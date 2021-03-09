@@ -1,4 +1,17 @@
+<<<<<<< HEAD
 lxd_host: test-lxd
 lxd_container_config:
   limits.cpu: "2"
   limits.memory: 4GB
+=======
+lxd_container_source:
+  type: image
+  mode: pull
+  server: https://images.linuxcontainers.org
+  protocol: lxd
+  alias: "{{ lxd_container_image | default('debian/buster/amd64') }}"
+lxd_container_config:
+  limits.cpu: "{{ lxd_container_limits_cpu | default(2) | string}}"
+  limits.memory: "{{ lxd_container_limits_memory | default('2GB') | string }}"
+  security.nesting: "{{ lxd_container_security_nesting | default(false) | string }}"
+>>>>>>> fefactoring of variables
