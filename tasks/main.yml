@@ -121,7 +121,8 @@
       traefik.http.middlewares.test-ratelimit.ratelimit.burst: '100'
 
 - name: Wait for keycloak
-  uri:
+  local_action: uri
+  args:
     url: "{{ keycloak_frontend_url }}"
     status_code: 200
   register: result
@@ -130,7 +131,8 @@
   delay: 1
 
 - name: "Create Token for service Keycloak"
-  uri:
+  local_action: uri
+  args:
     url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
     method: POST
     body_format: form-urlencoded
@@ -142,7 +144,8 @@
   register: keycloak_token
 
 - name: "Find out, if Realm {{ keycloak_realm_name }} for service Keycloak exists"
-  uri:
+  local_action: uri
+  args:
     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
     method: GET
     status_code:
@@ -154,7 +157,8 @@
   register: keycloak_realm_exists
 
 - name: "Create Realm {{ keycloak_realm_name }} for service Keycloak"
-  uri:
+  local_action: uri
+  args:
     url: "{{ keycloak_frontend_url }}/admin/realms"
     method: POST
     body: "{{ keycloak_realm }}"
@@ -170,7 +174,8 @@
   when: "keycloak_realm_exists.status == 404"
 
 - name: "Update Realm {{ keycloak_realm_name }} for service Keycloak"
-  uri:
+  local_action: uri
+  args:
     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
     method: PUT
     body: "{{ keycloak_realm }}"
