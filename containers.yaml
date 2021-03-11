@@ -1,5 +1,8 @@
 ---
 
+- hosts: hosts
+  remote_user: root
+
 - hosts: containers
   remote_user: root
   gather_facts: false
@@ -27,30 +30,23 @@
         timeout: 600
       delegate_to: "{{ lxd_host }}"
 
-    - name: install python3 in lxd container
-      command: lxc exec {{inventory_hostname}} -- apt-get -y install python3
-      delegate_to: "{{ lxd_host }}"
-      when: "debian" in (lxd_container_image | default('debian/buster/amd64'))
-
     - name: make sure host_vars directory is present for host
       local_action: file
       args:
         path: "{{inventory_dir}}/host_vars/{{inventory_hostname}}"
         state: directory
 
-    - name: record lxd containers IPv6 address for connection in host_vars
+    - name: record variables for lxd container connection in host_vars
       local_action: copy
       args:
         content:
           ansible_connection: lxc_ssh
-          ansible_host: "{{ansible_host}}"
-          ansible_ssh_extra_args: "{{ansible_ssh_extra_args}}"
+          ansible_host: "{{hostvars[lxd_host].ansible_host}}"
+          ansible_ssh_extra_args: "{{inventory_hostname}}"
         dest: "{{inventory_dir}}/host_vars/{{inventory_hostname}}/lxd_host.auto.json"
 
-# - hosts: containers
-#   remote_user: root
-#   connection: lxc_ssh
-#   gather_facts: false
-#   vars:
-#     ansible_host: "{{hostvars[lxd_host].ansible_host}}"
-#     ansible_ssh_extra_args: "{{inventory_hostname}}"
+    - name: refresh ansible inventory
+      local_action: meta refresh_inventory
+
+- hosts: containers
+  remote_user: root
