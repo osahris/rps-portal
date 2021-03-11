@@ -1,8 +1,9 @@
 ---
 # defaults file for keycloak
 
+keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
-keycloak_frontend_url: "{{ keycloak_protocol }}://{{ inventory_hostname }}/auth"
+keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}/auth"
 
 keycloak_realm_name: "users"
 
