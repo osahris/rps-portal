@@ -46,9 +46,6 @@
 [submodule "roles/openproject"]
 	path = roles/openproject
 	url = ../ansible-role-openproject.git
-[submodule "roles/nginx-ka"]
-	path = roles/nginx-ka
-	url = https://git.thengo.net/ka/ansible-role-nginx.git
 [submodule "roles/rps-management-interface"]
 	path = roles/rps-management-interface
 	url = ../ansible-role-rps-management-interface.git
