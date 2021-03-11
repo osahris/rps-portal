@@ -1,0 +1,12 @@
+---
+
+- import_role:
+    name: certificate
+  delegate_to: "{{reverse_proxy_host}}"
+
+- import_role:
+    name: nginx
+    tasks_from: vhost
+  vars:
+    nginx_vhost_name: "{{inventory_hostname}}"
+  delegate_to: "{{reverse_proxy_host}}"
