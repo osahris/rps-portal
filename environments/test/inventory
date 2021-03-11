@@ -1,6 +1,11 @@
 [hosts]
 test-lxd ansible_host=64.227.119.81
 
+[containers]
+test1
+test2
+test3
+
 [containers:children]
 reverse_proxies
 keycloak_servers
