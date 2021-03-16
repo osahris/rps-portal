@@ -2,5 +2,5 @@ nginx_vhost_server_names: ["{{keycloak_server_name}}"]
 nginx_vhost_certificate_name: "{{keycloak_server_name}}"
 nginx_vhost_custom: |
   location / {
-    proxy_pass https://{{inventory_hostname}}:80;
+    proxy_pass http://{{inventory_hostname}}:8080;
   }
