@@ -18,6 +18,7 @@
     src: "traefik.toml.j2"
     dest: /var/lib/traefik/traefik.toml
   register: traefik_conf
+  when: keycloak_with_traefik
 
 - name: create ingress network
   community.general.docker_network:
@@ -31,7 +32,7 @@
     ports:
       - 80:80
       - 443:443
-      - 127.0.0.1:8080:8080 # dashboard. should not be publically visible. use ssh tunnel to view it
+      #- 127.0.0.1:8080:8080 # dashboard. should not be publically visible. use ssh tunnel to view it
     networks:
       - name: ingress
     volumes:
@@ -39,6 +40,7 @@
       - /var/lib/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/lib/traefik/certs:/var/traefik_certs
     restart: "{{ traefik_conf.changed }}"
+  when: keycloak_with_traefik
 
 - name: create keycloak network
   community.general.docker_network:
