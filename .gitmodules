@@ -64,3 +64,6 @@
 [submodule "roles/lxd"]
 	path = roles/lxd
 	url = ../ansible-role-lxd.git
+[submodule "roles/proskive"]
+	path = roles/proskive
+	url = ../ansible-role-proskive.git
