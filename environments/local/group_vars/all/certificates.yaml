@@ -1,1 +1,1 @@
-certificate_provider: letsencrypt
+certificate_provider: selfsigned
