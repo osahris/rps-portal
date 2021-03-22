@@ -102,6 +102,7 @@
       - name: keycloak
     volumes: "{{ keycloak_volumes | default([]) }}"
     restart: "{{ theme.changed }}"
+    published_ports: "{{ '' if keycloak_with_traefik else '3000:8080' }}"
     env:
       DB_VENDOR: postgres
       KEYCLOAK_USER: admin
@@ -139,7 +140,7 @@
     method: POST
     body_format: form-urlencoded
     body:
-      username: "admin"
+      username: "{{ keycloak_admin_username }}"
       password: "{{ keycloak_admin_password }}"
       grant_type: "password"
       client_id: "admin-cli"
