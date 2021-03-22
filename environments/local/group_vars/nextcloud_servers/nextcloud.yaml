@@ -1,1 +1,8 @@
 nextcloud_oidc_login_tls_verify: false
+
+nextcloud_apps:
+  - contacts
+  - calendar
+  - tasks
+  - onlyoffice
+  - documentserver_community
