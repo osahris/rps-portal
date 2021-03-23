@@ -48,6 +48,7 @@
     - name: refresh ansible inventory
       local_action: meta refresh_inventory
 
+    # todo: is this the right place for setting this up
     - name: list ipv4 address for proxy
       command: lxc ls reverse-proxy --format=json
       register: lxd_container_json
@@ -60,6 +61,7 @@
       when: inventory_hostname == 'reverse-proxy'
 
     # todo: make this permanent (using ufw?)
+    # todo: make interfaces configurable or auto-detect
     - name: add ipv4 forwarding for proxy
       command: "{{ item }}"
       with_items:
