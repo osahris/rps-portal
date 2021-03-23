@@ -6,3 +6,5 @@ nextcloud_apps:
   - tasks
   - onlyoffice
   - documentserver_community
+
+nextcloud_apache_ssl: no

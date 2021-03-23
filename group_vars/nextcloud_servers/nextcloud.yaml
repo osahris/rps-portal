@@ -1,6 +1,3 @@
-certificate_provider: letsencrypt
-#certificate_provider: selfsigned
-
 nextcloud_apps:
   - contacts
   - calendar

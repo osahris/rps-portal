@@ -1,7 +1,9 @@
 ---
 - hosts: nextcloud_servers
   remote_user: root
+
   roles:
+    - role: reverse_proxy
     - role: postgresql
     - name: nextcloud
       nextcloud_state: updated
