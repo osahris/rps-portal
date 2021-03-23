@@ -15,4 +15,5 @@ letsencrypt_account_email: '{{ admin_email }}'
 
 keycloak_theme: "https://{{ gitlab_deploy_token}}@gitlab.com/research-project-suite/keycloak-theme"
 
-keycloak_with_traefik: true
+keycloak_with_traefik: yes
+keycloak_validate_certs: yes

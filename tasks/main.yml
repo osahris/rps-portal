@@ -102,7 +102,7 @@
       - name: keycloak
     volumes: "{{ keycloak_volumes | default([]) }}"
     restart: "{{ theme.changed }}"
-    published_ports: "{{ '' if keycloak_with_traefik else '3000:8080' }}"
+    published_ports: "{{ '' if keycloak_with_traefik else '8080:8080' }}"
     env:
       DB_VENDOR: postgres
       KEYCLOAK_USER: admin
@@ -127,6 +127,7 @@
   local_action: uri
   args:
     url: "{{ keycloak_frontend_url }}"
+    validate_certs: "{{ keycloak_validate_certs }}"
     status_code: 200
   register: result
   until: result.status == 200
@@ -138,6 +139,7 @@
   args:
     url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
     method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
     body_format: form-urlencoded
     body:
       username: "{{ keycloak_admin_username }}"
@@ -151,6 +153,7 @@
   args:
     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
     method: GET
+    validate_certs: "{{ keycloak_validate_certs }}"
     status_code:
      - 200
      - 404
@@ -164,6 +167,7 @@
   args:
     url: "{{ keycloak_frontend_url }}/admin/realms"
     method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
     body: "{{ keycloak_realm }}"
     body_format: "json"
     remote_src: "no"
@@ -181,6 +185,7 @@
   args:
     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
     method: PUT
+    validate_certs: "{{ keycloak_validate_certs }}"
     body: "{{ keycloak_realm }}"
     body_format: "json"
     remote_src: "no"
