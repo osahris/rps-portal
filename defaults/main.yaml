@@ -1,0 +1,7 @@
+proskive_release_git_repo: https://{{proskive_release_git_username}}:{{proskive_release_git_password}}@gitlab.miracum.proskive.de/proskive/local/releases/extern/release-12-2020.git
+proskive_release_git_username: proskive-extern
+proskive_release_git_password: SWMzZ6XfmTUkAPZm
+proskive_directory: /opt/proskive
+proskive_release_directory: "{{proskive_directory}}/release"
+proskive_server_name: "{{inventory_hostname}}"
+proskive_postgres_user: admin
