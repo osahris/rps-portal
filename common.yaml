@@ -5,6 +5,15 @@
     - name: ensure an updated apt cache
       apt:
         update_cache: yes
+
     - name: ensure all all apt packages are updated to their latest version
       apt:
         state: latest
+
+    # needed for various purposes: e.g. postgres collation rules
+    - name: ensure required locales exist
+      locale_gen:
+        name: "{{ item }}"
+        state: present
+      with_items:
+      - de_DE.UTF-8
