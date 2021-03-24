@@ -18,3 +18,5 @@ nextcloud_database_type: postgresql
 nextcloud_database_host: localhost
 nextcloud_database_name: nextcloud
 nextcloud_database_user: nextcloud
+
+nextcloud_server_name: nextcloud

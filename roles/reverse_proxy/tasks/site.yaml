@@ -11,6 +11,8 @@
     nginx_vhost_name: "{{inventory_hostname}}"
   delegate_to: "{{reverse_proxy_host}}"
 
+# todo: the nginx role only restarts once, so further configuration
+# changes are not triggering a reload - this is currently fixed here
 - name: restart nginx
   command: service nginx restart
   delegate_to: "{{reverse_proxy_host}}"
