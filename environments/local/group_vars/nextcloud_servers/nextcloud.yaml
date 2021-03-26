@@ -9,3 +9,4 @@ nextcloud_apps:
 
 nextcloud_apache_ssl: no
 next_cloud_validate_certs: no
+nextcloud_oidc_login_tls_verify: false
