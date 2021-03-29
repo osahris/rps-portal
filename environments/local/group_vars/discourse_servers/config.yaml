@@ -1,0 +1,2 @@
+discourse_https_host: false
+discourse_validate_certs: no
