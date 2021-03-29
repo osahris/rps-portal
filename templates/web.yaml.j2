@@ -3,7 +3,8 @@ templates:
 {% if discourse_web_ratelimited %}
   - "templates/web.ratelimited.template.yml"
 {% endif %}
-{% if discourse_letsencrypt_account_email is defined %}
+
+{% if discourse_https_host %}
   - "templates/web.ssl.template.yml"
   - "templates/web.letsencrypt.ssl.template.yml"
 {% endif %}
@@ -13,7 +14,9 @@ templates:
 ## see https://meta.discourse.org/t/17247 for details
 expose:
   - "80:80"   # http
+{% if discourse_https_host %}
   - "443:443" # https
+{% endif %}
 
 # Use 'links' key to link containers together, aka use Docker --link flag.
 links:
@@ -126,6 +129,7 @@ run:
   - exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
   #- exec: rails r "SiteSetting.login_required=true"
   - exec: rails r "SiteSetting.openid_connect_enabled=true"
+  - exec: rails r "SiteSetting.openid_connect_verbose_logging=true"
   - exec: rails r "SiteSetting.openid_connect_overrides_email=true"
   - exec: rails r "SiteSetting.openid_connect_discovery_document='{{ discourse_open_id_discovery_uri }}'"
   - exec: rails r "SiteSetting.openid_connect_client_id='discourse'"

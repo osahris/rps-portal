@@ -21,20 +21,20 @@
   register: changed_config
 
 - name: rebuild discourse containers
-  command: ./launcher rebuild "{{item[0]}}"
+  command: ./launcher rebuild "{{item[0]}}" --skip-prereqs
   args:
     chdir: /var/lib/discourse
   loop: "{{ discourse_containers | zip(changed_config.results) | list }}"
   # only rebuild if config changed
-  when: item[1].changed
+  # when: item[1].changed
 
 - name: ensure all started
-  command: ./launcher start "{{item}}"
+  command: ./launcher start "{{item}}" --skip-prereqs
   args:
     chdir: /var/lib/discourse
   loop: "{{ discourse_containers }}"
 
-- name: ensure discourse client
+- name: ensure discourse keycloak client
   local_action:
     module: keycloak_client
     auth_client_id: admin-cli
@@ -47,6 +47,7 @@
     redirect_uris: [
       "{{ discourse_keycloak_redirect_uri }}"
     ]
+    validate_certs: "{{ discourse_validate_certs }}"
     client_authenticator_type: client-secret
     secret: "{{ discourse_openid_client_secret }}"
     state: present
