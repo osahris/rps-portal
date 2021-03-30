@@ -1,4 +1,3 @@
 ---
-keycloak_server_name: keycloak
 keycloak_with_traefik: false
 keycloak_validate_certs: no

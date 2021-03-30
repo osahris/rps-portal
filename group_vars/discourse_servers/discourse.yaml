@@ -2,6 +2,7 @@ discourse_admin_users:
   - markus.brechtel@uk-koeln.de
   - maximilian.schons@uk-koeln.de
 
+discourse_open_id_hostname: "{{ keycloak_server_name }}"
 discourse_keycloak_management_username: "{{ keycloak_management_username }}"
 discourse_keycloak_management_password: "{{ keycloak_management_password }}"
 
