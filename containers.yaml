@@ -35,7 +35,6 @@
         path: "{{inventory_dir}}/host_vars/{{inventory_hostname}}"
         state: directory
 
-
     - name: record variables for lxd container connection in host_vars
       local_action: copy
       args:
@@ -65,8 +64,8 @@
     - name: add ipv4 forwarding for proxy
       command: "{{ item }}"
       with_items:
-        - "iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j DNAT --to {{ lxd_container_address }}:80"
-        - "iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 443 -j DNAT --to {{ lxd_container_address }}:443"
+        - "iptables -t nat -A PREROUTING -i {{ lxd_host_interface }} -p tcp --dport 80 -j DNAT --to {{ lxd_container_address }}:80"
+        - "iptables -t nat -A PREROUTING -i {{ lxd_host_interface }} -p tcp --dport 443 -j DNAT --to {{ lxd_container_address }}:443"
         - "iptables -I FORWARD -p tcp -d {{ lxd_container_address }} --dport 80 -j ACCEPT"
         - "iptables -I FORWARD -p tcp -d {{ lxd_container_address }} --dport 443 -j ACCEPT"
       delegate_to: "{{ lxd_host }}"

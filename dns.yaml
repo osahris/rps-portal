@@ -1,0 +1,75 @@
+---
+
+- hosts: hosts
+  remote_user: root
+  gather_facts: false
+  tasks:
+    - name: list lxd network
+      shell: lxc network show lxdbr0 | grep ipv4.address | cut -d ':' -f 2
+      register: lxd_network_list
+      delegate_to: "{{ lxd_host }}"
+
+    - name: get lxd network
+      set_fact:
+        lxd_network: "{{ lxd_network_list.stdout }}"
+
+    - name: list ipv4 address for proxy
+      command: lxc ls reverse-proxy --format=json
+      register: lxd_container_json
+      delegate_to: "{{ lxd_host }}"
+
+    - name: set ipv4 address fact for proxy
+      set_fact:
+        lxd_proxy_ip: "{{lxd_container_json.stdout | from_json | json_query('[0].state.network.eth0.addresses[0].address') }}"
+
+    # - import_role:
+    #     name: dns
+    #   vars:
+    #     dns_upstream_ip: 8.8.8.8
+    #     dns_allowed_networks:
+    #       - "{{ lxd_network }}"
+    #     dns_hosts: [
+    #       {
+    #          name: keycloak.internal,
+    #          ipv4: "{{ lxd_proxy_ip }}",
+    #       },
+    #     ]
+    #   delegate_to: "{{ lxd_host }}"
+
+    # - name: list ipv4 address for host interface
+    #   shell: ip addr show "{{ lxd_host_interface }}" | grep -Po 'inet \K[\d.]+'
+    #   register: host_ip_output
+    #   delegate_to: "{{ lxd_host }}"
+
+    # - name: get ipv4 address for host interface
+    #   set_fact:
+    #     lxd_host_ip: "{{ host_ip_output.stdout }}"
+
+    - name: ensure internal hosts file is present
+      file:
+        path: /etc/internal-hosts
+        state: touch
+      delegate_to: "{{ lxd_host }}"
+
+    - name: update hosts file
+      lineinfile: dest=/etc/internal-hosts regexp='.*{{ item.name }}$' line="{{ item.ipv4 }} {{ item.name }}." state=present
+      with_items: [
+        {
+            name: keycloak.internal,
+            ipv4: "{{ lxd_proxy_ip }}",
+        },
+      ]
+      delegate_to: "{{ lxd_host }}"
+
+    - name: set extra configuration for lxd dnsmasq
+      command: lxc network set lxdbr0 raw.dnsmasq addn-hosts="/etc/internal-host"
+      delegate_to: "{{ lxd_host }}"
+
+
+    # # strange: dnsmasq/lxd only updates hosts lookups when restarted?
+    # - name: restart services requiring dns update
+    #   command: lxc restart {{ item }}
+    #   with_items:
+    #     - nextcloud
+    #     - discourse
+    #   delegate_to: "{{ lxd_host }}"

@@ -1,1 +1,2 @@
 lxd_host: test-lxd
+lxd_host_interface: eth1
