@@ -1,6 +1,6 @@
 ---
 
-discourse_hostname: "{{ inventory_hostname }}"
+discourse_server_name: "{{ inventory_hostname }}"
 
 locales:
   lang: de_DE.UTF-8
@@ -10,7 +10,7 @@ discourse_postgres_db_default_text_search_config: pg_catalog.german
 
 discourse_smtp_port: 587
 
-discourse_mail_domain: "{{discourse_hostname}}"
+discourse_mail_domain: "{{ discourse_server_name }}"
 
 discourse_web_ratelimited: true
 discourse_mail_reveiver_tls_enabled: false

@@ -15,13 +15,13 @@ A role for setting up discource using the discource docker installer
 
 | variable                             | default value                   | purpose                                               |
 | ------------------------------------ | ------------------------------- | ----------------------------------------------------- |
-| discourse_hostname                   | "{{ inventory_hostname }}"      | fully qualified domain name |
+| discourse_server_name                | "{{ inventory_hostname }}"      | fully qualified domain name discourse will be accessible from |
 | discourse_mail_domain                | "{{ discourse_hostname }}"      | ? |
 | discourse_https_host                 | true                            | run with built-in webserver using letsencrypt for https |
 | discourse_letsencrypt_account_email  | ""                              | email to use, when getting LE certificate |
 | discourse_validate_certs             | yes                             | validate certificates (e.g. keycloak)     |
 | discourse_web_ratelimited            | true                            |      |
 | discourse_mail_reveiver_tls_enabled  | false                           | enables port 465 binding for tls connections |
-| discourse_open_id_hostname           | first hostname in keycloak_servers inventory | host name of keycloak server |
+| discourse_open_id_hostname           | first hostname in keycloak_servers inventory | host name of keycloak server - used to derive other keycloak urls |
 | discourse_keycloak_realm_name        | users                           | keycloak application realm to use |
 | discourse_keycloak_redirect_hostname | first hostname in discourse_servers inventory  | will be used to derive discourse_keycloak_redirect_uri |

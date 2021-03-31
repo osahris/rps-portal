@@ -43,7 +43,7 @@ env:
   #UNICORN_WORKERS: 3
 
   ## The domain name this Discourse instance will respond to
-  DISCOURSE_HOSTNAME: "{{discourse_hostname}}"
+  DISCOURSE_HOSTNAME: "{{ discourse_server_name }}"
 
   ## Uncomment if you want the container to be started with the same
   ## hostname (-h option) as specified above (default "$hostname-$config")
