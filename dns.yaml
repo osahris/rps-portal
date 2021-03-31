@@ -47,12 +47,12 @@
 
     - name: ensure internal hosts file is present
       file:
-        path: /etc/internal-hosts
+        path: "{{ lxd_hosts_file }}"
         state: touch
       delegate_to: "{{ lxd_host }}"
 
     - name: update hosts file
-      lineinfile: dest=/etc/internal-hosts regexp='.*{{ item.name }}$' line="{{ item.ipv4 }} {{ item.name }}." state=present
+      lineinfile: dest="{{ lxd_hosts_file }}" regexp='.*{{ item.name }}$' line="{{ item.ipv4 }} {{ item.name }}." state=present
       with_items: [
         {
             name: keycloak.internal,
@@ -62,7 +62,7 @@
       delegate_to: "{{ lxd_host }}"
 
     - name: set extra configuration for lxd dnsmasq
-      command: lxc network set lxdbr0 raw.dnsmasq addn-hosts="/etc/internal-host"
+      command: lxc network set lxdbr0 raw.dnsmasq addn-hosts="{{ lxd_hosts_file }}"
       delegate_to: "{{ lxd_host }}"
 
 
