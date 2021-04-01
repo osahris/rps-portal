@@ -1,6 +1,0 @@
-dns_hosts: [
-  {
-    name: "keycloak.{{ dns_suffix }}",
-    ipv4: "{{ lxd_proxy_ip }}",
-  }
-]

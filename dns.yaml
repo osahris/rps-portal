@@ -20,7 +20,6 @@
           {{ host.ipv4 }} {{ host.name }}.
           {% endfor %}
         dest: "{{ lxd_hosts_file }}"
-        state: touch
 
     - name: set extra configuration for lxd dnsmasq
       command: lxc network set lxdbr0 raw.dnsmasq addn-hosts="{{ lxd_hosts_file }}"

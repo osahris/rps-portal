@@ -1,9 +1,9 @@
 ---
 
-- import_playbook: hosts.yaml
-- import_playbook: containers.yaml
-- import_playbook: common.yaml
-- import_playbook: reverse_proxies.yaml
-- import_playbook: dns.yaml
-- import_playbook: keycloak_servers.yaml
+#- import_playbook: hosts.yaml
+# - import_playbook: containers.yaml
+# - import_playbook: common.yaml
+# - import_playbook: reverse_proxies.yaml
+# - import_playbook: dns.yaml
+# - import_playbook: keycloak_servers.yaml
 - import_playbook: nextcloud_servers.yaml

@@ -1,18 +1,22 @@
 ---
 
-- import_role:
+- include_role:
     name: certificate
-  delegate_to: "{{reverse_proxy_host}}"
+  vars:
+    certificate_name: "{{hostvars[vhost].reverse_proxy_server_name}}"
+    certificate_common_name: "{{hostvars[vhost].reverse_proxy_server_name}}"
+  loop: "{{reverse_proxy_for_hosts}}"
+  loop_control:
+    loop_var: vhost
 
-- import_role:
+- include_role:
     name: nginx
     tasks_from: vhost
   vars:
-    nginx_vhost_name: "{{inventory_hostname}}"
-  delegate_to: "{{reverse_proxy_host}}"
-
-# todo: the nginx role only restarts once, so further configuration
-# changes are not triggering a reload - this is currently fixed here
-- name: restart nginx
-  command: service nginx reload
-  delegate_to: "{{reverse_proxy_host}}"
+    nginx_vhost_name: "{{vhost}}"
+    nginx_vhost_server_names: ["{{hostvars[vhost].reverse_proxy_server_name}}"]
+    nginx_vhost_certificate_name: "{{hostvars[vhost].reverse_proxy_server_name}}"
+    nginx_vhost_custom: "{{hostvars[vhost].reverse_proxy_nginx_vhost_custom}}"
+  loop: "{{reverse_proxy_for_hosts}}"
+  loop_control:
+    loop_var: vhost

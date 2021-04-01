@@ -1,11 +1,12 @@
 ---
 
-# - hosts: reverse_proxies
-#   remote_user: root
-#
-- hosts: keycloak_servers
+- hosts: reverse_proxies
   remote_user: root
-
   roles:
     - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.keycloak_servers }}"
+
+- hosts: keycloak_servers
+  remote_user: root
+  roles:
     - role: keycloak

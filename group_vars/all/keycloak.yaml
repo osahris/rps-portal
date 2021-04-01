@@ -1,0 +1,1 @@
+keycloak_management_url: https://{{keycloak_server_name}}/auth/

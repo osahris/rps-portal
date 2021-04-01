@@ -1,6 +1,6 @@
 ---
 header_config:
-  keycloakUrl: "{{ header_keycloak_auth_url }}"
+  keycloakUrl: "{{ keycloak_management_url }}"
   keycloakRealm: users
   keycloakClientId: header
   logoUri: "{{ header_logo_uri }}"

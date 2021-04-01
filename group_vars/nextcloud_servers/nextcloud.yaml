@@ -19,3 +19,4 @@ nextcloud_database_host: localhost
 nextcloud_database_name: nextcloud
 nextcloud_database_user: nextcloud
 
+nextcloud_apache_ssl: no

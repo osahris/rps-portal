@@ -47,29 +47,33 @@
     - name: refresh ansible inventory
       local_action: meta refresh_inventory
 
-    # todo: is this the right place for setting this up
+    - name: install python3 in lxd container
+      command: lxc exec {{inventory_hostname}} -- apt-get -y install python3
+      delegate_to: "{{ lxd_host }}"
+
+
+- hosts: reverse-proxy
+  remote_user: root
+  tasks:
     - name: list ipv4 address for proxy
       command: lxc ls reverse-proxy --format=json
       register: lxd_container_json
       delegate_to: "{{ lxd_host }}"
-      when: inventory_hostname == 'reverse-proxy'
 
     - name: set ipv4 address fact for proxy
       set_fact:
         lxd_container_address: "{{lxd_container_json.stdout | from_json | json_query('[0].state.network.eth0.addresses[0].address') }}"
-      when: inventory_hostname == 'reverse-proxy'
 
     # todo: make this permanent (using ufw?)
     # todo: make interfaces configurable or auto-detect
     - name: add ipv4 forwarding for proxy
       command: "{{ item }}"
-      with_items:
-        - "iptables -t nat -A PREROUTING -i {{ lxd_host_interface }} -p tcp --dport 80 -j DNAT --to {{ lxd_container_address }}:80"
-        - "iptables -t nat -A PREROUTING -i {{ lxd_host_interface }} -p tcp --dport 443 -j DNAT --to {{ lxd_container_address }}:443"
+      loop:
+        - "iptables -t nat -A PREROUTING -d {{hostvars[lxd_host].host_public_ip}} -p tcp --dport 80 -j DNAT --to {{ lxd_container_address }}:80"
+        - "iptables -t nat -A PREROUTING -d {{hostvars[lxd_host].host_public_ip}} -p tcp --dport 443 -j DNAT --to {{ lxd_container_address }}:443"
         - "iptables -I FORWARD -p tcp -d {{ lxd_container_address }} --dport 80 -j ACCEPT"
         - "iptables -I FORWARD -p tcp -d {{ lxd_container_address }} --dport 443 -j ACCEPT"
       delegate_to: "{{ lxd_host }}"
-      when: inventory_hostname == 'reverse-proxy'
 
 - hosts: containers
   remote_user: root

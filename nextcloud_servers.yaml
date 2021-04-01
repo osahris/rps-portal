@@ -1,9 +1,15 @@
 ---
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.nextcloud_servers }}"
+
 - hosts: nextcloud_servers
   remote_user: root
 
   roles:
-    - role: reverse_proxy
     - role: postgresql
     - name: nextcloud
       nextcloud_state: installed

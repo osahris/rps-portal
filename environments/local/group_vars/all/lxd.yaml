@@ -1,6 +1,1 @@
 lxd_host: test-lxd
-lxd_host_interface: eth1
-
-# this file is used for additional private dns setup and
-# must be accessible from the snap confinement
-lxd_hosts_file:  /var/snap/lxd/common/lxd/networks/internal-hosts

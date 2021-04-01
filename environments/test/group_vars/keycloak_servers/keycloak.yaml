@@ -1,2 +1,2 @@
 ---
-keycloak_server_name: account.rps-test.idcohorts.net
+keycloak_server_name: accounts.{{dns_suffix}}

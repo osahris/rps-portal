@@ -1,2 +1,3 @@
 project_name: test
 admin_email: markus.brechtel@thengo.net
+dns_suffix: rps-test.idcohorts.net
