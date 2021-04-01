@@ -11,7 +11,7 @@ lxd_container_source:
   protocol: lxd
   alias: "{{ lxd_container_image_distribution }}/{{ lxd_container_image_release }}/{{ lxd_container_image_architecture }}/{{ lxd_container_image_variant }}"
 
-  lxd_container_config:
+lxd_container_config:
   limits.cpu: "{{ lxd_container_limits_cpu | default(2) | string}}"
   limits.memory: "{{ lxd_container_limits_memory | default('2GB') | string }}"
   security.nesting: "{{ lxd_container_security_nesting | default(false) | string }}"
