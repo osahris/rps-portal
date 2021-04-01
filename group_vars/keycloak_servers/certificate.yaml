@@ -1,0 +1,3 @@
+---
+
+certificate_common_name: "{{keycloak_server_name}}"

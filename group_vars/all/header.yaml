@@ -1,0 +1,10 @@
+---
+header_config:
+  keycloakUrl: "{{ header_keycloak_auth_url }}"
+  keycloakRealm: users
+  keycloakClientId: header
+  logoUri: "{{ header_logo_uri }}"
+  keycloakLogoutRedirectUri: "{{ header_keycloak_logout_redirect_uri }}"
+  cookieDomain: "{{ header_cookie_domain }}"
+  links: "{{ header_links }}"
+  contactUrl: "{{ header_contact_url }}"

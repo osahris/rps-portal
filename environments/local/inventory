@@ -1,5 +1,6 @@
 [hosts]
-test-lxd ansible_host=64.227.119.81
+# ip address matches the one in ansible file, change if needed
+test-lxd ansible_host=192.168.33.15
 
 [containers]
 test1
@@ -20,28 +21,26 @@ mailservers
 reverse-proxy
 
 [keycloak_servers]
-testaccount.idcohorts.net
+keycloak
 
 [discourse_servers]
-test-discourse.idcohorts.net
+discourse
 
 [nextcloud_servers]
-testcloud.idcohorts.net
+nextcloud
 
 [wordpress_servers]
-testwebseite.idcohorts.net
+wordpress
 
 [openproject_servers]
-test-project.idcohorts.net
+openproject
 
 [rps_management_interface_servers]
+admin
 
 [mailservers]
-testmail.idcohorts.net
+mail
 
 [mailinglist_servers]
-testlists.idcohorts.net
+#testlists.idcohorts.net
 #vtestlists.idcohorts.net
-
-[monitoring_servers]
-test-monitoring.idcohorts.net

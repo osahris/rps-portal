@@ -3,9 +3,11 @@
 # - hosts: reverse_proxies
 #   remote_user: root
 #
-- hosts: keycloak_servers
+- hosts:
+    - test1
+    - test2
+    - test3
   remote_user: root
 
   roles:
-    - role: reverse_proxy
-    - role: keycloak
+    - role: docker

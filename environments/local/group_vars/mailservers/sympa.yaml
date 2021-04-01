@@ -1,0 +1,8 @@
+---
+sympa_title: testlists
+sympa_main_domain: testlists.idcohorts.net
+sympa_domains:
+  - vtestlists.idcohorts.net
+sympa_listmaster_emails:
+  - markus.brechtel@uk-koeln.de
+  - maximilian.schons@uk-koeln.de
