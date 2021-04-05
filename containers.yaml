@@ -64,13 +64,22 @@
       set_fact:
         lxd_container_address: "{{lxd_container_json.stdout | from_json | json_query('[0].state.network.eth0.addresses[0].address') }}"
 
+    - name: set ipv4 address fact for host
+      set_fact:
+        host_address: "{{ lxd_host_ip | default(hostvars[lxd_host].host_public_ip) }}"
+      delegate_to: "{{ lxd_host }}"
+
+    - name: show ipv4 address fact for host
+      debug:
+        msg: host address is "{{ host_address }}"
+
     # todo: make this permanent (using ufw?)
     # todo: make interfaces configurable or auto-detect
     - name: add ipv4 forwarding for proxy
       command: "{{ item }}"
       loop:
-        - "iptables -t nat -A PREROUTING -d {{hostvars[lxd_host].host_public_ip}} -p tcp --dport 80 -j DNAT --to {{ lxd_container_address }}:80"
-        - "iptables -t nat -A PREROUTING -d {{hostvars[lxd_host].host_public_ip}} -p tcp --dport 443 -j DNAT --to {{ lxd_container_address }}:443"
+        - "iptables -t nat -A PREROUTING -d {{ host_address }} -p tcp --dport 80 -j DNAT --to {{ lxd_container_address }}:80"
+        - "iptables -t nat -A PREROUTING -d {{ host_address }} -p tcp --dport 443 -j DNAT --to {{ lxd_container_address }}:443"
         - "iptables -I FORWARD -p tcp -d {{ lxd_container_address }} --dport 80 -j ACCEPT"
         - "iptables -I FORWARD -p tcp -d {{ lxd_container_address }} --dport 443 -j ACCEPT"
       delegate_to: "{{ lxd_host }}"
