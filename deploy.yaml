@@ -7,3 +7,4 @@
 - import_playbook: dns.yaml
 - import_playbook: keycloak_servers.yaml
 - import_playbook: nextcloud_servers.yaml
+- import_playbook: monitoring_servers.yaml

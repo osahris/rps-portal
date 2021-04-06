@@ -1,0 +1,5 @@
+alerta_server_name: "alerta.{{ dns_suffix }}"
+netdata_server_name: "netdata.{{ dns_suffix }}"
+
+netdata_server: true
+netdata_disable_verify_ssl: true

@@ -16,6 +16,11 @@ wordpress_servers
 openproject_servers
 rps_management_interface_servers
 mailservers
+monitoring_servers
+
+[netdata_providers]
+keycloak
+test1
 
 [reverse_proxies]
 reverse-proxy
@@ -34,6 +39,9 @@ wordpress
 
 [openproject_servers]
 openproject
+
+[monitoring_servers]
+alerta
 
 [rps_management_interface_servers]
 admin
