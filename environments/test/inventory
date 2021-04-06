@@ -24,3 +24,6 @@ testlists.idcohorts.net
 
 [monitoring_servers]
 test-monitoring.idcohorts.net
+
+[proskive_servers]
+test-proskive.idcohorts.net

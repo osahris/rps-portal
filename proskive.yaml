@@ -1,0 +1,6 @@
+---
+
+- hosts: proskive_servers
+  remote_user: root
+  roles:
+    - role: proskive

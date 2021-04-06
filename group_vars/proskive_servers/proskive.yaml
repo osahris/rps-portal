@@ -1,0 +1,5 @@
+proskive_keycloak_host: "{{ hostvars[groups['keycloak_servers'][0]].inventory_hostname }}"
+proskive_keycloak_realm: users
+proskive_keycloak_management_realm: master
+proskive_keycloak_management_username: "{{ keycloak_management_username }}"
+proskive_keycloak_management_password: "{{ keycloak_management_password }}"
