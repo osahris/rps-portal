@@ -1,0 +1,10 @@
+- hosts: monitoring_servers
+  remote_user: root
+  roles:
+    - alerta
+    - netdata
+
+- hosts: netdata_providers
+  remote_user: root
+  roles:
+    - netdata

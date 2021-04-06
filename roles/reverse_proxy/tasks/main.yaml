@@ -1,0 +1,6 @@
+---
+
+- include_tasks: site.yaml
+  loop: "{{groups.reverse_proxies}}"
+  loop_control:
+    loop_var: reverse_proxy_host

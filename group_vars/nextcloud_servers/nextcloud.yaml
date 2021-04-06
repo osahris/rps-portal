@@ -1,0 +1,22 @@
+nextcloud_apps:
+  - contacts
+  - calendar
+  - tasks
+  - oidc_login
+
+nextcloud_keycloak_admin_user: "{{ keycloak_management_username }}"
+nextcloud_keycloak_admin_password: "{{ keycloak_management_password }}"
+
+nextcloud_oidc_login_client_id: nextcloud
+nextcloud_oidc_login_provider_url: "https://{{ keycloak_server_name }}/auth/realms/users"
+nextcloud_oidc_login_logout_url: "https://{{ keycloak_server_name }}/auth/realms/users/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_server_name }}%2F/logout"
+
+nextcloud_keycloak_url: "https://{{ keycloak_server_name }}"
+nextcloud_keycloak_realm: users
+
+nextcloud_database_type: postgresql
+nextcloud_database_host: localhost
+nextcloud_database_name: nextcloud
+nextcloud_database_user: nextcloud
+
+nextcloud_apache_ssl: no

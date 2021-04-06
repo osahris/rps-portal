@@ -1,29 +1,46 @@
+[hosts]
+test-lxd ansible_host=64.227.119.81
+
+[containers]
+test1
+test2
+test3
+
+[containers:children]
+reverse_proxies
+keycloak_servers
+discourse_servers
+nextcloud_servers
+wordpress_servers
+openproject_servers
+rps_management_interface_servers
+mailservers
+monitoring_servers
+
+[reverse_proxies]
+reverse-proxy
+
 [keycloak_servers]
-testaccount.idcohorts.net
+accounts
 
 [discourse_servers]
-test-discourse.idcohorts.net
+discourse
 
 [nextcloud_servers]
-testcloud.idcohorts.net
+cloud
 
 [wordpress_servers]
-testwebseite.idcohorts.net
 
 [openproject_servers]
-test-project.idcohorts.net
 
 [rps_management_interface_servers]
 
 [mailservers]
-testmail.idcohorts.net
 
 [mailinglist_servers]
-testlists.idcohorts.net
-#vtestlists.idcohorts.net
 
 [monitoring_servers]
-test-monitoring.idcohorts.net
+monitoring
 
 [proskive_servers]
 test-proskive.idcohorts.net

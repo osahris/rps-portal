@@ -1,7 +1,7 @@
 client_config:
   project_name: "{{project_name}}"
 
-  keycloak_management_url: https://{{groups['keycloak_servers'][0]}}/auth/
+  keycloak_management_url: "{{keycloak_management_url}}"
   keycloak_management_username: "{{keycloak_management_username}}"
   keycloak_management_password: "{{keycloak_management_password}}"
   keycloak_management_realm: master

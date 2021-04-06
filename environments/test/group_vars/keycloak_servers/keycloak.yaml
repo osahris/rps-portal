@@ -1,0 +1,2 @@
+---
+keycloak_server_name: accounts.{{dns_suffix}}

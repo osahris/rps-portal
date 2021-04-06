@@ -1,0 +1,5 @@
+discourse_https_host: false
+discourse_validate_certs: no
+
+discourse_server_name: discourse.internal
+discourse_keycloak_redirect_hostname: "{{ keycloak_server_name }}"

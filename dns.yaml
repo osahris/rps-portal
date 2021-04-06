@@ -1,0 +1,25 @@
+---
+
+- hosts: hosts
+  remote_user: root
+  gather_facts: false
+  tasks:
+
+    - name: list ipv4 address for proxy
+      command: lxc ls reverse-proxy --format=json
+      register: lxd_container_json
+
+    - name: set ipv4 address fact for proxy
+      set_fact:
+        lxd_proxy_ip: "{{lxd_container_json.stdout | from_json | json_query('[0].state.network.eth0.addresses[0].address') }}"
+
+    - name: ensure internal hosts file is present
+      copy:
+        content: |
+          {% for host in dns_hosts %}
+          {{ host.ipv4 }} {{ host.name }}.
+          {% endfor %}
+        dest: "{{ lxd_hosts_file }}"
+
+    - name: set extra configuration for lxd dnsmasq
+      command: lxc network set lxdbr0 raw.dnsmasq addn-hosts="{{ lxd_hosts_file }}"

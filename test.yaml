@@ -1,0 +1,13 @@
+---
+
+# - hosts: reverse_proxies
+#   remote_user: root
+#
+- hosts:
+    - test1
+    - test2
+    - test3
+  remote_user: root
+
+  roles:
+    - role: docker
