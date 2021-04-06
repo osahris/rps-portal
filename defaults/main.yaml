@@ -5,3 +5,4 @@ proskive_directory: /opt/proskive
 proskive_release_directory: "{{proskive_directory}}/release"
 proskive_server_name: "{{inventory_hostname}}"
 proskive_postgres_user: admin
+proskive_keycloak_realm_admin_username: proskive-configclient

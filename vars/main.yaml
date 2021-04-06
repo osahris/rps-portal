@@ -13,13 +13,13 @@ proskive_keycloak_client_default_roles:
 proskive_docker_compose_env:
   # MongoDB
   MONGO_USER: admin
-  MONGO_PASSWORD: password
-  LOCAL_MONGO_DIR: "{{proskive_release_directory}}/mongo"
+  MONGO_PASSWORD: "{{proskive_mongo_password}}"
+  LOCAL_MONGO_DIR: "{{proskive_directory}}/mongo"
 
   # PostgresDB
   POSTGRES_USER: "{{proskive_postgres_user}}"
   POSTGRES_PASSWORD: "{{proskive_postgres_pass}}"
-  LOCAL_POSTGRES_DIR: "{{proskive_release_directory}}/postgres"
+  LOCAL_POSTGRES_DIR: "{{proskive_directory}}/postgres"
 
   # Keycloak
   KEYCLOAK_SCHEME: "{{proskive_keycloak_protocol}}"
@@ -32,11 +32,11 @@ proskive_docker_compose_env:
   PRISMA_MANAGEMENT_API_SECRET: "{{proskive_prisma_management_api_secret}}"
 
   # Frontend
-  FRONTEND_HOST: proskive.uniklinik.de
+  FRONTEND_HOST: "{{proskive_keycloak_host}}"
 
   # Workflow-Serive
-  KEYCLOAK_REALM_ADMIN_USERNAME: "{{proskive_keycloak_management_username}}"
-  KEYCLOAK_REALM_ADMIN_PASSWORD: "{{proskive_keycloak_management_password}}"
+  KEYCLOAK_REALM_ADMIN_USERNAME: "{{proskive_keycloak_realm_admin_username}}"
+  KEYCLOAK_REALM_ADMIN_PASSWORD: "{{proskive_keycloak_realm_admin_password}}"
 
 
   # Mail-Service

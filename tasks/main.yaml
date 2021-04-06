@@ -1,18 +1,5 @@
 ---
 
-- name: proskive path
-  file:
-    path: "{{proskive_directory}}"
-    state: directory
-
-- import_role:
-    name: docker
-
-- name: clone proskive
-  git:
-    repo: "{{proskive_release_git_repo}}"
-    dest: "{{proskive_release_directory}}"
-
 - import_role:
     name: certificate
 
@@ -31,31 +18,75 @@
       proxy_set_header Host $http_host;
       location / {
         proxy_pass http://localhost:3000;
+        client_max_body_size 200M;
       }
 
-- name: ensure proskive keycloak client
-  local_action:
-    module: keycloak_client
-    auth_client_id: admin-cli
-    auth_keycloak_url: "{{ proskive_keycloak_frontend_url }}"
-    auth_realm: "{{ proskive_keycloak_management_realm }}"
-    auth_username: "{{ proskive_keycloak_management_username }}"
-    auth_password: "{{ proskive_keycloak_management_password }}"
-    client_id: proskive-generic
-    realm: "{{ proskive_keycloak_realm }}"
-    client_authenticator_type: client-secret
-    secret: "{{ proskive_openid_client_secret }}"
-    redirect_uris: "{{proskive_keycloak_client_redirect_uris}}"
-    direct_access_grants_enabled: yes # TODO find out why this is necessary
-    default_roles: "{{proskive_keycloak_client_default_roles}}"
-    public_client: true # TODO find out why this is necessary
-    web_origins:
-      - "+" # TODO find out why this is necessary
-    state: present
+- name: proskive directory
+  file:
+    path: "{{proskive_directory}}"
+    state: directory
+
+- import_role:
+    name: docker
+
+- name: clone proskive
+  git:
+    repo: "{{proskive_release_git_repo}}"
+    dest: "{{proskive_release_directory}}"
+
+# - name: ensure proskive keycloak client
+#   local_action:
+#     module: keycloak_client
+#     state: present
+#     auth_client_id: admin-cli
+#     auth_keycloak_url: "{{ proskive_keycloak_frontend_url }}"
+#     auth_realm: "{{ proskive_keycloak_management_realm }}"
+#     auth_username: "{{ proskive_keycloak_management_username }}"
+#     auth_password: "{{ proskive_keycloak_management_password }}"
+#     client_id: proskive-generic
+#     realm: "{{ proskive_keycloak_realm }}"
+#     client_authenticator_type: client-secret
+#     redirect_uris: "{{proskive_keycloak_client_redirect_uris}}"
+#     direct_access_grants_enabled: yes # TODO find out why this is necessary
+#     default_roles: "{{proskive_keycloak_client_default_roles}}"
+#     public_client: true # TODO find out why this is necessary
+#     web_origins:
+#       - "+" # TODO find out why this is necessary
+
+- name: proskive certs directory
+  file:
+    path: "{{proskive_release_directory}}/certs"
+    state: directory
+
+# - name: get ISRG Root X1 certificate
+#   get_url:
+#     url: https://letsencrypt.org/certs/isrgrootx1.pem
+#     dest: "{{proskive_release_directory}}/certs/isrg-root-x1.crt"
+#
+# - name: get ISRG Root X2 certificate
+#   get_url:
+#     url: https://letsencrypt.org/certs/isrg-root-x2.pem
+#     dest: "{{proskive_release_directory}}/certs/isrg-root-x2.crt"
+
+# - name: link letsencrypt root certificate
+#   copy:
+#     src: "{{certificate_chain_file}}"
+#     dest: "{{proskive_release_directory}}/certs/le.crt"
+#     remote_src: true
+
+- name: write docker env file
+  copy:
+    content: |
+      {% for envvar in proskive_docker_compose_env| dict2items %}
+      {{envvar.key}}={{envvar.value}}
+      {% endfor %}
+    dest: "{{proskive_release_directory}}/.env"
+
+
 
 - name: deploy proskive with docker compose
   docker_compose:
     project_src: "{{proskive_release_directory}}"
     files:
       - docker-compose_eigenes_keycloak.yml
-  environment: "{{proskive_docker_compose_env}}"
+  #environment: "{{proskive_docker_compose_env}}"
