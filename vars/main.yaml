@@ -32,7 +32,7 @@ proskive_docker_compose_env:
   PRISMA_MANAGEMENT_API_SECRET: "{{proskive_prisma_management_api_secret}}"
 
   # Frontend
-  FRONTEND_HOST: "{{proskive_keycloak_host}}"
+  FRONTEND_HOST: "{{proskive_server_name}}"
 
   # Workflow-Serive
   KEYCLOAK_REALM_ADMIN_USERNAME: "{{proskive_keycloak_realm_admin_username}}"
