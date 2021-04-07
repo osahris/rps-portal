@@ -1,0 +1,1 @@
+proskive_server_name: proskive.{{dns_suffix}}
