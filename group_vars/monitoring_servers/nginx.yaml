@@ -1,0 +1,10 @@
+reverse_proxy_server_name: "{{netdata_server_name}}"
+
+reverse_proxy_nginx_vhost_custom: |
+  location / {
+    proxy_pass http://{{inventory_hostname}}:19000/;
+  }
+
+reverse_proxy_nginx_basic_auth_users:
+  - username: "admin"
+    password: "changeme"

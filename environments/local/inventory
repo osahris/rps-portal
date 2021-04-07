@@ -17,6 +17,7 @@ openproject_servers
 rps_management_interface_servers
 mailservers
 monitoring_servers
+alerting_servers
 
 [netdata_providers]
 keycloak
@@ -41,6 +42,9 @@ wordpress
 openproject
 
 [monitoring_servers]
+netdata
+
+[alerting_servers]
 alerta
 
 [rps_management_interface_servers]

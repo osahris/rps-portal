@@ -1,8 +1,25 @@
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.monitoring_servers }}"
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.alerting_servers }}"
+
 - hosts: monitoring_servers
   remote_user: root
   roles:
-    - alerta
     - netdata
+
+- hosts: alerting_servers
+  remote_user: root
+  roles:
+    - alerta
 
 - hosts: netdata_providers
   remote_user: root
