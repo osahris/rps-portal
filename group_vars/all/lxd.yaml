@@ -1,4 +1,8 @@
-lxd_host: test-lxd
+
+# since netdata systemd unit requires this we need this on all containers
+lxd_container_security_nesting: true
+
+
 lxd_container_image_distribution: debian
 lxd_container_image_release: buster
 lxd_container_image_architecture: amd64 # TODO auto select architecture of lxd_host

@@ -1,5 +1,5 @@
 [hosts]
-test-lxd ansible_host=64.227.119.81
+rps-test.idcohorts.net
 
 [containers]
 test1
@@ -16,6 +16,7 @@ openproject_servers
 rps_management_interface_servers
 mailservers
 monitoring_servers
+proskive_servers
 
 [reverse_proxies]
 reverse-proxy
@@ -41,3 +42,6 @@ cloud
 
 [monitoring_servers]
 monitoring
+
+[proskive_servers]
+proskive
