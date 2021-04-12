@@ -1,3 +1,11 @@
+groups_global_mailinglist_owners:
+  - markus.brechtel@uk-koeln.de
+  - maximilian.schons@uk-koeln.de
+
+groups_global_mailinglist_editors:
+  - markus.brechtel@uk-koeln.de
+  - maximilian.schons@uk-koeln.de
+
 global_groups:
   - name: hello
     title: Hello!
