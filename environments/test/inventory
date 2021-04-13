@@ -16,6 +16,7 @@ openproject_servers
 rps_management_interface_servers
 mailservers
 monitoring_servers
+alerting_servers
 proskive_servers
 
 [reverse_proxies]
@@ -45,3 +46,26 @@ monitoring
 
 [proskive_servers]
 proskive
+
+[monitoring_servers]
+netdata
+
+[netdata_providers]
+test1
+test2
+test3
+
+[netdata_providers:children]
+#reverse_proxies
+#keycloak_servers
+#discourse_servers
+#nextcloud_servers
+#wordpress_servers
+#openproject_servers
+#rps_management_interface_servers
+#mailservers
+#alerting_servers
+#proskive_servers
+
+[alerting_servers]
+alerta
