@@ -16,8 +16,9 @@
     nginx_vhost_name: "{{vhost}}"
     nginx_vhost_server_names: ["{{hostvars[vhost].reverse_proxy_server_name}}"]
     nginx_vhost_certificate_name: "{{hostvars[vhost].reverse_proxy_server_name}}"
-    nginx_vhost_custom: "{{hostvars[vhost].reverse_proxy_nginx_vhost_custom}}"
+    nginx_vhost_custom: "{{hostvars[vhost].reverse_proxy_nginx_vhost_custom|default('')}}"
     nginx_basic_auth_users: "{{hostvars[vhost].reverse_proxy_nginx_basic_auth_users | default([]) }}"
+    nginx_vhost_locations: "{{hostvars[vhost].reverse_proxy_nginx_vhost_locations|default([])}}"
   loop: "{{reverse_proxy_for_hosts}}"
   loop_control:
     loop_var: vhost
