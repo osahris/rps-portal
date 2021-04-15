@@ -18,6 +18,7 @@ mailservers
 monitoring_servers
 alerting_servers
 proskive_servers
+loomio_servers
 
 [reverse_proxies]
 reverse-proxy
@@ -69,3 +70,6 @@ test3
 
 [alerting_servers]
 alerta
+
+[loomio_servers]
+loomio

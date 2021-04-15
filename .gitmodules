@@ -79,3 +79,6 @@
 [submodule "roles/nginx-php"]
 	path = roles/nginx-php
 	url = git@gitlab.com:idcohorts/rps/ansible-role-nginx-php.git
+[submodule "roles/loomio"]
+	path = roles/loomio
+	url = ../ansible-role-loomio.git
