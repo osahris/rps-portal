@@ -65,7 +65,7 @@
 #       {% endfor %}
 #     dest: "{{proskive_release_directory}}/.env"
 
-- name: deploy proskive with docker compose
+- name: deploy proskive with docker-compose
   docker_compose:
     project_src: "{{proskive_release_directory}}"
     files:
