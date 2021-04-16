@@ -1,1 +1,2 @@
 keycloak_management_url: https://{{keycloak_server_name}}/auth/
+keycloak_saml_endpoint_url: https://{{keycloak_server_name}}/auth/realms/users/protocol/saml/descriptor
