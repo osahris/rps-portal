@@ -82,3 +82,6 @@
 [submodule "roles/loomio"]
 	path = roles/loomio
 	url = ../ansible-role-loomio.git
+[submodule "roles/openresty"]
+	path = roles/openresty
+	url = ../ansible-role-openresty.git
