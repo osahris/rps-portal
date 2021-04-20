@@ -26,6 +26,14 @@
       args:
         chdir: header
 
+- hosts: reverse_proxies
+  remote_user: root
+  tasks:
+    - name: deploy header to reverse proxies
+      copy:
+        src: header/header.js
+        dest: /var/www/header.js
+
 - hosts: keycloak_servers
   remote_user: root
   tasks:
@@ -37,29 +45,3 @@
       copy:
         src: header/header.js
         dest: /var/lib/keycloak/themes/ansible-theme/login/resources/js/
-
-- hosts: wordpress_servers
-  remote_user: root
-  tasks:
-    - name: deploy header to websites
-      copy:
-        src: header/header.js
-        dest: /var/www/{{wordpress_instance_name}}/
-
-- hosts: discourse_servers
-  remote_user: root
-  tasks:
-    - name: deploy header to discourse
-      copy:
-        src: header/header.js
-        dest: ~/header.js
-    - name: copy header into discourse docker container
-      command: docker cp ~/header.js web:/var/www/discourse/public
-
-- hosts: nextcloud_servers
-  remote_user: root
-  tasks:
-    - name: deploy header to nextcloud
-      copy:
-        src: header/header.js
-        dest: /var/www/nextcloud/
