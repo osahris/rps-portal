@@ -18,7 +18,7 @@
         state: started
         source: "{{lxd_container_source}}"
         config: "{{lxd_container_config}}"
-        profiles: ["default"]
+        devices: "{{lxd_container_devices}}"
         #wait_for_ipv4_addresses: true
         timeout: 600
       delegate_to: "{{ lxd_host }}"

@@ -19,3 +19,14 @@ lxd_container_config:
   limits.cpu: "{{ lxd_container_limits_cpu | default(2) | string}}"
   limits.memory: "{{ lxd_container_limits_memory | default('2GB') | string }}"
   security.nesting: "{{ lxd_container_security_nesting | default(false) | string }}"
+
+lxd_container_devices:
+  root:
+    path: /
+    pool: default
+    type: disk
+  eth0:
+    name: eth0
+    network: lxdbr0
+    type: nic
+    ipv6.routes: "{{ lxd_container_ipv6_routes | default([]) | join(',') }}"
