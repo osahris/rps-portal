@@ -94,7 +94,7 @@
 - name: keycloak docker deployment
   community.general.docker_container:
     name: keycloak
-    image: jboss/keycloak:11.0.2
+    image: jboss/keycloak:11.0.3
     restart_policy: always
     state: started
     networks:
