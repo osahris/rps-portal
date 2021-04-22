@@ -1,0 +1,20 @@
+---
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.static_websites }}"
+
+- hosts: static_websites
+  remote_user: root
+  roles:
+    - role: nginx
+  tasks:
+    - name: git debian package
+      apt:
+        pkg: git
+    - name: git repo of static website
+      git:
+        repo: "{{ static_website_git_repo }}"
+        dest: "{{ nginx_vhost_root }}"
