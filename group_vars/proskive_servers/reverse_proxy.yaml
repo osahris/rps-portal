@@ -8,6 +8,6 @@ reverse_proxy_nginx_vhost_custom: |
   proxy_set_header X-Forwarded-Port $server_port;
   proxy_set_header Host $http_host;
   location / {
-    proxy_pass http://{{proskive_server_name}}:3000;
+    proxy_pass http://{{inventory_hostname}}:3000;
     client_max_body_size 200M;
   }
