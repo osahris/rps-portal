@@ -1,0 +1,7 @@
+reverse_proxy_server_name: "{{nextcloud_server_name}}"
+# X-Forwarded-Proto header is needed for nextcloud oidc app scheme auto-detection
+reverse_proxy_nginx_vhost_custom: |
+  location / {
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_pass http://{{inventory_hostname}}:80/;
+  }
