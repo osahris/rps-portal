@@ -24,12 +24,12 @@ client_config:
   user_import_group_membership_label: "{{user_import_group_membership_label}}"
 
   user_attributes: "{{ user_attributes }}"
-  group_hierarchy: "{{ group_hierarchy }}"
-  global_groups: "{{ global_groups }}"
+  group_hierarchy: "{{ group_hierarchy | default([]) }}"
+  global_groups: "{{ global_groups | default([]) }}"
 
   sympa_export_rsync_targets: |
     [
-    {% for mailinglist_server in groups.mailinglist_servers %}
+    {% for mailinglist_server in groups.mailinglist_servers | default([]) %}
     "sympa-sync@{{mailinglist_server}}:/var/lib/mailinglist-sync/{{mailinglist_server}}",
     {% endfor %}
     ]
