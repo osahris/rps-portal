@@ -18,3 +18,7 @@ keycloak_realm:
   defaultLocale: "de"
   supportedLocales:
     - "de"
+
+keycloak_volumes: "{{ keycloak_default_volumes + (keycloak_theme_volumes|default([]))}}"
+keycloak_default_volumes:
+  - "/var/lib/keycloak/extensions:/opt/jboss/keycloak/standalone/deployments"

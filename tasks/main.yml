@@ -86,10 +86,15 @@
 
     - name: keycloak volumes
       set_fact:
-        keycloak_volumes:
+        keycloak_theme_volumes:
           - "/var/lib/keycloak/themes/ansible-theme:/opt/jboss/keycloak/themes/ansible-theme"
           - "/var/lib/keycloak/scripts/disable-theme-cache.cli:/opt/jboss/startup-scripts/disable-theme-cache.cli"
   when: keycloak_theme is defined
+
+- name: keycloak extensions directory
+  file:
+    path: /var/lib/keycloak/extensions
+    state: directory
 
 - name: keycloak docker deployment
   community.general.docker_container:
@@ -100,7 +105,7 @@
     networks:
       - name: ingress
       - name: keycloak
-    volumes: "{{ keycloak_volumes | default([]) }}"
+    volumes: "{{ keycloak_volumes }}"
     restart: "{{ theme.changed }}"
     published_ports: "{{ '' if keycloak_with_traefik else '8080:8080' }}"
     env:
@@ -114,6 +119,7 @@
       DB_DATABASE: keycloak # also default but specify explicitly
       DB_USER: keycloak
       DB_PASSWORD: "{{ keycloak_postgres_password }}"
+      JAVA_OPTS: "-Dkeycloak.profile.feature.upload_script=enabled" # TODO change to JAVA_OPTS_APPEND in future version
     labels:
       traefik.enable: "true"
       traefik.http.routers.keycloak-https.rule: Host(`{{ keycloak_server_name }}`)
