@@ -6,3 +6,4 @@ reverse_proxy_nginx_vhost_custom: |
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Forwarded-Proto https;
   }
+  {{header_nginx_inclusion}}

@@ -8,3 +8,15 @@ header_config:
   cookieDomain: "{{ header_cookie_domain }}"
   links: "{{ header_links }}"
   contactUrl: "{{ header_contact_url }}"
+
+header_nginx_inclusion: |
+  location = /header.js {
+    alias /var/www/header.js;
+
+    # kill cache
+    add_header Last-Modified $date_gmt;
+    add_header Cache-Control 'no-store, no-cache';
+    if_modified_since off;
+    expires off;
+    etag off;
+  }

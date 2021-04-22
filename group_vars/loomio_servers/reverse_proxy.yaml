@@ -18,6 +18,4 @@ reverse_proxy_nginx_vhost_custom: |
     proxy_set_header X-Forwarded-Ssl on;
     proxy_set_header X-Forwarded-Port $server_port;
   }
-  location = /header.js {
-      alias /var/www/header.js;
-  }
+  {{header_nginx_inclusion}}

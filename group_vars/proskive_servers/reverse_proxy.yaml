@@ -11,3 +11,4 @@ reverse_proxy_nginx_vhost_custom: |
     proxy_pass http://{{inventory_hostname}}:3000;
     client_max_body_size 200M;
   }
+  {{header_nginx_inclusion}}
