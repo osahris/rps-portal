@@ -1,1 +1,2 @@
 certificate_provider: letsencrypt
+nginx_vhost_https: false
