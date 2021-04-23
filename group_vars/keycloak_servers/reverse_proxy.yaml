@@ -7,3 +7,6 @@ reverse_proxy_nginx_vhost_custom: |
     proxy_set_header X-Forwarded-Proto https;
   }
   {{header_nginx_inclusion}}
+  location = / {
+    return 303 "/auth/realms/users/account";
+  }
