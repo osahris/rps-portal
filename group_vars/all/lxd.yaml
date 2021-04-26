@@ -24,20 +24,23 @@ lxd_container_config:
   security.nesting: "{{ lxd_container_security_nesting | default(false) | string }}"
 
 lxd_container_devices: "{{ lxd_container_default_devices | combine(lxd_container_network_devices) }}"
+
 lxd_container_default_devices:
   root:
     path: /
     pool: default
     type: disk
-lxd_container_network_devices: "{% if lxd_container_ipv6_routes is defined %}{{lxd_container_network_devices_public_ipv6}}{% else %}{{lxd_container_network_devices_default}}{% endif %}"
-lxd_container_network_devices_default:
-  eth0:
+lxd_container_network_devices:
+  eth0: |
+   {{ lxd_container_network_devices_default_eth0
+   | combine(lxd_container_ipv6_routes is defined|ternary(lxd_container_network_devices_lxd_container_ipv6_routes,{}))
+   | combine(lxd_container_ipv4_routes is defined|ternary(lxd_container_network_devices_lxd_container_ipv4_routes,{}))
+   }}
+lxd_container_network_devices_default_eth0:
     name: eth0
     network: lxdbr0
     type: nic
-lxd_container_network_devices_public_ipv6:
-  eth0:
-    name: eth0
-    network: lxdbr0
-    type: nic
-    ipv6.routes: "{{ lxd_container_ipv6_routes | default([]) | join(',') }}"
+lxd_container_network_devices_lxd_container_ipv6_routes:
+  ipv6.routes: "{{ lxd_container_ipv6_routes | default([]) | join(',') }}"
+lxd_container_network_devices_lxd_container_ipv4_routes:
+  ipv4.routes: "{{ lxd_container_ipv4_routes | default([]) | join(',') }}"

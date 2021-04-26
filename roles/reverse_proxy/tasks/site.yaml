@@ -11,7 +11,7 @@
     loop_var: vhost
 
 - include_role:
-    name: nginx
+    name: openresty
     tasks_from: vhost
   vars:
     nginx_vhost_name: "{{vhost}}"
@@ -21,6 +21,8 @@
     nginx_basic_auth_users: "{{hostvars[vhost].reverse_proxy_nginx_basic_auth_users | default([]) }}"
     nginx_vhost_locations: "{{hostvars[vhost].reverse_proxy_nginx_vhost_locations|default([])}}"
     nginx_security_headers: false
+    openidc_auth: "{{ reverse_proxy_openidc_auth | default(false) }}"
+    logout_redirect_url: "{{ reverse_proxy_openidc_auth_logout_redirect_url | default("") }}"
   loop: "{{reverse_proxy_for_hosts}}"
   loop_control:
     loop_var: vhost

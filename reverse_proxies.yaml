@@ -3,4 +3,4 @@
 - hosts: reverse_proxies
   remote_user: root
   roles:
-    - name: nginx
+    - name: openresty

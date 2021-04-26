@@ -37,6 +37,7 @@ cloud
 [openproject_servers]
 
 [rps_management_interface_servers]
+rps-management-interface
 
 [mailservers]
 
@@ -73,3 +74,4 @@ alerta
 
 [loomio_servers]
 loomio
+loomio-dev

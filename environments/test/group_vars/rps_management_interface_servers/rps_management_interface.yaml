@@ -1,0 +1,1 @@
+rps_management_interface_server_name: management.{{dns_suffix}}
