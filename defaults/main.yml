@@ -1,5 +1,5 @@
 ---
-# defaults file for keycloak
+keycloak_version: 12.0.4
 
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"

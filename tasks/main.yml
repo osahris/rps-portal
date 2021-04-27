@@ -95,11 +95,12 @@
   file:
     path: /var/lib/keycloak/extensions
     state: directory
+    mode: 0777
 
 - name: keycloak docker deployment
   community.general.docker_container:
     name: keycloak
-    image: jboss/keycloak:11.0.3
+    image: jboss/keycloak:{{keycloak_version}}
     restart_policy: always
     state: started
     networks:
@@ -119,7 +120,7 @@
       DB_DATABASE: keycloak # also default but specify explicitly
       DB_USER: keycloak
       DB_PASSWORD: "{{ keycloak_postgres_password }}"
-      JAVA_OPTS: "-Dkeycloak.profile.feature.upload_script=enabled" # TODO change to JAVA_OPTS_APPEND in future version
+      JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled"
     labels:
       traefik.enable: "true"
       traefik.http.routers.keycloak-https.rule: Host(`{{ keycloak_server_name }}`)
