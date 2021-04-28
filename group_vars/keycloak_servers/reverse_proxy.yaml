@@ -7,8 +7,16 @@ reverse_proxy_nginx_vhost_custom: |
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Forwarded-Host $host;
     proxy_set_header X-Forwarded-Port $server_port;
+    proxy_buffer_size          128k;
+    proxy_buffers              4 256k;
+    proxy_busy_buffers_size    256k;
   }
   {{header_nginx_inclusion}}
   location = / {
     return 303 "/auth/realms/users/account";
   }
+  {% if keycloak_logout_redirect_url is defined %}
+  location = /logout {
+    return 303 "{{keycloak_logout_redirect_url}}";
+  }
+  {% endif %}
