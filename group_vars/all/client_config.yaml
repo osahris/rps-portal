@@ -20,6 +20,8 @@ client_config:
   user_email_label: "{{user_email_label}}"
   user_username_label: "{{user_username_label}}"
 
+  loomio_server_name: "{{ hostvars[groups.loomio_servers|first].loomio_server_name }}"
+
   user_import_group_owner_label: "{{user_import_group_owner_label}}"
   user_import_group_membership_label: "{{user_import_group_membership_label}}"
 

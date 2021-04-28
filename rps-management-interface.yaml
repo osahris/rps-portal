@@ -19,3 +19,5 @@
       file:
         path: /var/www/rps-management-interface/backend_interface/user_interface/configs/config.example.yaml
         state: absent
+      tags:
+        - repo update
