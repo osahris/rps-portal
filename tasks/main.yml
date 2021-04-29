@@ -120,7 +120,7 @@
       DB_DATABASE: keycloak # also default but specify explicitly
       DB_USER: keycloak
       DB_PASSWORD: "{{ keycloak_postgres_password }}"
-      JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled"
+      JAVA_OPTS: "{{keycloak_11_java_opts_default}} -Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled"
     labels:
       traefik.enable: "true"
       traefik.http.routers.keycloak-https.rule: Host(`{{ keycloak_server_name }}`)
