@@ -10,14 +10,3 @@
   remote_user: root
   roles:
     - role: rps-management-interface
-  tasks:
-    - name: write project config file
-      copy:
-        content: "{{client_config|to_json}}"
-        dest: /var/www/rps-management-interface/backend_interface/user_interface/configs/config.{{project_name}}.yaml
-    - name: remove test config file
-      file:
-        path: /var/www/rps-management-interface/backend_interface/user_interface/configs/config.example.yaml
-        state: absent
-      tags:
-        - repo update

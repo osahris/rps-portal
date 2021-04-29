@@ -2,7 +2,33 @@
 
 - hosts: localhost
   tasks:
+    - name: assemble project api client config
+      set_fact:
+        rps_client_config: "{{ rps_client_config_defaults }}"
+
+    - name: assemble discourse api client config
+      set_fact:
+        rps_client_config: "{{ rps_client_config | combine(rps_client_config_discourse) }}"
+      when: discourse_enabled | default(false)
+
+    - name: assemble nextcloud api client config
+      set_fact:
+        rps_client_config: "{{ rps_client_config | combine(rps_client_config_nextcloud) }}"
+      when: nextcloud_enabled | default(false)
+
+    - name: assemble loomio api client config
+      set_fact:
+        rps_client_config: "{{ rps_client_config | combine(rps_client_config_loomio) }}"
+      when: loomio_enabled | default(false)
+
+    - name: assemble sympa api client config
+      set_fact:
+        rps_client_config: "{{ rps_client_config | combine(rps_client_config_sympa) }}"
+      when: sympa_enabled | default(false)
+    - name: debug client config
+      debug:
+        msg: "{{rps_client_config}}"
     - name: write project config file
       copy:
-        content: "{{client_config|to_yaml}}"
-        dest: configs/config.{{project_name}}.yaml
+        content: "{{rps_client_config|to_yaml}}"
+        dest: configs/config.{{project_id}}.yaml

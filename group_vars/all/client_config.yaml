@@ -1,5 +1,19 @@
-client_config:
+rps_client_config_defaults:
+  project_id: "{{project_id}}"
   project_name: "{{project_name}}"
+
+  user_first_name_label: "{{user_first_name_label}}"
+  user_last_name_label: "{{user_last_name_label}}"
+  user_email_label: "{{user_email_label}}"
+  user_username_label: "{{user_username_label}}"
+
+  user_import_group_owner_label: "{{user_import_group_owner_label}}"
+  user_import_group_membership_label: "{{user_import_group_membership_label}}"
+
+  #group_sync_source_default: "{{ group_sync_source_default }}"
+  user_attributes: "{{ user_attributes | default([]) }}"
+  group_hierarchy: "{{ group_hierarchy | default([]) }}"
+  global_groups: "{{ global_groups | default([]) }}"
 
   keycloak_management_url: "{{keycloak_management_url}}"
   keycloak_management_username: "{{keycloak_management_username}}"
@@ -7,28 +21,31 @@ client_config:
   keycloak_management_realm: master
   keycloak_realm: users
 
-  discourse_url: https://{{groups['discourse_servers'][0]}}/
+  discourse_enabled: false
+  nextcloud_enabled: false
+  loomio_enabled: false
+  sympa_enabled: false
+
+rps_client_config_discourse:
+  discourse_enabled: true
+  discourse_server_name: "{{ discourse_server_name }}"
+  discourse_url: https://{{discourse_server_name }}/
   discourse_username: system
   discourse_api_key: "{{ discourse_api_key }}"
 
-  nextcloud_url: https://{{ groups['nextcloud_servers'][0] }}
+rps_client_config_nextcloud:
+  nextcloud_enabled: true
+  nextcloud_server_name: "{{ nextcloud_server_name }}"
+  nextcloud_url: https://{{ nextcloud_server_name }}
   nextcloud_admin_user: "{{ nextcloud_admin_user }}"
   nextcloud_admin_pass: "{{ nextcloud_admin_pass }}"
 
-  user_first_name_label: "{{user_first_name_label}}"
-  user_last_name_label: "{{user_last_name_label}}"
-  user_email_label: "{{user_email_label}}"
-  user_username_label: "{{user_username_label}}"
+rps_client_config_loomio:
+  loomio_enabled: true
+  loomio_server_name: "{{ loomio_server_name | default('') }}"
 
-  loomio_server_name: "{{ hostvars[groups.loomio_servers|first].loomio_server_name }}"
-
-  user_import_group_owner_label: "{{user_import_group_owner_label}}"
-  user_import_group_membership_label: "{{user_import_group_membership_label}}"
-
-  user_attributes: "{{ user_attributes }}"
-  group_hierarchy: "{{ group_hierarchy | default([]) }}"
-  global_groups: "{{ global_groups | default([]) }}"
-
+rps_client_config_sympa:
+  sympa_enabled: true
   sympa_export_rsync_targets: |
     [
     {% for mailinglist_server in groups.mailinglist_servers | default([]) %}
