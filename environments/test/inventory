@@ -43,9 +43,6 @@ rps-management-interface
 
 [mailinglist_servers]
 
-[monitoring_servers]
-monitoring
-
 [proskive_servers]
 proskive
 
