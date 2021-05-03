@@ -1,3 +1,5 @@
+group_sync_source_default: discourse
+
 global_groups:
   - name: hello
     title: Hello!

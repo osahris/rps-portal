@@ -1,54 +1,56 @@
-rps_client_config_defaults:
-  project_id: "{{project_id}}"
-  project_name: "{{project_name}}"
+rps_client_config: |
+  {
+    "project_id": {{project_id|to_json}},
+    "project_name": {{project_name|to_json}},
 
-  user_first_name_label: "{{user_first_name_label}}"
-  user_last_name_label: "{{user_last_name_label}}"
-  user_email_label: "{{user_email_label}}"
-  user_username_label: "{{user_username_label}}"
+    "user_first_name_label": {{user_first_name_label|to_json}},
+    "user_last_name_label": {{user_last_name_label|to_json}},
+    "user_email_label": {{user_email_label|to_json}},
+    "user_username_label": {{user_username_label|to_json}},
 
-  user_import_group_owner_label: "{{user_import_group_owner_label}}"
-  user_import_group_membership_label: "{{user_import_group_membership_label}}"
+    "user_import_group_owner_label": {{user_import_group_owner_label|to_json}},
+    "user_import_group_membership_label": {{user_import_group_membership_label|to_json}},
 
-  #group_sync_source_default: "{{ group_sync_source_default }}"
-  user_attributes: "{{ user_attributes | default([]) }}"
-  group_hierarchy: "{{ group_hierarchy | default([]) }}"
-  global_groups: "{{ global_groups | default([]) }}"
+    "group_sync_source_default": {{group_sync_source_default|to_json}},
+    "user_attributes": {{ user_attributes | default([]) |to_json }},
+    "group_hierarchy": {{ group_hierarchy | default([]) |to_json }},
+    "global_groups": {{ global_groups | default([]) |to_json }},
 
-  keycloak_management_url: "{{keycloak_management_url}}"
-  keycloak_management_username: "{{keycloak_management_username}}"
-  keycloak_management_password: "{{keycloak_management_password}}"
-  keycloak_management_realm: master
-  keycloak_realm: users
+    "keycloak_management_url": {{keycloak_management_url|to_json}},
+    "keycloak_management_username": {{keycloak_management_username|to_json}},
+    "keycloak_management_password": {{keycloak_management_password|to_json}},
+    "keycloak_management_realm": {{keycloak_management_realm|to_json}},
+    "keycloak_realm": {{keycloak_realm|to_json}},
 
-  discourse_enabled: false
-  nextcloud_enabled: false
-  loomio_enabled: false
-  sympa_enabled: false
+    "discourse_enabled": {{discourse_enabled|default(false)|ternary('true',false)}},
+    {% if discourse_enabled|default(false) %}
+      "discourse_server_name": {{ discourse_server_name |to_json }},
+      "discourse_url": {{ ('https://' + discourse_server_name + '/') |to_json }},
+      "discourse_username": "system",
+      "discourse_api_key": {{ discourse_api_key |to_json}},
+    {% endif %}
 
-rps_client_config_discourse:
-  discourse_enabled: true
-  discourse_server_name: "{{ discourse_server_name }}"
-  discourse_url: https://{{discourse_server_name }}/
-  discourse_username: system
-  discourse_api_key: "{{ discourse_api_key }}"
+    "nextcloud_enabled": {{nextcloud_enabled|default(false)|ternary('true',false)}},
+    {% if nextcloud_enabled|default(false) %}
+      "nextcloud_server_name": {{ nextcloud_server_name |to_json }},
+      "nextcloud_url": {{ ('https://' + nextcloud_server_name + '/') |to_json }},
+      "nextcloud_admin_user": {{ nextcloud_admin_user |to_json }},
+      "nextcloud_admin_pass": {{ nextcloud_admin_pass |to_json }},
+    {% endif %}
 
-rps_client_config_nextcloud:
-  nextcloud_enabled: true
-  nextcloud_server_name: "{{ nextcloud_server_name }}"
-  nextcloud_url: https://{{ nextcloud_server_name }}
-  nextcloud_admin_user: "{{ nextcloud_admin_user }}"
-  nextcloud_admin_pass: "{{ nextcloud_admin_pass }}"
+    "loomio_enabled": {{loomio_enabled|default(false)|ternary('true',false)}},
+    {% if loomio_enabled|default(false) %}
+      loomio_server_name: {{ loomio_server_name | default('') |to_json }},
+    {% endif %}
 
-rps_client_config_loomio:
-  loomio_enabled: true
-  loomio_server_name: "{{ loomio_server_name | default('') }}"
+    "sympa_enabled": {{sympa_enabled|default(false)|ternary('true',false)}},
+    {% if sympa_enabled|default(false) %}
+      "sympa_export_rsync_targets":
+        [
+        {% for mailinglist_server in groups.mailinglist_servers | default([]) %}
+          "sympa-sync@{{mailinglist_server}}:/var/lib/mailinglist-sync/{{mailinglist_server}}",
+        {% endfor %}
+        ],
+    {% endif %}
 
-rps_client_config_sympa:
-  sympa_enabled: true
-  sympa_export_rsync_targets: |
-    [
-    {% for mailinglist_server in groups.mailinglist_servers | default([]) %}
-    "sympa-sync@{{mailinglist_server}}:/var/lib/mailinglist-sync/{{mailinglist_server}}",
-    {% endfor %}
-    ]
+  }
