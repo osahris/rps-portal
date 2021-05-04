@@ -1,6 +1,19 @@
-group_sync_source_default: discourse
+group_sync_default_membership_source: accounts
+group_sync_default_membership_store: accounts
+
+groups_global_mailinglist_owners:
+  - markus.brechtel@uk-koeln.de
+  - maximilian.schons@uk-koeln.de
+
+groups_global_mailinglist_editors:
+  - maximilian.schons@uk-koeln.de
+  - markus.brechtel@uk-koeln.de
 
 global_groups:
+  - name: new_registered_users
+    membership_source: accounts
+  - name: approved_users
+    membership_source: accounts
   - name: hello
     title: Hello!
     description: bla
@@ -20,6 +33,28 @@ global_groups:
     mailinglist:
       type: internal
       send: private
+  - name: tr-1
+    membership_source: loomio
+    membership_source_identifier:
+      group_id: 3
+  - name: uk-koeln
+    membership_source: accounts/profile
+    membership_source_group_identifier:
+      attribute: Standort
+      value: Uniklink Köln
+  - name: tr-1-uk-koeln
+    membership_source: group hierachy
+  - name: newsgroup
+    title: Newsgroup
+    description: Alle
+    mailinglist:
+      type: newsletter
+      aliases:
+        - num-kooperationsportal
+  - name: extern
+    membership_source: gruppen.netzwerk-universitaetsmedizin.de
+    membership_source_group_identifier:
+      group_name: extern
 
 
 group_hierarchy:
@@ -28,3 +63,8 @@ group_hierarchy:
       - name: subgroup
         children:
           - name: subsubgroup
+  - name: tr-1-uk-koeln
+    type: intersection
+    children:
+      - name: tr-1
+      - name: uk-koeln
