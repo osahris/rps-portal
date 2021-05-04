@@ -33,7 +33,7 @@ global_groups:
     mailinglist:
       type: internal
       send: private
-  - name: tr-1
+  - name: tr-2
     membership_source: loomio
     membership_source_identifier:
       group_id: 3
@@ -42,7 +42,7 @@ global_groups:
     membership_source_group_identifier:
       attribute: Standort
       value: Uniklink Köln
-  - name: tr-1-uk-koeln
+  - name: tr-2-uk-koeln
     membership_source: group hierachy
   - name: newsgroup
     title: Newsgroup
@@ -63,8 +63,8 @@ group_hierarchy:
       - name: subgroup
         children:
           - name: subsubgroup
-  - name: tr-1-uk-koeln
+  - name: tr-2-uk-koeln
     type: intersection
     children:
-      - name: tr-1
+      - name: tr-2
       - name: uk-koeln
