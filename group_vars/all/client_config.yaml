@@ -11,7 +11,6 @@ rps_client_config: |
     "user_import_group_owner_label": {{user_import_group_owner_label|to_json}},
     "user_import_group_membership_label": {{user_import_group_membership_label|to_json}},
 
-    "group_sync_source_default": {{group_sync_source_default|to_json}},
     "user_attributes": {{ user_attributes | default([]) |to_json }},
     "group_hierarchy": {{ group_hierarchy | default([]) |to_json }},
     "global_groups": {{ global_groups | default([]) |to_json }},
@@ -22,7 +21,7 @@ rps_client_config: |
     "keycloak_management_realm": {{keycloak_management_realm|to_json}},
     "keycloak_realm": {{keycloak_realm|to_json}},
 
-    "discourse_enabled": {{discourse_enabled|default(false)|ternary('true',false)}},
+    "discourse_enabled": {{discourse_enabled|default(false)|ternary('true','false')}},
     {% if discourse_enabled|default(false) %}
       "discourse_server_name": {{ discourse_server_name |to_json }},
       "discourse_url": {{ ('https://' + discourse_server_name + '/') |to_json }},
@@ -30,7 +29,7 @@ rps_client_config: |
       "discourse_api_key": {{ discourse_api_key |to_json}},
     {% endif %}
 
-    "nextcloud_enabled": {{nextcloud_enabled|default(false)|ternary('true',false)}},
+    "nextcloud_enabled": {{nextcloud_enabled|default(false)|ternary('true','false')}},
     {% if nextcloud_enabled|default(false) %}
       "nextcloud_server_name": {{ nextcloud_server_name |to_json }},
       "nextcloud_url": {{ ('https://' + nextcloud_server_name + '/') |to_json }},
@@ -38,12 +37,12 @@ rps_client_config: |
       "nextcloud_admin_pass": {{ nextcloud_admin_pass |to_json }},
     {% endif %}
 
-    "loomio_enabled": {{loomio_enabled|default(false)|ternary('true',false)}},
+    "loomio_enabled": {{loomio_enabled|default(false)|ternary('true','false')}},
     {% if loomio_enabled|default(false) %}
-      loomio_server_name: {{ loomio_server_name | default('') |to_json }},
+      "loomio_server_name": {{ loomio_server_name | default('') |to_json }},
     {% endif %}
 
-    "sympa_enabled": {{sympa_enabled|default(false)|ternary('true',false)}},
+    "sympa_enabled": {{sympa_enabled|default(false)|ternary('true','false')}},
     {% if sympa_enabled|default(false) %}
       "sympa_export_rsync_targets":
         [
