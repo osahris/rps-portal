@@ -28,5 +28,5 @@ discourse_keycloak_realm_name: users
 
 discourse_keycloak_frontend_url: "{{ discourse_open_id_protocol }}://{{ discourse_open_id_hostname }}/auth"
 discourse_keycloak_redirect_protocol: "https"
-discourse_keycloak_redirect_hostname: "{{ hostvars[groups['discourse_servers'][0]].inventory_hostname }}"
+discourse_keycloak_redirect_hostname: "{{ discourse_server_name }}"
 discourse_keycloak_redirect_uri: "{{ discourse_keycloak_redirect_protocol }}://{{ discourse_keycloak_redirect_hostname }}/auth/oidc/callback"
