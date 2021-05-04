@@ -14,7 +14,7 @@ discourse_mail_domain: "{{ discourse_server_name }}"
 
 discourse_web_ratelimited: true
 discourse_mail_reveiver_tls_enabled: false
-discourse_https_host: true
+discourse_https_host: false
 
 discourse_validate_certs: yes
 
@@ -30,4 +30,3 @@ discourse_keycloak_frontend_url: "{{ discourse_open_id_protocol }}://{{ discours
 discourse_keycloak_redirect_protocol: "https"
 discourse_keycloak_redirect_hostname: "{{ hostvars[groups['discourse_servers'][0]].inventory_hostname }}"
 discourse_keycloak_redirect_uri: "{{ discourse_keycloak_redirect_protocol }}://{{ discourse_keycloak_redirect_hostname }}/auth/oidc/callback"
-
