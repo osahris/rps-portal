@@ -71,4 +71,4 @@ alerta
 
 [loomio_servers]
 loomio
-loomio-dev
+#loomio-dev
