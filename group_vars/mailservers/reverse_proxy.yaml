@@ -1,0 +1,9 @@
+reverse_proxy_server_name: "{{sympa_main_domain}}"
+# X-Forwarded-Proto header is needed for nextcloud oidc app scheme auto-detection
+reverse_proxy_nginx_vhost_custom: |
+  location / {
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_pass https://{{mailname}};
+    proxy_set_header Host {{sympa_main_domain}};
+  }
+  {{header_nginx_inclusion}}
