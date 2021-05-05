@@ -5,15 +5,15 @@ keycloak_realm:
   realm: "{{ keycloak_realm_name }}"
   verifyEmail: true
   resetPasswordAllowed: true
-  smtpServer:
-    starttls: true
-    auth: true
-    port: "{{ keycloak_smtp_port }}"
-    host: "{{ keycloak_smtp_host }}"
-    from: "{{ keycloak_smtp_from }}"
-    ssl: false
-    user: "{{ keycloak_smtp_user_name }}"
-    password: "{{ keycloak_smtp_password }}"
+  #smtpServer:
+  #  starttls: true
+  #  auth: true
+  #  port: "{{ keycloak_smtp_port }}"
+  #  host: "{{ keycloak_smtp_host }}"
+  #  from: "{{ keycloak_smtp_from }}"
+  #  ssl: false
+  #  user: "{{ keycloak_smtp_user_name }}"
+  #  password: "{{ keycloak_smtp_password }}"
   internationalizationEnabled: true
   defaultLocale: "de"
   supportedLocales:
