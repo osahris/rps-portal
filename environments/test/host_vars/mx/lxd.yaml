@@ -1,0 +1,4 @@
+lxd_container_ipv4_routes:
+  - 78.47.216.102/32
+lxd_container_ipv6_routes:
+  - 2a01:4f8:1c17:804b::ea02/128

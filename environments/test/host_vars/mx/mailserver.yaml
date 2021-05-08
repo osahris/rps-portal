@@ -1,0 +1,1 @@
+mailname: mx.{{dns_suffix}}
