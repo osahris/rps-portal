@@ -1,2 +1,4 @@
 ---
 lxd_container_security_nesting: true
+lxd_container_limits_memory: 4GB
+lxd_container_limits_cpu: 4
