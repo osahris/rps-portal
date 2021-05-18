@@ -4,5 +4,7 @@ reverse_proxy_nginx_vhost_custom: |
   location / {
     proxy_set_header X-Forwarded-Proto https;
     proxy_pass http://{{inventory_hostname}}:80/;
+    proxy_buffering off;
+    client_max_body_size 16G;
   }
   {{header_nginx_inclusion}}
