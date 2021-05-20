@@ -13,7 +13,7 @@ discourse_servers
 nextcloud_servers
 wordpress_servers
 openproject_servers
-rps_admin_web_interface_servers
+rps_admin_web_interfaces
 mailservers
 monitoring_servers
 alerting_servers
