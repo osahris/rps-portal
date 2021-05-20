@@ -1,12 +1,12 @@
 [submodule "roles/alerta"]
 	path = roles/alerta
-	url = git@gitlab.com:idcohorts/rps/ansible-role-alerta.git
+	url = ../ansible-role-alerta.git
 [submodule "roles/discourse"]
 	path = roles/discourse
 	url = ../ansible-role-discourse.git
 [submodule "roles/docker"]
 	path = roles/docker
-	url = https://git.thengo.net/ka/ansible-role-docker.git
+	url = ../ansible-role-docker.git
 [submodule "roles/keycloak"]
 	path = roles/keycloak
 	url = ../ansible-role-keycloak.git
@@ -15,13 +15,13 @@
 	url = ../ansible-role-nextcloud.git
 [submodule "roles/netdata"]
 	path = roles/netdata
-	url = git@gitlab.com:idcohorts/rps/ansible-role-netdata.git
+	url = ../ansible-role-netdata.git
 [submodule "roles/certificate"]
 	path = roles/certificate
-	url = https://git.thengo.net/ka/ansible-role-certificate.git
+	url = ../ansible-role-certificate.git
 [submodule "roles/postgresql"]
 	path = roles/postgresql
-	url = https://git.thengo.net/ka/ansible-role-postgresql.git
+	url = ../ansible-role-postgresql.git
 [submodule "roles/php"]
 	path = roles/php
 	url = ../ansible-role-php.git
@@ -36,19 +36,19 @@
 	url = ../ansible-role-mariadb.git
 [submodule "roles/postfix"]
 	path = roles/postfix
-	url = https://git.thengo.net/ka/ansible-role-postfix.git
+	url = ../ansible-role-postfix.git
 [submodule "roles/postfixadmin"]
 	path = roles/postfixadmin
-	url = https://git.thengo.net/ka/ansible-role-postfixadmin.git
+	url = ../ansible-role-postfixadmin.git
 [submodule "roles/dovecot"]
 	path = roles/dovecot
-	url = https://git.thengo.net/ka/ansible-role-dovecot.git
+	url = ../ansible-role-dovecot.git
 [submodule "roles/opendkim"]
 	path = roles/opendkim
-	url = https://git.thengo.net/ka/ansible-role-opendkim.git
+	url = ../ansible-role-opendkim.git
 [submodule "roles/opendmarc"]
 	path = roles/opendmarc
-	url = https://git.thengo.net/ka/ansible-role-opendmarc.git
+	url = ../ansible-role-opendmarc.git
 [submodule "roles/openproject"]
 	path = roles/openproject
 	url = ../ansible-role-openproject.git
@@ -78,7 +78,7 @@
 	url = https://github.com/andreasscherbaum/ansible-lxc-ssh.git
 [submodule "roles/nginx-php"]
 	path = roles/nginx-php
-	url = git@gitlab.com:idcohorts/rps/ansible-role-nginx-php.git
+	url = ../ansible-role-nginx-php.git
 [submodule "roles/loomio"]
 	path = roles/loomio
 	url = ../ansible-role-loomio.git
