@@ -4,9 +4,9 @@
   remote_user: root
   roles:
     - role: reverse_proxy
-      reverse_proxy_for_hosts: "{{ groups.rps_management_interface_servers }}"
+      reverse_proxy_for_hosts: "{{ groups.rps_admin_web_interfaces }}"
 
-- hosts: rps_management_interface_servers
+- hosts: rps_admin_web_interfaces
   remote_user: root
   roles:
     - role: rps-management-interface

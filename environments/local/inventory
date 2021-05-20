@@ -14,7 +14,7 @@ discourse_servers
 nextcloud_servers
 wordpress_servers
 openproject_servers
-rps_management_interface_servers
+rps_admin_web_interface_servers
 mailservers
 monitoring_servers
 alerting_servers
@@ -47,7 +47,7 @@ netdata
 [alerting_servers]
 alerta
 
-[rps_management_interface_servers]
+[rps_admin_web_interfaces]
 admin
 
 [mailservers]

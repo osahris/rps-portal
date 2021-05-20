@@ -13,7 +13,7 @@ discourse_servers
 nextcloud_servers
 wordpress_servers
 openproject_servers
-rps_management_interface_servers
+rps_admin_web_interface_servers
 mailservers
 monitoring_servers
 alerting_servers
@@ -36,8 +36,8 @@ cloud
 
 [openproject_servers]
 
-[rps_management_interface_servers]
-rps-management-interface
+[rps_admin_web_interfaces]
+rps-admin-web-interface
 
 [mailservers]
 mx
@@ -62,7 +62,7 @@ test3
 #nextcloud_servers
 #wordpress_servers
 #openproject_servers
-#rps_management_interface_servers
+#rps_admin_web_interface_servers
 #mailservers
 #alerting_servers
 #proskive_servers

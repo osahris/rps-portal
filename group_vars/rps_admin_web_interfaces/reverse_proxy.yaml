@@ -1,4 +1,4 @@
-reverse_proxy_server_name: "{{rps_management_interface_server_name}}"
+reverse_proxy_server_name: "{{rps_admin_web_interface_server_name}}"
 # X-Forwarded-Proto header is needed for nextcloud oidc app scheme auto-detection
 reverse_proxy_nginx_vhost_custom: |
   location / {
