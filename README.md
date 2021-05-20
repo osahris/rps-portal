@@ -4,9 +4,8 @@ The following python packages must be installed:
 * pip3 install jmespath
 
 ```
-git clone --recursive git@gitlab.com:infektiologie-ukkoeln/research-project-suite/research-project-suite.git research-project-suite
-cd research-project-suite
-ansible-playbook -i environments/local/all.yaml
+git clone -b development --recursive git@gitlab.com:idcohorts/rps/research-project-suite.git rps-dev
+cd rps-dev
 ```
 
 work with git submodules:
@@ -14,4 +13,9 @@ work with git submodules:
 git submodule init
 git submodule update
 git submodule foreach git checkout master
+```
+
+execute ansible playbooks:
+```
+ansible-playbook -i environments/test/ containers.yaml
 ```
