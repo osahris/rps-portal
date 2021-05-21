@@ -51,10 +51,10 @@ global_groups:
       type: newsletter
       aliases:
         - num-kooperationsportal
-  - name: extern
-    membership_source: gruppen.netzwerk-universitaetsmedizin.de
-    membership_source_group_identifier:
-      group_name: extern
+  # - name: extern
+  #   membership_source: non-existing-source
+  #   membership_source_group_identifier:
+  #     group_name: extern
 
 
 group_hierarchy:
