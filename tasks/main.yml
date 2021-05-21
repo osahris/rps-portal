@@ -108,7 +108,7 @@
       - name: keycloak
     volumes: "{{ keycloak_volumes }}"
     restart: "{{ theme.changed }}"
-    published_ports: "{{ '' if keycloak_with_traefik else '8080:8080' }}"
+    published_ports: "{{ omit if keycloak_with_traefik else '8080:8080' }}"
     env:
       DB_VENDOR: postgres
       KEYCLOAK_USER: admin
