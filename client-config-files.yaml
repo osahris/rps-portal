@@ -5,8 +5,8 @@
 
     - name: debug client config
       debug:
-        msg: "{{rps_client_config}}"
+        msg: "{{rps_tools_config}}"
     - name: write project config file
       copy:
-        content: "{{rps_client_config|to_yaml}}"
+        content: "{{rps_tools_config|to_yaml}}"
         dest: configs/config.{{project_id}}.yaml
