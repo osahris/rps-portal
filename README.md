@@ -1,5 +1,5 @@
 ```
-git clone --recursive git@gitlab.com:infektiologie-ukkoeln/research-project-suite/research-project-suite.git research-project-suite
+git clone -b development --recursive git@gitlab.com:idcohorts/rps/research-project-suite.git rps-dev
 cd research-project-suite
 ansible-playbook -i environments/local/all.yaml
 ```
