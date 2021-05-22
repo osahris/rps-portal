@@ -28,6 +28,8 @@
   community.general.docker_container:
     name: traefik
     image: traefik:v2.3
+    container_default_behavior: no_defaults
+    networks_cli_compatible: false
     restart_policy: always
     ports:
       - 80:80
@@ -52,6 +54,8 @@
     name: keycloak-postgres
     image: postgres:12.4 # postgres 13 is just out. use more stable version
     restart_policy: always
+    container_default_behavior: no_defaults
+    networks_cli_compatible: false
     networks:
       - name: keycloak
     volumes:
@@ -102,6 +106,8 @@
     name: keycloak
     image: jboss/keycloak:{{keycloak_version}}
     restart_policy: always
+    container_default_behavior: no_defaults
+    networks_cli_compatible: false
     state: started
     networks:
       - name: ingress
