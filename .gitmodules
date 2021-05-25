@@ -85,3 +85,6 @@
 [submodule "roles/openresty"]
 	path = roles/openresty
 	url = ../ansible-role-openresty.git
+[submodule "roles/collabora"]
+	path = roles/collabora
+	url = ../ansible-role-collabora.git
