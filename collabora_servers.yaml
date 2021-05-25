@@ -1,0 +1,13 @@
+---
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.collabora_servers }}"
+
+- hosts: collabora_servers
+  remote_user: root
+
+  roles:
+    - role: collabora

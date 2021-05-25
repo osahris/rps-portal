@@ -19,6 +19,7 @@ monitoring_servers
 alerting_servers
 proskive_servers
 loomio_servers
+collabora_servers
 
 [reverse_proxies]
 reverse-proxy
@@ -73,3 +74,6 @@ alerta
 [loomio_servers]
 loomio
 #loomio-dev
+
+[collabora_servers]
+collabora
