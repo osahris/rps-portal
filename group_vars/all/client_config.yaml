@@ -28,6 +28,14 @@ rps_tools_config: |
         "keycloak_management_realm": {{hostvars[service].keycloak_management_realm|to_json}},
         "keycloak_realm": {{hostvars[service].keycloak_realm|to_json}},
       },
+      {{(service+'/profile')|to_json}}:{
+        "service_type": "keycloak_profile",
+        "keycloak_management_url": {{hostvars[service].keycloak_management_url|to_json}},
+        "keycloak_management_username": {{hostvars[service].keycloak_management_username|to_json}},
+        "keycloak_management_password": {{hostvars[service].keycloak_management_password|to_json}},
+        "keycloak_management_realm": {{hostvars[service].keycloak_management_realm|to_json}},
+        "keycloak_realm": {{hostvars[service].keycloak_realm|to_json}},
+      },
       {% endfor %}
       {% for service in groups.discourse_servers | default([]) %}
       {{service|to_json}}:{
