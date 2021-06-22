@@ -8,3 +8,7 @@ nextcloud_apps:
   - documentserver_community
 
 nextcloud_server_name: cloud.{{dns_suffix}}
+
+nextcloud_configure_theme: true
+
+nextcloud_theme_repo: https://{{num_nextcloud_theme_gitlab_deploy_token}}@gitlab.com/idcohorts/NUM/nextcloud-theme.git

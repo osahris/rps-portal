@@ -19,6 +19,9 @@ rps_tools_config: |
     "global_groups": {{ global_groups | default([]) |to_json }},
 
     "services":{
+      "group hierachy":{
+        "service_type": "group_hierachy",
+      },
       {% for service in groups.keycloak_servers | default([]) %}
       {{service|to_json}}:{
         "service_type": "keycloak",
@@ -59,14 +62,15 @@ rps_tools_config: |
       {{service|to_json}}:{
         "service_type":"loomio",
         "loomio_server_name": {{ hostvars[service].loomio_server_name |to_json }},
-        "loomio_url": {{ ('https://' + hostvars[service].loomio_server_name + '/') |to_json }}
+        "loomio_url": {{ ('https://' + hostvars[service].loomio_server_name + '/') |to_json }},
+        "loomio_client_cookie": {{ ('https://' + hostvars[service].loomio_client_cookie + '/') |to_json }}
       },
       {% endfor %}
       {% for service in groups.mailinglist_servers | default([]) %}
       {{service|to_json}}:{
         "service_type":"sympa",
         "sympa_export_rsync_target":
-          "sympa-sync@{{mailinglist_server}}:/var/lib/mailinglist-sync/{{mailinglist_server}}"
+          "sympa-sync@{{service}}:/var/lib/mailinglist-sync/{{service}}"
       },
       {% endfor %}
     },
