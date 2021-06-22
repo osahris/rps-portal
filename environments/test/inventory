@@ -19,7 +19,7 @@ monitoring_servers
 alerting_servers
 proskive_servers
 loomio_servers
-collabora_servers
+#collabora_servers
 
 [reverse_proxies]
 reverse-proxy
@@ -34,6 +34,7 @@ discourse
 cloud
 
 [wordpress_servers]
+web
 
 [openproject_servers]
 

@@ -1,1 +1,2 @@
 collabora_server_name: collabora.{{dns_suffix}}
+collabora_domain: cloud\\.{{dns_suffix|regex_escape}}

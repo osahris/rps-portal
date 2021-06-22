@@ -1,12 +1,46 @@
 reverse_proxy_server_name: "{{collabora_server_name}}"
-# X-Forwarded-Proto header is needed for nextcloud oidc app scheme auto-detection
+# we use the "SSL terminates at the proxy" setup described in the docs
+# see https://www.collaboraoffice.com/code/nginx-reverse-proxy/
+# options: ssl.enable=false and ssl.termination=true
 reverse_proxy_nginx_vhost_custom: |
-  location / {
-    proxy_set_header X-Forwarded-Proto https;
-    proxy_pass http://{{inventory_hostname}}:80/;
-    proxy_set_header X-Forwarded-For $remote_addr;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-Host $host;
-    proxy_set_header X-Forwarded-Port $server_port;
+  # static files
+  location ^~ /loleaflet {
+      proxy_pass http://{{collabora_backend_host|default(inventory_hostname)}}:9980;
+      proxy_set_header Host $http_host;
   }
-  {{header_nginx_inclusion}}
+
+  # WOPI discovery URL
+  location ^~ /hosting/discovery {
+      proxy_pass http://{{collabora_backend_host|default(inventory_hostname)}}:9980;
+      proxy_set_header Host $http_host;
+  }
+
+  # Capabilities
+  location ^~ /hosting/capabilities {
+      proxy_pass http://{{collabora_backend_host|default(inventory_hostname)}}:9980;
+      proxy_set_header Host $http_host;
+  }
+
+  # main websocket
+  location ~ ^/lool/(.*)/ws$ {
+      proxy_pass http://{{collabora_backend_host|default(inventory_hostname)}}:9980;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "Upgrade";
+      proxy_set_header Host $http_host;
+      proxy_read_timeout 36000s;
+  }
+
+  # download, presentation and image upload
+  location ~ ^/lool {
+      proxy_pass http://{{collabora_backend_host|default(inventory_hostname)}}:9980;
+      proxy_set_header Host $http_host;
+  }
+
+  # Admin Console websocket
+  location ^~ /lool/adminws {
+      proxy_pass http://{{collabora_backend_host|default(inventory_hostname)}}:9980;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "Upgrade";
+      proxy_set_header Host $http_host;
+      proxy_read_timeout 36000s;
+  }
