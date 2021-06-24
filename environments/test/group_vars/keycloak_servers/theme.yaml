@@ -1,2 +1,2 @@
-keycloak_theme: "https://{{keycloak_theme_gitlab_deploy_token}}@gitlab.com/idcohorts/NUM/keycloak-theme.git"
-keycloak_theme_gitlab_deploy_token: gitlab+deploy-token-431678:XZCsm5EpfRgP4k5njrW8
+#keycloak_theme: "https://{{keycloak_theme_gitlab_deploy_token}}@gitlab.com/idcohorts/NUMr/keycloak-theme.git"
+#keycloak_theme_gitlab_deploy_token: gitlab+deploy-token-431678:XZCsm5EpfRgP4k5njrW8
