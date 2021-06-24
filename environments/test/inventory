@@ -26,6 +26,9 @@ reverse-proxy
 
 [keycloak_servers]
 accounts
+test-ip-1
+test-ip-2
+test-ip-3
 
 [discourse_servers]
 discourse
