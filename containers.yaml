@@ -33,7 +33,7 @@
       set_fact: # has to be the same as in the next task content argument
         ansible_connection: lxc_ssh
         ansible_host: "{{hostvars[lxd_host].ansible_host|default(lxd_host)}}"
-        ansible_ssh_extra_args: "{{inventory_hostname}}"
+        lxc_host: "{{inventory_hostname}}"
 
     - name: record variables for lxd container connection in host_vars
       local_action: copy
@@ -41,7 +41,7 @@
         content: # has to be the same as in the last task
           ansible_connection: lxc_ssh
           ansible_host: "{{hostvars[lxd_host].ansible_host|default(lxd_host)}}"
-          ansible_ssh_extra_args: "{{inventory_hostname}}"
+          lxc_host: "{{inventory_hostname}}"
         dest: "{{inventory_dir}}/host_vars/{{inventory_hostname}}/lxd_host.auto.json"
 
     # - name: install python3 in lxd container
