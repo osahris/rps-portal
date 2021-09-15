@@ -25,7 +25,7 @@
     - name: select theme
       file:
         src: "themes/{{header_theme}}"
-        dest: header/theme
+        dest: header/themes/current
         state: link
         force: yes
     - name: satisfy headers npm requirements
