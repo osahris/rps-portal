@@ -26,9 +26,9 @@ reverse-proxy
 
 [keycloak_servers]
 accounts
-test-ip-1
-test-ip-2
-test-ip-3
+#test-ip-1
+#test-ip-2
+#test-ip-3
 
 [discourse_servers]
 discourse
@@ -76,7 +76,7 @@ test3
 alerta
 
 [loomio_servers]
-loomio
+#loomio
 #loomio-dev
 
 [collabora_servers]

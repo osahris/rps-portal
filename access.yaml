@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: all:!containers:!web_vhosts
   remote_user: root
   tasks:
     - name: ssh authorized keys

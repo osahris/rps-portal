@@ -29,12 +29,6 @@
         path: "{{inventory_dir}}/host_vars/{{inventory_hostname}}"
         state: directory
 
-    - name: set lxd container connection facts
-      set_fact: # has to be the same as in the next task content argument
-        ansible_connection: lxc_ssh
-        ansible_host: "{{hostvars[lxd_host].ansible_host|default(lxd_host)}}"
-        lxc_host: "{{inventory_hostname}}"
-
     - name: record variables for lxd container connection in host_vars
       local_action: copy
       args:
@@ -43,6 +37,13 @@
           ansible_host: "{{hostvars[lxd_host].ansible_host|default(lxd_host)}}"
           lxc_host: "{{inventory_hostname}}"
         dest: "{{inventory_dir}}/host_vars/{{inventory_hostname}}/lxd_host.auto.json"
+
+    - name: set lxd container connection facts
+      set_fact: # has to be the same as in the next task content argument
+        ansible_connection: lxc_ssh
+        ansible_host: "{{hostvars[lxd_host].ansible_host|default(lxd_host)}}"
+        lxc_host: "{{inventory_hostname}}"
+
 
     # - name: install python3 in lxd container
     #   command: lxc exec {{inventory_hostname}} -- apt-get -y install python3

@@ -13,5 +13,3 @@
     - role: postgresql
     - name: nextcloud
       nextcloud_state: installed
-      #nextcloud_version: 20.0.0
-      #nextcloud_core_archive_download_url: https://github.com/nextcloud/server/releases/download/v20.0.0/nextcloud-20.0.0.tar.bz2

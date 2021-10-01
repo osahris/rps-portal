@@ -1,4 +1,4 @@
-group_sync_default_membership_source: accounts
+group_sync_default_membership_source: discourse
 group_sync_default_membership_store: accounts
 
 groups_global_mailinglist_owners:
@@ -24,6 +24,11 @@ global_groups:
     description: News and Announcements
     mailinglist:
       type: newsletter
+  - name: board
+    title: Board
+    description: Board
+    mailinglist:
+      type: internal
   - name: workgroup
     title: Working Group
     mailinglist:
@@ -39,7 +44,7 @@ global_groups:
       group_id: 3
   - name: uk-koeln
     membership_source: accounts/profile
-    membership_source_group_identifier:
+    membership_source_identifier:
       attribute: Standort
       value: Uniklink Köln
   - name: tr-2-uk-koeln
