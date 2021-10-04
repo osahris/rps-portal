@@ -3,10 +3,8 @@ group_sync_default_membership_store: accounts
 
 groups_global_mailinglist_owners:
   - markus.brechtel@uk-koeln.de
-  - maximilian.schons@uk-koeln.de
 
 groups_global_mailinglist_editors:
-  - maximilian.schons@uk-koeln.de
   - markus.brechtel@uk-koeln.de
 
 global_groups:

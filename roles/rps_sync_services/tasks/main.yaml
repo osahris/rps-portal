@@ -1,0 +1,5 @@
+---
+
+- import_tasks: rps-admin-tools.yaml
+- import_tasks: rps-sync-scripts.yaml
+- import_tasks: rps-sympa-datasource.yaml

@@ -1,0 +1,6 @@
+rps_service_admin_config:
+  service_type: nextcloud
+  nextcloud_server_name: "{{ nextcloud_server_name|default(inventory_hostname) }}"
+  nextcloud_url: "{{ 'https://' + nextcloud_server_name|default(inventory_hostname) }}"
+  nextcloud_admin_user: "{{ nextcloud_admin_user }}"
+  nextcloud_admin_pass: "{{ nextcloud_admin_pass }}"

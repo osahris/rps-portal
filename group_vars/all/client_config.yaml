@@ -17,6 +17,8 @@ rps_tools_config: |
     "user_attributes": {{ user_attributes | default([]) |to_json }},
     "group_hierarchy": {{ group_hierarchy | default([]) |to_json }},
     "global_groups": {{ global_groups | default([]) |to_json }},
+    "groups_global_mailinglist_owners": {{ groups_global_mailinglist_owners | default([]) |to_json }},
+    "groups_global_mailinglist_editors": {{ groups_global_mailinglist_owners | default([]) |to_json }},
 
     "services":{
       "group hierachy":{
@@ -41,22 +43,10 @@ rps_tools_config: |
       },
       {% endfor %}
       {% for service in groups.discourse_servers | default([]) %}
-      {{service|to_json}}:{
-        "service_type": "discourse",
-        "discourse_server_name": {{ hostvars[service].discourse_server_name|default(service) |to_json }},
-        "discourse_url": {{ ('https://' + (hostvars[service].discourse_server_name|default(service)) + '/') |to_json }},
-        "discourse_username": "system",
-        "discourse_api_key": {{ hostvars[service].discourse_api_key |to_json}}
-      },
+      {{service|to_json}}:{{ hostvars[service].rps_service_admin_config |to_json }},
       {% endfor %}
       {% for service in groups.nextcloud_servers | default([]) %}
-      {{service|to_json}}:{
-        "service_type":"nextcloud",
-        "nextcloud_server_name": {{ hostvars[service].nextcloud_server_name |to_json }},
-        "nextcloud_url": {{ ('https://' + hostvars[service].nextcloud_server_name + '/') |to_json }},
-        "nextcloud_admin_user": {{ hostvars[service].nextcloud_admin_user |to_json }},
-        "nextcloud_admin_pass": {{ hostvars[service].nextcloud_admin_pass |to_json }}
-      },
+      {{service|to_json}}:{{ hostvars[service].rps_service_admin_config |to_json }},
       {% endfor %}
       {% for service in groups.loomio_servers | default([]) %}
       {{service|to_json}}:{

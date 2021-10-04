@@ -1,0 +1,1 @@
+rps_sync_services_server_name: sync.{{dns_suffix}}

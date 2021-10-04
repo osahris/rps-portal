@@ -1,0 +1,10 @@
+[Unit]
+Description=Runs rps-sync-scripts every 5 mins
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=5m
+RandomizedDelaySec=1m
+
+[Install]
+WantedBy=multi-user.target

@@ -15,5 +15,4 @@
     - dovecot
     - name: sympa
       certificate_provider: selfsigned
-    - postfixadmin
     - postfix

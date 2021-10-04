@@ -1,6 +1,7 @@
 ---
 
-- hosts: mailservers
+- hosts: mailinglist_vhosts
   remote_user: root
+  gather_facts: false
   roles:
-    - sympa-mailinglists
+    - role: sympa-mailinglists

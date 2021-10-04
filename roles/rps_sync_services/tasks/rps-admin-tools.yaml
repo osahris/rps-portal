@@ -1,0 +1,37 @@
+---
+
+- name: debian packages
+  apt:
+    pkg:
+      - git
+      - python3
+      - pipenv
+      - python3-setuptools
+      - python3-wheel
+
+# - name: rps-admin-tools git repo
+#   git:
+#     repo: "{{rps_admin_tools_git_url}}"
+#     dest: /opt/rps-admin-tools
+#
+# - name: rps-admin-tools pip package
+#   pip:
+#     requirements: /opt/rps-admin-tools/requirements.txt
+#   notify: new rps-admin-tools code
+
+- name: rps-admin-tools pip package
+  pip:
+    name: git+{{rps_admin_tools_git_url}}
+  notify: new rps-admin-tools code
+
+- name: rps-admin-tools group
+  group:
+    name: rps-admin-tools
+
+- name: rps-admin-tools config
+  copy:
+    content: "{{rps_tools_config}}"
+    dest: /etc/rps-admin-tools.json
+    mode: 0640
+    group: rps-admin-tools
+  notify: new rps-admin-tools config

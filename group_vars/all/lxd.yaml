@@ -4,7 +4,7 @@ lxd_container_security_nesting: true
 
 
 lxd_container_image_distribution: debian
-lxd_container_image_release: buster
+lxd_container_image_release: bullseye
 lxd_container_image_architecture: amd64 # TODO auto select architecture of lxd_host
 lxd_container_image_variant: cloud
 
@@ -22,8 +22,9 @@ lxd_container_config:
   limits.cpu: "{{ lxd_container_limits_cpu | default(2) | string}}"
   limits.memory: "{{ lxd_container_limits_memory | default('2GB') | string }}"
   security.nesting: "{{ lxd_container_security_nesting | default(false) | string }}"
+  user.network-config: "{{ lxd_container_user_network_config }}"
 
-lxd_container_devices: "{{ lxd_container_default_devices | combine(lxd_container_network_devices) }}"
+lxd_container_devices: "{{ lxd_container_default_devices | combine(lxd_container_network_devices) | combine(lxd_container_custom_devices|default({})) }}"
 
 lxd_container_default_devices:
   root:
@@ -40,6 +41,12 @@ lxd_container_network_devices_default_eth0:
     name: eth0
     network: lxdbr0
     type: nic
+lxd_container_user_network_config:
+  version: 1
+  config:
+    - type: physical
+      name:  eth0
+      subnets: "{{lxd_container_user_network_config_subnets | default([{'type':'dhcp'}]) }}"
 lxd_container_network_devices_lxd_container_ipv6_routes:
   ipv6.routes: "{{ lxd_container_ipv6_routes | default([]) | join(',') }}"
 lxd_container_network_devices_lxd_container_ipv4_routes:

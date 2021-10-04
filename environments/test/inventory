@@ -14,6 +14,7 @@ nextcloud_servers
 wordpress_servers
 openproject_servers
 rps_admin_web_interfaces
+rps_sync_services
 mailservers
 monitoring_servers
 alerting_servers
@@ -44,10 +45,14 @@ web
 [rps_admin_web_interfaces]
 rps-admin-web-interface
 
+[rps_sync_services]
+rps-sync-services
+
 [mailservers]
 mx
 
-[mailinglist_servers]
+[mailinglist_vhosts]
+lists.rps-test.idcohorts.net
 
 [proskive_servers]
 proskive

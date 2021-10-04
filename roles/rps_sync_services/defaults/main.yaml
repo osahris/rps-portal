@@ -1,0 +1,1 @@
+rps_admin_tools_git_url: https://{{ gitlab_deploy_token }}@gitlab.com/idcohorts/rps/rps-admin-tools.git
