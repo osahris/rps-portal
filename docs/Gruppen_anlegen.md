@@ -62,6 +62,13 @@ group_hierarchy:
       - name: uk-koeln
 ```
 
+Erklärung der einzelnen Attribute einer Gruppenhierachisierung:
+
+- `name`: Gruppen-ID, sollte gleich sein wie der `name` in `global_groups`.
+- `type` _(optional)_: Bei `union` (Standard) wird eine [Vereinigungsmenge](https://en.wikipedia.org/wiki/Union_(set_theory%29), bei `intersection` eine [Schnittmenge](https://en.wikipedia.org/wiki/Intersection_(set_theory%29) der höheren Gruppen gebildet.
+- `children` _(optional)_: Hier werden die höheren Gruppen aufgeführt. Eine rekursive Verschachtelung ist möglich.
+
+
 ## Deployment
 
 Das Deployment durch die verantwortliche Administrator:in erfolgt nachdem das lokale git-Repository synchronisiert wurde wie folgt:
