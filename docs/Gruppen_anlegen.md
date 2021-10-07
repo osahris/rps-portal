@@ -24,10 +24,10 @@ global_groups:
 
 Erklärung der einzelnen Attribute einer Gruppe:
 - `name`: Name der Mailingliste. Dies ist ein URL-Pfad, dieser darf keine Leerzeichen oder Sonderzeichen wie äöüß enthalten. - und _ sind zulässig. Dies ist die maschinenlesbare ID der Gruppe.
-- `title` (optional): Hier wird der Name der Gruppe in einem Format für die Anzeige in Übersichtslisten und im Titel auf der Gruppenübersichtsseite eingetragen.
-- `description` (optional): (optional) Eine Erklärung was es mit dieser Gruppe auf sich hat und wer in die Gruppe einbezogen werden soll.
-- `membership_source` (optional): Hier wird angegeben aus welchem Dienst die Gruppe bei der Gruppensynchronisation die Mitgliedschaften als Quelle beziehen soll. Bei allen anderen Diensten werden die Gruppenmitgliedschaften überschrieben. Wenn es nicht angegeben ist, wird als Quelle `group_sync_default_membership_source` verwendet.
-- `mailinglist`: Wenn Dieses Attribut vorhanden ist wird eine Mailingliste für die Gruppe angelegt. Die Unterattribute hier sind wie folgt:
+- `title` _(optional)_: Hier wird der Name der Gruppe in einem Format für die Anzeige in Übersichtslisten und im Titel auf der Gruppenübersichtsseite eingetragen.
+- `description` _(optional)_: Eine Erklärung was es mit dieser Gruppe auf sich hat und wer in die Gruppe einbezogen werden soll.
+- `membership_source` _(optional)_: Hier wird angegeben aus welchem Dienst die Gruppe bei der Gruppensynchronisation die Mitgliedschaften als Quelle beziehen soll. Bei allen anderen Diensten werden die Gruppenmitgliedschaften überschrieben. Wenn es nicht angegeben ist, wird als Quelle `group_sync_default_membership_source` verwendet.
+- `mailinglist` _(optional)_: Wenn Dieses Attribut vorhanden ist wird eine Mailingliste für die Gruppe angelegt. Die Unterattribute hier sind wie folgt:
   - `type`: Mailinglistentyp, hier wird definiert was für eine Art von Mailingliste es ist. Die möglichen Einträge sind:
     - `newsletter`: nur Mailadressen die in `groups_global_mailinglist_editors` aufgeführt sind können an diese Mailingliste schreiben.
     - `incoming`: Jede beliebige Mailadresse, also auch Externe, können an diese Mailingliste schreiben.
