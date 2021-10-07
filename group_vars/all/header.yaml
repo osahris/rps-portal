@@ -1,14 +1,31 @@
 ---
-header_config:
-  keycloakUrl: "{{ keycloak_management_url }}"
-  keycloakRealm: users
-  keycloakClientId: header
-  logoUri: "{{ header_logo_uri }}"
-  keycloakLogoutRedirectUri: "{{ header_keycloak_logout_redirect_uri }}"
-  cookieDomain: "{{ header_cookie_domain }}"
-  links: "{{ header_links }}"
-  contactUrl: "{{ header_contact_url }}"
+header_repo: "{{ header_repos[header_project] }}"
+header_repos:
+  react: https://{{gitlab_deploy_token}}@gitlab.com/idcohorts/rps/header.git
+  vue: https://{{gitlab_deploy_token}}@gitlab.com/idcohorts/rps/vue-header.git
 
+header_config: "{{ header_configs[header_project] }}"
+header_configs:
+  react:
+    keycloakUrl: "{{ keycloak_management_url }}"
+    keycloakRealm: users
+    keycloakClientId: header
+    logoUri: "{{ header_logo_uri }}"
+    keycloakLogoutRedirectUri: "{{ header_keycloak_logout_redirect_uri }}"
+    cookieDomain: "{{ header_cookie_domain }}"
+    links: "{{ header_links }}"
+    contactUrl: "{{ header_contact_url }}"
+  vue:
+    header_theme: "{{header_theme}}"
+    header_version: "{{header_version}}"
+    header_cookie_domain: "{{header_cookie_domain}}"
+    header_logo_uri: "{{header_logo_uri}}"
+    header_keycloak_logout_redirect_uri: "{{header_keycloak_logout_redirect_uri}}"
+    header_keycloak_auth_url: "{{header_keycloak_auth_url}}"
+    header_contact_url: "{{header_contact_url}}"
+    header_links: "{{header_links}}"
+
+header_keycloak_auth_url: https://{{keycloak_server_name}}/auth
 header_nginx_inclusion: |
   location = /header.js {
     alias /var/www/header.js;
