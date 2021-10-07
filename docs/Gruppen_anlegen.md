@@ -1,5 +1,7 @@
 # Gruppen anlegen in der RPS
 
+## Gruppenkonfiguration
+
 Die Gruppen müssen aktuell in einer Konfigurationsdatei mit dem Namen groups.yaml im jeweiligen Konfigurationsrepository des Projektes mit dem Pfad inventory/group_vars/all/groups.yaml eingetragen werden. Diese Datei ist in der [YAML-Sprache](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) verfasst.
 
 Die Gruppen werden unter dem Schlüssel `global_groups` angelegt. Beispiel:
@@ -35,7 +37,32 @@ Erklärung der einzelnen Attribute einer Gruppe:
 
 Für Änderungen an der Gruppendefinition sollte dann ein Merge Request angelegt werden, der von den verantwortlichen Administrator:innen dann im Anschluss deployed wird.
 
-# Deployment
+## Gruppenhierachisierung
+
+Um eine Gruppenhierachisierung vorzunehmen können Einträge im `group_hierarchy`-Schlüssel in der o.g. groups.yaml-Datei vorgenommen werden. Die Gruppenhierachisierung sorgt dafür dass Personen aus den höheren Gruppen automatisch in die niegrigeren Gruppen in dem Baum eingefügt werden. Die höheren Gruppen sind im `children`-Element in der jeweiligen Gruppe aufgeführt. Beispiel:
+
+```
+group_hierarchy:
+  - name: maingroup
+    children:
+      - name: subgroup
+        children:
+          - name: subsubgroup
+```
+
+
+Es sind auch Querschnittsgruppen möglich, dabei werden die Personen nur in die tiefere Gruppe hinzugefügt, wenn Personen in beiden Gruppen sind. Beispiel:
+
+```
+group_hierarchy:
+  - name: tr-2-uk-koeln
+    type: intersection
+    children:
+      - name: tr-2
+      - name: uk-koeln
+```
+
+## Deployment
 
 Das Deployment durch die verantwortliche Administrator:in erfolgt nachdem das lokale git-Repository synchronisiert wurde wie folgt:
 
