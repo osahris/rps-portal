@@ -2,7 +2,7 @@
 
 Die Gruppen müssen aktuell in einer Konfigurationsdatei mit dem Namen groups.yaml im jeweiligen Konfigurationsrepository des Projektes mit dem Pfad inventory/group_vars/all/groups.yaml eingetragen werden. Diese Datei ist in der [YAML-Sprache](https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html) verfasst.
 
-Die Gruppen werden unter dem Schlüssel global_groups angelegt. Beispiel:
+Die Gruppen werden unter dem Schlüssel `global_groups` angelegt. Beispiel:
 
 ```
 global_groups:
