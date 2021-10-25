@@ -5,13 +5,13 @@
     repo: "{{ rps_admin_web_interface_git_repo }}"
     dest: "{{ rps_admin_web_interface_directory }}"
     force: true
-  notify: restart rps admin web interface
+  notify: restart rps-admin-web-interface
 
 - name: rps-admin-tools pip requirements
   pip:
     executable: pip3
     requirements: "{{ rps_admin_web_interface_directory }}/requirements.txt"
-  notify: restart rps admin web interface
+  notify: restart rps-admin-web-interface
 
 - name: rps admin web interface group
   group:
@@ -179,7 +179,7 @@
     dest: "{{ rps_admin_web_interface_directory }}/web_interface/web_interface/settings_local.py"
     mode: u=rw,g=r,o=
     group: "{{ rps_admin_web_interface_user }}"
-  notify: restart rps admin web interface
+  notify: restart rps-admin-web-interface
 
 - block:
   - name: rps admin web interface database migrations
@@ -202,13 +202,13 @@
   copy:
     content:
       uwsgi: "{{rps_admin_web_interface_uwsgi_config}}"
-    dest: /etc/uwsgi/apps-available/rps admin web interface.json
+    dest: /etc/uwsgi/apps-available/rps-admin-web-interface.json
   notify: restart uwsgi
 
 - name: enable rps admin web interface uwsgi configuration
   file:
-    src: ../apps-available/rps admin web interface.json
-    dest: /etc/uwsgi/apps-enabled/rps admin web interface.json
+    src: ../apps-available/rps-admin-web-interface.json
+    dest: /etc/uwsgi/apps-enabled/rps-admin-web-interface.json
     state: link
   notify: restart uwsgi
 

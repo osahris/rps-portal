@@ -1,9 +1,11 @@
 reverse_proxy_server_name: "{{rps_admin_web_interface_server_name}}"
 # X-Forwarded-Proto header is needed for nextcloud oidc app scheme auto-detection
 reverse_proxy_nginx_vhost_custom: |
+  large_client_header_buffers 4 16k;
   location / {
     proxy_set_header X-Forwarded-Proto https;
-    proxy_pass http://{{inventory_hostname}}:80/;
+    proxy_pass https://{{inventory_hostname}}/;
+    proxy_ssl_verify              off;
     proxy_set_header Host $http_host;
     proxy_set_header X-Forwarded-For $remote_addr;  # allows django to get the client's IP address (see the ipware module)
     proxy_set_header X-Forwarded-Proto $scheme;  # allows django to determine that the request is secure (see SECURE_PROXY_SSL_HEADER and request.is_secure())

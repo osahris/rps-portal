@@ -5,4 +5,4 @@
     name: uwsgi
     state: restarted
   listen:
-    - restart rps-management-interface
+    - restart rps-admin-web-interface
