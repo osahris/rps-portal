@@ -1,7 +1,7 @@
 ---
 - import_tasks: setup.yaml
 
-- import_tasks: rps-management-interface.yaml
+- import_tasks: rps-admin-interface.yaml
 
 - import_role:
     name: certificate
@@ -17,4 +17,4 @@
   when: nginx_vhost_https
 
 - import_role:
-    name: nginx
+    name: openresty
