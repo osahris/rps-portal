@@ -1,0 +1,2 @@
+#!/bin/bash
+DJANGO_SETTINGS_MODULE=web_interface.settings_local sudo -i -u {{rps_admin_web_interface_user}} --preserve-env=DJANGO_SETTINGS_MODULE python3 manage.py "${@:1}"
