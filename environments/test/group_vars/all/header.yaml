@@ -1,6 +1,7 @@
 header_project: vue
 header_version: dev
 header_theme: default
+header_version: master
 header_cookie_domain: .idcohorts.net
 header_logo_uri: https://accounts.{{ dns_suffix }}
 header_keycloak_logout_redirect_uri: https://accounts.{{ dns_suffix }} #https://cloud.{{ dns_suffix }}/logout.php

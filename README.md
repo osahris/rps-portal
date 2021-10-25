@@ -6,6 +6,7 @@ The following python packages must be installed:
 ```
 git clone -b development --recursive git@gitlab.com:idcohorts/rps/research-project-suite.git rps-dev
 cd rps-dev
+ansible-playbook -i environments/local/all.yaml
 ```
 
 work with git submodules:
