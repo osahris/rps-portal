@@ -6,6 +6,8 @@ locales:
   lang: de_DE.UTF-8
   language: de
 
+discourse_version: stable
+
 discourse_postgres_db_default_text_search_config: pg_catalog.german
 
 discourse_smtp_port: 587
