@@ -71,6 +71,6 @@ Erklärung der einzelnen Attribute einer Gruppenhierachisierung:
 
 ## Deployment
 
-Das Deployment durch die verantwortliche Administrator:in erfolgt nachdem das lokale git-Repository synchronisiert wurde wie folgt:
+Das Deployment durch die verantwortliche Administrator:in erfolgt, nachdem das lokale git-Repository synchronisiert wurde, wie folgt:
 
 `ansible-playbook -i example-suite/inventory/ rps/groups-update.yaml`
