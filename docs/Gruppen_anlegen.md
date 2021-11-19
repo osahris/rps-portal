@@ -65,12 +65,12 @@ group_hierarchy:
 Erklärung der einzelnen Attribute einer Gruppenhierachisierung:
 
 - `name`: Gruppen-ID, sollte gleich sein wie der `name` in `global_groups`.
-- `type` _(optional)_: Bei `union` (Standard) wird eine [Vereinigungsmenge](https://en.wikipedia.org/wiki/Union_(set_theory%29), bei `intersection` eine [Schnittmenge](https://en.wikipedia.org/wiki/Intersection_(set_theory%29) der höheren Gruppen gebildet.
+- `type` _(optional)_: Bei `union` (Standard) wird eine [Vereinigungsmenge](https://en.wikipedia.org/wiki/Union_%28set_theory%29), bei `intersection` eine [Schnittmenge](https://en.wikipedia.org/wiki/Intersection_%28set_theory%29) der höheren Gruppen gebildet.
 - `children` _(optional)_: Hier werden die höheren Gruppen aufgeführt. Eine rekursive Verschachtelung ist möglich.
 
 
 ## Deployment
 
-Das Deployment durch die verantwortliche Administrator:in erfolgt nachdem das lokale git-Repository synchronisiert wurde wie folgt:
+Das Deployment durch die verantwortliche Administrator:in erfolgt, nachdem das lokale git-Repository synchronisiert wurde, wie folgt:
 
 `ansible-playbook -i example-suite/inventory/ rps/groups-update.yaml`

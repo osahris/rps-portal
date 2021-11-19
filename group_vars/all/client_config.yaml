@@ -18,7 +18,7 @@ rps_tools_config: |
     "group_hierarchy": {{ group_hierarchy | default([]) |to_json }},
     "global_groups": {{ global_groups | default([]) |to_json }},
     "groups_global_mailinglist_owners": {{ groups_global_mailinglist_owners | default([]) |to_json }},
-    "groups_global_mailinglist_editors": {{ groups_global_mailinglist_owners | default([]) |to_json }},
+    "groups_global_mailinglist_editors": {{ groups_global_mailinglist_editors | default([]) |to_json }},
 
     "services":{
       "group hierachy":{
