@@ -15,7 +15,6 @@ nginx_vhost_server_names:
   - "{{ rps_admin_web_interface_server_name }}"
 nginx_vhost_custom: |
   client_max_body_size 1M;
-  large_client_header_buffers 4 16k;
   ssl_stapling_verify on;
   location / {
     uwsgi_pass unix:/run/uwsgi/app/rps-admin-web-interface/socket;
