@@ -52,9 +52,6 @@
 [submodule "roles/openproject"]
 	path = roles/openproject
 	url = ../ansible-role-openproject.git
-[submodule "roles/rps-management-interface"]
-	path = roles/rps-management-interface
-	url = ../ansible-role-rps-management-interface.git
 [submodule "roles/sympa"]
 	path = roles/sympa
 	url = ../ansible-role-sympa.git

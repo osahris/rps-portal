@@ -4,9 +4,8 @@
   tasks:
     - name: clone header repo
       git:
-        repo: https://{{gitlab_deploy_token}}@gitlab.com/research-project-suite/header.git
+        repo: "{{header_repo}}"
         dest: header
-        version: auth
         version: "{{ header_version }}"
     - name: write header config
       copy:
@@ -18,6 +17,7 @@
         dest: header/themes/current
         state: link
         force: yes
+      when: header_project == "react"
     - name: satisfy headers npm requirements
       npm:
         path: header
@@ -31,7 +31,7 @@
   tasks:
     - name: deploy header to reverse proxies
       copy:
-        src: header/header.js
+        src: header/js/header.js
         dest: /var/www/header.js
 
 - hosts: keycloak_servers
@@ -39,9 +39,9 @@
   tasks:
     - name: deploy theme header to keycloak account theme
       copy:
-        src: header/header.js
+        src: header/js/header.js
         dest: /var/lib/keycloak/themes/ansible-theme/account/resources/js/
     - name: deploy theme header to keycloak login theme
       copy:
-        src: header/header.js
+        src: header/js/header.js
         dest: /var/lib/keycloak/themes/ansible-theme/login/resources/js/

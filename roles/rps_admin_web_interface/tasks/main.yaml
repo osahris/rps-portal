@@ -1,0 +1,7 @@
+---
+- import_tasks: setup.yaml
+
+- import_tasks: rps-admin-interface.yaml
+
+- import_role:
+    name: openresty

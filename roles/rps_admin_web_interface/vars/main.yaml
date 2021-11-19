@@ -1,0 +1,34 @@
+rps_admin_web_interface_uwsgi_config:
+  uid: "{{ rps_admin_web_interface_user }}"
+  gid: "{{ rps_admin_web_interface_group }}"
+  chdir: "{{rps_admin_web_interface_directory}}/web_interface"
+  module: "web_interface.wsgi:application"
+  env: DJANGO_SETTINGS_MODULE=web_interface.settings_local
+  processes: 5
+  harakiri: 600
+  max-requests: 5000
+  plugin: python3
+  buffer-size: 65535
+
+nginx_vhost_name: rps-admin-web-interface
+nginx_vhost_server_names:
+  - "{{ rps_admin_web_interface_server_name }}"
+nginx_vhost_custom: |
+  client_max_body_size 1M;
+  ssl_stapling_verify on;
+  location / {
+    uwsgi_pass unix:/run/uwsgi/app/rps-admin-web-interface/socket;
+    proxy_read_timeout 900s;
+    proxy_connect_timeout 900s;
+    proxy_send_timeout 900s;
+    send_timeout 900s;
+    uwsgi_read_timeout 900s;
+    client_body_timeout 60s;
+    include uwsgi_params;
+  }
+  location /static {
+    alias {{rps_admin_web_interface_static_directory}};
+  }
+nginx_security_headers: false
+
+openidc_auth: true

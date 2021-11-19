@@ -1,0 +1,41 @@
+
+from .settings import *
+
+BASE_URL = 'https://{{rps_admin_web_interface_server_name}}'
+ALLOWED_HOSTS = ['{{rps_admin_web_interface_server_name}}']
+CSRF_TRUSTED_ORIGINS = ['{{rps_admin_web_interface_server_name}}']
+
+
+SECRET_KEY = '{{rps_admin_web_interface_secret_key}}'
+
+{% if rps_admin_web_interface_debug %}
+DEBUG = True
+{% else %}
+DEBUG = False
+{% endif %}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '{{rps_admin_web_interface_db_directory}}/db.sqlite3',
+    }
+}
+
+{% if rps_admin_web_interface_email_host is defined %}
+EMAIL_HOST = "{{rps_admin_web_interface_email_host}}"
+EMAIL_USE_TLS = {{rps_admin_web_interface_email_use_tls}}
+EMAIL_PORT = {{rps_admin_web_interface_email_port}}
+EMAIL_HOST_USER = "{{rps_admin_web_interface_email_host_user}}"
+EMAIL_HOST_PASSWORD = "{{rps_admin_web_interface_email_host_password}}"
+EMAIL_FROM_ADDRESS = "{{rps_admin_web_interface_email_from_address}}"
+DEFAULT_FROM_EMAIL = EMAIL_FROM = EMAIL_FROM_ADDRESS
+{% endif %}
+
+# reverse proxy settings
+# https://medium.com/@rui.jorge.rei/today-i-learned-nginx-reverse-proxying-for-django-projects-3ab17ad707f6
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+
+RPS_TOOLS_CONFIG_FILE = "{{rps_admin_web_interface_config_file}}"

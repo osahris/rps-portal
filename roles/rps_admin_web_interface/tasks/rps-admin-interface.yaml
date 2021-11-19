@@ -1,0 +1,219 @@
+---
+
+- name: clone rps-admin-tools git repository
+  git:
+    repo: "{{ rps_admin_web_interface_git_repo }}"
+    dest: "{{ rps_admin_web_interface_directory }}"
+    force: true
+  notify: restart rps-admin-web-interface
+
+- name: rps-admin-tools pip requirements
+  pip:
+    executable: pip3
+    requirements: "{{ rps_admin_web_interface_directory }}/requirements.txt"
+  notify: restart rps-admin-web-interface
+
+- name: rps admin web interface group
+  group:
+    name: "{{ rps_admin_web_interface_group }}"
+    system: yes
+
+- name: rps admin web interface user
+  user:
+    name: "{{ rps_admin_web_interface_user }}"
+    group: "{{ rps_admin_web_interface_group }}"
+    home: "{{ rps_admin_web_interface_directory }}/web_interface"
+    shell: /bin/bash
+
+- name: rps admin web interface directory
+  file:
+    path: "{{ rps_admin_web_interface_directory }}/web_interface"
+    owner: root
+    group: root
+    state: directory
+    mode: o=
+
+- name: rps admin web interface static files directory
+  file:
+    path: "{{ rps_admin_web_interface_directory }}/web_interface/"
+    owner: root
+    group: root
+    state: directory
+    mode: o=
+
+- name: rps admin web interface media directory
+  file:
+    path: "{{ rps_admin_web_interface_media_directory }}"
+    owner: root
+    group: root
+    state: directory
+    mode: o=
+
+- name: rps admin web interface logs directory
+  file:
+    path: "{{ rps_admin_web_interface_logs_directory }}"
+    owner: root
+    group: root
+    state: directory
+    mode: o=
+
+
+- name: rps admin web interface config directory
+  file:
+    path: "{{ rps_admin_web_interface_config_directory }}"
+    owner: root
+    group: "{{ rps_admin_web_interface_group }}"
+    state: directory
+    mode: 0755
+
+- name: rps admin web interface config
+  copy:
+    content: "{{rps_tools_config|to_json}}"
+    dest: "{{ rps_admin_web_interface_config_file }}"
+    owner: root
+    group: "{{ rps_admin_web_interface_group }}"
+    mode: 0750
+
+- name: rps admin web interface database directory
+  file:
+    path: "{{ rps_admin_web_interface_db_directory }}"
+    owner: root
+    group: root
+    state: directory
+    mode: o=
+
+- name: grant rps admin web interface user access to directory
+  acl:
+    path: "{{ rps_admin_web_interface_directory }}"
+    entity: "{{ rps_admin_web_interface_user }}"
+    etype: user
+    permissions: rx
+    state: present
+
+- name: grant webserver user access to directory
+  acl:
+    path: "{{ rps_admin_web_interface_directory }}"
+    entity: www-data
+    etype: user
+    permissions: x
+    state: present
+
+- name: grant rps admin web interface user access to web_interface directory
+  acl:
+    path: "{{ rps_admin_web_interface_directory }}/web_interface"
+    entity: "{{ rps_admin_web_interface_user }}"
+    etype: user
+    permissions: rx
+    state: present
+
+- name: grant webserver user access to web_interface directory
+  acl:
+    path: "{{ rps_admin_web_interface_directory }}/web_interface"
+    entity: www-data
+    etype: user
+    permissions: x
+    state: present
+
+- name: static files directory
+  file:
+    path: "{{ rps_admin_web_interface_static_directory }}"
+    state: directory
+
+- name: grant rps admin web interface user access to static files directory
+  acl:
+    path: "{{ rps_admin_web_interface_static_directory }}"
+    entity: "{{ rps_admin_web_interface_user }}"
+    etype: user
+    permissions: rwx
+    state: present
+
+- name: grant webserver user access to static files directory
+  acl:
+    path: "{{ rps_admin_web_interface_static_directory }}"
+    entity: www-data
+    etype: user
+    permissions: rx
+    state: present
+
+- name: grant rps admin web interface user access to database directory
+  acl:
+    path: "{{ rps_admin_web_interface_db_directory }}"
+    entity: "{{ rps_admin_web_interface_user }}"
+    etype: user
+    permissions: rwx
+    state: present
+
+- name: grant rps admin web interface user access to media directory
+  acl:
+    path: "{{ rps_admin_web_interface_media_directory }}"
+    entity: "{{ rps_admin_web_interface_user }}"
+    etype: user
+    permissions: rwx
+    state: present
+
+- name: grant rps admin web interface user access to logs directory
+  acl:
+    path: "{{ rps_admin_web_interface_logs_directory }}"
+    entity: "{{ rps_admin_web_interface_user }}"
+    etype: user
+    permissions: rwx
+    state: present
+
+- name: rps admin web interface run directory
+  file:
+    path: "{{ rps_admin_web_interface_run_directory }}"
+    state: directory
+    owner: "{{ rps_admin_web_interface_user }}"
+    group: "{{ rps_admin_web_interface_group }}"
+
+- name: rps admin web interface log directory
+  file:
+    path: "{{ rps_admin_web_interface_log_directory }}"
+    state: directory
+    owner: "{{ rps_admin_web_interface_user }}"
+    group: "{{ rps_admin_web_interface_group }}"
+
+- name: rps admin web interface local settings
+  template:
+    src: settings_local.py.j2
+    dest: "{{ rps_admin_web_interface_directory }}/web_interface/web_interface/settings_local.py"
+    mode: u=rw,g=r,o=
+    group: "{{ rps_admin_web_interface_user }}"
+  notify: restart rps-admin-web-interface
+
+- block:
+  - name: rps admin web interface database migrations
+    django_manage:
+      command: migrate
+      app_path: "{{ rps_admin_web_interface_directory }}/web_interface/"
+  - name: rps admin web interface collect static files
+    django_manage:
+      command: collectstatic
+      app_path: "{{ rps_admin_web_interface_directory }}/web_interface/"
+  become: True
+  become_user: "{{ rps_admin_web_interface_user }}"
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  environment:
+    PATH: "/opt/python3env/bin:{{ ansible_env.PATH }}"
+    DJANGO_SETTINGS_MODULE: "web_interface.settings_local"
+
+- name: rps admin web interface uwsgi configuration
+  copy:
+    content:
+      uwsgi: "{{rps_admin_web_interface_uwsgi_config}}"
+    dest: /etc/uwsgi/apps-available/rps-admin-web-interface.json
+  notify: restart uwsgi
+
+- name: enable rps admin web interface uwsgi configuration
+  file:
+    src: ../apps-available/rps-admin-web-interface.json
+    dest: /etc/uwsgi/apps-enabled/rps-admin-web-interface.json
+    state: link
+  notify: restart uwsgi
+
+- name: rps-admin-web-interface-django-manage
+  template:
+    src: rps-admin-web-interface-django-manage.sh.j2
+    dest: /usr/local/bin/rps-admin-web-interface-django-manage
+    mode: 0755

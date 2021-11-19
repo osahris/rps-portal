@@ -9,4 +9,4 @@
 - hosts: rps_admin_web_interfaces
   remote_user: root
   roles:
-    - role: rps-management-interface
+    - role: rps_admin_web_interface
