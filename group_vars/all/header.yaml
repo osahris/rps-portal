@@ -1,6 +1,6 @@
 ---
 header_repo: https://{{gitlab_deploy_token}}@gitlab.com/idcohorts/rps/rps-vue-header.git
-header_config: "{{ header_configs[header_project] }}"
+header_config:
   header_theme: "{{header_theme}}"
   header_version: "{{header_version}}"
   header_cookie_domain: "{{header_cookie_domain}}"
