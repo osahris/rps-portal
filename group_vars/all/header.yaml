@@ -1,4 +1,5 @@
 ---
+header_project: vue
 header_repo: "{{ header_repos[header_project] }}"
 header_repos:
   react: https://{{gitlab_deploy_token}}@gitlab.com/idcohorts/rps/header.git
