@@ -11,13 +11,12 @@
       copy:
         content: "{{ header_config | to_json}}"
         dest: header/config.json
-    - name: select theme
-      file:
-        src: "{{header_theme}}"
-        dest: header/themes/current
-        state: link
-        force: yes
-      when: header_project == "react"
+    # - name: select header theme
+    #   file:
+    #     src: "{{header_theme}}"
+    #     dest: header/themes/current
+    #     state: link
+    #     force: yes
     - name: satisfy headers npm requirements
       npm:
         path: header
