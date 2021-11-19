@@ -30,7 +30,7 @@
   tasks:
     - name: deploy header to reverse proxies
       copy:
-        src: header/js/header.js
+        src: header/dist/header.js
         dest: /var/www/header.js
 
 - hosts: keycloak_servers
@@ -38,9 +38,9 @@
   tasks:
     - name: deploy theme header to keycloak account theme
       copy:
-        src: header/js/header.js
+        src: header/dist/header.js
         dest: /var/lib/keycloak/themes/ansible-theme/account/resources/js/
     - name: deploy theme header to keycloak login theme
       copy:
-        src: header/js/header.js
+        src: header/dist/header.js
         dest: /var/lib/keycloak/themes/ansible-theme/login/resources/js/
