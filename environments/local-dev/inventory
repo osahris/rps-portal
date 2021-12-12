@@ -54,5 +54,5 @@ admin
 mail
 
 [mailinglist_servers]
-#testlists.idcohorts.net
-#vtestlists.idcohorts.net
+#testlists.{{dns_suffix}}
+#vtestlists.{{dns_suffix}}

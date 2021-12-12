@@ -1,1 +1,2 @@
 alerta_server_name: "alerta.{{ dns_suffix }}"
+alerta_alert_receivers: "{{admin_email}}"

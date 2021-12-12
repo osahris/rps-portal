@@ -1,0 +1,1 @@
+mailserver_name: mail.{{dns_suffix}}

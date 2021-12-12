@@ -1,0 +1,37 @@
+header_theme: default
+header_cookie_domain: .{{dns_suffix}}
+header_logo_uri: https://testwebseite.{{dns_suffix}}
+header_keycloak_logout_redirect_uri: https://testcloud.{{dns_suffix}}/logout.php
+header_contact_url: https://testwebseite.{{dns_suffix}}/kontakt
+header_links:
+  - title: Suite
+    link: https://discourse.{{dns_suffix}}
+    requireLogin: true
+    children:
+      - title: Forum
+        link: http://localhost:8080/
+        # submenu:
+        #   - title: Alle Nutzer:innen
+        #     link: https://test-discourse.{{dns_suffix}}/g
+        #   - title: Nutzer
+        #     link: http://localhost:8080/
+      - title: Gruppen
+        link: https://discourse.{{dns_suffix}}/g
+        # submenu:
+        #   - title: Meine Gruppen
+        #     link: https://test-discourse.{{dns_suffix}}/g
+      - title: Dateien
+        link: https://cloud.{{dns_suffix}}/apps/files
+      - title: Einstellungen
+        link: https://accounts.{{dns_suffix}}/auth/realms/users/account
+  - title: Projekt
+    link: https://web.{{dns_suffix}}
+  - title: "Über uns"
+    link: https://web.{{dns_suffix}}/team
+    children:
+      - title: Team
+        link: https://web.{{dns_suffix}}/team
+      - title: Ansprechpartner
+        link: https://web.{{dns_suffix}}/ansprechpartner
+      - title: Kontakt
+        link: https://web.{{dns_suffix}}/kontakt
