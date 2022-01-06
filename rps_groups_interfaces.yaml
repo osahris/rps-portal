@@ -1,0 +1,22 @@
+---
+
+# - hosts: reverse_proxies
+#   remote_user: root
+#   roles:
+#     - role: reverse_proxy
+#       reverse_proxy_for_hosts: "{{ groups.rps_groups_interfaces }}"
+
+- hosts: rps_groups_interfaces
+  remote_user: root
+  gather_facts: false
+  tasks:
+    - name: rps groups interface config
+      local_action: copy
+      args:
+        content:
+          keycloak_realm_url: "{{keycloak_realm_url}}"
+          language: de
+          user_attributes: "{{user_attributes}}"
+        dest: rps-groups-interface.json
+  roles:
+    #- role: rps_groups_interfaces

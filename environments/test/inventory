@@ -48,6 +48,9 @@ rps-admin-web-interface
 [rps_sync_services]
 rps-sync-services
 
+[rps_groups_interfaces]
+groups
+
 [mailservers]
 mx
 
