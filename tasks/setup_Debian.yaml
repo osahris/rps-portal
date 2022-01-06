@@ -4,6 +4,7 @@
   apt:
     pkg:
       - gnupg
+      - wget
 
 - name: openproject apt keyring
   apt_key:
