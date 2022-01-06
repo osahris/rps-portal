@@ -1,5 +1,5 @@
 ---
-openproject_hostname: "{{ inventory_hostname }}"
+openproject_server_name: "{{ inventory_hostname }}"
 openproject_version: stable/11
 openproject_subdirectory: ""
 
