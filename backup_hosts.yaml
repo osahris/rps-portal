@@ -1,0 +1,5 @@
+- hosts: backup_hosts
+  remote_user: root
+  roles:
+    - role: restic_server
+
