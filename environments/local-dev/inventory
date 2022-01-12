@@ -1,6 +1,9 @@
 [hosts]
 test-lxd ansible_host=192.168.33.15
 
+[backup_hosts]
+test-backupserver ansible_host=192.168.33.210
+
 [containers]
 test1 ansible_host=test-lxd lxc_host=test1
 test2 ansible_host=test-lxd lxc_host=test2
