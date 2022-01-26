@@ -1,0 +1,105 @@
+---
+#- import_tasks: local_facts.yaml
+
+- name: ensure restic is installed from distribution repositories
+  apt:
+        name: restic
+        state: present
+
+- name: deploy service unit for restic client
+  template:
+    src: 'restic-backup-oneshot@.service'
+    dest: '/etc/systemd/system/'
+    mode: 0644
+
+- name: deploy timer units for restic client
+  template:
+    src: 'restic-backup-daily@.timer'
+    dest: '/etc/systemd/system/'
+    mode: 0644
+
+    #notify: systemd reload
+
+- name: create /etc/restic directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /etc/restic
+    - /etc/restic/configs
+    - /etc/restic/repositories
+
+- name: (Re-)create the restic config files
+  template:
+    src: 'example_restic.cfg.j2'
+    dest: '/etc/restic/{{ item.name }}.env'
+  loop:
+    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
+    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
+  when: item.content is undefined
+  # The Systemd service unit will read these via EnvironmentFile=
+
+- name: (Re-)create the restic config files (with inline content)
+  ansible.builtin.copy:
+    dest: '/etc/restic/{{ item.name }}.env'
+    content: "{{ item.content }}"
+  loop:
+    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
+    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
+  when: item.content is defined
+  # or these, depending on the configuration
+
+ name: Create directory for restic per-repos secrets
+  ansible.builtin.file:
+    state: directory
+    mode: 0700
+    path: /etc/restic/secrets
+
+- name: Write out restic per-repos secrets
+  ansible.builtin.copy:
+    dest: '/etc/restic/secrets/{{ item.repository }}.pw'
+    content: "{{ item.password }}"
+  loop:
+    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
+    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
+
+- name: Create directory for ansible custom facts
+  ansible.builtin.file:
+    state: directory
+    recurse: yes
+    mode: 0700
+    path: /etc/ansible/facts.d
+
+#- name: Check repository initialization and status
+#  ansible.builtin.shell:
+#    creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
+#    cmd: >
+#      restic stats --json -r {{ restic_backup_url|quote }}{{ item.repository|quote }} --password-file "/etc/restic/secrets/{{ item.repository|quote }}.pw"
+#          > /etc/ansible/facts.d/restic-repos-{{ item.repository | quote }}.fact   &&
+#      touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
+#  failed_when: false
+#  loop:
+#    - { name: 'files', repository: 'files_shared', DIRECTORY: '/', flags: '-x' }
+#    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', content: 'ABC' }
+#  register: repository_x_stats
+
+- name: Re-read facts after adding custom fact
+  ansible.builtin.setup:
+    filter: ansible_local
+
+- name: Create repository where necessary
+  ansible.builtin.shell:
+    creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
+    cmd: >
+      restic init --json -r {{ restic_backup_url |quote}}{{ item.repository|quote }} --password-file "/etc/restic/secrets/{{ item.repository|quote }}.pw" &&
+      touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
+  loop:
+    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
+    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
+
+- name: Have Systemd read configs
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+-
