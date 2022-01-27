@@ -1,6 +1,7 @@
 restic_backup_url: 'rest:http://192.168.121.2:8000/'
 
 restic_backup_directives:
-  - { name: 'files', repository: '{{ ansible_hostname }}_files', key: 'jj',  directories: '/', flags: '-x' }
-  - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', key: 'jj2', content: 'ABC' }
+  - { name: 'files', repository: '{{ ansible_hostname }}_files',        key: 'jj',           flags: '-x', directories: '/etc/restic/' }
+  - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql',        key: 'jj2',          flags: '',   database_dump_command: 'date -u --iso-8601' }
+  - { name: 'special_case', repository: '{{ ansible_hostname }}_mysql', key: 'jj3',          content: 'ABC' }
 

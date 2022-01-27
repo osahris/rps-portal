@@ -8,20 +8,6 @@
           - pwgen
         state: present
 
-- name: deploy service unit for restic client
-  template:
-    src: 'restic-backup-oneshot@.service'
-    dest: '/etc/systemd/system/'
-    mode: 0644
-
-- name: deploy timer units for restic client
-  template:
-    src: 'restic-backup-daily@.timer'
-    dest: '/etc/systemd/system/'
-    mode: 0644
-
-    #notify: systemd reload
-
 - name: create /etc/restic directories
   ansible.builtin.file:
     path: "{{ item }}"
@@ -50,7 +36,7 @@
 - name: Create the restic per-backup config files
   template:
     src: 'per_backup.env.j2'
-    dest: '/etc/restic/{{ item.name }}.env'
+    dest: '/etc/restic/config/{{ item.name }}.env'
   loop: "{{ restic_backup_directives }}"
   when: item.content is undefined
   # The Systemd service unit will read these via EnvironmentFile=
@@ -91,6 +77,35 @@
       restic init --json -r {{ restic_backup_url |quote}}{{ item.repository|quote }} --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key" &&
       touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
   loop: "{{ restic_backup_directives }}"
+
+- name: deploy service unit for restic client
+  template:
+    src: 'restic-backup-oneshot@.service'
+    dest: '/etc/systemd/system/'
+    mode: 0644
+
+- name: deploy specialized service unit for database backups
+  template:
+    src: 'restic-backup-oneshot@database.service.j2'
+    dest: '/etc/systemd/system/restic-backup-oneshot@{{ item.name|quote }}.service'
+    mode: 0644
+  loop: "{{ restic_backup_directives }}"
+  when: item.database_dump_command is defined
+
+- name: remove specialized service unit where unnecessary
+  ansible.builtin.file:
+    path: '/etc/systemd/system/restic-backup-oneshot@{{ item.name|quote }}.service'
+    state: absent
+  loop: "{{ restic_backup_directives }}"
+  when: item.database_dump_command is undefined
+
+- name: deploy timer units for restic client
+  template:
+    src: 'restic-backup-daily@.timer'
+    dest: '/etc/systemd/system/'
+    mode: 0644
+
+    #notify: systemd reload
 
 - name: Have Systemd read configs
   ansible.builtin.systemd:
