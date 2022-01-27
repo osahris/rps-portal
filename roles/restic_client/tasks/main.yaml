@@ -3,7 +3,9 @@
 
 - name: ensure restic is installed from distribution repositories
   apt:
-        name: restic
+        name:
+          - restic
+          - pwgen
         state: present
 
 - name: deploy service unit for restic client
@@ -27,42 +29,16 @@
     mode: '0755'
   loop:
     - /etc/restic
-    - /etc/restic/configs
-    - /etc/restic/repositories
+    - /etc/restic/config
 
-- name: Create the restic per-backup config files
-  template:
-    src: 'per_backup.env.j2'
-    dest: '/etc/restic/{{ item.name }}.env'
-  loop:
-    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
-    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
-  when: item.content is undefined
-  # The Systemd service unit will read these via EnvironmentFile=
-
-- name: (Re-)create the restic config files (with inline content)
-  ansible.builtin.copy:
-    dest: '/etc/restic/{{ item.name }}.env'
-    content: "{{ item.content }}"
-  loop:
-    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
-    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
-  when: item.content is defined
-  # or these, depending on the configuration
-
- name: Create directory for restic per-repos secrets
+- name: create /etc/restic directories (II)
   ansible.builtin.file:
+    path: "{{ item }}"
     state: directory
-    mode: 0700
-    path: /etc/restic/secrets
-
-- name: Write out restic per-repos secrets
-  ansible.builtin.copy:
-    dest: '/etc/restic/secrets/{{ item.repository }}.pw'
-    content: "{{ item.password }}"
+    mode: '0700'
   loop:
-    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
-    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
+    - /etc/restic/repositories
+    - /etc/restic/passwords
 
 - name: Create directory for ansible custom facts
   ansible.builtin.file:
@@ -71,17 +47,37 @@
     mode: 0700
     path: /etc/ansible/facts.d
 
+- name: Create the restic per-backup config files
+  template:
+    src: 'per_backup.env.j2'
+    dest: '/etc/restic/{{ item.name }}.env'
+  loop: "{{ restic_backup_directives }}"
+  when: item.content is undefined
+  # The Systemd service unit will read these via EnvironmentFile=
+
+- name: (Re-)create the restic config files (for special cases)
+  ansible.builtin.copy:
+    dest: '/etc/restic/config/{{ item.name }}.env'
+    content: "{{ item.content }}"
+  loop: "{{ restic_backup_directives }}"
+  when: item.content is defined
+  # or these, depending on the configuration
+
+- name: Write out restic per-repos secrets
+  ansible.builtin.copy:
+    dest: '/etc/restic/repositories/{{ item.repository }}.key'
+    content: "{{ item.key }}"
+  loop: "{{ restic_backup_directives }}"
+
 #- name: Check repository initialization and status
 #  ansible.builtin.shell:
 #    creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
 #    cmd: >
-#      restic stats --json -r {{ restic_backup_url|quote }}{{ item.repository|quote }} --password-file "/etc/restic/secrets/{{ item.repository|quote }}.pw"
+#      restic stats --json -r {{ restic_backup_url|quote }}{{ item.repository|quote }} --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key"
 #          > /etc/ansible/facts.d/restic-repos-{{ item.repository | quote }}.fact   &&
 #      touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
 #  failed_when: false
-#  loop:
-#    - { name: 'files', repository: 'files_shared', DIRECTORY: '/', flags: '-x' }
-#    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', content: 'ABC' }
+#  loop: "{{ restic_backup_directives }}"
 #  register: repository_x_stats
 
 - name: Re-read facts after adding custom fact
@@ -92,14 +88,12 @@
   ansible.builtin.shell:
     creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
     cmd: >
-      restic init --json -r {{ restic_backup_url |quote}}{{ item.repository|quote }} --password-file "/etc/restic/secrets/{{ item.repository|quote }}.pw" &&
+      restic init --json -r {{ restic_backup_url |quote}}{{ item.repository|quote }} --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key" &&
       touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
-  loop:
-    - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
-    - { name: 'mysql', repository: '{{ ansible_hostname }}_mysql', password: 'jj2', content: 'ABC' }
+  loop: "{{ restic_backup_directives }}"
 
 - name: Have Systemd read configs
   ansible.builtin.systemd:
     daemon_reload: yes
 
--
+
