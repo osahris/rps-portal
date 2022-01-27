@@ -30,9 +30,9 @@
     - /etc/restic/configs
     - /etc/restic/repositories
 
-- name: (Re-)create the restic config files
+- name: Create the restic per-backup config files
   template:
-    src: 'example_restic.cfg.j2'
+    src: 'per_backup.env.j2'
     dest: '/etc/restic/{{ item.name }}.env'
   loop:
     - { name: 'files', repository: 'files_shared',                 password: 'jj',  DIRECTORY: '/', flags: '-x' }
