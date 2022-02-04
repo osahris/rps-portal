@@ -1,0 +1,5 @@
+---
+- import_tasks: ../../restic_server/tasks/htpasswd.yaml
+  delegate_to: "{{backupserver}}"
+  delegate_facts: false
+

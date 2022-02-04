@@ -94,6 +94,14 @@
   ansible.builtin.setup:
     filter: ansible_local
 
+- name: Loop over servers to re-generate .htpasswd files there
+  loop: "{{ groups['backup_servers'] }}"
+  loop_control:
+    loop_var: backupserver
+  # To combine loop/include_tasks with delegate, we include an intermediate task file
+  include_tasks: perserver.yaml
+
+
 - name: Create repository where necessary
   ansible.builtin.shell:
     creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
