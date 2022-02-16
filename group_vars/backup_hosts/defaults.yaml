@@ -1,5 +1,5 @@
 restic_rest_backupstorage: '/srv/backupstorage/'
 
-restic_rest_flags: '--listen :8000 --no-auth'
+restic_rest_flags: '--listen :8000'
 
 # restic_rest_allowoverwrites: true
