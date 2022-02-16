@@ -6,6 +6,7 @@
         name:
           - restic
           - pwgen
+          - apache2-utils
         state: present
 
 - name: create /etc/restic directories
@@ -55,6 +56,30 @@
     content: "{{ item.key }}"
   loop: "{{ restic_backup_directives }}"
 
+- name: Generate per-server credentials
+  ansible.builtin.shell:
+    creates: "/etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw"
+    cmd: "/usr/bin/pwgen -y 19 > /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw"
+  # TODO: loop over multiple servers, once possible
+
+- name: 'generate "restic repository file" (URL) client-side'
+  ansible.builtin.shell:
+    cmd: '( /bin/echo -n {{ restic_backup_url_prefix|quote }}{{ ansible_hostname|quote }}: ;
+            /bin/echo -n "$(/usr/bin/cat /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw)" ;
+            /bin/echo @{{ restic_backup_url_hostport | quote }}/{{ ansible_hostname }}_files
+          ) > /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos &&
+          chmod 0600 /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos'
+    creates: "/etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos"
+
+- name: Hash per-server credentials
+  ansible.builtin.shell:
+    #creates: "/etc/restic/passwords/{{ restic_backup_url | b64encode }}.hash"
+    creates: "/etc/ansible/facts.d/backupuser_htpasswds.fact"
+    cmd: '( /bin/echo -en "[backupuser_htpasswds]\npw1=" ;
+            /usr/bin/cat /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw | /usr/bin/htpasswd -niB {{ ansible_hostname|quote}}
+          ) > /etc/ansible/facts.d/backupuser_htpasswds.fact &&
+          chmod 600 /etc/ansible/facts.d/backupuser_htpasswds.fact'
+
 #- name: Check repository initialization and status
 #  ansible.builtin.shell:
 #    creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
@@ -74,7 +99,8 @@
   ansible.builtin.shell:
     creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
     cmd: >
-      restic init --json -r {{ restic_backup_url |quote}}{{ item.repository|quote }} --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key" &&
+      RESTIC_REPOSITORY_FILE="/etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos"
+      restic init --json --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key" &&
       touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
   loop: "{{ restic_backup_directives }}"
 

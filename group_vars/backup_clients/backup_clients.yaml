@@ -1,4 +1,6 @@
-restic_backup_url: 'rest:http://192.168.121.2:8000/'
+restic_backup_url_prefix: 'rest:http://'
+restic_backup_url_hostport: '192.168.121.2:8000'
+restic_backup_username: '{{ ansible_hostname }}'
 
 restic_backup_directives:
   - { name: 'files', repository: '{{ ansible_hostname }}_files',        key: 'jj',           flags: '-x', directories: '/etc/restic/' }
