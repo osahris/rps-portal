@@ -97,9 +97,9 @@
 - name: Create repository where necessary
   ansible.builtin.shell:
     creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
+    # TODO use RESTIC_REPOSITORY_FILE to not expose secrets via args
     cmd: >
-      RESTIC_REPOSITORY_FILE="/etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos"
-      restic init --json --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key" &&
+      restic init -r "$(cat /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos)" --json --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key" &&
       touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
   loop: "{{ restic_backup_directives }}"
 
