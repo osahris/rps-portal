@@ -93,3 +93,12 @@
     name: restic-server.service
     enabled: true
 
+- name: method
+  include_tasks: "provider-selfsigned.yml"
+
+- name: info
+  command: openssl x509 -text -noout
+    -in "{{ certificate_file }}"
+  changed_when: false
+  register: _certificate_info
+
