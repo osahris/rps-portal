@@ -1,0 +1,8 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=Restic-REST daemon
+After=network.target network-online.target systemd-networkd.service NetworkManager.service connman.service
+
+[Service]
+ExecStart=/opt/restic-rest/rest-server {{ restic_rest_flags }} --path {{ restic_rest_backupstorage|quote }} {% if restic_rest_allowoverwrites is undefined %}--append-only{% endif %}

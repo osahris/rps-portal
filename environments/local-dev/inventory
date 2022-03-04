@@ -1,11 +1,13 @@
 [hosts]
-# ip address matches the one in ansible file, change if needed
 test-lxd ansible_host=192.168.33.15
 
+[backup_hosts]
+test-backupserver ansible_host=192.168.33.210
+
 [containers]
-test1
-test2
-test3
+test1 ansible_host=test-lxd lxc_host=test1
+test2 ansible_host=test-lxd lxc_host=test2
+test3 ansible_host=test-lxd lxc_host=test3
 
 [containers:children]
 reverse_proxies
@@ -14,7 +16,6 @@ discourse_servers
 nextcloud_servers
 wordpress_servers
 openproject_servers
-rps_admin_web_interface_servers
 mailservers
 monitoring_servers
 alerting_servers

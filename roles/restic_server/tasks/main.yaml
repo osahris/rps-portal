@@ -1,0 +1,62 @@
+# currently (2022-01), restic-rest is not being packaged for Debian; build one locally from the latest stable tag
+- name: create a build user for restic-rest
+  ansible.builtin.user:
+    name: RPS_restic_builder
+    state: present
+    uid: 64099
+    home: /opt/restic-rest-builddir
+    create_home: true
+    password_lock: true
+
+- name: install build dependencies for restic-rest
+  ansible.builtin.apt:
+    name: golang-go
+    state: present
+
+- name: git checkout of restic-rest TAG from upstream github repos
+  become: true
+  become_user: RPS_restic_builder
+  ansible.builtin.git:
+    # TODO: this is only HTTPS-authenticated for now. 
+    repo: 'https://github.com/restic/rest-server.git'
+    dest: /opt/restic-rest-builddir/restic-rest
+    version: v0.10.0
+    update: no
+
+- name: build restic-rest with system-installed go compiler
+  become: true
+  become_user: RPS_restic_builder
+  environment:
+    CGO_ENABLED: '0'
+  ansible.builtin.command:
+    chdir: /opt/restic-rest-builddir/restic-rest
+    creates: /opt/restic-rest-builddir/restic-rest/rest-server
+    cmd: 'go build -o rest-server ./cmd/rest-server'
+
+- name: make sure restic-rest directory is present in /opt
+  ansible.builtin.file:
+    path: '/opt/restic-rest'
+    state: directory
+    mode: '0755'
+
+- name: 'Install "rest-server" binary to "/opt/restic-rest/"'
+  ansible.builtin.copy:
+    src: /opt/restic-rest-builddir/restic-rest/rest-server
+    remote_src: true
+    dest: /opt/restic-rest/rest-server
+    owner: root
+    group: root
+    mode: '0755'
+    # additional security measure; please note that GO doesn't build reproducably
+    # disable if needed:
+    checksum: 09e67321962be9a3258adc3d5dd146c7fe551dc0
+
+- name: deploy service unit for restic daemon
+  template:
+    src: 'restic-server.service.j2'
+    dest: '/etc/systemd/system/restic-server.service'
+    mode: 0644
+
+- name: Have Systemd read configs
+  ansible.builtin.systemd:
+    daemon_reload: yes

@@ -1,0 +1,54 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# vagrant setup with KVM as a backend for deploying 
+# a test-backupserver on a local machine
+
+# filename for a second disk
+disk = '/srv/virtdisks/backupserver.qcow2'
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "generic/debian11"
+  config.vm.box_check_update = false
+
+  # we went for a private network here. To support this, you
+  # can add the ip below to /etc/hosts to be able to use
+  # name-based ansible configuration
+  config.vm.network "private_network", ip: "192.168.33.210"
+
+  config.vm.hostname = "backupserver"
+  config.vm.define "backupserver"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.name = "test-backupserver"
+    vb.gui = false
+
+    unless File.exist?(disk)
+      vb.customize ['createhd', '--filename', disk, '--variant', 'Fixed', '--size', 10 * 1024]
+    end
+
+    vb.memory = "2048"
+    vb.customize ['storageattach', :id,  '--storagectl', 'IDE Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk]
+  end
+
+  # shell script for initial setup as needed by ansible roles
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update && apt-get install -y ssh python3 parted btrfs-progs
+
+    echo "creating a btrfs volume & mount it at /lxd"
+    parted /dev/vdb mklabel gpt
+    parted /dev/vdb mkpart primary 512 100%
+    mkfs.btrfs /dev/vdb1
+    mkdir -p /srv/backupstorage
+    echo `blkid /dev/vdb1 | awk '{print$2}' | sed -e 's/"//g'` /srv/backupstorage   btrfs   noatime,nobarrier   0   0 >> /etc/fstab
+    mount /srv/backupstorage
+
+    echo "add ssh keys"
+    sed -i 's/^#PasswordAuthentication\ .*/PasswordAuthentication\ no/' /etc/ssh/sshd_config
+    mkdir -p /root/.ssh && chmod 700 /root/.ssh
+    # add your ssh key here to be able to deploy to this vm using ansible
+    echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMk6WrcrPH+uW6f7DzixRxMn+utazezYVmN2CRdY1W2X" > /root/.ssh/authorized_keys
+    echo "ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBABM4CLi2xr0X/g1a5r33loSCnb6/3XBS38bq93/4JPY2ad1PIxaV/m2REIqJ1X8xg3gFoLHCLYTDw90kUO/IZ6+9QHeq2AApY7QEkKTOK5m7qnUTe5ZkQiBVt6EHTBnewpNwZu5UOGOjJNzHULfgRiALNH2u6fdOeNgJRq1w9adscMYAQ== via_pcwr_2022" >> /root/.ssh/authorized_keys
+    echo "127.0.0.1 test-backupserver.localadmin test-backupserver" >> /etc/hosts
+  SHELL
+end
