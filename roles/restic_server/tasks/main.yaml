@@ -10,7 +10,9 @@
 
 - name: install build dependencies for restic-rest
   ansible.builtin.apt:
-    name: golang-go
+    name:
+      - golang-go
+      - git
     state: present
 
 - name: git checkout of restic-rest TAG from upstream github repos
@@ -18,7 +20,7 @@
   become_user: restic-build
   ansible.builtin.git:
     # TODO: this is only HTTPS-authenticated for now.
-    repo: 'https://github.com/restic/rest-server.git'
+    repo: 'https://gitlab+deploy-token-853823:Yki3nxrUs_RDShpx1uK5@gitlab.com/idcohorts/rps/restic-rest-mirror.git'
     dest: /opt/restic-rest-builddir/restic-rest
     version: v0.10.0 # TODO parametrize
     update: no
