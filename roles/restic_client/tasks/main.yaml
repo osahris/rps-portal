@@ -30,7 +30,6 @@
 - name: Create directory for ansible custom facts
   ansible.builtin.file:
     state: directory
-    recurse: yes
     mode: 0700
     path: /etc/ansible/facts.d
 
@@ -136,5 +135,3 @@
 - name: Have Systemd read configs
   ansible.builtin.systemd:
     daemon_reload: yes
-
-
