@@ -1,9 +1,9 @@
 # currently (2022-01), restic-rest is not being packaged for Debian; build one locally from the latest stable tag
 - name: create a build user for restic-rest
   ansible.builtin.user:
-    name: RPS_restic_builder
+    name: restic-build
     state: present
-    uid: 64099
+    system: yes
     home: /opt/restic-rest-builddir
     create_home: true
     password_lock: true
@@ -15,17 +15,17 @@
 
 - name: git checkout of restic-rest TAG from upstream github repos
   become: true
-  become_user: RPS_restic_builder
+  become_user: restic-build
   ansible.builtin.git:
-    # TODO: this is only HTTPS-authenticated for now. 
+    # TODO: this is only HTTPS-authenticated for now.
     repo: 'https://github.com/restic/rest-server.git'
     dest: /opt/restic-rest-builddir/restic-rest
-    version: v0.10.0
+    version: v0.10.0 # TODO parametrize
     update: no
 
 - name: build restic-rest with system-installed go compiler
   become: true
-  become_user: RPS_restic_builder
+  become_user: restic-build
   environment:
     CGO_ENABLED: '0'
   ansible.builtin.command:
@@ -43,7 +43,7 @@
   ansible.builtin.copy:
     src: /opt/restic-rest-builddir/restic-rest/rest-server
     remote_src: true
-    dest: /opt/restic-rest/rest-server
+    dest: /usr/local/bin/rest-server
     owner: root
     group: root
     mode: '0755'
