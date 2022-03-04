@@ -20,6 +20,9 @@ mailservers
 monitoring_servers
 alerting_servers
 
+[backup_clients]
+test-lxd
+
 [netdata_providers]
 keycloak
 test1
