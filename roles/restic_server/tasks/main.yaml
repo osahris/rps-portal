@@ -69,6 +69,18 @@
     # We make this directory root-owned, and set the "restricted deletion" bit. This prevents restic-service
     # and others to delete the .htasswd file.
 
+- name: Make sure .htpasswd is present
+  ansible.builtin.file:
+    path: "{{ restic_rest_backupstorage }}/.htpasswd"
+    state: touch
+    modification_time: preserve
+    access_time: preserve
+    owner: root
+    group: restic-service
+    mode: '0640'
+    follow: no
+  # TODO: merge generation logic
+
 - name: deploy service unit for restic daemon
   template:
     src: 'restic-server.service.j2'
