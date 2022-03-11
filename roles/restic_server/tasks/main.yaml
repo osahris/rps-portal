@@ -35,13 +35,7 @@
     creates: /opt/restic-rest-builddir/restic-rest/rest-server
     cmd: 'go build -o rest-server ./cmd/rest-server'
 
-- name: make sure restic-rest directory is present in /opt
-  ansible.builtin.file:
-    path: '/opt/restic-rest'
-    state: directory
-    mode: '0755'
-
-- name: 'Install "rest-server" binary to "/opt/restic-rest/"'
+- name: 'Install "rest-server" binary to "/usr/local/bin/rest-server"'
   ansible.builtin.copy:
     src: /opt/restic-rest-builddir/restic-rest/rest-server
     remote_src: true
