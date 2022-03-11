@@ -5,7 +5,7 @@ Description=Restic-REST daemon
 After=network.target network-online.target systemd-networkd.service NetworkManager.service connman.service
 
 [Service]
-ExecStart=/usr/local/bin/rest-server {{ restic_rest_flags }} --path {{ restic_rest_backupstorage|quote }} {% if restic_rest_allowoverwrites is undefined %}--append-only{% endif %}
+ExecStart=/usr/local/bin/rest-server {{ restic_rest_flags }} {% if restic_rest_allowoverwrites is undefined %}--append-only{% endif %} --path {{ restic_rest_backupstorage|quote }} 
 Restart=always
 RestartSec=5
 User=restic-service

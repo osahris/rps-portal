@@ -75,6 +75,11 @@
     dest: '/etc/systemd/system/restic-server.service'
     mode: 0644
 
-- name: Have Systemd read configs
+- name: Have Systemd start the restic-rest daemon
   ansible.builtin.systemd:
     daemon_reload: yes
+    name: restic-server.service
+    enabled: true
+    state: restarted
+    # TODO: after development, state: started will be enough, and more idempotent.
+
