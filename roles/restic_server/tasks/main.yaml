@@ -47,6 +47,28 @@
     # disable if needed:
     checksum: 09e67321962be9a3258adc3d5dd146c7fe551dc0
 
+- name: create a system user for restic-rest
+  ansible.builtin.user:
+    name: restic-service
+    state: present
+    system: yes
+    home: /dev/null
+    create_home: false
+    password_lock: true
+
+- name: Create the directory to backup to
+  ansible.builtin.file:
+    # Note: /srv/backupstorage should probably be a mountpoint for a separate filesystem,
+    # but we don't enforce that here
+    path: "{{ restic_rest_backupstorage }}"
+    state: directory
+    owner: root
+    group: restic-service
+    mode: '01770'
+    follow: no
+    # We make this directory root-owned, and set the "restricted deletion" bit. This prevents restic-service
+    # and others to delete the .htasswd file.
+
 - name: deploy service unit for restic daemon
   template:
     src: 'restic-server.service.j2'

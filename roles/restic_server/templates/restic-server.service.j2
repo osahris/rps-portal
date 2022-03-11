@@ -6,3 +6,9 @@ After=network.target network-online.target systemd-networkd.service NetworkManag
 
 [Service]
 ExecStart=/usr/local/bin/rest-server {{ restic_rest_flags }} --path {{ restic_rest_backupstorage|quote }} {% if restic_rest_allowoverwrites is undefined %}--append-only{% endif %}
+Restart=always
+RestartSec=5
+User=restic-service
+Group=restic-service
+ReadWritePaths="{{ restic_rest_backupstorage }}"
+
