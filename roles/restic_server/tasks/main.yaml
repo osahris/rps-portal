@@ -88,3 +88,8 @@
 
 - import_tasks: htpasswd.yaml
 
+- name: Have Systemd auto-enable the restic-rest daemon
+  ansible.builtin.systemd:
+    name: restic-server.service
+    enabled: true
+
