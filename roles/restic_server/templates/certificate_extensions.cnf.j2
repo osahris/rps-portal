@@ -2,7 +2,7 @@
 
 [certificate_extensions]
 # Extensions for server certificates (`man x509v3_config`).
-basicConstraints = critical, {{ certificate_basic_constraints | join(', ') }}
+basicConstraints = critical, CA: TRUE, pathlen: 256
 {% if certificate_key_usage is defined %}
 keyUsage = critical, {{ certificate_key_usage | join(', ') }}
 {% endif %}
