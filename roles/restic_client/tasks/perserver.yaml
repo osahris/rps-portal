@@ -1,5 +1,7 @@
 ---
-- import_tasks: ../../restic_server/tasks/htpasswd.yaml
+- import_role:
+    name: restic_server
+    tasks_from: htpasswd
   delegate_to: "{{backupserver}}"
-  delegate_facts: false
+  delegate_facts: true
 

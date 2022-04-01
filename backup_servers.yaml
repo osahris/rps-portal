@@ -1,14 +1,9 @@
 ---
+- hosts: backup_clients
+  remote_user: root
+  # Only gather client facts
 
 - hosts: backup_servers
   remote_user: root
-  pre_tasks:
-    - name: Gather facts from backup_clients hosts (regardless of limit or tags)
-      setup:
-      delegate_to: "{{item}}"
-      delegate_facts: true
-      loop: "{{ groups['backup_clients'] }}"
-      tags: always
-
   roles:
     - role: restic_server
