@@ -1,4 +1,7 @@
 ---
+- hosts: backup_clients
+  remote_user: root
+  # Only gather client facts
 
 - hosts: backup_servers
   remote_user: root

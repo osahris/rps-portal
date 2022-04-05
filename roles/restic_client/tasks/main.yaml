@@ -58,7 +58,7 @@
 - name: Generate per-server credentials
   ansible.builtin.shell:
     creates: "/etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw"
-    cmd: "/usr/bin/pwgen -y 19 > /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw"
+    cmd: "/usr/bin/pwgen -s 16 | dd bs=1 count=16 > /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw"
   # TODO: loop over multiple servers, once possible
 
 - name: 'generate "restic repository file" (URL) client-side'
@@ -72,8 +72,7 @@
 
 - name: Hash per-server credentials
   ansible.builtin.shell:
-    #creates: "/etc/restic/passwords/{{ restic_backup_url | b64encode }}.hash"
-    creates: "/etc/ansible/facts.d/backupuser_htpasswds.fact"
+    # always regenerate the facts file until we have a [TODO] trigger for regenerating the password
     cmd: '( /bin/echo -en "[backupuser_htpasswds]\npw1=" ;
             /usr/bin/cat /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw | /usr/bin/htpasswd -niB {{ ansible_hostname|quote}}
           ) > /etc/ansible/facts.d/backupuser_htpasswds.fact &&
@@ -93,6 +92,14 @@
 - name: Re-read facts after adding custom fact
   ansible.builtin.setup:
     filter: ansible_local
+
+- name: Loop over servers to re-generate .htpasswd files there
+  loop: "{{ groups['backup_servers'] }}"
+  loop_control:
+    loop_var: backupserver
+  # To combine loop/include_tasks with delegate, we include an intermediate task file
+  include_tasks: perserver.yaml
+
 
 - name: Create repository where necessary
   ansible.builtin.shell:
