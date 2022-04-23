@@ -69,6 +69,20 @@
     # We make this directory root-owned, and set the "restricted deletion" bit. This prevents restic-service
     # and others to delete the .htasswd file.
 
+- name: Create directory for ansible custom facts
+  ansible.builtin.file:
+    state: directory
+    mode: 0700
+    path: /etc/ansible/facts.d
+  # This is needed by a "certificate changed" handler
+
+- name: method
+  include_tasks: "provider-selfsigned.yml"
+
+- name: Flush handlers
+  # make new cert available as fact
+  meta: flush_handlers
+
 - name: Make sure .htpasswd is present
   ansible.builtin.file:
     path: "{{ restic_rest_backupstorage }}/.htpasswd"
@@ -92,13 +106,3 @@
   ansible.builtin.systemd:
     name: restic-server.service
     enabled: true
-
-- name: method
-  include_tasks: "provider-selfsigned.yml"
-
-- name: info
-  command: openssl x509 -text -noout
-    -in "{{ certificate_file }}"
-  changed_when: false
-  register: _certificate_info
-
