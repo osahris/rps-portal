@@ -100,6 +100,11 @@
   # To combine loop/include_tasks with delegate, we include an intermediate task file
   include_tasks: perserver.yaml
 
+- name: create a file with the servers' certs
+  template:
+    src: 'restic-server-certs.pem.j2'
+    dest: '/etc/ssl/certs/restic-server-certs.pem'
+    mode: 0644
 
 - name: Create repository where necessary
   ansible.builtin.shell:
