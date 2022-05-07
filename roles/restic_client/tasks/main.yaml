@@ -33,22 +33,6 @@
     mode: 0700
     path: /etc/ansible/facts.d
 
-- name: Create the restic per-backup config files
-  template:
-    src: 'per_backup.env.j2'
-    dest: '/etc/restic/config/{{ item.name }}.env'
-  loop: "{{ restic_backup_directives }}"
-  when: item.content is undefined
-  # The Systemd service unit will read these via EnvironmentFile=
-
-- name: (Re-)create the restic config files (for special cases)
-  ansible.builtin.copy:
-    dest: '/etc/restic/config/{{ item.name }}.env'
-    content: "{{ item.content }}"
-  loop: "{{ restic_backup_directives }}"
-  when: item.content is defined
-  # or these, depending on the configuration
-
 - name: Write out restic per-repos secrets
   ansible.builtin.copy:
     dest: '/etc/restic/repositories/{{ item.repository }}.key'
@@ -61,15 +45,6 @@
     cmd: "/usr/bin/pwgen -s 16 | dd bs=1 count=16 > /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw"
   # TODO: loop over multiple servers, once possible
 
-- name: 'generate "restic repository file" (URL) client-side'
-  ansible.builtin.shell:
-    cmd: '( /bin/echo -n {{ restic_backup_url_prefix|quote }}{{ ansible_hostname|quote }}: ;
-            /bin/echo -n "$(/usr/bin/cat /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw)" ;
-            /bin/echo @{{ restic_backup_url_hostport | quote }}/{{ ansible_hostname }}_files
-          ) > /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos &&
-          chmod 0600 /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos'
-    creates: "/etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos"
-
 - name: Hash per-server credentials
   ansible.builtin.shell:
     # always regenerate the facts file until we have a [TODO] trigger for regenerating the password
@@ -77,17 +52,6 @@
             /usr/bin/cat /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw | /usr/bin/htpasswd -niB {{ ansible_hostname|quote}}
           ) > /etc/ansible/facts.d/backupuser_htpasswds.fact &&
           chmod 600 /etc/ansible/facts.d/backupuser_htpasswds.fact'
-
-#- name: Check repository initialization and status
-#  ansible.builtin.shell:
-#    creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
-#    cmd: >
-#      restic stats --json -r {{ restic_backup_url|quote }}{{ item.repository|quote }} --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key"
-#          > /etc/ansible/facts.d/restic-repos-{{ item.repository | quote }}.fact   &&
-#      touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
-#  failed_when: false
-#  loop: "{{ restic_backup_directives }}"
-#  register: repository_x_stats
 
 - name: Re-read facts after adding custom fact
   ansible.builtin.setup:
@@ -99,6 +63,42 @@
     loop_var: backupserver
   # To combine loop/include_tasks with delegate, we include an intermediate task file
   include_tasks: perserver.yaml
+
+- name: Create the restic per-backup config files
+  template:
+    src: 'per_backup.env.j2'
+    dest: '/etc/restic/config/{{ item.name }}.env'
+  loop: "{{ restic_backup_directives }}"
+  when: item.content is undefined
+  # The Systemd service unit will read these via EnvironmentFile=
+
+- name: Create the restic per-backup config files (for special cases)
+  ansible.builtin.copy:
+    dest: '/etc/restic/config/{{ item.name }}.env'
+    content: "{{ item.content }}"
+  loop: "{{ restic_backup_directives }}"
+  when: item.content is defined
+  # or these, depending on the configuration
+
+- name: 'generate "restic repository file" (URL) client-side'
+  ansible.builtin.shell:
+    cmd: '( /bin/echo -n {{ restic_backup_url_prefix|quote }}{{ ansible_hostname|quote }}: ;
+            /bin/echo -n "$(/usr/bin/cat /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.pw)" ;
+            /bin/echo @{{ restic_backup_url_hostport | quote }}/{{ ansible_hostname }}_files
+          ) > /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos &&
+          chmod 0600 /etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos'
+    creates: "/etc/restic/passwords/{{ restic_backup_url_hostport | b64encode }}.repos"
+
+#- name: Check repository initialization and status
+#  ansible.builtin.shell:
+#    creates: "/etc/restic/repositories/{{ item.repository|quote }}.initialized"
+#    cmd: >
+#      restic stats --json -r {{ restic_backup_url|quote }}{{ item.repository|quote }} --password-file "/etc/restic/repositories/{{ item.repository|quote }}.key"
+#          > /etc/ansible/facts.d/restic-repos-{{ item.repository | quote }}.fact   &&
+#      touch '/etc/restic/repositories/{{ item.repository|quote }}.initialized'
+#  failed_when: false
+#  loop: "{{ restic_backup_directives }}"
+#  register: repository_x_stats
 
 - name: create a file with the servers' certs
   template:
