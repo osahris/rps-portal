@@ -79,6 +79,15 @@
 - name: method
   include_tasks: "provider-selfsigned.yml"
 
+- name: Make X.509 private key file readable for daemon
+  ansible.builtin.file:
+    path: "{{ certificate_private_key_file }}"
+    state: file
+    owner: root
+    group: restic-service
+    mode: '0640'
+    follow: no
+
 - name: Flush handlers
   # make new cert available as fact
   meta: flush_handlers
