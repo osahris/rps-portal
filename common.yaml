@@ -17,3 +17,26 @@
         state: present
       with_items:
       - de_DE.UTF-8
+
+- hosts: all
+  remote_user: root
+  tasks:
+    - name: Dir for supplementary systemd config
+      ansible.builtin.file:
+        path: /etc/systemd/system.conf.d/
+        state: directory
+        mode: 0755
+    - name: Configure systemd to use "combined" logging format
+      ansible.builtin.copy:
+        content: |
+          # This file was placed by RPS ansible; don't edit.
+          [Manager]
+          StatusUnitFormat=combined
+        dest: /etc/systemd/system.conf.d/01-RPS-statusunitformat.conf
+        follow: false
+        owner: root
+        group: root
+        mode: 0644
+    - name: Reload Systemd's own configuration
+      ansible.builtin.systemd:
+        daemon_reload: yes
