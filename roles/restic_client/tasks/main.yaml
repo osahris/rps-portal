@@ -144,8 +144,13 @@
     dest: '/etc/systemd/system/'
     mode: 0644
 
-    #notify: systemd reload
-
-- name: Have Systemd read configs
+- name: Have SystemD re-read configs
   ansible.builtin.systemd:
     daemon_reload: yes
+
+- name: Have SystemD enable the timer units
+  ansible.builtin.systemd:
+    name: 'restic-backup-daily@{{ item.name | quote }}.timer'
+    enabled: true
+  loop: "{{ restic_backup_directives }}"
+
