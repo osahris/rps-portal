@@ -76,8 +76,9 @@
     path: /etc/ansible/facts.d
   # This is needed by a "certificate changed" handler
 
-- name: method
-  include_tasks: "provider-selfsigned.yml"
+- import_role:
+    name: certificate
+    tasks_from: "provider-selfsigned.yml"
 
 - name: Make X.509 private key file readable for daemon
   ansible.builtin.file:
