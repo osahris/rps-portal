@@ -9,11 +9,5 @@
 - hosts: rps_groups_interfaces
   remote_user: root
   gather_facts: false
-  tasks:
-    - name: rps groups interface config
-      local_action: copy
-      args:
-        content: "{{rps_groups_interface_config}}"
-        dest: rps-groups-interface.json
   roles:
     #- role: rps_groups_interfaces
