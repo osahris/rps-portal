@@ -1,5 +1,6 @@
 ---
-keycloak_version: 11.0.3
+keycloak_container_image: quay.io/keycloak/keycloak
+keycloak_container_version: 18.0
 
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"

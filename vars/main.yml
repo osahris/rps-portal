@@ -18,9 +18,3 @@ keycloak_realm:
   defaultLocale: "de"
   supportedLocales:
     - "de"
-
-keycloak_volumes: "{{ keycloak_default_volumes + (keycloak_theme_volumes|default([]))}}"
-keycloak_default_volumes: []
-  #- /opt/keycloak-require-approved-user-role-authenticator.jar:/opt/jboss/keycloak/standalone/deployments/keycloak-require-approved-user-role-authenticator.jar
-
-keycloak_11_java_opts_default: -Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true
