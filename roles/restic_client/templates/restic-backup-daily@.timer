@@ -3,8 +3,8 @@
 Description=Daily restic backup run for directory %I
 
 [Timer]
-OnCalendar=*-*-* *:*
-#RandomizedDelaySec=12h
+OnCalendar=*-*-* 03:00:00
+RandomizedDelaySec=5h
 Persistent=true
 Unit=restic-backup-oneshot@%i.service
 

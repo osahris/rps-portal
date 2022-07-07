@@ -9,6 +9,5 @@ After=network.target network-online.target systemd-networkd.service NetworkManag
 [Service]
 Type=oneshot
 EnvironmentFile=/etc/restic/config/%i.env
-#ExecStart=/bin/bash -c '(echo -n %I: ; date ; env ) > /tmp/restic-backup-%i.log'
-ExecStart=/bin/sh -c '{{ item.database_dump_command }} | /usr/bin/restic backup $RESTIC_FLAGS --stdin'
+ExecStart=/bin/sh -c '{{ item.database_dump_command }} | /usr/bin/restic backup $RESTIC_FLAGS $RESTIC_FLAGS_CACERT --stdin'
 
