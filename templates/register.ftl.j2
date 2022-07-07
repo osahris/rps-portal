@@ -1,0 +1,36 @@
+<#import "template.ftl" as layout>
+<@layout.registrationLayout; section>
+  <#if section = "header">
+    ${msg("registerTitle")}
+  <#elseif section = "form">
+    <form id="kc-register-form" class="${properties.kcFormClass!}" action="${url.registrationAction}" method="post">
+      {% for field in keycloak_registration_form_fields %}
+        {% if 'heading' in field %}
+        <h2>{{field.heading}}</h2>
+        {% else %}
+        {% include 'field_types/'+field.type+'.ftl.j2' %}
+        {% endif %}
+      {% endfor %}
+            <#if recaptchaRequired??>
+            <div class="form-group">
+                <div class="${properties.kcInputWrapperClass!}">
+                    <div class="g-recaptcha" data-size="compact" data-sitekey="${recaptchaSiteKey}"></div>
+                </div>
+            </div>
+            </#if>
+
+            <div class="${properties.kcFormGroupClass!}">
+                <div id="kc-form-options" class="${properties.kcFormOptionsClass!}">
+                    <div class="${properties.kcFormOptionsWrapperClass!}">
+                        <span><a href="${url.loginUrl}">${kcSanitize(msg("backToLogin"))?no_esc}</a></span>
+                    </div>
+                </div>
+
+                <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
+                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doRegister")}"/>
+                </div>
+            </div>
+
+    </form>
+  </#if>
+</@layout.registrationLayout>

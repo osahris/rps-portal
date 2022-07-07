@@ -1,0 +1,6 @@
+<div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('lastName',properties.kcFormGroupErrorClass!)}">
+    <div class="${properties.kcInputWrapperClass!}">${msg("lastName")} <sub>*</sub>
+      {%if 'description' in field %}<p>{{field.description}}</p>{% endif %}
+        <input required type="text" id="lastName" class="${properties.kcInputClass!}" name="lastName" value="${(register.formData.lastName!'')}" />
+    </div>
+</div>

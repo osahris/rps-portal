@@ -1,0 +1,11 @@
+<div class="form-group">
+  <div class="${properties.kcInputWrapperClass!}">
+    {{field.title}}
+      {%if 'description' in field %}<p>{{field.description}}</p>{% endif %}
+  </div>
+  {% for box in field.checkboxes %}
+    <div class="${properties.kcInputWrapperClass!}">
+      <input type="checkbox" id="user.attributes.{{box.attribute}}" name="user.attributes.{{box.attribute}}" /> <label for="user.attributes.{{box.attribute}}">{{box.description}}</label>
+    </div>
+  {% endfor %}
+</div>
