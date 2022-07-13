@@ -21,6 +21,7 @@
         devices: "{{lxd_container_devices}}"
         profiles: "{{lxd_container_profiles}}"
         timeout: 600
+        ignore_volatile_options: false
       delegate_to: "{{ lxd_host }}"
 
     - name: make sure host_vars directory is present for host
