@@ -21,6 +21,7 @@ alerting_servers
 proskive_servers
 loomio_servers
 #collabora_servers
+rps_groups_interfaces
 rps_header_servers
 
 [reverse_proxies]
@@ -91,6 +92,8 @@ alerta
 [collabora_servers]
 collabora
 
+[rps_groups_interfaces]
+groups
 
 [rps_header_servers]
 header

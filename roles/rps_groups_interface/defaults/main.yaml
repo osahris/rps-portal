@@ -1,0 +1,13 @@
+---
+
+rps_groups_interface_keycloak_client_id: "{{rps_groups_interface_server_name}}"
+rps_groups_interface_keycloak_realm: users
+
+rps_groups_interface_config_directory: /etc/rps-groups-interface
+
+keycloak_management_url: "https://{{ keycloak_server_name }}/auth"
+keycloak_management_username: admin
+keycloak_management_realm: master
+keycloak_management_client_id: admin-cli
+
+rps_groups_interface_instance: default
