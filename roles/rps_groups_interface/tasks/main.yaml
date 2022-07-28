@@ -11,14 +11,13 @@
     repo: "{{ rps_groups_interface_git_repo }}"
     dest: "{{ rps_groups_interface_directory }}"
     version: "{{ rps_groups_interface_git_version }}"
+  register: rps_groups_interface_git_task
 
 - name: build rps-groups-interface image
   containers.podman.podman_image:
     name: rps-groups-interface
-    tag: current
+    tag: "{{rps_groups_interface_image_tag}}"
     path: "{{ rps_groups_interface_directory }}"
-    build:
-      rm: false
 
 - name: rps-groups-interface suite config directory
   file:
@@ -30,7 +29,7 @@
     content: "{{rps_groups_interface_suite_config}}"
     dest: "{{rps_groups_interface_suite_config_file}}"
   notify: restart rps-groups-interface container
-  # loop: "{{ rps_groups_interface_instances }}"
+  # loop: "{{  rps_groups_interface_instances  }}"
   # loop_control:
   #   loop_var: rps_groups_interface_instance
 
@@ -57,7 +56,7 @@
 - name: rps-groups-interface containers
   containers.podman.podman_container:
     name: "rps-groups-interface-{{rps_groups_interface_instance}}"
-    image: rps-groups-interface:current
+    image: rps-groups-interface:{{rps_groups_interface_image_tag}}
     volumes:
       - "{{rps_groups_interface_suite_config_file}}:/var/www/gruppeninterface-rps/suite.config.json"
     ports:

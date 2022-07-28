@@ -11,3 +11,6 @@ keycloak_management_realm: master
 keycloak_management_client_id: admin-cli
 
 rps_groups_interface_instance: default
+
+rps_groups_interface_git_repo: https://gitlab+deploy-token-1197195:y9R3vvU_d7SsoZx_oMx2@gitlab.com/idcohorts/rps/rps-gruppeninterface.git
+rps_groups_interface_git_version: main

@@ -1,9 +1,7 @@
 ---
 rps_groups_interface_directory: /opt/rps-groups-interface
 
-rps_groups_interface_git_repo: https://gitlab+deploy-token-1197195:y9R3vvU_d7SsoZx_oMx2@gitlab.com/idcohorts/rps/rps-gruppeninterface.git
-rps_groups_interface_git_version: main
-
+rps_groups_interface_image_tag: "{{ rps_groups_interface_git_task.after }}"
 
 rps_groups_interface_suite_config_file: "{{rps_groups_interface_config_directory}}/suite-{{rps_groups_interface_instance}}.json"
 rps_groups_interface_suite_config:
@@ -41,6 +39,16 @@ rps_groups_interface_suite_config:
   - key: icon
     type: autocomplete-icon
     label: Icon
+  - key: "membership_source"
+    type: "autocomplete-membership-source"
+    label: "Membership source"
+  - key: "group_hierachy_type"
+    type: "autocomplete-group-hierachy-type"
+    label: "Hierachy Types"
+  - key: "group_hierachy_children"
+    type: "autocomplete-group-hierachy-children"
+    label": "Hierachy Child"
+
   membership_sources:
   - name : accounts
     description: Manually add and delete users
@@ -58,6 +66,16 @@ rps_groups_interface_suite_config:
     membership_source_settings: true
     membership_editable: false
 
+  membership_sources_hierachy:
+  - name: "union"
+    description: "Manually add and delete users"
+    type: "group_hierachy_type"
+    membership_editable: false
+  - name: "intersection"
+    description: "Group users by account profile fields"
+    type: "group_hierachy_type"
+    membership_editable: false
+ 
 # proxy_config_directory: "{{numhub_config_directory}}/proxy"
 # traefik_router_config:
 #   rule: "Host(`{{rps_groups_interface_server_name}}`)"
