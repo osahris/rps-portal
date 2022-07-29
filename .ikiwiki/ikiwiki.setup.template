@@ -8,7 +8,7 @@
 # Remember to re-run ikiwiki --setup any time you edit this file.
 #
 # name of the wiki
-wikiname: Ghostroute KB
+wikiname: RPS Documentation
 # contact email for wiki
 adminemail: consult@ghostroute.eu
 # users who are wiki admins
@@ -17,15 +17,15 @@ adminuser:
 # users who are banned from the wiki
 banned_users: []
 # where the source of the wiki is located
-srcdir: /home/phk/src/GhostrouteKB
+srcdir: /home/xxx/src/rps-apps/docs/
 # where to build the wiki
-destdir: /var/www/html/GhostrouteKB
+destdir: /var/www/html/RPS-docs
 # base url to the wiki
-url: http://localhost/GhostrouteKB
+url: http://localhost/RPS-docs
 # url to the ikiwiki.cgi
-cgiurl: http://localhost/GhostrouteKB/ikiwiki.cgi
+cgiurl: http://localhost/RPS-docs/ikiwiki.cgi
 # filename of cgi wrapper to generate
-cgi_wrapper: /var/www/html/GhostrouteKB/ikiwiki.cgi
+cgi_wrapper: /var/www/html/RPS-docs/ikiwiki.cgi
 # mode for cgi_wrapper (can safely be made suid)
 cgi_wrappermode: 06755
 # rcs backend to use
@@ -79,15 +79,15 @@ hardlink: 0
 # group for wrappers to run in
 #wrappergroup: ikiwiki
 # extra library and plugin directory
-libdir: /home/phk/.ikiwiki
+libdir: /home/xxx/.ikiwiki
 # environment variables
-ENV: { PROJECT: "GhostrouteKB" }
+ENV: { PROJECT: "RPS Documentation" }
 # time zone name
 timezone: Europe/Berlin
 # regexp of normally excluded files to include
 #include: ^\.htaccess$
 # regexp of files that should be skipped
-exclude: ^(GhostrouteKB.setup|.*\.private|Makefile)$
+exclude: ^(GhostrouteKB.setup|ikiwiki.setup|.*\.private|Makefile)$
 # specifies the characters that are allowed in source filenames
 wiki_file_chars: -[:alnum:]+/.:_
 # allow symlinks in the path leading to the srcdir (potentially insecure)
@@ -100,7 +100,7 @@ allow_symlinks_before_srcdir: 0
 
 # git plugin
 # git hook to generate
-git_wrapper: /srv/git/GhostrouteKB.git/hooks/post-update
+git_wrapper: /home/xxx/src/rps-apps/.git/hooks/post-update
 # shell command for git_wrapper to run, in the background
 #git_wrapper_background_command: git push github
 # mode for git_wrapper (can safely be made suid)
@@ -116,7 +116,7 @@ git_wrapper: /srv/git/GhostrouteKB.git/hooks/post-update
 # where to pull and push changes (set to empty string to disable)
 gitorigin_branch: origin
 # branch that the wiki is stored in
-gitmaster_branch: master
+gitmaster_branch: rps-docs
 
 # htmlscrubber plugin
 # PageSpec specifying pages not to scrub
@@ -336,7 +336,7 @@ aggregateinternal: 1
 #aggregate_webtrigger: 0
 # cookie control
 cookiejar:
-  file: /home/phk/.ikiwiki/cookies
+  file: /home/xxx/.ikiwiki/cookies
 
 # autoindex plugin
 # commit autocreated index pages
@@ -383,4 +383,4 @@ tag_autocreate_commit: 1
 # underlay plugin
 # extra underlay directories to add
 #add_underlays:
-#- /home/phk/wiki.underlay
+#- /home/xxx/wiki.underlay
