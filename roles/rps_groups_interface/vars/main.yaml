@@ -5,26 +5,15 @@ rps_groups_interface_image_tag: "{{ rps_groups_interface_git_task.after }}"
 
 rps_groups_interface_suite_config_file: "{{rps_groups_interface_config_directory}}/suite-{{rps_groups_interface_instance}}.json"
 rps_groups_interface_suite_config:
-  project_id: numhub-main
-  project_name: NUM Hub Gruppen 2
-  interface_heading: NUM Hub
+  project_id: "{{rps_groups_interface_suite_config_project_id}}"
+  project_name: "{{rps_groups_interface_suite_config_project_name}}"
+  interface_heading: "{{rps_groups_interface_suite_config_interface_heading}}"
+  interface_title: "{{rps_groups_interface_suite_config_interface_title}}"
   keycloak_realm_url: https://{{keycloak_server_name}}/auth/admin/realms/users/
   keycloak_url: https://{{keycloak_server_name}}/auth/realms/{{rps_groups_interface_keycloak_realm}}/
   keycloak_client_id: "{{rps_groups_interface_keycloak_client_id}}"
-  language: de
-  user_attributes:
-  - key: Anrede
-    label: Anrede
-  - key: Titel
-    label: Titel
-  - key: Ort
-    label: Ort
-  - key: Institution
-    label: Institution
-  - key: Abteilung
-    label: Abteilung
-  - key: Telefon
-    label: Telefon
+  language: "{{rps_groups_interface_suite_config_language}}"
+  user_attributes: "{{keycloak_user_attributes}}"
   group_attributes:
   - key: name
     type: textfield
