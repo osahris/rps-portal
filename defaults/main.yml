@@ -4,7 +4,8 @@ keycloak_container_version: 18.0
 
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
-keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}{{keycloak_auth_path_prefix}}"
+keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}/{{keycloak_auth_path_prefix}}"
+keycloak_auth_path_prefix: ""
 
 keycloak_realm_name: "users"
 
