@@ -1,16 +1,26 @@
-<div class="form-group">
-  <div class="${properties.kcInputWrapperClass!}">
+<div id="user.attributes.{{field.attribute}}.div" 
+     class="form-group
+       {% if field.hidden | default(false) %} visible invisible {% endif %}">
+  <div id="user.attributes.{{field.attribute}}.div"  
+       class="${properties.kcInputWrapperClass!}">
     {{field.title}}
-    {% if field.required | default(false) %}
+    {% if (field.required | default(false) ) and not (field.hidden | default(false)) %}
       <sub>*</sub>
     {% endif %}
-    <select  {% if field.required | default(false) %}required{% endif %} class="${properties.kcInputClass!}" id="user.attributes.{{field.attribute}}" name="user.attributes.{{field.attribute}}" value="${(register.formData['user.attributes.{{field.attribute}}']!'')}" 
-        onchange="
-          {% if 'other' in field %}if ( this.value == 'other' ) {this.outerHTML = '<input type=&quot;text&quot; {% if field.required | default(false) %}required{% endif %} class=&quot;${properties.kcInputClass!}&quot; id=&quot;user.attributes.{{field.attribute}}&quot; name=&quot;user.attributes.{{field.attribute}}&quot;  placeholder=&quot;{{field.other}}&quot; />';}{% endif %}
-        ">
-      {% if 'default' in field %}<option selected disabled hidden style='display: none' value=''>{{field.default}}</option>{% endif %}
+    <select  {% if field.required | default(false)  %}required{% endif %} 
+        class="${properties.kcInputClass!}" id="user.attributes.{{field.attribute}}" 
+        name="user.attributes.{{field.attribute}}" 
+        value="${(register.formData['user.attributes.{{field.attribute}}']!'')}" 
+        onchange='apply_rules(this); set_other({{field | tojson }}, this, "${properties.kcInputClass!}");''>
+      {% if 'default' in field %}
+        <option selected disabled hidden style='display: none' value=''>{{field.default}}</option>
+      {% endif %}
       {% for option in field.options %}
-        <option value="{{option.value}}">{{option.description}}</option>
+        <option id="user.attributes.{{field.attribute}}.{{option.value}}" 
+                value="{{option.value}}"
+                class="{% if field.hidden | default(false) %} hidden {% endif %}">
+          {{option.description}}
+        </option>
       {% endfor %}
       {% if 'other' in field %}<option value="other">{{field.other}}</option>{% endif %}
     </select>
