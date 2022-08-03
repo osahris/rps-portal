@@ -4,7 +4,7 @@ keycloak_container_version: 18.0
 
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
-keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}/auth"
+keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}{{keycloak_auth_path_prefix}}"
 
 keycloak_realm_name: "users"
 
@@ -18,3 +18,7 @@ keycloak_theme: "https://{{ gitlab_deploy_token}}@gitlab.com/research-project-su
 
 keycloak_with_traefik: yes
 keycloak_validate_certs: yes
+
+keycloak_registration_form_rules: {}
+keycloak_registration_form_pages: {}
+keycloak_registration_form_fields:  {}
