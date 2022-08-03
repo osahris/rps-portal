@@ -1,4 +1,0 @@
-lxd_host: test-lxd
-# TODO: needed only, until ansible_all_ipv4_addresses works in vagrant setup
-lxd_host_ip: 192.168.33.15
-

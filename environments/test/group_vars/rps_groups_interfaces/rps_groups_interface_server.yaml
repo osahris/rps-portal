@@ -1,0 +1,2 @@
+rps_groups_interface_server_name: groups.{{dns_suffix}}
+rps_groups_interface_git_version: dev

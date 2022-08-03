@@ -1,0 +1,90 @@
+---
+rps_groups_interface_directory: /opt/rps-groups-interface
+
+rps_groups_interface_image_tag: "{{ rps_groups_interface_git_task.after }}"
+
+rps_groups_interface_suite_config_file: "{{rps_groups_interface_config_directory}}/suite-{{rps_groups_interface_instance}}.json"
+rps_groups_interface_suite_config:
+  project_id: "{{rps_groups_interface_suite_config_project_id}}"
+  project_name: "{{rps_groups_interface_suite_config_project_name}}"
+  interface_heading: "{{rps_groups_interface_suite_config_interface_heading}}"
+  interface_title: "{{rps_groups_interface_suite_config_interface_title}}"
+  keycloak_realm_url: https://{{keycloak_server_name}}/auth/admin/realms/users/
+  keycloak_url: https://{{keycloak_server_name}}/auth/realms/{{rps_groups_interface_keycloak_realm}}/
+  keycloak_client_id: "{{rps_groups_interface_keycloak_client_id}}"
+  language: "{{rps_groups_interface_suite_config_language}}"
+  user_attributes: "{{keycloak_user_attributes}}"
+  group_attributes:
+  - key: name
+    type: textfield
+    readonly: true
+    label: Name
+  - key: title
+    type: textfield
+    label: Titel
+  - key: description
+    type: textfield
+    label: Beschreibung
+  - key: icon
+    type: autocomplete-icon
+    label: Icon
+  - key: "membership_source"
+    type: "autocomplete-membership-source"
+    label: "Membership source"
+  - key: "group_hierachy_type"
+    type: "autocomplete-group-hierachy-type"
+    label: "Hierachy Types"
+  - key: "group_hierachy_children"
+    type: "autocomplete-group-hierachy-children"
+    label": "Hierachy Child"
+
+  membership_sources:
+  - name : accounts
+    description: Manually add and delete users
+    type: keycloak
+    membership_source_settings: false
+    membership_editable: true
+  - name: accounts/profile
+    description: Group users by account profile fields
+    type: keycloak_profile
+    membership_source_settings: true
+    membership_editable: false
+  - name: group_hierachy
+    description: Group users by group hierachy
+    type: group_hierachy
+    membership_source_settings: true
+    membership_editable: false
+
+  membership_sources_hierachy:
+  - name: "union"
+    description: "Manually add and delete users"
+    type: "group_hierachy_type"
+    membership_editable: false
+  - name: "intersection"
+    description: "Group users by account profile fields"
+    type: "group_hierachy_type"
+    membership_editable: false
+ 
+# proxy_config_directory: "{{numhub_config_directory}}/proxy"
+# traefik_router_config:
+#   rule: "Host(`{{rps_groups_interface_server_name}}`)"
+#   tls:
+#     certresolver: letsencrypt
+#   entrypoints: https
+#   service: "rps-groups-interface-{{rps_groups_interface_instance}}"
+#   middlewares:
+#     - rps-groups-interface-header-redirect-{{rps_groups_interface_instance}}
+# traefik_service_config:
+#   loadBalancer:
+#     servers:
+#       - url: "http://rps-groups-interface-{{rps_groups_interface_instance}}:3000"
+# traefik_header_redirect_middleware_config:
+#   redirectRegex:
+#     regex: '^.*/header\.js$'
+#     replacement: https://{{rps_header_server_name}}/header.js
+
+# traefik_config:
+#   http:
+#     routers: "{{ {'rps-groups-interface-'+rps_groups_interface_instance: traefik_router_config } }}"
+#     services: "{{ {'rps-groups-interface-'+rps_groups_interface_instance: traefik_service_config } }}" 
+#     middlewares: "{{ {'rps-groups-interface-header-redirect-'+rps_groups_interface_instance: traefik_header_redirect_middleware_config } }}"

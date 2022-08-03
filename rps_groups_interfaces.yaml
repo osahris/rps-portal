@@ -1,0 +1,13 @@
+---
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.rps_groups_interfaces }}"
+
+- hosts: rps_groups_interfaces
+  remote_user: root
+  gather_facts: false
+  roles:
+    - role: rps_groups_interface

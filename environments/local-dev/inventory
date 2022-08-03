@@ -1,0 +1,62 @@
+[hosts]
+test-lxd ansible_host=192.168.33.15
+
+[backup_servers]
+test-backupserver ansible_host=192.168.33.210
+
+[containers]
+test1 ansible_host=test-lxd lxc_host=test1
+test2 ansible_host=test-lxd lxc_host=test2
+test3 ansible_host=test-lxd lxc_host=test3
+
+[containers:children]
+reverse_proxies
+keycloak_servers
+discourse_servers
+nextcloud_servers
+wordpress_servers
+openproject_servers
+mailservers
+monitoring_servers
+alerting_servers
+
+[backup_clients]
+test-lxd
+
+[netdata_providers]
+keycloak
+test1
+
+[reverse_proxies]
+reverse-proxy
+
+[keycloak_servers]
+keycloak
+
+[discourse_servers]
+discourse
+
+[nextcloud_servers]
+nextcloud
+
+[wordpress_servers]
+wordpress
+
+[openproject_servers]
+openproject
+
+[monitoring_servers]
+netdata
+
+[alerting_servers]
+alerta
+
+[rps_admin_web_interfaces]
+admin
+
+[mailservers]
+mail
+
+[mailinglist_servers]
+#testlists.{{dns_suffix}}
+#vtestlists.{{dns_suffix}}

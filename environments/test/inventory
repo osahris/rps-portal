@@ -21,6 +21,8 @@ alerting_servers
 proskive_servers
 loomio_servers
 #collabora_servers
+rps_groups_interfaces
+rps_header_servers
 
 [reverse_proxies]
 reverse-proxy
@@ -47,6 +49,9 @@ rps-admin-web-interface
 
 [rps_sync_services]
 rps-sync-services
+
+[rps_groups_interfaces]
+groups
 
 [mailservers]
 mx
@@ -86,3 +91,9 @@ alerta
 
 [collabora_servers]
 collabora
+
+[rps_groups_interfaces]
+groups
+
+[rps_header_servers]
+header

@@ -11,14 +11,4 @@ header_config:
   header_links: "{{header_links}}"
 
 header_keycloak_auth_url: https://{{keycloak_server_name}}/auth
-header_nginx_inclusion: |
-  location = /header.js {
-    alias /var/www/header.js;
-
-    # kill cache
-    add_header Last-Modified $date_gmt;
-    add_header Cache-Control 'no-store, no-cache';
-    if_modified_since off;
-    expires off;
-    etag off;
-  }
+header_nginx_inclusion: rewrite ^/header.js$ https://{{rps_header_server_name}}/header.js redirect;

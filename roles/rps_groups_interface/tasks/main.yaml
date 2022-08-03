@@ -1,0 +1,76 @@
+---
+
+- name: podman debian packages
+  apt:
+    pkg:
+    - podman
+    - git
+
+- name: clone rps-groups-interface repo
+  git:
+    repo: "{{ rps_groups_interface_git_repo }}"
+    dest: "{{ rps_groups_interface_directory }}"
+    version: "{{ rps_groups_interface_git_version }}"
+  register: rps_groups_interface_git_task
+
+- name: build rps-groups-interface image
+  containers.podman.podman_image:
+    name: rps-groups-interface
+    tag: "{{rps_groups_interface_image_tag}}"
+    path: "{{ rps_groups_interface_directory }}"
+
+- name: rps-groups-interface suite config directory
+  file:
+    path: "{{ rps_groups_interface_config_directory }}"
+    state: directory
+
+- name: rps-groups-interface suite config
+  ansible.builtin.copy:
+    content: "{{rps_groups_interface_suite_config}}"
+    dest: "{{rps_groups_interface_suite_config_file}}"
+  notify: restart rps-groups-interface container
+  # loop: "{{  rps_groups_interface_instances  }}"
+  # loop_control:
+  #   loop_var: rps_groups_interface_instance
+
+- name: rps-groups-interface keycloak client client
+  keycloak_client:
+    auth_client_id: "{{ keycloak_management_client_id }}"
+    auth_keycloak_url: "{{ keycloak_management_url }}"
+    auth_realm: "{{ keycloak_management_realm }}"
+    auth_username: "{{ keycloak_management_username }}"
+    auth_password: "{{ keycloak_management_password }}"
+    realm: "{{ rps_groups_interface_keycloak_realm }}"
+    client_id: "{{ rps_groups_interface_keycloak_client_id }}"
+    public_client: yes
+    full_scope_allowed: true
+    base_url: "https://{{ rps_groups_interface_server_name }}"
+    redirect_uris:
+      - "https://{{ rps_groups_interface_server_name }}/*"
+    web_origins:
+      - '+'
+#   loop: "{{ rps_groups_interface_instances }}"
+#   loop_control:
+#     loop_var: rps_groups_interface_instance
+
+- name: rps-groups-interface containers
+  containers.podman.podman_container:
+    name: "rps-groups-interface-{{rps_groups_interface_instance}}"
+    image: rps-groups-interface:{{rps_groups_interface_image_tag}}
+    volumes:
+      - "{{rps_groups_interface_suite_config_file}}:/var/www/gruppeninterface-rps/suite.config.json"
+    ports:
+     - "3000:3000"
+    recreate: yes
+
+#   loop: "{{ rps_groups_interface_instances }}"
+#   loop_control:
+#     loop_var: rps_groups_interface_instance
+
+# - name: rps-groups-interface traefik config
+#   ansible.builtin.copy:
+#     content: "{{traefik_config}}"
+#     dest: "{{proxy_config_directory}}/conf/rps-groups-interface-{{rps_groups_interface_instance}}.yml"
+#   loop: "{{ rps_groups_interface_instances }}"
+#   loop_control:
+#     loop_var: rps_groups_interface_instance

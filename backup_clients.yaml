@@ -1,0 +1,10 @@
+---
+- hosts: backup_servers
+  remote_user: root
+  # Only gather server facts
+
+- hosts: backup_clients
+  remote_user: root
+  roles:
+    - role: restic_client
+

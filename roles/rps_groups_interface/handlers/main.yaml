@@ -1,0 +1,6 @@
+---
+
+- name: restart rps-groups-interface container
+  containers.podman.podman_container:
+    name: "rps-groups-interface-{{rps_groups_interface_instance}}"
+    state: restarted
