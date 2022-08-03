@@ -102,7 +102,7 @@
     restart_policy: always
     container_default_behavior: no_defaults
     networks_cli_compatible: false
-    command: start-dev --http-relative-path=/auth
+    command: start-dev
     state: started
     networks:
       - name: ingress
