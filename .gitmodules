@@ -82,3 +82,6 @@
 [submodule "roles/collabora"]
 	path = roles/collabora
 	url = ../ansible-role-collabora.git
+[submodule "roles/podman"]
+	path = roles/podman
+	url = ../../rps/ansible-role-podman.git
