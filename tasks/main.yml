@@ -49,7 +49,7 @@
     name: keycloak
 
 # hmm deploy via docker or standalone? docker way for now
-- name: postgres
+- name: postgres docker container
   community.general.docker_container:
     name: keycloak-postgres
     image: postgres:12.4 # postgres 13 is just out. use more stable version
@@ -148,7 +148,7 @@
 - name: Wait for keycloak
   local_action: uri
   args:
-    url: "{{ keycloak_frontend_url }}"
+    url: "{{ keycloak_frontend_url }}/realms/master/"
     validate_certs: "{{ keycloak_validate_certs }}"
     status_code: 200
   register: result
@@ -170,10 +170,10 @@
       client_id: "admin-cli"
   register: keycloak_token
 
-- name: "Find out, if Realm {{ keycloak_realm_name }} for service Keycloak exists"
+- name: "Find out, if Realm {{ keycloak_main_realm_name }} for service Keycloak exists"
   local_action: uri
   args:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}"
     method: GET
     validate_certs: "{{ keycloak_validate_certs }}"
     status_code:
@@ -184,38 +184,38 @@
       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
   register: keycloak_realm_exists
 
-# - name: "Create Realm {{ keycloak_realm_name }} for service Keycloak"
-#   local_action: uri
-#   args:
-#     url: "{{ keycloak_frontend_url }}/admin/realms"
-#     method: POST
-#     validate_certs: "{{ keycloak_validate_certs }}"
-#     body: "{{ keycloak_realm }}"
-#     body_format: "json"
-#     remote_src: "no"
-#     status_code:
-#      - 201
-#     headers:
-#       Content-type: "application/json"
-#       Accept: "application/json"
-#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-#   register: keycloak_realm_create
-#   when: "keycloak_realm_exists.status == 404"
+- name: "Create main Realm {{ keycloak_main_realm_name }} for service Keycloak"
+  local_action: uri
+  args:
+    url: "{{ keycloak_frontend_url }}/admin/realms"
+    method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body: "{{ keycloak_realm }}"
+    body_format: "json"
+    remote_src: "no"
+    status_code:
+     - 201
+    headers:
+      Content-type: "application/json"
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+  register: keycloak_realm_create
+  when: "keycloak_realm_exists.status == 404"
 
-# - name: "Update Realm {{ keycloak_realm_name }} for service Keycloak"
-#   local_action: uri
-#   args:
-#     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm_name }}"
-#     method: PUT
-#     validate_certs: "{{ keycloak_validate_certs }}"
-#     body: "{{ keycloak_realm }}"
-#     body_format: "json"
-#     remote_src: "no"
-#     status_code:
-#      - 204
-#     headers:
-#       Content-type: "application/json"
-#       Accept: "application/json"
-#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-#   register: keycloak_realm_create
-#   when: "keycloak_realm_exists.status == 200"
+- name: "Update main Realm {{ keycloak_main_realm_name }} for service Keycloak"
+  local_action: uri
+  args:
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}"
+    method: PUT
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body: "{{ keycloak_realm }}"
+    body_format: "json"
+    remote_src: "no"
+    status_code:
+     - 204
+    headers:
+      Content-type: "application/json"
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+  register: keycloak_realm_create
+  when: "keycloak_realm_exists.status == 200"

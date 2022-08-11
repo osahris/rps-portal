@@ -4,10 +4,9 @@ keycloak_container_version: 18.0
 
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
-keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}/{{keycloak_auth_path_prefix}}"
-keycloak_auth_path_prefix: ""
+keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}"
 
-keycloak_realm_name: "users"
+keycloak_main_realm_name: users
 
 # keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587
@@ -23,3 +22,5 @@ keycloak_validate_certs: yes
 keycloak_registration_form_rules: {}
 keycloak_registration_form_pages: {}
 keycloak_registration_form_fields:  {}
+
+keycloak_admin_username: admin
