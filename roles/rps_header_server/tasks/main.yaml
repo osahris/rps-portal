@@ -1,7 +1,12 @@
 ---
 
 - import_role:
-    name: docker
+    name: podman
+
+- name: required debian packages
+  apt:
+    pkg:
+      - git
 
 - name: clone header repo
   git:
@@ -13,26 +18,22 @@
   copy:
     content: "{{ header_config | to_json}}"
     dest: /opt/header/config.json
+  when: false
 
 - name: build header image
-  community.docker.docker_image:
+  containers.podman.podman_image:
     name: header
-    source: build
-    build:
-      path: /opt/header
-      rm: false
+    path: /opt/header
     tag: current
-    force_tag: true
-    force_source: true
+    force: true
+    build:
+      rm: false
 
 - name: header container
-  community.general.docker_container:
+  containers.podman.podman_container:
     name: header
-    image: header:dev
-    restart_policy: always
-    container_default_behavior: no_defaults
-    networks_cli_compatible: false
-    state: started
+    image: header:current
     ports:
      - "80:80"
+    recreate: true
   
