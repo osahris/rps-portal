@@ -23,7 +23,7 @@ header_links:
       - title: Dateien
         link: https://cloud.{{dns_suffix}}/apps/files
       - title: Einstellungen
-        link: https://accounts.{{dns_suffix}}/auth/realms/users/account
+        link: https://accounts.{{dns_suffix}}/realms/{{keycloak_main_realm_name}}/account
   - title: Projekt
     link: https://web.{{dns_suffix}}
   - title: "Über uns"

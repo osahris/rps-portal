@@ -6,10 +6,8 @@ rps_groups_interface_image_tag: "{{ rps_groups_interface_git_task.after }}"
 rps_groups_interface_suite_config_file: "{{rps_groups_interface_config_directory}}/suite-{{rps_groups_interface_instance}}.json"
 rps_groups_interface_suite_config:
   project_id: numhub-main
-  project_name: NUM Hub Gruppen 2
-  interface_heading: NUM Hub
-  keycloak_realm_url: https://{{keycloak_server_name}}/auth/admin/realms/users/
-  keycloak_url: https://{{keycloak_server_name}}/auth/realms/{{rps_groups_interface_keycloak_realm}}/
+  keycloak_realm_url: https://{{keycloak_server_name}}/admin/realms/{{rps_groups_interface_keycloak_realm}}/
+  keycloak_url: https://{{keycloak_server_name}}/realms/{{rps_groups_interface_keycloak_realm}}/
   keycloak_client_id: "{{rps_groups_interface_keycloak_client_id}}"
   language: de
   user_attributes:
