@@ -39,7 +39,7 @@
     module: keycloak_client
     auth_client_id: admin-cli
     auth_keycloak_url: "{{ discourse_keycloak_frontend_url }}"
-    auth_realm: master
+    auth_realm: "{{ discourse_keycloak_management_realm }}"
     auth_username: "{{ discourse_keycloak_management_username }}"
     auth_password: "{{ discourse_keycloak_management_password }}"
     client_id: discourse
