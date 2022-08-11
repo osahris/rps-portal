@@ -1,10 +1,7 @@
 ---
 
-- name: podman debian packages
-  apt:
-    pkg:
-    - podman
-    - git
+- import_role:
+    name: podman
 
 - name: clone rps-groups-interface repo
   git:
@@ -61,7 +58,6 @@
       - "{{rps_groups_interface_suite_config_file}}:/var/www/gruppeninterface-rps/suite.config.json"
     ports:
      - "3000:3000"
-
 #   loop: "{{ rps_groups_interface_instances }}"
 #   loop_control:
 #     loop_var: rps_groups_interface_instance

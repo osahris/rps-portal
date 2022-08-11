@@ -6,6 +6,9 @@ rps_groups_interface_image_tag: "{{ rps_groups_interface_git_task.after }}"
 rps_groups_interface_suite_config_file: "{{rps_groups_interface_config_directory}}/suite-{{rps_groups_interface_instance}}.json"
 rps_groups_interface_suite_config:
   project_id: numhub-main
+  project_name: "{{ rps_groups_interface_interface_heading }}"
+  interface_heading: "{{ rps_groups_interface_interface_heading }}"
+  interface_title: "{{ rps_groups_interface_interface_title }}"
   keycloak_realm_url: https://{{keycloak_server_name}}/admin/realms/{{rps_groups_interface_keycloak_realm}}/
   keycloak_url: https://{{keycloak_server_name}}/realms/{{rps_groups_interface_keycloak_realm}}/
   keycloak_client_id: "{{rps_groups_interface_keycloak_client_id}}"
@@ -40,12 +43,6 @@ rps_groups_interface_suite_config:
   - key: "membership_source"
     type: "autocomplete-membership-source"
     label: "Membership source"
-  - key: "group_hierachy_type"
-    type: "autocomplete-group-hierachy-type"
-    label: "Hierachy Types"
-  - key: "group_hierachy_children"
-    type: "autocomplete-group-hierachy-children"
-    label": "Hierachy Child"
 
   membership_sources:
   - name : accounts
