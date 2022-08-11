@@ -65,28 +65,18 @@
       POSTGRES_DB: keycloak # explicitly (default == POSTGRES_USER)
       POSTGRES_PASSWORD: "{{ keycloak_postgres_password }}"
 
-- block:
-    - name: fetch keycloak theme
-      git:
-        repo: "{{ keycloak_theme }}"
-        dest: "/var/lib/keycloak/themes/ansible-theme"
-        version: master
-        force: true
-      register: theme
+- name: fetch keycloak theme
+  git:
+    repo: "{{ keycloak_theme }}"
+    dest: "/var/lib/keycloak/themes/ansible-theme"
+    version: master
+    force: true
+  register: theme
+  when: keycloak_theme is defined
 
-    - name: set themes
-      set_fact:
-        keycloak_realm: "{{ keycloak_realm | combine({'loginTheme': 'ansible-theme', 'accountTheme': 'ansible-theme'}) }}"
-
-    - name: keycloak script directory
-      file:
-        path: /var/lib/keycloak/scripts
-        state: directory
-
-    - name: copy disable theme cache script
-      copy:
-        src: disable-theme-cache.cli
-        dest: /var/lib/keycloak/scripts/disable-theme-cache.cli
+- name: set themes
+  set_fact:
+    keycloak_realm: "{{ keycloak_realm | combine({'loginTheme': 'ansible-theme', 'accountTheme': 'ansible-theme'}) }}"
   when: keycloak_theme is defined
 
 - name: keycloak extensions directory
@@ -111,7 +101,7 @@
     dest: /var/lib/keycloak/themes/auto/login/register.ftl
 
 
-- name: keycloak docker deployment
+- name: keycloak docker container
   community.general.docker_container:
     name: keycloak
     image: "{{keycloak_container_image}}:{{keycloak_container_version}}"
