@@ -3,6 +3,7 @@ discourse_admin_users:
   - maximilian.schons@uk-koeln.de
 
 discourse_open_id_hostname: "{{ keycloak_server_name }}"
+discourse_keycloak_management_realm: "{{ keycloak_management_realm }}"
 discourse_keycloak_management_username: "{{ keycloak_management_username }}"
 discourse_keycloak_management_password: "{{ keycloak_management_password }}"
 
