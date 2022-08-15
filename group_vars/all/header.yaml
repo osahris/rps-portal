@@ -10,4 +10,7 @@ header_config:
   header_links: "{{header_links}}"
 
 header_keycloak_auth_url: https://{{keycloak_server_name}}/auth
-header_nginx_inclusion: rewrite ^/header.js$ https://{{rps_header_server_name}}/header.js redirect;
+header_nginx_inclusion: |-
+  {% if rps_header_server_name is defined %}
+  rewrite ^/header.js$ https://{{rps_header_server_name}}/header.js redirect;
+  {% endif %}
