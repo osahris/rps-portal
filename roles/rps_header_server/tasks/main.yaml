@@ -3,6 +3,9 @@
 - import_role:
     name: podman
 
+- import_role:
+    name: nodejs
+
 - name: required debian packages
   apt:
     pkg:
@@ -13,12 +16,52 @@
     repo: "{{ header_repo }}"
     dest: /opt/header
     version: "{{ header_version }}"
+    force: yes
 
-- name: write header config
+- name: clone header config repo
+  git:
+    repo: "{{ header_config_repo }}"
+    dest: /opt/header_config
+    version: "{{ header_config_version }}"
+
+- name: List files in /opt/header_config/files
+  find:
+    path: /opt/header_config/files/
+    recurse: yes
+    file_type: any
+  register: find_result
+
+- name: Create the directories
+  file:
+    path: "{{ item.path | regex_replace('/opt/header_config/files','/opt/header') }}"
+    state: directory
+    # mode: "{{ item.mode }}"
+  with_items:
+    - "{{ find_result.files }}"
+  when:
+    - item.isdir
+
+- name: Copy the files
   copy:
-    content: "{{ header_config | to_json}}"
-    dest: /opt/header/config.json
-  when: false
+    src: "{{ item.path }}"
+    dest: "{{ item.path | regex_replace('/opt/header_config/files','/opt/header') }}"
+    remote_src: yes
+    # mode: "{{ item.mode }}"
+  with_items:
+    - "{{ find_result.files }}"
+  when:
+    - item.isdir == False
+
+
+- name: Install packages based on package.json using the npm
+  npm:
+    path: /opt/header/
+    state: present
+
+- name: Build app
+  command: npm run build
+  args:
+    chdir: /opt/header/
 
 - name: build header image
   containers.podman.podman_image:

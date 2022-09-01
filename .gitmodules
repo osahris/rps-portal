@@ -85,3 +85,6 @@
 [submodule "roles/podman"]
 	path = roles/podman
 	url = ../../rps/ansible-role-podman.git
+[submodule "roles/nodejs"]
+	path = roles/nodejs
+	url = https://gitlab.com/idcohorts/rps/ansible-role-nodejs
