@@ -85,21 +85,10 @@
     state: directory
     mode: 0777
 
-- name: keycloak auto login theme directory
-  file:
-    path: /var/lib/keycloak/themes/auto/login
-    state: directory
 
-- name: keycloak auto theme login properties
-  template:
-    src: theme.properties.j2          
-    dest: /var/lib/keycloak/themes/auto/login/theme.properties
-
-- name: keycloak auto theme registration page
-  template:
-    src: register.ftl.j2          
-    dest: /var/lib/keycloak/themes/auto/login/register.ftl
-
+- import_tasks: theme.yaml
+  tags:
+    - theme
 
 - name: keycloak docker container
   community.general.docker_container:
