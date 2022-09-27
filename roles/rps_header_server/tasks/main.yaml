@@ -11,14 +11,14 @@
     pkg:
       - git
 
-- name: clone header repo
+- name: Clone header repo
   git:
     repo: "{{ header_repo }}"
     dest: /opt/header
     version: "{{ header_version }}"
     force: yes
 
-- name: clone header config repo
+- name: Clone header config repo
   git:
     repo: "{{ header_config_repo }}"
     dest: /opt/header_config
@@ -63,7 +63,7 @@
   args:
     chdir: /opt/header/
 
-- name: build header image
+- name: Build header image
   containers.podman.podman_image:
     name: header
     path: /opt/header
@@ -72,7 +72,7 @@
     build:
       rm: false
 
-- name: header container
+- name: Start header container
   containers.podman.podman_container:
     name: header
     image: header:current
