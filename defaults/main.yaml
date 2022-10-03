@@ -1,0 +1,4 @@
+netbox_keycloak_url: "https://{{ keycloak_server_name }}"
+netbox_keycloak_client_id: "{{inventory_hostname}}"
+netbox_keycloak_realm: "{{keycloak_main_realm_name}}"
+keycloak_management_client_id: admin-cli

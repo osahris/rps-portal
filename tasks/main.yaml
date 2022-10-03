@@ -1,0 +1,49 @@
+---
+
+- import_role:
+    name: docker
+
+- name: clone netbox docker repo
+  git:
+    repo: https://github.com/netbox-community/netbox-docker.git
+    dest: /opt/netbox-docker
+
+- name: docker-compose custom override
+  copy:
+    content: "{{netbox_docker_compose_override}}"
+    dest: /opt/netbox-docker/docker-compose.override.yml
+
+- name: docker-compose
+  docker_compose:
+    project_src: /opt/netbox-docker
+
+- name: netbox keycloak client
+  local_action:
+    module: keycloak_client
+  args:
+    auth_client_id: "{{ keycloak_management_client_id }}"
+    auth_keycloak_url: "{{ keycloak_management_url }}"
+    auth_realm: "{{ keycloak_management_realm }}"
+    auth_username: "{{ keycloak_management_username }}"
+    auth_password: "{{ keycloak_management_password }}"
+    realm: "{{ netbox_keycloak_realm }}"
+    client_id: "{{ netbox_keycloak_client_id }}"
+    secret: "{{ netbox_keycloak_client_secret }}"
+    full_scope_allowed: false
+    base_url: "https://{{ netbox_server_name }}"
+    redirect_uris:
+      - "https://{{ netbox_server_name }}/*"
+    web_origins:
+      - '+'
+    protocol_mappers:
+      - name: audience
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience: "netbox"
+          id.token.claim: "true"
+          access.token.claim: "true"
+          included.custom.audience: "netbox"
+#   loop: "{{ netbox_instances }}"
+#   loop_control:
+#     loop_var: netbox_instance
