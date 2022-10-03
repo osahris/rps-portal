@@ -23,6 +23,7 @@ loomio_servers
 #collabora_servers
 rps_groups_interfaces
 rps_header_servers
+netbox_servers
 
 [reverse_proxies]
 reverse-proxy
@@ -97,3 +98,6 @@ groups
 
 [rps_header_servers]
 header
+
+[netbox_servers]
+netbox
