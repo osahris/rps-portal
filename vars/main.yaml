@@ -26,7 +26,7 @@ netbox_docker_compose_override:
         OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
 
         # cookie
-        OAUTH2_PROXY_COOKIE_SECRET: Ma1ahchooneisoe6cheg1yugo9chathe
+        OAUTH2_PROXY_COOKIE_SECRET: "{{ netbox_oauth2_proxy_cookie_secret }}"
         OAUTH2_PROXY_COOKIE_NAME: _netdata_oauth2_proxy
 
         # keycloak
