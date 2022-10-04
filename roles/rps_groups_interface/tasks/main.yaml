@@ -1,10 +1,7 @@
 ---
 
-- name: podman debian packages
-  apt:
-    pkg:
-    - podman
-    - git
+- import_role:
+    name: podman
 
 - name: clone rps-groups-interface repo
   git:

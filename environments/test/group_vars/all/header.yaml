@@ -1,5 +1,5 @@
 rps_header_server_name: header.{{ dns_suffix }}
-header_version: dev
+header_version: main
 header_theme: default
 header_cookie_domain: .idcohorts.net
 header_logo_uri: https://accounts.{{ dns_suffix }}
