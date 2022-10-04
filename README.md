@@ -2,14 +2,16 @@
 
 ## Ansible Installation
 /etc/ansible/ansible.cfg
-[defaults]
-nocows = 1
-stdout_callback = yaml
-interpreter_python = auto_silent
-retry_files_enabled = False
-force_handlers = True
 
-library = /usr/share/ansible/library
+
+> [defaults]
+> nocows = 1
+> stdout_callback = yaml
+> interpreter_python = auto_silent
+> retry_files_enabled = False
+> force_handlers = True
+
+> library = /usr/share/ansible/library
 
 The following python packages must be installed:
 
@@ -55,7 +57,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE={{somewhere_nice}}
 ## Initialize connection
 Befor start with a new project, please execute the following to initialize the connection to the reverse proxy:
 ```sh
-ansible-playbook -i rps-{{project_name}}/inventory/ rps-dev/containers.yaml
+ansible-playbook -i rps-{{project_name}}/inventory/ rps-dev/rps_header_servers.yaml --limit rps_header_servers
 ```
 
 # Deploy the header
