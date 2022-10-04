@@ -1,4 +1,15 @@
-# Installation
+# Installation 
+
+## Ansible Installation
+/etc/ansible/ansible.cfg
+[defaults]
+nocows = 1
+stdout_callback = yaml
+interpreter_python = auto_silent
+retry_files_enabled = False
+force_handlers = True
+
+library = /usr/share/ansible/library
 
 The following python packages must be installed:
 
@@ -23,7 +34,9 @@ execute ansible playbooks:
 ansible-playbook -i environments/test/ all.yaml
 ```
 
+
 Please note, you have to add the connection_plugins for LXC Reverse Proxy to work.
+
 
 ```sh
 mkdir -p /usr/share/ansible/library/connection_plugins
@@ -36,6 +49,7 @@ Very import to have a vault key for all the sweet secrets. Put the Key file {{so
 ```sh
 export ANSIBLE_VAULT_PASSWORD_FILE={{somewhere_nice}}
 ```
+
 # Usage
 
 ## Initialize connection
@@ -51,3 +65,25 @@ Hints:
 ```sh
 ansible-playbook -i rps-{{project_name}}/inventory/ rps-dev/containers.yaml
 ```
+
+
+# Deploy Cohort Explorer
+
+Variables for Cohort Explorer in group_vars
+- rps_cohort_explorer_server_name: cohort-explorer.{{dns_suffix}}
+- rps_cohort_explorer_git_version: main
+- rps_cohort_explorer_repo: https://{{ rps_cohort_explorer_deploy_token }}@gitlab.com/idcohorts/cohortexplorer.git
+- rps_cohort_explorer_deploy_token: in **secrets**
+- reverse_proxy_server_name: container name for **containers.yaml** role
+- reverse_proxy_nginx_vhost_custom: nginx config for **containers.yaml** role
+
+
+```sh
+ansible-playbook -i environments/test/ rps_cohort_explorer.yaml 
+ansible-playbook -i environments/test/ rps_cohort_explorer.yaml  --limit rps_cohort_explorer
+```
+
+Further Cohort-Explorer Deployment-Todos:
+
+- [ ] deploy cohort explorer theme repo
+- [ ] deploy cohort explorer structure repo
