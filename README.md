@@ -7,17 +7,18 @@ Install by pip3
 python3 -m pip install --user ansible
 ```
 
-/etc/ansible/ansible.cfg
+Copy the folowing into /etc/ansible/ansible.cfg
 
+```
+[defaults]
+nocows = 1
+stdout_callback = yaml
+interpreter_python = auto_silent
+retry_files_enabled = False
+force_handlers = True
 
-> [defaults]
-> nocows = 1
-> stdout_callback = yaml
-> interpreter_python = auto_silent
-> retry_files_enabled = False
-> force_handlers = True
-
-> library = /usr/share/ansible/library
+library = /usr/share/ansible/library
+```
 
 The following python packages must be installed:
 
