@@ -3,7 +3,7 @@
 ## Ansible Installation
 Install by pip3
 
-````sh
+```sh
 python3 -m pip install --user ansible
 ```
 
