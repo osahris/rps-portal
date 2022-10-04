@@ -1,6 +1,12 @@
 # Installation 
 
 ## Ansible Installation
+Install by pip3
+
+````sh
+python3 -m pip install --user ansible
+```
+
 /etc/ansible/ansible.cfg
 
 
