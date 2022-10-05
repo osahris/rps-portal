@@ -1,0 +1,38 @@
+---
+- name: oauth2-proxy keycloak client
+  local_action:
+    module: keycloak_client
+  args:
+    auth_client_id: "{{ keycloak_management_client_id | default('admin-cli') }}"
+    auth_keycloak_url: "{{ keycloak_management_url }}"
+    auth_realm: "{{ keycloak_management_realm }}"
+    auth_username: "{{ keycloak_management_username }}"
+    auth_password: "{{ keycloak_management_password }}"
+    realm: "{{ oauth2_proxy_keycloak_realm }}"
+    client_id: "{{ oauth2_proxy_client_id }}"
+    secret: "{{ oauth2_proxy_client_secret }}"
+    full_scope_allowed: false
+    base_url: "{{ oauth2_proxy_base_url }}"
+    redirect_uris:
+      - "{{ oauth2_proxy_base_url }}/*"
+    web_origins:
+      - '+'
+    protocol_mappers:
+      - name: audience
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience: "{{oauth2_proxy_client_id}}"
+          id.token.claim: "true"
+          access.token.claim: "true"
+          included.custom.audience: "{{oauth2_proxy_client_id}}"
+      - name: username
+        protocol: openid-connect
+        protocolMapper: oidc-usermodel-property-mapper
+        config:
+          userinfo.token.claim: "true"
+          user.attribute: "username"
+          id.token.claim: "true"
+          access.token.claim: "true"
+          claim.name: "preferred_username"
+          jsonType.label: "String"

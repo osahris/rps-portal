@@ -1,0 +1,36 @@
+---
+
+- name: oauth2-proxy directory
+  file:
+    path: "{{oauth2_proxy_install_directory}}"
+    state: directory
+
+- name: download oauth2-proxy archive
+  get_url:
+    url: "{{oauth2_proxy_archive_url}}"
+    dest: "{{oauth2_proxy_install_directory}}/{{oauth2_proxy_archive_filename}}"
+
+- name: download oauth2-proxy sha256sum
+  get_url:
+    url: "{{oauth2_proxy_sha256sum_url}}"
+    dest: "{{oauth2_proxy_install_directory}}/{{oauth2_proxy_sha256sum_filename}}"
+
+- name: unarchive oauth2-proxy
+  unarchive:
+    src: "{{oauth2_proxy_install_directory}}/{{oauth2_proxy_archive_filename}}"
+    remote_src: true
+    dest: "{{oauth2_proxy_install_directory}}"
+    owner: root
+    group: root
+
+- name: check oauth2-proxy sha256sum
+  command: sha256sum -c {{oauth2_proxy_sha256sum_filename}}
+  args:
+    chdir: "{{oauth2_proxy_install_directory}}"
+  changed_when: false
+
+- name: oauth2-proxy executable symlink
+  file:
+    dest: /usr/local/bin/oauth2-proxy
+    src: "{{oauth2_proxy_install_directory}}/{{oauth2_proxy_foldername}}/oauth2-proxy"
+    state: link

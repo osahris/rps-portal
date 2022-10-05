@@ -1,0 +1,12 @@
+---
+
+- name: oauth2-proxy config directory
+  file:
+    path: "{{oauth2_proxy_config_directory}}"
+    state: directory
+
+- name: oauth2-proxy config
+  template:
+    src: oauth2-proxy.env.j2
+    dest: "{{oauth2_proxy_config_directory}}/{{oauth2_proxy_instance}}.env"
+  register: oauth2_proxy_config_copy_task
