@@ -26,13 +26,30 @@
           id.token.claim: "true"
           access.token.claim: "true"
           included.custom.audience: "{{oauth2_proxy_client_id}}"
-      - name: username
+      - name: groups
         protocol: openid-connect
-        protocolMapper: oidc-usermodel-property-mapper
+        protocolMapper: oidc-group-membership-mapper
         config:
-          userinfo.token.claim: "true"
-          user.attribute: "username"
+          full.path: "false"
           id.token.claim: "true"
           access.token.claim: "true"
-          claim.name: "preferred_username"
-          jsonType.label: "String"
+          claim.name: "groups"
+          userinfo.token.claim: "true"
+      # - name: roles
+      #   protocol: openid-connect
+      #   protocolMapper: oidc-usermodel-realm-role-mapper
+      #   config:
+      #     access.token.claim: "true"
+      #     claim.name: roles
+      #     jsonType.label: String
+      #     multivalued: "true"
+      # - name: username
+      #   protocol: openid-connect
+      #   protocolMapper: oidc-usermodel-property-mapper
+      #   config:
+      #     userinfo.token.claim: "true"
+      #     user.attribute: "username"
+      #     id.token.claim: "true"
+      #     access.token.claim: "true"
+      #     claim.name: "user"
+      #     jsonType.label: "String"

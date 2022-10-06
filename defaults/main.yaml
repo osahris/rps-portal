@@ -14,8 +14,13 @@ oauth2_proxy_cookie_name: _oauth2_proxy
 oauth2_proxy_oidc_issuer_url: "https://{{ keycloak_server_name }}/realms/{{oauth2_proxy_keycloak_realm}}"
 oauth2_proxy_keycloak_realm: "{{keycloak_default_realm}}"
 oauth2_proxy_client_id: "{{oauth2_proxy_server_name}}"
+oauth2_proxy_scope: "openid email profile roles"
 
 oauth2_proxy_email_domains: '*'
 #oauth2_proxy_allowed_groups: icu
 
 oauth2_proxy_redirect_url: "{{oauth2_proxy_base_url}}/oauth2/callback"
+
+oauth2_proxy_set_xauthrequest: false
+
+oauth2_proxy_request_logging: true

@@ -2,6 +2,8 @@
 oauth2_proxy_install_directory: /opt/oauth2-proxy
 oauth2_proxy_config_directory: /etc/oauth2-proxy
 
+oauth2_proxy_git_repo: https://github.com/oauth2-proxy/oauth2-proxy.git
+oauth2_proxy_git_version: master
 oauth2_proxy_foldername: oauth2-proxy-v{{oauth2_proxy_version}}.{{oauth2_proxy_platform}}-{{oauth2_proxy_architecture}}
 oauth2_proxy_archive_filename: "{{oauth2_proxy_foldername}}.tar.gz"
 oauth2_proxy_sha256sum_filename: "{{oauth2_proxy_foldername}}-sha256sum.txt"
@@ -31,6 +33,7 @@ oauth2_proxy_environment:
   OAUTH2_PROXY_CLIENT_SECRET: "{{ oauth2_proxy_client_secret }}"
   OAUTH2_PROXY_REDIRECT_URL: "{{ oauth2_proxy_redirect_url }}"
   OAUTH2_PROXY_OIDC_ISSUER_URL: "{{ oauth2_proxy_oidc_issuer_url }}"
+  OAUTH2_PROXY_SCOPE: "{{ oauth2_proxy_scope }}"
 
   # authorization
   OAUTH2_PROXY_EMAIL_DOMAINS: '{{oauth2_proxy_email_domains}}'
@@ -39,4 +42,7 @@ oauth2_proxy_environment:
 
   # upstream
   OAUTH2_PROXY_UPSTREAMS: "{{oauth2_proxy_upstreams|default(omit)}}"
+  OAUTH2_PROXY_SET_XAUTHREQUEST: "{{oauth2_proxy_set_xauthrequest|bool|lower}}"
 
+  # logging
+  OAUTH2_PROXY_REQUEST_LOGGING: "{{oauth2_proxy_request_logging|bool|lower}}"
