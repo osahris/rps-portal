@@ -6,7 +6,7 @@ keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}"
 
-keycloak_main_realm_name: users
+keycloak_default_realm: users
 
 # keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587

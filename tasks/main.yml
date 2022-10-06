@@ -149,10 +149,10 @@
       client_id: "admin-cli"
   register: keycloak_token
 
-- name: "Find out, if Realm {{ keycloak_main_realm_name }} for service Keycloak exists"
+- name: "Find out, if Realm {{ keycloak_default_realm }} for service Keycloak exists"
   local_action: uri
   args:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}"
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_default_realm }}"
     method: GET
     validate_certs: "{{ keycloak_validate_certs }}"
     status_code:
@@ -163,7 +163,7 @@
       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
   register: keycloak_realm_exists
 
-- name: "Create main Realm {{ keycloak_main_realm_name }} for service Keycloak"
+- name: "Create main Realm {{ keycloak_default_realm }} for service Keycloak"
   local_action: uri
   args:
     url: "{{ keycloak_frontend_url }}/admin/realms"
@@ -181,10 +181,10 @@
   register: keycloak_realm_create
   when: "keycloak_realm_exists.status == 404"
 
-- name: "Update main Realm {{ keycloak_main_realm_name }} for service Keycloak"
+- name: "Update main Realm {{ keycloak_default_realm }} for service Keycloak"
   local_action: uri
   args:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}"
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_default_realm }}"
     method: PUT
     validate_certs: "{{ keycloak_validate_certs }}"
     body: "{{ keycloak_realm }}"
