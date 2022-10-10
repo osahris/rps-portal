@@ -97,7 +97,7 @@
     restart_policy: always
     container_default_behavior: no_defaults
     networks_cli_compatible: false
-    command: start-dev
+    command: "{{keycloak_development_mode|ternary('start-dev','start')}}"
     state: started
     networks:
       - name: ingress
