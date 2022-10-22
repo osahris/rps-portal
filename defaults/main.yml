@@ -2,6 +2,8 @@
 keycloak_container_image: quay.io/keycloak/keycloak
 keycloak_container_version: 18.0
 
+keycloak_development_mode: false
+
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}"
@@ -16,8 +18,12 @@ letsencrypt_account_email: '{{ admin_email }}'
 
 keycloak_theme: "https://{{ gitlab_deploy_token}}@gitlab.com/research-project-suite/keycloak-theme"
 
-keycloak_with_traefik: yes
-keycloak_validate_certs: yes
+keycloak_with_traefik: true
+keycloak_validate_certs: true
+traefik_config_directory: /etc/traefik
+
+keycloak_with_proxy_network: "{{keycloak_with_traefik}}"
+keycloak_proxy_network: proxy
 
 keycloak_registration_form_rules: {}
 keycloak_registration_form_pages: {}

@@ -1,7 +1,7 @@
 ---
 
-- import_role:
-    name: docker
+# - import_role:
+#     name: docker
 
 - name: create traefik dir
   file:
@@ -20,23 +20,28 @@
   register: traefik_conf
   when: keycloak_with_traefik
 
-- name: create ingress network
+- name: traefik dynamic config
+  copy:
+    content: "{{ keycloak_traefik_dynamic_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/keycloak.yaml"  
+
+- name: create proxy network
   community.general.docker_network:
-    name: ingress
+    name: "{{keycloak_proxy_network}}"
 
 - name: install traefik
   community.general.docker_container:
     name: traefik
     image: traefik:v2.3
     container_default_behavior: no_defaults
-    networks_cli_compatible: false
+    #networks_cli_compatible: false
     restart_policy: always
     ports:
       - 80:80
       - 443:443
       #- 127.0.0.1:8080:8080 # dashboard. should not be publically visible. use ssh tunnel to view it
     networks:
-      - name: ingress
+      - name: "{{keycloak_proxy_network}}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/traefik/traefik.toml:/etc/traefik/traefik.toml
@@ -87,7 +92,7 @@
       copy:
         src: disable-theme-cache.cli
         dest: /var/lib/keycloak/scripts/disable-theme-cache.cli
-  when: keycloak_theme is defined
+  when: keycloak_theme is defined and keycloak_theme
 
 - name: keycloak extensions directory
   file:
@@ -110,22 +115,21 @@
     src: register.ftl.j2          
     dest: /var/lib/keycloak/themes/auto/login/register.ftl
 
-
 - name: keycloak docker deployment
   community.general.docker_container:
     name: keycloak
     image: "{{keycloak_container_image}}:{{keycloak_container_version}}"
     restart_policy: always
     container_default_behavior: no_defaults
-    networks_cli_compatible: false
-    command: start-dev
+    #networks_cli_compatible: false
+    command: "{{keycloak_development_mode|ternary('start-dev','start')}}"
     state: started
     networks:
-      - name: ingress
+      - name: "{{keycloak_proxy_network}}"
       - name: keycloak
     volumes:
       - /var/lib/keycloak/themes:/opt/keycloak/themes
-    published_ports: "{{ omit if keycloak_with_traefik else '8080:8080' }}"
+    published_ports: "{{ omit if keycloak_with_proxy_network else '8080:8080' }}"
     env:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"

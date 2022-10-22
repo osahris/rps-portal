@@ -18,3 +18,18 @@ keycloak_realm:
   defaultLocale: "de"
   supportedLocales:
     - "de"
+
+keycloak_traefik_dynamic_config:
+  http:
+    routers:
+      keycloak:
+        rule: "Host(`{{keycloak_server_name}}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: letsencrypt
+        service: keycloak
+    services:
+      keycloak:
+        loadBalancer:
+          servers:
+            - url: http://keycloak:8080
