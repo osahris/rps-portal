@@ -5,7 +5,7 @@ traefik_static_config:
     insecure: false
   providers:
     file:
-      directory: /etc/traefik/conf
+      directory: /etc/traefik/conf.d
       watch: true
   entryPoints:
     web:

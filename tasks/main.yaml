@@ -1,12 +1,21 @@
 ---
 
+- name: docker debian packages installed
+  apt:
+    update_cache: true
+    pkg:
+    - docker.io
+    - python3-docker
+    - docker-compose
+    - apparmor
+
 - name: traefik ssl-certs docker volume
   docker_volume:
     name: "{{traefik_ssl_certs_docker_volume_name}}"
 
 - name: traefik config directory
   file:
-    path: "{{traefik_config_directory}}/conf"
+    path: "{{traefik_config_directory}}/conf.d"
     state: directory
 
 - name: traefik static config
