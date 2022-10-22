@@ -1,0 +1,2 @@
+---
+traefik_ssl_certs_docker_volume_name: traefik-ssl-certs

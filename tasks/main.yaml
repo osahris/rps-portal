@@ -1,0 +1,27 @@
+---
+
+- name: traefik ssl-certs docker volume
+  docker_volume:
+    name: "{{traefik_ssl_certs_docker_volume_name}}"
+
+- name: traefik config directory
+  file:
+    path: "{{traefik_config_directory}}/conf"
+    state: directory
+
+- name: traefik static config
+  copy:
+    content: "{{ traefik_static_config }}"
+    dest: "{{traefik_config_directory}}/traefik.yaml"
+
+- name: traefik docker container
+  docker_container:
+    name: traefik
+    image: traefik:v2.8
+    state: present
+    exposed_ports:
+      - 80
+      - 443
+    volumes:
+      - "{{traefik_config_directory}}:/etc/traefik:ro"
+      - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
