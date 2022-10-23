@@ -57,3 +57,4 @@
   copy:
     content: "{{ traefik_dashboard_dynamic_config }}"
     dest: "{{traefik_config_directory}}/conf.d/traefik-dashboard.yaml"
+  when: traefik_dashboard_hostname is defined
