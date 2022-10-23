@@ -1,4 +1,5 @@
 ---
+
 traefik_static_config:
   api:
     dashboard: true
@@ -18,3 +19,28 @@ traefik_static_config:
     websecure:
       address: ":443"
 
+  certificatesResolvers:
+    letsencrypt:
+      acme:
+        email: '{{ letsencrypt_account_email }}'
+        storage: "/ssl-certs/acme.json"
+        tlsChallenge: true
+        caServer: "https://acme-v02.api.letsencrypt.org/directory"
+    letsencrypt-staging:
+      acme:
+        email: '{{ letsencrypt_account_email }}'
+        storage: "/ssl-certs/acme.json"
+        tlsChallenge: true
+        caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+    #step-ca-acme:
+    #  TODO
+
+traefik_dashboard_dynamic_config:
+  http:
+    routers:
+      traefik:
+        rule: "Host(`{{traefik_dashboard_hostname}}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: letsencrypt
+        service: api@internal

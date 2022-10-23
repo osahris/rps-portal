@@ -22,15 +22,27 @@
   copy:
     content: "{{ traefik_static_config }}"
     dest: "{{traefik_config_directory}}/traefik.yaml"
+  register: traefik_copy_static_config_task
+
+- name: traefik docker proxy network
+  docker_network:
+    name: "{{ traefik_proxy_network }}"
 
 - name: traefik docker container
   docker_container:
     name: traefik
     image: traefik:v2.8
-    state: present
-    exposed_ports:
-      - 80
-      - 443
+    restart: "{{traefik_copy_static_config_task.changed}}"
+    networks:
+      - name: "{{traefik_proxy_network}}"
+    ports:
+      - 80:80
+      - 443:443
     volumes:
       - "{{traefik_config_directory}}:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
+
+- name: traefik dashboard dynamic config
+  copy:
+    content: "{{ traefik_dashboard_dynamic_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/traefik-dashboard.yaml"
