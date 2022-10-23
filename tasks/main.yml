@@ -49,6 +49,11 @@
     restart: "{{ traefik_conf.changed }}"
   when: keycloak_with_traefik
 
+- name: keycloak directory
+  file:
+    path: /var/lib/keycloak
+    state: directory
+
 - name: create keycloak network
   community.general.docker_network:
     name: keycloak
@@ -64,7 +69,7 @@
     networks:
       - name: keycloak
     volumes:
-      - /var/lib/postgres/:/var/lib/postgresql/data # maybe use docker volume instead host volume?
+      - /var/lib/keycloak/postgres/:/var/lib/postgresql/data # maybe use docker volume instead host volume?
     env:
       POSTGRES_USER: keycloak
       POSTGRES_DB: keycloak # explicitly (default == POSTGRES_USER)
