@@ -4,8 +4,6 @@ keycloak_development_mode: false
 keycloak_container_image: quay.io/keycloak/keycloak
 keycloak_container_version: 18.0
 
-keycloak_development_mode: false
-
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}"
