@@ -26,14 +26,26 @@ traefik_static_config:
         storage: "/ssl-certs/acme.json"
         tlsChallenge: true
         caServer: "https://acme-v02.api.letsencrypt.org/directory"
+    letsencrypt-http:
+      acme:
+        email: '{{ letsencrypt_account_email }}'
+        storage: "/ssl-certs/acme.json"
+        httpChallenge:
+          entryPoint: web
+        caServer: "https://acme-v02.api.letsencrypt.org/directory"
     letsencrypt-staging:
       acme:
         email: '{{ letsencrypt_account_email }}'
         storage: "/ssl-certs/acme.json"
         tlsChallenge: true
         caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
-    #step-ca-acme:
-    #  TODO
+    letsencrypt-staging-http:
+      acme:
+        email: '{{ letsencrypt_account_email }}'
+        storage: "/ssl-certs/acme.json"
+        httpChallenge:
+          entryPoint: web
+        caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
 
 traefik_dashboard_dynamic_config:
   http:
