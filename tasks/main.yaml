@@ -9,26 +9,36 @@
     - docker-compose
     - apparmor
 
+- name: start docker service
+  service:
+    name: docker
+    state: started
+
 - name: traefik ssl-certs docker volume
   docker_volume:
     name: "{{traefik_ssl_certs_docker_volume_name}}"
 
-- name: traefik config directory
+- name: create traefik config directory
   file:
     path: "{{traefik_config_directory}}/conf.d"
     state: directory
 
-- name: traefik static config
+- name: copy traefik static config
   copy:
     content: "{{ traefik_static_config }}"
     dest: "{{traefik_config_directory}}/traefik.yaml"
   register: traefik_copy_static_config_task
 
-- name: traefik docker proxy network
+- name: create traefik docker proxy network
   docker_network:
     name: "{{ traefik_proxy_network }}"
 
-- name: traefik docker container
+- name: copy traefik tls config
+  copy:
+    content: "{{ traefik_tls_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/tls.yaml"
+
+- name: create traefik docker container
   docker_container:
     name: traefik
     image: traefik:v2.8
@@ -39,7 +49,7 @@
       - 80:80
       - 443:443
     volumes:
-      - "{{traefik_config_directory}}:/etc/traefik:ro"
+      - "{{traefik_config_directory}}/:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
     env: "{{ proxy_url is defined | ternary({'HTTP_PROXY':proxy_url,'HTTPS_PROXY':proxy_url},{}) }}"
 
@@ -47,4 +57,3 @@
   copy:
     content: "{{ traefik_dashboard_dynamic_config }}"
     dest: "{{traefik_config_directory}}/conf.d/traefik-dashboard.yaml"
-  when: traefik_dashboard_hostname is defined

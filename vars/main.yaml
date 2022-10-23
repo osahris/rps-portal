@@ -18,7 +18,6 @@ traefik_static_config:
             scheme: https
     websecure:
       address: ":443"
-
   certificatesResolvers:
     letsencrypt:
       acme:
@@ -46,6 +45,15 @@ traefik_static_config:
         httpChallenge:
           entryPoint: web
         caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+
+traefik_tls_config:
+  tls:
+    options:
+      default:
+        minVersion: VersionTLS12
+
+      mintls13:
+        minVersion: VersionTLS13
 
 traefik_dashboard_dynamic_config:
   http:
