@@ -30,6 +30,12 @@ traefik_certificates_resolvers:
       storage: "/ssl-certs/acme.json"
       tlsChallenge: true
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+  step-ca:
+    acme:
+      email: '{{ stepca_email }}'
+      storage: "/ssl-certs/acme.json"
+      tlsChallenge: true
+      caServer: '{{ stepca_server_url }}'
   # letsencrypt-http:
   #   acme:
   #     email: '{{ letsencrypt_account_email }}'
