@@ -51,10 +51,15 @@
     volumes:
       - "{{traefik_config_directory}}/:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
-    env: "{{ proxy_url is defined | ternary({'HTTP_PROXY':proxy_url,'HTTPS_PROXY':proxy_url},{}) }}"
 
 - name: traefik dashboard dynamic config
   copy:
     content: "{{ traefik_dashboard_dynamic_config }}"
     dest: "{{traefik_config_directory}}/conf.d/traefik-dashboard.yaml"
   when: traefik_dashboard_hostname is defined
+
+- name: make sure traefik dashboard dynamic config is absent when not defined
+  file:
+    path: "{{traefik_config_directory}}/conf.d/traefik-dashboard.yaml"
+    state: absent
+  when: not traefik_dashboard_hostname is defined

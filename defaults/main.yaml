@@ -2,6 +2,7 @@
 traefik_config_directory: /etc/traefik
 traefik_ssl_certs_docker_volume_name: traefik-ssl-certs
 traefik_proxy_network: proxy
+traefik_dashboard_dynamic_config_tls_certresolver: letsencrypt-staging
 
 traefik_entry_points:
   web:
