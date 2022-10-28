@@ -1,0 +1,5 @@
+---
+- name: nextcloud traefik dynamic config
+  copy:
+    content: "{{ nextcloud_traefik_dynamic_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/{{nextcloud_project_name}}.yaml"  

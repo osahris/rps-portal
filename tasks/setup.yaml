@@ -1,0 +1,30 @@
+---
+
+- name: nextcloud docker-compose file
+  copy:
+    content: "{{ nextcloud_docker_compose }}"
+    dest: "{{ nextcloud_project_directory }}/docker-compose.yml"
+
+- name: nextcloud docker-compose
+  community.docker.docker_compose:
+    project_name: "{{ nextcloud_project_name }}"
+    project_src: "{{ nextcloud_project_directory }}"
+  register: _nextcloud_docker_compose
+
+- name: nextcloud status
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_status_task
+  changed_when: false
+
+- name: nextcloud install
+  when: not _nextcloud_status.installed
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command:
+      php occ maintenance:install
+      --admin-user "{{ nextcloud_admin_user }}"
+      --admin-pass "{{ nextcloud_admin_pass }}"

@@ -1,0 +1,20 @@
+---
+
+- name: occ app list
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ app:list
+  register: _nextcloud_occ_app_list
+  changed_when: false
+
+- name: nextcloud install user_oidc app
+  when: not ('oidc_login' in _nextcloud_apps_enabled)
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ app:install oidc_login
+
+- import_tasks: ../config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_oidc_login_config}}"

@@ -1,0 +1,19 @@
+---
+
+- name: nextcloud project directory
+  file:
+    path: "{{ nextcloud_project_directory }}"
+    state: directory
+
+- import_tasks: setup.yaml
+
+- import_tasks: keycloak_client.yaml
+  when: nextcloud_with_keycloak_client
+
+- import_tasks: apps/user_oidc.yaml
+  when: nextcloud_with_user_oidc_app
+
+- import_tasks: apps/oidc_login.yaml
+  when: nextcloud_with_oidc_login_app
+
+- import_tasks: traefik.yaml

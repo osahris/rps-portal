@@ -1,0 +1,46 @@
+---
+
+- name: occ app list
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ app:list
+  register: _nextcloud_occ_app_list
+  changed_when: false
+
+- name: nextcloud install user_oidc app
+  when: not ('user_oidc' in _nextcloud_apps_enabled)
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ app:install user_oidc
+  changed_when: false
+
+- name: nextcloud user_oidc provider list
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ user_oidc:provider --output=json keycloak
+  register: _nextcloud_user_oidc_provider_cmd
+  changed_when: false
+  failed_when: _nextcloud_user_oidc_provider_cmd.rc != 0 and _nextcloud_user_oidc_provider_cmd.rc != 255
+
+- debug:
+    msg: "{{_nextcloud_user_oidc_provider}}"
+
+- name: nextcloud user_oidc provider
+  when: ('Provider not found.' == _nextcloud_user_oidc_provider_cmd.stdout) 
+  community.docker.docker_container_exec: 
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ user_oidc:provider keycloak
+      --clientid={{nextcloud_user_oidc_clientid|quote}} 
+      --clientsecret={{nextcloud_user_oidc_client_secret|quote}} 
+      --discoveryuri={{nextcloud_user_oidc_discoveryuri|quote}}
+      --mapping-email={{nextcloud_user_oidc_mapping_email|quote}}
+      --mapping-uid={{nextcloud_user_oidc_mapping_uid|quote}}
+      --send-id-token-hint=1
+
+- import_tasks: config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_user_oidc_config}}"
