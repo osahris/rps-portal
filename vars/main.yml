@@ -2,7 +2,7 @@
 # better make this a proper variable. needs to be the same in two locations
 keycloak_realm:
   enabled: true
-  realm: "{{ keycloak_default_realm }}"
+  realm: "{{ keycloak_realm }}"
   verifyEmail: true
   resetPasswordAllowed: true
   #smtpServer:
@@ -25,8 +25,6 @@ keycloak_traefik_dynamic_config:
       keycloak:
         rule: "Host(`{{keycloak_server_name}}`)"
         entrypoints: websecure
-        tls:
-          certresolver: letsencrypt
         service: keycloak
     services:
       keycloak:

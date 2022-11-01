@@ -99,6 +99,7 @@
 - import_tasks: theme.yaml
   tags:
     - theme
+  when: keycloak_theme is defined
 
 - name: keycloak docker container
   community.general.docker_container:
@@ -107,7 +108,7 @@
     restart_policy: always
     container_default_behavior: no_defaults
     #networks_cli_compatible: false
-    command: "{{keycloak_development_mode|ternary('start-dev','start')}}"
+    command: "{{keycloak_development_mode|ternary('start-dev','start --auto-build --db=postgres')}}"
     state: started
     networks:
       - name: "{{keycloak_proxy_network}}"
@@ -117,7 +118,7 @@
     published_ports: "{{ omit if keycloak_with_proxy_network else '8080:8080' }}"
     env:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_pass }}"
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-postgres/keycloak
       KC_DB_USERNAME: keycloak
@@ -134,77 +135,77 @@
       traefik.http.routers.keycloak-http.entrypoints: http
       traefik.http.middlewares.test-ratelimit.ratelimit.burst: '100'
 
-- name: Wait for keycloak
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/realms/master/"
-    validate_certs: "{{ keycloak_validate_certs }}"
-    status_code: 200
-  register: result
-  until: result.status == 200
-  retries: 180
-  delay: 1
+# - name: Wait for keycloak
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/realms/master/"
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     status_code: 200
+#   register: result
+#   until: result.status == 200
+#   retries: 180
+#   delay: 1
+#
+# - name: "Create Token for service Keycloak"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
+#     method: POST
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     body_format: form-urlencoded
+#     body:
+#       username: "{{ keycloak_admin_username }}"
+#       password: "{{ keycloak_admin_pass }}"
+#       grant_type: "password"
+#       client_id: "admin-cli"
+#   register: keycloak_token
 
-- name: "Create Token for service Keycloak"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
-    method: POST
-    validate_certs: "{{ keycloak_validate_certs }}"
-    body_format: form-urlencoded
-    body:
-      username: "{{ keycloak_admin_username }}"
-      password: "{{ keycloak_admin_password }}"
-      grant_type: "password"
-      client_id: "admin-cli"
-  register: keycloak_token
+# - name: "Find out, if Realm {{ keycloak_realm }} for service Keycloak exists"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm }}"
+#     method: GET
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     status_code:
+#      - 200
+#      - 404
+#     headers:
+#       Accept: "application/json"
+#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+#   register: keycloak_realm_exists
 
-- name: "Find out, if Realm {{ keycloak_default_realm }} for service Keycloak exists"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_default_realm }}"
-    method: GET
-    validate_certs: "{{ keycloak_validate_certs }}"
-    status_code:
-     - 200
-     - 404
-    headers:
-      Accept: "application/json"
-      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-  register: keycloak_realm_exists
+# - name: "Create main Realm {{ keycloak_realm }} for service Keycloak"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/admin/realms"
+#     method: POST
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     body: "{{ keycloak_realm }}"
+#     body_format: "json"
+#     remote_src: "no"
+#     status_code:
+#      - 201
+#     headers:
+#       Content-type: "application/json"
+#       Accept: "application/json"
+#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+#   register: keycloak_realm_create
+#   when: "keycloak_realm_exists.status == 404"
 
-- name: "Create main Realm {{ keycloak_default_realm }} for service Keycloak"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/admin/realms"
-    method: POST
-    validate_certs: "{{ keycloak_validate_certs }}"
-    body: "{{ keycloak_realm }}"
-    body_format: "json"
-    remote_src: "no"
-    status_code:
-     - 201
-    headers:
-      Content-type: "application/json"
-      Accept: "application/json"
-      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-  register: keycloak_realm_create
-  when: "keycloak_realm_exists.status == 404"
-
-- name: "Update main Realm {{ keycloak_default_realm }} for service Keycloak"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_default_realm }}"
-    method: PUT
-    validate_certs: "{{ keycloak_validate_certs }}"
-    body: "{{ keycloak_realm }}"
-    body_format: "json"
-    remote_src: "no"
-    status_code:
-     - 204
-    headers:
-      Content-type: "application/json"
-      Accept: "application/json"
-      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-  register: keycloak_realm_create
-  when: "keycloak_realm_exists.status == 200"
+# - name: "Update main Realm {{ keycloak_realm }} for service Keycloak"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm }}"
+#     method: PUT
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     body: "{{ keycloak_realm }}"
+#     body_format: "json"
+#     remote_src: "no"
+#     status_code:
+#      - 204
+#     headers:
+#       Content-type: "application/json"
+#       Accept: "application/json"
+#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+#   register: keycloak_realm_create
+#   when: "keycloak_realm_exists.status == 200"
