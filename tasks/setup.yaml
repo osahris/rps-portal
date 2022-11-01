@@ -18,6 +18,9 @@
     command: php occ status --output=json
   register: _nextcloud_status_task
   changed_when: false
+  retries: 60
+  delay: 1
+  until: _nextcloud_status_task is not failed
 
 - name: nextcloud install
   when: not _nextcloud_status.installed

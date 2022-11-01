@@ -5,7 +5,26 @@
     path: "{{ nextcloud_project_directory }}"
     state: directory
 
+- name: nextcloud certs directory
+  file:
+    path: "{{nextcloud_project_directory}}/certs"
+    state: directory
+
+- name: nextcloud certs directory
+  file:
+    path: "{{nextcloud_project_directory}}/skel"
+    state: directory
+
+- name: copy CA certificates file
+  copy:
+    src: "{{ca_certificates_file}}"
+    dest: "{{nextcloud_project_directory}}/certs/ca-certificates.crt"
+
 - import_tasks: setup.yaml
+
+- import_tasks: config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_default_config}}"
 
 - import_tasks: keycloak_client.yaml
   when: nextcloud_with_keycloak_client

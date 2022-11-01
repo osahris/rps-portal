@@ -35,6 +35,9 @@ nextcloud_docker_compose:
         - config:/var/www/html/config
         - data:/var/www/html/data
         - themes:/var/www/html/themes
+        - "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+        #- "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/var/www/html/resources/config/ca-bundle.crt:ro"
+        - ./skel:/srv/nextcloud/skel
       environment:
         VIRTUAL_HOST: "{{ nextcloud_server_name }}"
         REDIS_HOST: redis
@@ -99,10 +102,16 @@ nextcloud_traefik_redirect_middleware:
 nextcloud_app_container_name: "{{_nextcloud_docker_compose.services.app.keys()|first}}"
 nextcloud_traefik_url: "http://{{nextcloud_app_container_name}}"
 
+nextcloud_default_config:
+  system:
+    defaultapp: "{{nextcloud_defaultapp}}"
+    skeletondirectory: /srv/nextcloud/skel
+
 nextcloud_user_oidc_config:
   apps:
     user_oidc:
       allow_multiple_user_backends: "{{nextcloud_user_oidc_allow_multiple_user_backends|bool|lower}}"
+      userinfo_bearer_validation: "{{nextcloud_user_oidc_userinfo_bearer_validation|bool|lower}}"
 
 nextcloud_oidc_login_config: # legacy plugin
   system:
@@ -115,4 +124,3 @@ nextcloud_oidc_login_config: # legacy plugin
     oidc_login_attributes: "{{ nextcloud_oidc_login_attributes }}"
     oidc_login_tls_verify: "{{ nextcloud_oidc_login_tls_verify|bool }}"
     oidc_login_disable_registration: "{{ nextcloud_oidc_login_disable_registration|bool }}"
-

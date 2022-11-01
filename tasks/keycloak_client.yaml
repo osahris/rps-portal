@@ -2,6 +2,7 @@
 
 - name: keycloak client
   local_action: keycloak_client
+  become: false
   args:
     auth_client_id: "{{ nextcloud_keycloak_client_auth_client_id }}"
     auth_keycloak_url: "{{ nextcloud_keycloak_client_auth_keycloak_url }}"
@@ -15,6 +16,7 @@
     secret: "{{ nextcloud_keycloak_client_secret }}"
     state: present
     validate_certs: "{{ nextcloud_keycloak_client_validate_certs | default(true) }}"
+    # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
     protocol_mappers:
       - name: groups
         config:
@@ -26,3 +28,5 @@
         consentRequired: false
         protocol: openid-connect
         protocolMapper: oidc-group-membership-mapper
+  environment:
+    REQUESTS_CA_BUNDLE: /home/mkb/abrechnungspipeline/files/certs/nukleus_prod_2022_root_ca.crt
