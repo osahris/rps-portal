@@ -14,39 +14,57 @@ traefik_entry_points:
           scheme: https
   websecure:
     address: ":443"
+    http:
+      tls:
+        # options: default
+        certResolver: "{{ traefik_default_certificates_resolver }}"
+        # domains:
+        #   - main: example.com
+        #     sans:
+        #       - foo.example.com
+        #       - bar.example.com
+        #   - main: test.com
+        #     sans:
+        #       - foo.test.com
+        #       - bar.test.com
     # proxyProtocol:
     #   trustedIPs: "{{traefik_websecure_proxy_protocol_trusted_ips}}"
 
+traefik_default_certificates_resolver: letsencrypt-staging
 traefik_certificates_resolvers:
   letsencrypt:
     acme:
       email: '{{ letsencrypt_account_email }}'
-      storage: "/ssl-certs/acme.json"
+      storage: "/ssl-certs/acme-letsencrypt.json"
       tlsChallenge: true
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
   letsencrypt-staging:
     acme:
       email: '{{ letsencrypt_account_email }}'
-      storage: "/ssl-certs/acme.json"
+      storage: "/ssl-certs/acme-letsencrypt-staging.json"
       tlsChallenge: true
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
-  step-ca:
-    acme:
-      email: '{{ stepca_email }}'
-      storage: "/ssl-certs/acme.json"
-      tlsChallenge: true
-      caServer: '{{ stepca_server_url }}'
+  # step-ca:
+  #   acme:
+  #     email: '{{ stepca_email }}'
+  #     storage: "/ssl-certs/acme-step-ca.json"
+  #     tlsChallenge: true
+  #     caServer: '{{ stepca_server_url }}'
   # letsencrypt-http:
   #   acme:
   #     email: '{{ letsencrypt_account_email }}'
-  #     storage: "/ssl-certs/acme.json"
+  #     storage: "/ssl-certs/acme-letsencrypt.json"
   #     httpChallenge:
   #       entryPoint: web
   #     caServer: "https://acme-v02.api.letsencrypt.org/directory"
   # letsencrypt-staging-http:
   #   acme:
   #     email: '{{ letsencrypt_account_email }}'
-  #     storage: "/ssl-certs/acme.json"
+  #     storage: "/ssl-certs/acme-letsencrypt-staging.json"
   #     httpChallenge:
   #       entryPoint: web
   #     caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+
+traefik_proxy_network_ipam_config:
+  - subnet: 172.31.80.0/24  # custom IPv4 proxy network
+  - subnet: fd31:80::/64 # local container proxy network

@@ -23,6 +23,11 @@
     path: "{{traefik_config_directory}}/conf.d"
     state: directory
 
+- name: create traefik certs directory
+  file:
+    path: "{{traefik_config_directory}}/certs"
+    state: directory
+
 - name: copy traefik static config
   copy:
     content: "{{ traefik_static_config }}"
@@ -32,11 +37,18 @@
 - name: create traefik docker proxy network
   docker_network:
     name: "{{ traefik_proxy_network }}"
+    enable_ipv6: true
+    ipam_config: "{{ traefik_proxy_network_ipam_config }}"
 
 - name: copy traefik tls config
   copy:
     content: "{{ traefik_tls_config }}"
     dest: "{{traefik_config_directory}}/conf.d/tls.yaml"
+
+- name: copy CA certificates file
+  copy:
+    src: "{{ca_certificates_file}}"
+    dest: "{{traefik_config_directory}}/certs/ca-certificates.crt"
 
 - name: create traefik docker container
   docker_container:
@@ -51,6 +63,7 @@
     volumes:
       - "{{traefik_config_directory}}/:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
+      - "{{traefik_config_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
 
 - name: traefik dashboard dynamic config
   copy:
