@@ -68,3 +68,5 @@ traefik_certificates_resolvers:
 traefik_proxy_network_ipam_config:
   - subnet: 172.31.80.0/24  # custom IPv4 proxy network
   - subnet: fd31:80::/64 # local container proxy network
+
+traefik_default_tls_options_type: mintls12
