@@ -1,0 +1,9 @@
+---
+typesense_server_name: "{{inventory_hostname}}"
+typesense_project_name: "{{typesense_server_name}}"
+typesense_project_directory: /srv/typesense/{{typesense_project_name}}
+typesense_oauth_proxy_collection_configuration:
+  proxy_collections:
+    num_users:
+      allowed_groups:
+        - approved_users
