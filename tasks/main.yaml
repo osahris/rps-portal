@@ -49,6 +49,7 @@
   copy:
     src: "{{ca_certificates_file}}"
     dest: "{{traefik_config_directory}}/certs/ca-certificates.crt"
+  when: ca_certificates_file is defined
 
 - name: create traefik docker container
   docker_container:
@@ -63,7 +64,7 @@
     volumes:
       - "{{traefik_config_directory}}/:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
-      - "{{traefik_config_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+      #- "{{traefik_config_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
 
 - name: traefik dashboard dynamic config
   copy:
@@ -76,3 +77,4 @@
     path: "{{traefik_config_directory}}/conf.d/traefik-dashboard.yaml"
     state: absent
   when: not traefik_dashboard_hostname is defined
+
