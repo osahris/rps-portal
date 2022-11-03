@@ -21,7 +21,7 @@ typesense_docker_compose:
       environment:
         ADDRESS: 0.0.0.0:4000
         ISSUER: https://{{keycloak_server_name}}/realms/{{keycloak_realm}}
-        TYPESENSE_OAUTH_PROXY_LOG: typesense_oauth_proxy=trace
+        TYPESENSE_OAUTH_PROXY_LOG: typesense_oauth_proxy=debug # typesense_oauth_proxy=trace # only "trace" for more debug
         TYPESENSE_URL: http://typesense:8108
         TYPESENSE_ADMIN_API_KEY: "{{typesense_api_key}}"
         PROXY_COLLECTIONS_FILE: /data/proxy_collections.yaml
@@ -29,12 +29,12 @@ typesense_docker_compose:
         - ./typesense-oauth-proxy-data:/data
       labels:
         traefik.enable: "true"
-    # typesense-num-users-demo:
-    #   image: registry.gitlab.com/idcohorts/num/num-matchmaking-prototype:keycloak-authentication
-    #   labels:
-    #     traefik.enable: "true"
-    #   networks:
-    #     - proxy
+    typesense-frontend:
+      image: registry.gitlab.com/idcohorts/num/num-matchmaking-prototype:keycloak-authentication
+      labels:
+        traefik.enable: "true"
+      networks:
+        - proxy
   volumes:
     typesense: {}
 
@@ -47,15 +47,26 @@ typesense_traefik_dynamic_config:
   http:
     routers:
       typesense-oauth-proxy:
-        rule: "Host(`{{typesense_server_name}}`)"
+        rule: "Host(`{{typesense_server_name}}`) && PathPrefix(`/typesense`)"
         service: typesense-oauth-proxy
+        entrypoints: websecure
+        middlewares:
+          - typesense-stripprefix
+      typesense-frontend:
+        rule: "Host(`{{typesense_server_name}}`)"
+        service: typesense-frontend
         entrypoints: websecure
     services:
       typesense-oauth-proxy:
         loadBalancer:
           servers:
             - url: http://{{_typesense_docker_compose.services['typesense-oauth-proxy'].keys()|first}}:4000
-      # typesense-frontend:
-      #   loadBalancer:
-      #     servers:
-      #       - url: http://typesense-frontend:4000
+      typesense-frontend:
+        loadBalancer:
+          servers:
+            - url: http://typesense-frontend
+    middlewares:
+      typesense-stripprefix:
+        stripPrefix:
+          prefixes:
+            - "/typesense"
