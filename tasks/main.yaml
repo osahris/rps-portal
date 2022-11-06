@@ -64,7 +64,7 @@
     volumes:
       - "{{traefik_config_directory}}/:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
-      #- "{{traefik_config_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "{{traefik_config_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
 
 - name: traefik dashboard dynamic config
   copy:

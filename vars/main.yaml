@@ -10,6 +10,8 @@ traefik_static_config:
       watch: true
   entryPoints: "{{ traefik_entry_points }}"
   certificatesResolvers: "{{ traefik_certificates_resolvers }}"
+  log:
+    level: "{{traefik_log_level}}"
 
 traefik_tls_config:
   tls:
