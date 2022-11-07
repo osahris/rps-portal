@@ -12,20 +12,8 @@ rps_groups_interface_suite_config:
   keycloak_realm_url: https://{{keycloak_server_name}}/admin/realms/{{rps_groups_interface_keycloak_realm}}/
   keycloak_url: https://{{keycloak_server_name}}/realms/{{rps_groups_interface_keycloak_realm}}/
   keycloak_client_id: "{{rps_groups_interface_keycloak_client_id}}"
-  language: de
-  user_attributes:
-  - key: Anrede
-    label: Anrede
-  - key: Titel
-    label: Titel
-  - key: Ort
-    label: Ort
-  - key: Institution
-    label: Institution
-  - key: Abteilung
-    label: Abteilung
-  - key: Telefon
-    label: Telefon
+  language: "{{rps_groups_interface_suite_config_language}}"
+  user_attributes: "{{keycloak_user_attributes}}"
   group_attributes:
   - key: name
     type: textfield
