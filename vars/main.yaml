@@ -7,6 +7,7 @@ typesense_docker_compose:
     typesense:
       networks:
         - typesense
+        - proxy
       image: typesense/typesense:0.23.1
       restart: unless-stopped
       command: --data-dir /data --api-key="{{typesense_api_key}}"
@@ -46,7 +47,13 @@ typesense_docker_compose:
 typesense_traefik_dynamic_config:
   http:
     routers:
-      typesense-oauth-proxy:
+      typesense-oauth:
+        rule: "Host(`{{typesense_server_name}}`) && PathPrefix(`/typesense-oauth`)"
+        service: typesense-oauth-proxy
+        entrypoints: websecure
+        middlewares:
+          - typesense-stripprefix
+      typesense:
         rule: "Host(`{{typesense_server_name}}`) && PathPrefix(`/typesense`)"
         service: typesense-oauth-proxy
         entrypoints: websecure
@@ -61,6 +68,10 @@ typesense_traefik_dynamic_config:
         loadBalancer:
           servers:
             - url: http://{{_typesense_docker_compose.services['typesense-oauth-proxy'].keys()|first}}:4000
+      typesense:
+        loadBalancer:
+          servers:
+            - url: http://{{_typesense_docker_compose.services['typesense'].keys()|first}}:8108
       typesense-frontend:
         loadBalancer:
           servers:
@@ -69,4 +80,4 @@ typesense_traefik_dynamic_config:
       typesense-stripprefix:
         stripPrefix:
           prefixes:
-            - "/typesense"
+            - "/typesense-oauth"
