@@ -46,11 +46,15 @@
     dest: "{{traefik_config_directory}}/conf.d/tls.yaml"
 
 - name: copy custom CA certificates file
+  file:
+    dest: "{{traefik_config_directory}}/certs"
+    state: directory
+
+- name: copy custom CA certificates file
   copy:
     src: "{{ca_certificates_file}}"
     dest: "{{traefik_config_directory}}/certs/ca-certificates.crt"
   when: ca_certificates_file is defined
-
 
 - name: copy system CA certificates file 
   ansible.builtin.copy:
@@ -72,7 +76,7 @@
     volumes:
       - "{{traefik_config_directory}}/:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
-      - "{{traefik_config_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+      - "{{traefik_config_directory}}/certs:/etc/ssl/certs:ro"
 
 - name: traefik dashboard dynamic config
   copy:
