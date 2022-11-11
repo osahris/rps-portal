@@ -1,0 +1,105 @@
+---
+- name: "Create access_token for keycloak"
+  local_action: uri
+  args:
+    url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body_format: form-urlencoded
+    body:
+      username: "{{ keycloak_admin_username }}"
+      password: "{{ keycloak_admin_password }}"
+      grant_type: "password"
+      client_id: "admin-cli"
+  register: keycloak_token
+- name: "create group authentication flow for {{ item.name }} in {{ keycloak_main_realm_name }}"
+  community.general.keycloak_authentication:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ keycloak_main_realm_name }}"
+    alias: "{{ item.name }}-browser-flow"
+    copyFrom: "browser"
+    authenticationExecutions: []
+    state: present
+  register: authentication_flow
+- name: "create or get require-group authentication execution for {{ item.name }} in {{ keycloak_main_realm_name }}"
+  import_tasks: ensure_require_group_execution.yml
+  when: item.required_group is defined
+- name: "create subrealm {{ item.name }}"
+  community.general.keycloak_realm:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    id: "{{ item.name }}"
+    realm: "{{ item.name }}"
+    enabled: true
+    state: present
+- name: "create client for {{ item.name }} in mainrealm"
+  community.general.keycloak_client:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ keycloak_main_realm_name }}"
+    client_id: "{{ item.name }}-idp"
+    secret: "{{ item.client_secret }}"
+    client_authenticator_type: client-secret
+    redirect_uris:
+      - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ keycloak_main_realm_name }}-idp/endpoint"
+    protocol_mappers:
+      - name: "groups"
+        protocol: "openid-connect"
+        protocolMapper: oidc-group-membership-mapper
+        config:
+          claim.name: "groups"
+          full.path: no
+    authentication_flow_binding_overrides:
+      browser: "{{ authentication_flow.end_state.id }}"
+    state: present
+  register: client
+- name: "create idp for {{ item.name }}"
+  community.general.keycloak_identity_provider:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    alias: "users-idp"
+    display_name: "users idp"
+    enabled: true
+    provider_id: "oidc"
+    config:
+      issuer: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}"
+      authorizationUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}/protocol/openid-connect/auth"
+      tokenUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}/protocol/openid-connect/token"
+      userInfoUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}/protocol/openid-connect/userinfo"
+      clientAuthMethod: client_secret_post
+      clientId: "{{ item.name }}-idp"
+      clientSecret: "{{ item.client_secret }}"
+      syncMode: IMPORT
+    state: present
+- name: "create immediate redirect authentication flow for {{ item.name }}"
+  community.general.keycloak_authentication:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    alias: "idp-redirect"
+    providerId: "basic-flow"
+    authenticationExecutions:
+      - providerId: "identity-provider-redirector"
+        requirement: "REQUIRED"
+        authenticationConfig:
+          alias: "idp"
+          config:
+            defaultProvider: "users-idp"
+    state: present
+- name: "Set browser flow to idp redirect"
+  local_action: uri
+  args:
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ item.name }}"
+    method: PUT
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body: '{"browserFlow": "idp-redirect"}'
+    body_format: "json"
+    remote_src: "no"
+    status_code:
+      - 204
+    headers:
+      Content-type: "application/json"
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"

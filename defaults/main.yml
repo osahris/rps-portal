@@ -1,0 +1,7 @@
+---
+# defaults file for keycloak-subrealms
+keycloak_admin_username: admin
+keycloak_admin_password:
+keycloak_auth_realm: master
+keycloak_main_realm_name: users
+keycloak_validate_certs: yes

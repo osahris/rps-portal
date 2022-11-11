@@ -1,0 +1,70 @@
+---
+# the keycloak authentication module is unfortunately not (safely) able to do this
+# the keycloak api is also very broken so it is unlikely (easily fixable in the ansible module)
+- name: "check existing group executions for {{ item.name }} in {{ keycloak_main_realm_name }}"
+  local_action: uri
+  args:
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}/authentication/flows/{{ item.name }}-browser-flow%20forms/executions"
+    method: GET
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body: '{"browserFlow": "idp-redirect"}'
+    body_format: "json"
+    remote_src: "no"
+    status_code:
+      - 200
+    headers:
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+  register: executions
+- block:
+    - name: "create require group execution for {{ item.name }} in {{ keycloak_main_realm_name }}"
+      local_action: uri
+      args:
+        url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}/authentication/flows/{{ item.name }}-browser-flow%20forms/executions/execution"
+        method: POST
+        validate_certs: "{{ keycloak_validate_certs }}"
+        body: '{"provider": "require-group"}'
+        body_format: "json"
+        remote_src: "no"
+        status_code:
+          - 201
+        headers:
+          Accept: "application/json"
+          Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+      register: require_group_execution
+    - name: set require_group_execution_id
+      ansible.builtin.set_fact:
+        require_group_execution_id: "{{ require_group_execution.location | regex_replace('.*\/([^\/]+)$', '\\1') }}"
+  when: executions.json | selectattr("providerId", "defined") | selectattr("providerId", "equalto", "require-group") | length == 0
+- name: register existing require_group_execution_id
+  ansible.builtin.set_fact:
+    require_group_execution_id: '{{ executions.json | selectattr("providerId", "defined") | selectattr("providerId", "equalto", "require-group") | map(attribute="id") | first }}'
+  when: executions.json | selectattr("providerId", "defined") | selectattr("providerId", "equalto", "require-group") | length != 0
+- name: configure require-group check
+  local_action: uri
+  args:
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}/authentication/executions/{{ require_group_execution_id }}/config"
+    method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body: '{"alias": "groupcheck", "config": {"group": "group1"}}'
+    body_format: "json"
+    remote_src: "no"
+    status_code:
+      - 201
+    headers:
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+- name: set required flag for require-group execution
+  local_action: uri
+  args:
+    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}/authentication/flows/{{ item.name }}-browser-flow/executions"
+    method: PUT
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body: '{"id": "{{ require_group_execution_id }}", "requirement": "REQUIRED"}'
+    body_format: "json"
+    remote_src: "no"
+    status_code:
+      - 202
+    headers:
+      Accept: "application/json"
+      Authorization: "Bearer {{ keycloak_token.json.access_token }}"

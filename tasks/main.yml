@@ -1,0 +1,3 @@
+---
+- include_tasks: per_realm.yml
+  loop: "{{ keycloak_subrealms }}"
