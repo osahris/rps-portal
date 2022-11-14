@@ -24,6 +24,7 @@ loomio_servers
 rps_groups_interfaces
 rps_header_servers
 rps_cohort_explorer
+rps_style_servers
 netbox_servers
 
 [reverse_proxies]
@@ -104,3 +105,6 @@ header
 cohort-explorer
 [netbox_servers]
 netbox
+
+[rps_style_servers]
+style
