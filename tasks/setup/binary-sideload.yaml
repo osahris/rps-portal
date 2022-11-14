@@ -1,4 +1,5 @@
 ---
+
 - name: copy sideloaded binary
   copy: 
     src: ~/oauth2-proxy/bin/oauth2-proxy

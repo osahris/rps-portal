@@ -1,55 +1,31 @@
 ---
-- name: oauth2-proxy keycloak client
-  local_action:
-    module: keycloak_client
+
+- name: keycloak client
+  local_action: keycloak_client
+  become: false
   args:
-    auth_client_id: "{{ keycloak_management_client_id | default('admin-cli') }}"
-    auth_keycloak_url: "{{ keycloak_management_url }}"
-    auth_realm: "{{ keycloak_management_realm }}"
-    auth_username: "{{ keycloak_management_username }}"
-    auth_password: "{{ keycloak_management_password }}"
-    realm: "{{ oauth2_proxy_keycloak_realm }}"
-    client_id: "{{ oauth2_proxy_client_id }}"
-    secret: "{{ oauth2_proxy_client_secret }}"
-    full_scope_allowed: false
-    base_url: "{{ oauth2_proxy_base_url }}"
-    redirect_uris:
-      - "{{ oauth2_proxy_base_url }}/*"
-    web_origins:
-      - '+'
+    auth_client_id: "{{ oauth2_proxy_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ oauth2_proxy_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ oauth2_proxy_keycloak_client_auth_realm }}"
+    auth_username: "{{ oauth2_proxy_keycloak_client_auth_username }}"
+    auth_password: "{{ oauth2_proxy_keycloak_client_auth_password }}"
+    client_id: "{{ oauth2_proxy_keycloak_client_client_id }}"
+    realm: "{{ oauth2_proxy_keycloak_client_realm }}"
+    redirect_uris: "{{ oauth2_proxy_keycloak_client_redirect_uris }}"
+    client_authenticator_type: client-secret
+    secret: "{{ oauth2_proxy_keycloak_client_secret }}"
+    state: present
+    validate_certs: "{{ oauth2_proxy_keycloak_client_validate_certs | default(true) }}"
+    # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
     protocol_mappers:
-      - name: audience
-        protocol: openid-connect
-        protocolMapper: oidc-audience-mapper
-        config:
-          included.client.audience: "{{oauth2_proxy_client_id}}"
-          id.token.claim: "true"
-          access.token.claim: "true"
-          included.custom.audience: "{{oauth2_proxy_client_id}}"
+      # TODO audience setup automatization
       - name: groups
+        config:
+          access.token.claim: 'false'
+          claim.name: groups
+          full.path: 'false'
+          id.token.claim: 'false'
+          userinfo.token.claim: 'true'
+        consentRequired: false
         protocol: openid-connect
         protocolMapper: oidc-group-membership-mapper
-        config:
-          full.path: "false"
-          id.token.claim: "true"
-          access.token.claim: "true"
-          claim.name: "groups"
-          userinfo.token.claim: "true"
-      # - name: roles
-      #   protocol: openid-connect
-      #   protocolMapper: oidc-usermodel-realm-role-mapper
-      #   config:
-      #     access.token.claim: "true"
-      #     claim.name: roles
-      #     jsonType.label: String
-      #     multivalued: "true"
-      # - name: username
-      #   protocol: openid-connect
-      #   protocolMapper: oidc-usermodel-property-mapper
-      #   config:
-      #     userinfo.token.claim: "true"
-      #     user.attribute: "username"
-      #     id.token.claim: "true"
-      #     access.token.claim: "true"
-      #     claim.name: "user"
-      #     jsonType.label: "String"

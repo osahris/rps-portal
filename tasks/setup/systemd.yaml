@@ -1,5 +1,7 @@
 ---
 
+- import_tasks: ../config.yaml
+
 - import_tasks: binary-download.yaml
 
 - name: oauth2-proxy systemd service unit

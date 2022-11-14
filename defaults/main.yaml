@@ -1,19 +1,20 @@
 ---
 oauth2_proxy_version: 7.3.0
+oauth2_proxy_oci_image: quay.io/oauth2-proxy/oauth2-proxy:v{{oauth2_proxy_version}}
 
 oauth2_proxy_server_name: "{{ inventory_hostname }}"
 oauth2_proxy_base_url: "https://{{ oauth2_proxy_server_name }}"
 
-oauth2_proxy_setup: systemd
+oauth2_proxy_setup: docker.io
 
 oauth2_proxy_http_address: ":4180"
 oauth2_proxy_show_debug_on_error: false
 oauth2_proxy_skip_provider_button: true
 oauth2_proxy_cookie_name: _oauth2_proxy
 
-oauth2_proxy_oidc_issuer_url: "https://{{ keycloak_server_name }}/realms/{{oauth2_proxy_keycloak_realm}}"
-oauth2_proxy_keycloak_realm: "{{keycloak_default_realm}}"
+oauth2_proxy_oidc_issuer_url: "https://{{ keycloak_server_name }}/realms/{{oauth2_proxy_keycloak_client_realm}}"
 oauth2_proxy_client_id: "{{oauth2_proxy_server_name}}"
+#oauth2_proxy_client_secret: 
 oauth2_proxy_scope: "openid email profile roles"
 
 oauth2_proxy_email_domains: '*'
@@ -24,3 +25,19 @@ oauth2_proxy_redirect_url: "{{oauth2_proxy_base_url}}/oauth2/callback"
 oauth2_proxy_set_xauthrequest: false
 
 oauth2_proxy_request_logging: true
+
+oauth2_proxy_with_keycloak_client: true
+oauth2_proxy_keycloak_client_auth_keycloak_url:  "{{oauth2_proxy_keycloak_client_url}}"
+oauth2_proxy_keycloak_client_auth_client_id: admin-cli
+oauth2_proxy_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+oauth2_proxy_keycloak_client_auth_username: "{{keycloak_management_user|default('admin')}}"
+oauth2_proxy_keycloak_client_auth_password: "{{keycloak_management_pass}}"
+oauth2_proxy_keycloak_client_validate_certs: true
+
+oauth2_proxy_keycloak_client_url: "https://{{ keycloak_server_name }}"
+oauth2_proxy_keycloak_client_realm_url: "{{oauth2_proxy_keycloak_client_url}}/realms/{{oauth2_proxy_keycloak_client_realm}}"
+oauth2_proxy_keycloak_client_client_id: "{{ oauth2_proxy_client_id }}"
+oauth2_proxy_keycloak_client_realm: "{{ keycloak_realm }}"
+oauth2_proxy_keycloak_client_redirect_uris: 
+  - https://{{ oauth2_proxy_server_name }}/*
+oauth2_proxy_keycloak_client_secret: "{{ oauth2_proxy_client_secret }}"
