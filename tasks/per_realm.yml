@@ -22,9 +22,8 @@
     authenticationExecutions: []
     state: present
   register: authentication_flow
-- name: "create or get require-group authentication execution for {{ item.name }} in {{ keycloak_main_realm_name }}"
-  import_tasks: ensure_require_group_execution.yml
-  when: item.required_group is defined
+- name: "handle require-group authentication execution for {{ item.name }} in {{ keycloak_main_realm_name }}"
+  import_tasks: require_group_execution.yml
 - name: "create subrealm {{ item.name }}"
   community.general.keycloak_realm:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
