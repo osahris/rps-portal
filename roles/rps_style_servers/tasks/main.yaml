@@ -1,0 +1,42 @@
+---
+
+- import_role:
+    name: docker
+
+- name: debian packages
+  apt:
+    pkg:
+      - git
+      - python3
+      - pipenv
+      - python3-setuptools
+      - python3-wheel
+
+- name: Clone style_server repo
+  git:
+    repo: "{{ rps_style_servers_git_url }}"
+    dest: /opt/style_server
+    force: yes
+
+
+- name: build style image
+  community.docker.docker_image:
+    name: style_server
+    source: build
+    build:
+      path: /opt/style_server
+      # rm: false
+    tag: dev
+    force_tag: true
+    force_source: true
+
+- name: style_server container
+  community.general.docker_container:
+    name: style_server
+    image: style_server:dev
+    restart_policy: always
+    container_default_behavior: no_defaults
+    networks_cli_compatible: false
+    state: started
+    ports:
+     - "80:80"

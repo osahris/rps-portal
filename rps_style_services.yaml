@@ -1,0 +1,12 @@
+---
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.rps_style_servers }}"
+
+- hosts: rps_style_servers
+  remote_user: root
+  roles:
+    - role: rps_style_servers

@@ -1,0 +1,2 @@
+---
+netbox_server_name: "{{inventory_hostname}}.{{dns_suffix}}"

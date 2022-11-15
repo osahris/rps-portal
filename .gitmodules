@@ -88,3 +88,6 @@
 [submodule "roles/nodejs"]
 	path = roles/nodejs
 	url = https://gitlab.com/idcohorts/rps/ansible-role-nodejs
+[submodule "roles/netbox"]
+	path = roles/netbox
+	url = ../ansible-role-netbox.git
