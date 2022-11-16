@@ -1,26 +1,75 @@
 # Role Name
 
-A brief description of the role goes here.
+Configures subrealms in keycloak that are autoconfigured to use a mainrealm as an idp and sync some attributes from it
 
 ## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+A working keycloak with a mainrealm
 
 ## Role Variables
+
+- keycloak_admin_username
+
+  username to use for authenticating against keycloak. defaults to admin
+
+- keycloak_admin_password
+
+  password to use for authenticating against keycloak.
+
+- keycloak_auth_realm
+
+  realm to use for authenticating as `keycloak_admin_username`. defaults to `master`
+
+- keycloak_main_realm_name
+
+  realm name used as root realm for all subrealms. defaults to `users`
+
+- keycloak_validate_certs
+
+  if certs should be validated. useful for self signed certs. should always be true on prod systems. defaults to `true`
+
+- keycloak_frontend_url
+
+  keycloak url to use. http://localhost:8080
+
+- keycloak_subrealms
+
+  list that contains all subrealms and their config. see "Example playbook"
+
+- keycloak_subrealm_client_secrets
+
+  dict&lt;SubRealmName, ClientPassword&gt;
 
 A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
 ## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
 ## Example Playbook
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yml
+---
+# we are executing against keycloak_frontend_url. no need to do ssh
+- hosts: localhost
+  roles:
+    - role: keycloak-subrealms
+      # should be placed in a vault file
+      keycloak_admin_password: admin
+      keycloak_subrealm_client_secrets:
+        peng: oa3hai9eiJ9ooxeiR8phaem0jieroh2g
+        puff: aip9pau1leiW7aighieth9aisho4push
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+      keycloak_frontend_url: http://localhost:8080
+      keycloak_subrealms:
+        - name: peng
+          client_secret: "{{ keycloak_subrealm_client_secrets['peng'] }}"
+          required_group: perdauz
+          # list of all attributes you want to import. standard attributes like email, firstname etc are automatically imported
+          import:
+            - name: title
+              type: "attribute"
+        - name: puff
+          client_secret: "{{ keycloak_subrealm_client_secrets['puff'] }}"
+```
 
 ## License
 

@@ -1,5 +1,5 @@
 ---
-- name: "Create access_token for keycloak"
+- name: "Create access_token for keycloak for user {{ keycloak_admin_username }}"
   local_action: uri
   args:
     url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
@@ -8,7 +8,7 @@
     body_format: form-urlencoded
     body:
       username: "{{ keycloak_admin_username }}"
-      password: "{{ keycloak_admin_password }}"
+      password: "{{ keycloak_admin_password | mandatory }}"
       grant_type: "password"
       client_id: "admin-cli"
   register: keycloak_token
