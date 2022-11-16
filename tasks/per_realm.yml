@@ -32,6 +32,13 @@
     realm: "{{ item.name }}"
     enabled: true
     state: present
+- name: "subrealm {{ item.name }} should have an admin group"
+  community.general.keycloak_group:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    name: "admin"
+    state: present
 - name: "create client for {{ item.name }} in mainrealm"
   community.general.keycloak_client:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
