@@ -22,7 +22,7 @@
     authenticationExecutions: []
     state: present
   register: authentication_flow
-- name: "handle require-group authentication execution for peng in {{ keycloak_main_realm_name }}"
+- name: "handle require-group authentication execution for {{ item.name }} in {{ keycloak_main_realm_name }}"
   keycloak_required_groups_flow:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
