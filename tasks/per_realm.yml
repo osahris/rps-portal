@@ -22,8 +22,14 @@
     authenticationExecutions: []
     state: present
   register: authentication_flow
-- name: "handle require-group authentication execution for {{ item.name }} in {{ keycloak_main_realm_name }}"
-  import_tasks: require_group_execution.yml
+- name: "handle require-group authentication execution for peng in {{ keycloak_main_realm_name }}"
+  keycloak_required_groups_flow:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ keycloak_main_realm_name }}"
+    flow: "{{ item.name }}-browser-flow"
+    subflow: "{{ item.name }}-browser-flow forms"
+    required_groups: "{{ item.required_groups|default([]) }}"
 - name: "create subrealm {{ item.name }}"
   community.general.keycloak_realm:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
