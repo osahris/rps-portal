@@ -43,8 +43,11 @@
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
     realm: "{{ item.name }}"
-    name: "admin"
+    name: "{{ group }}"
     state: present
+  loop: "{{ item.groups|default([]) }}"
+  loop_control:
+    loop_var: group
 - name: "create client for {{ item.name }} in mainrealm"
   community.general.keycloak_client:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
