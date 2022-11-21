@@ -9,7 +9,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: keycloak_required_groups_flow
+module: keycloak_required_groups_from_mainrealm_flow
 
 short_description: manages a flow that enforces group membership for logging in
 
@@ -40,7 +40,7 @@ options:
             - name of the groupchecksflow
         default: {flowalias}-groupchecks
         type: str
-    required_groups:
+    required_groups_from_mainrealm:
         description:
             - list of group names that are required for login
         default: empty
@@ -56,13 +56,13 @@ author:
 
 EXAMPLES = r"""
 - name: "create require-group authentication flow"
-  keycloak_required_groups_flow:
+  keycloak_required_groups_from_mainrealm_flow:
     auth_keycloak_url: "https://auth.example.com/auth"
     token: "KEYCLOAK_AUTH_TOKEN"
     realm: "master"
     flow: "master-browser-flow"
     subflow: "master-browser-flow forms"
-    required_groups:
+    required_groups_from_mainrealm:
         - group1
         - group2
 """
@@ -174,7 +174,7 @@ def run_module():
         flow=dict(type="str", required=True),
         subflow=dict(type="str"),
         groupchecksflow=dict(type="str"),
-        required_groups=dict(type="list", elements="str", default=[]),
+        required_groups_from_mainrealm=dict(type="list", elements="str", default=[]),
     )
 
     argument_spec.update(meta_args)
@@ -202,7 +202,9 @@ def run_module():
     groupchecksflowalias = (
         module.params.get("groupchecksflow") or f"{flowalias}-groupchecks"
     )
-    required_groups = module.params.get("required_groups") or []
+    required_groups_from_mainrealm = (
+        module.params.get("required_groups_from_mainrealm") or []
+    )
 
     kc = KeycloakAPIExt(module, connection_header)
     flow = kc.get_authentication_flow_by_alias(flowalias, realm)
@@ -212,14 +214,14 @@ def run_module():
     executions = kc.get_executions_representation({"alias": subflowalias}, realm)
     groupchecks_flow = extract_groups_check_flow(executions, groupchecksflowalias)
 
-    if len(required_groups) == 0:
+    if len(required_groups_from_mainrealm) == 0:
         if groupchecks_flow is not None:
             kc.delete_execution(groupchecks_flow["id"], realm)
             result["changed"] = True
             result["msg"] = "groupchecks flow has been deleted"
         module.exit_json(**result)
 
-    # there are some required_groups
+    # there are some required_groups_from_mainrealm
     msgs = []
     # first check if we need to create the subflow
     if groupchecks_flow is None:
@@ -241,9 +243,12 @@ def run_module():
         {"alias": groupchecksflowalias}, realm
     )
     groupcheck_execution_ids = []
-    existing_required_groups = []
+    existing_required_groups_from_mainrealm = []
     required_groupcheck_names = list(
-        map(lambda required_group: required_group + "-groupcheck", required_groups)
+        map(
+            lambda required_group: required_group + "-groupcheck",
+            required_groups_from_mainrealm,
+        )
     )
     for execution in required_group_executions:
         alias = execution.get("alias", "")
@@ -255,23 +260,24 @@ def run_module():
         if (
             not alias in required_groupcheck_names
             or display_name != "Require Group"
-            or configured_group not in required_groups
+            or configured_group not in required_groups_from_mainrealm
         ):
             kc.delete_execution(execution["id"], realm)
             msgs.append(
                 f"substep `{alias}` with execution id `{execution['id']}` has been deleted"
             )
         else:
-            existing_required_groups.append(configured_group)
+            existing_required_groups_from_mainrealm.append(configured_group)
             # register id because we need to later make sure everything is required
             groupcheck_execution_ids.append(execution["id"])
 
-    missing_required_groups = filter(
-        lambda required_group: required_group not in existing_required_groups,
-        required_groups,
+    missing_required_groups_from_mainrealm = filter(
+        lambda required_group: required_group
+        not in existing_required_groups_from_mainrealm,
+        required_groups_from_mainrealm,
     )
 
-    for missing_required_group in missing_required_groups:
+    for missing_required_group in missing_required_groups_from_mainrealm:
         # only possible to specify provider. unable to post alias and requirement right away :|
         execution_id = kc.create_execution_ext(
             "require-group", groupchecksflowalias, realm
