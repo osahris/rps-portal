@@ -38,7 +38,7 @@
     realm: "{{ item.name }}"
     enabled: true
     state: present
-- name: "subrealm {{ item.name }} should have an admin group"
+- name: "subrealm {{ item.name }} should have groups"
   community.general.keycloak_group:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
@@ -48,6 +48,16 @@
   loop: "{{ item.groups|default([]) }}"
   loop_control:
     loop_var: group
+- name: "subrealm {{ item.name }} should have roles"
+  community.general.keycloak_role:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    name: "{{ role }}"
+    state: present
+  loop: "{{ item.roles|default([]) }}"
+  loop_control:
+    loop_var: role
 - name: "create client for {{ item.name }} in mainrealm"
   community.general.keycloak_client:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
