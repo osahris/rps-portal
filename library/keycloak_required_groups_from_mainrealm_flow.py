@@ -153,13 +153,11 @@ class KeycloakAPIExt(KeycloakAPI):
             )
 
 
-def extract_groups_check_flow(executions, groupchecks_flowname):
+def extract_groups_check_execution(executions):
     return next(
         filter(
-            lambda execution: "authenticationFlow" in execution
-            and execution["authenticationFlow"]
-            and "displayName" in execution
-            and execution["displayName"] == groupchecks_flowname,
+            lambda execution: "providerId" in execution
+            and execution["providerId"] == "require-group-membership",
             executions,
         ),
         None,
@@ -199,7 +197,7 @@ def run_module():
     realm = module.params.get("realm")
     flowalias = module.params.get("flow")
     subflowalias = module.params.get("subflow") or flowalias
-    groupchecksflowalias = (
+    groupchecksalias = (
         module.params.get("groupchecksflow") or f"{flowalias}-groupchecks"
     )
     required_groups_from_mainrealm = (
@@ -212,99 +210,38 @@ def run_module():
         module.fail_json(msg=f"flow {flowalias} not found")
 
     executions = kc.get_executions_representation({"alias": subflowalias}, realm)
-    groupchecks_flow = extract_groups_check_flow(executions, groupchecksflowalias)
+    groupchecks_execution = extract_groups_check_execution(executions)
 
     if len(required_groups_from_mainrealm) == 0:
-        if groupchecks_flow is not None:
-            kc.delete_execution(groupchecks_flow["id"], realm)
+        if groupchecks_execution is not None:
+            kc.delete_execution(groupchecks_execution["id"], realm)
+
             result["changed"] = True
-            result["msg"] = "groupchecks flow has been deleted"
+            result["msg"] = "groupchecks execution has been deleted"
         module.exit_json(**result)
 
     # there are some required_groups_from_mainrealm
     msgs = []
     # first check if we need to create the subflow
-    if groupchecks_flow is None:
-        groupchecks_flow = kc.create_subflow(
-            groupchecksflowalias,
-            subflowalias,
-            realm,
-        )
-        msgs.append("groupchecks flow has been created")
+    if groupchecks_execution is None:
+        kc.create_execution_ext("require-group-membership", subflowalias, realm)
+        msgs.append("groupchecks execution has been created")
         executions = kc.get_executions_representation({"alias": subflowalias}, realm)
-        groupchecks_flow = extract_groups_check_flow(executions, groupchecksflowalias)
+        groupchecks_execution = extract_groups_check_execution(executions)
+
+    kc.add_authenticationConfig_to_execution(
+        groupchecks_execution["id"],
+        {
+            "alias": groupchecksalias,
+            "config": {"groups": ",".join(required_groups_from_mainrealm)},
+        },
+        realm,
+    )
 
     # not possible to find out if something changed
     kc.update_authentication_executions(
-        flowalias, {"id": groupchecks_flow["id"], "requirement": "REQUIRED"}, realm
+        flowalias, {"id": groupchecks_execution["id"], "requirement": "REQUIRED"}, realm
     )
-
-    required_group_executions = kc.get_executions_representation(
-        {"alias": groupchecksflowalias}, realm
-    )
-    groupcheck_execution_ids = []
-    existing_required_groups_from_mainrealm = []
-    required_groupcheck_names = list(
-        map(
-            lambda required_group: required_group + "-groupcheck",
-            required_groups_from_mainrealm,
-        )
-    )
-    for execution in required_group_executions:
-        alias = execution.get("alias", "")
-        display_name = execution.get("displayName", "")
-        authentication_config = execution.get("authenticationConfig", {})
-        required_group_config = authentication_config.get("config")
-        configured_group = required_group_config.get("group")
-        # this will also delete non completely created require groups steps
-        if (
-            not alias in required_groupcheck_names
-            or display_name != "Require Group"
-            or configured_group not in required_groups_from_mainrealm
-        ):
-            kc.delete_execution(execution["id"], realm)
-            msgs.append(
-                f"substep `{alias}` with execution id `{execution['id']}` has been deleted"
-            )
-        else:
-            existing_required_groups_from_mainrealm.append(configured_group)
-            # register id because we need to later make sure everything is required
-            groupcheck_execution_ids.append(execution["id"])
-
-    missing_required_groups_from_mainrealm = filter(
-        lambda required_group: required_group
-        not in existing_required_groups_from_mainrealm,
-        required_groups_from_mainrealm,
-    )
-
-    for missing_required_group in missing_required_groups_from_mainrealm:
-        # only possible to specify provider. unable to post alias and requirement right away :|
-        execution_id = kc.create_execution_ext(
-            "require-group", groupchecksflowalias, realm
-        )
-        # module.fail_json(
-        #     URL_AUTHENTICATION_EXECUTION_CONFIG.format(
-        #         url=kc.baseurl, realm=realm, id=execution_id
-        #     )
-        # )
-        kc.add_authenticationConfig_to_execution(
-            execution_id,
-            {
-                "alias": missing_required_group + "-groupcheck",
-                "config": {"group": missing_required_group},
-            },
-            realm,
-        )
-        groupcheck_execution_ids.append(execution_id)
-        msgs.append(
-            f"required groupcheck for `{missing_required_group}` has been created"
-        )
-
-    for execution_id in groupcheck_execution_ids:
-        # not possible to find out if something changed
-        kc.update_authentication_executions(
-            groupchecksflowalias, {"id": execution_id, "requirement": "REQUIRED"}, realm
-        )
 
     if len(msgs) > 0:
         result["changed"] = True
