@@ -1,4 +1,5 @@
 from typing import Any
+import json
 
 
 def _merge_dictionaries(dict1, dict2):
@@ -21,13 +22,28 @@ def _merge_dictionaries(dict1, dict2):
 
 
 types = {
-    # "groups": {
-    #     "client_mapper_defaults": {
-    #         "protocol": "openid-connect",
-    #         "protocolMapper": "oidc-group-membership-mapper",
-    #         "config": {"full.path": "no"},
-    #     }
-    # },
+    "group": {
+        "client_mapper_defaults": {
+            "name": "groups",
+            "protocol": "openid-connect",
+            "protocolMapper": "oidc-group-membership-mapper",
+            "config": {
+                "full.path": "no",
+                "claim.name": "groups",
+                "access.token.claim": "true",
+                "id.token.claim": "true",
+                "userinfo.token.claim": "true",
+            },
+        },
+        "idp_mapper_defaults": {
+            "identityProviderMapper": "oidc-advanced-group-idp-mapper",
+            "config": {
+                "syncMode": "FORCE",
+                "are.claim.values.regex": False,
+                "attributes": "[]",
+            },
+        },
+    },
     "attribute": {
         "client_mapper_defaults": {
             "protocol": "openid-connect",
@@ -46,12 +62,28 @@ types = {
             "config": {
                 "are.claim.values.regex": False,
                 "attributes": "[]",
-                "claims": '[{"key":"","value":""}]',
                 "syncMode": "INHERIT",
+                "claims": '[{"key":"","value":""}]',
             },
         },
     },
 }
+
+
+def to_client_mappers(definitions):
+    names = []
+    mappers = []
+    for definition in definitions:
+        mapper = to_client_mapper(definition)
+        if mapper["name"] not in names:
+            names.append(mapper["name"])
+            mappers.append(mapper)
+    return mappers
+
+
+def to_idp_mappers(definitions):
+    # no special logic yet
+    return map(lambda definition: to_idp_mapper(definition), definitions)
 
 
 def to_client_mapper(definition: dict[str, Any]):
@@ -60,15 +92,19 @@ def to_client_mapper(definition: dict[str, Any]):
     if t not in types:
         raise Exception(f"Unknown type {t}")
 
-    # claim.name has to be present in all supported configs
-    definition = _merge_dictionaries(
-        {"name": name, "config": {"claim.name": name}},
-        definition["client"] if "client" in definition else {},
-    )
+    # for group import we create a single "groups" mapper. that can not be adjusted
+    if t == "group":
+        return types[t]["client_mapper_defaults"]
+    else:
+        # claim.name has to be present in all supported configs
+        mapper = _merge_dictionaries(
+            {"name": name, "config": {"claim.name": name}},
+            definition["client"] if "client" in definition else {},
+        )
     # special case for attribute: predefine user.attribute
     if t == "attribute":
-        definition["config"] = definition["config"] | {"user.attribute": name}
-    return _merge_dictionaries(types[t]["client_mapper_defaults"], definition)
+        mapper["config"] = mapper["config"] | {"user.attribute": name}
+    return _merge_dictionaries(types[t]["client_mapper_defaults"], mapper)
 
 
 def to_idp_mapper(definition: dict[str, Any]):
@@ -78,18 +114,33 @@ def to_idp_mapper(definition: dict[str, Any]):
         raise Exception(f"Unknown type {t}")
 
     # claim.name has to be present in all supported configs
-    definition = _merge_dictionaries(
+    mapper = _merge_dictionaries(
         {"name": name, "config": {"claim": name}},
         definition["idp"] if "idp" in definition else {},
     )
     # special case for attribute: predefine user.attribute
     if t == "attribute":
-        definition["config"] = definition["config"] | {"user.attribute": name}
-    return _merge_dictionaries(types[t]["idp_mapper_defaults"], definition)
+        mapper["config"] = mapper["config"] | {"user.attribute": name}
+    elif t == "group":
+        mapper["config"] = mapper["config"] | {
+            "group": f"/{name}",
+            "claims": json.dumps(
+                [
+                    {
+                        "key": "groups",
+                        "value": definition["from"] if "from" in definition else name,
+                    }
+                ]
+            ),
+        }
+    return _merge_dictionaries(types[t]["idp_mapper_defaults"], mapper)
 
 
 class FilterModule(object):
     """Keycloak realm helpers"""
 
     def filters(self):
-        return {"to_client_mapper": to_client_mapper, "to_idp_mapper": to_idp_mapper}
+        return {
+            "to_client_mappers": to_client_mappers,
+            "to_idp_mappers": to_idp_mappers,
+        }

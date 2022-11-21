@@ -58,7 +58,7 @@
     client_authenticator_type: client-secret
     redirect_uris:
       - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ keycloak_main_realm_name }}-idp/endpoint"
-    protocol_mappers: '{{ item.import|default([])|map("to_client_mapper") }}'
+    protocol_mappers: "{{ item.import|default([])|to_client_mappers }}"
     authentication_flow_binding_overrides:
       browser: "{{ authentication_flow.end_state.id }}"
     state: present
@@ -73,7 +73,7 @@
     enabled: true
     provider_id: "oidc"
     trust_email: true
-    mappers: '{{ item.import|default([])|map("to_idp_mapper") }}'
+    mappers: "{{ item.import|default([])|to_idp_mappers }}"
     config:
       issuer: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}"
       authorizationUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}/protocol/openid-connect/auth"
