@@ -2,7 +2,7 @@
 # better make this a proper variable. needs to be the same in two locations
 keycloak_realm:
   enabled: true
-  realm: "{{ keycloak_main_realm_name }}"
+  realm: "{{ keycloak_realm }}"
   verifyEmail: true
   resetPasswordAllowed: true
   #smtpServer:
@@ -18,3 +18,16 @@ keycloak_realm:
   defaultLocale: "de"
   supportedLocales:
     - "de"
+
+keycloak_traefik_dynamic_config:
+  http:
+    routers:
+      keycloak:
+        rule: "Host(`{{keycloak_server_name}}`)"
+        entrypoints: websecure
+        service: keycloak
+    services:
+      keycloak:
+        loadBalancer:
+          servers:
+            - url: http://keycloak:8080

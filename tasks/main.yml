@@ -1,7 +1,7 @@
 ---
 
-- import_role:
-    name: docker
+# - import_role:
+#     name: docker
 
 - name: create traefik dir
   file:
@@ -20,29 +20,39 @@
   register: traefik_conf
   when: keycloak_with_traefik
 
-- name: create ingress network
+- name: traefik dynamic config
+  copy:
+    content: "{{ keycloak_traefik_dynamic_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/keycloak.yaml"  
+
+- name: create proxy network
   community.general.docker_network:
-    name: ingress
+    name: "{{keycloak_proxy_network}}"
 
 - name: install traefik
   community.general.docker_container:
     name: traefik
     image: traefik:v2.3
     container_default_behavior: no_defaults
-    networks_cli_compatible: false
+    #networks_cli_compatible: false
     restart_policy: always
     ports:
       - 80:80
       - 443:443
       #- 127.0.0.1:8080:8080 # dashboard. should not be publically visible. use ssh tunnel to view it
     networks:
-      - name: ingress
+      - name: "{{keycloak_proxy_network}}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/traefik/traefik.toml:/etc/traefik/traefik.toml
       - /var/lib/traefik/certs:/var/traefik_certs
     restart: "{{ traefik_conf.changed }}"
   when: keycloak_with_traefik
+
+- name: keycloak directory
+  file:
+    path: /var/lib/keycloak
+    state: directory
 
 - name: create keycloak network
   community.general.docker_network:
@@ -59,34 +69,24 @@
     networks:
       - name: keycloak
     volumes:
-      - /var/lib/postgres/:/var/lib/postgresql/data # maybe use docker volume instead host volume?
+      - /var/lib/keycloak/postgres/:/var/lib/postgresql/data # maybe use docker volume instead host volume?
     env:
       POSTGRES_USER: keycloak
       POSTGRES_DB: keycloak # explicitly (default == POSTGRES_USER)
       POSTGRES_PASSWORD: "{{ keycloak_postgres_password }}"
 
-- block:
-    - name: fetch keycloak theme
-      git:
-        repo: "{{ keycloak_theme }}"
-        dest: "/var/lib/keycloak/themes/ansible-theme"
-        version: master
-        force: true
-      register: theme
+- name: fetch keycloak theme
+  git:
+    repo: "{{ keycloak_theme }}"
+    dest: "/var/lib/keycloak/themes/ansible-theme"
+    version: master
+    force: true
+  register: theme
+  when: keycloak_theme is defined
 
-    - name: set themes
-      set_fact:
-        keycloak_realm: "{{ keycloak_realm | combine({'loginTheme': 'ansible-theme', 'accountTheme': 'ansible-theme'}) }}"
-
-    - name: keycloak script directory
-      file:
-        path: /var/lib/keycloak/scripts
-        state: directory
-
-    - name: copy disable theme cache script
-      copy:
-        src: disable-theme-cache.cli
-        dest: /var/lib/keycloak/scripts/disable-theme-cache.cli
+- name: set themes
+  set_fact:
+    keycloak_realm: "{{ keycloak_realm | combine({'loginTheme': 'ansible-theme', 'accountTheme': 'ansible-theme'}) }}"
   when: keycloak_theme is defined
 
 - name: keycloak extensions directory
@@ -95,40 +95,30 @@
     state: directory
     mode: 0777
 
-- name: keycloak auto login theme directory
-  file:
-    path: /var/lib/keycloak/themes/auto/login
-    state: directory
 
-- name: keycloak auto theme login properties
-  template:
-    src: theme.properties.j2          
-    dest: /var/lib/keycloak/themes/auto/login/theme.properties
+- import_tasks: theme.yaml
+  tags:
+    - theme
+  when: keycloak_theme is defined
 
-- name: keycloak auto theme registration page
-  template:
-    src: register.ftl.j2          
-    dest: /var/lib/keycloak/themes/auto/login/register.ftl
-
-
-- name: keycloak docker deployment
+- name: keycloak docker container
   community.general.docker_container:
     name: keycloak
     image: "{{keycloak_container_image}}:{{keycloak_container_version}}"
     restart_policy: always
     container_default_behavior: no_defaults
-    networks_cli_compatible: false
-    command: start-dev
+    #networks_cli_compatible: false
+    command: "{{keycloak_development_mode|ternary('start-dev','start --auto-build --db=postgres')}}"
     state: started
     networks:
-      - name: ingress
+      - name: "{{keycloak_proxy_network}}"
       - name: keycloak
     volumes:
       - /var/lib/keycloak/themes:/opt/keycloak/themes
-    published_ports: "{{ omit if keycloak_with_traefik else '8080:8080' }}"
+    published_ports: "{{ omit if keycloak_with_proxy_network else '8080:8080' }}"
     env:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_pass }}"
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-postgres/keycloak
       KC_DB_USERNAME: keycloak
@@ -145,77 +135,77 @@
       traefik.http.routers.keycloak-http.entrypoints: http
       traefik.http.middlewares.test-ratelimit.ratelimit.burst: '100'
 
-- name: Wait for keycloak
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/realms/master/"
-    validate_certs: "{{ keycloak_validate_certs }}"
-    status_code: 200
-  register: result
-  until: result.status == 200
-  retries: 180
-  delay: 1
+# - name: Wait for keycloak
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/realms/master/"
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     status_code: 200
+#   register: result
+#   until: result.status == 200
+#   retries: 180
+#   delay: 1
+#
+# - name: "Create Token for service Keycloak"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
+#     method: POST
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     body_format: form-urlencoded
+#     body:
+#       username: "{{ keycloak_admin_username }}"
+#       password: "{{ keycloak_admin_pass }}"
+#       grant_type: "password"
+#       client_id: "admin-cli"
+#   register: keycloak_token
 
-- name: "Create Token for service Keycloak"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
-    method: POST
-    validate_certs: "{{ keycloak_validate_certs }}"
-    body_format: form-urlencoded
-    body:
-      username: "{{ keycloak_admin_username }}"
-      password: "{{ keycloak_admin_password }}"
-      grant_type: "password"
-      client_id: "admin-cli"
-  register: keycloak_token
+# - name: "Find out, if Realm {{ keycloak_realm }} for service Keycloak exists"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm }}"
+#     method: GET
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     status_code:
+#      - 200
+#      - 404
+#     headers:
+#       Accept: "application/json"
+#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+#   register: keycloak_realm_exists
 
-- name: "Find out, if Realm {{ keycloak_main_realm_name }} for service Keycloak exists"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}"
-    method: GET
-    validate_certs: "{{ keycloak_validate_certs }}"
-    status_code:
-     - 200
-     - 404
-    headers:
-      Accept: "application/json"
-      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-  register: keycloak_realm_exists
+# - name: "Create main Realm {{ keycloak_realm }} for service Keycloak"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/admin/realms"
+#     method: POST
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     body: "{{ keycloak_realm }}"
+#     body_format: "json"
+#     remote_src: "no"
+#     status_code:
+#      - 201
+#     headers:
+#       Content-type: "application/json"
+#       Accept: "application/json"
+#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+#   register: keycloak_realm_create
+#   when: "keycloak_realm_exists.status == 404"
 
-- name: "Create main Realm {{ keycloak_main_realm_name }} for service Keycloak"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/admin/realms"
-    method: POST
-    validate_certs: "{{ keycloak_validate_certs }}"
-    body: "{{ keycloak_realm }}"
-    body_format: "json"
-    remote_src: "no"
-    status_code:
-     - 201
-    headers:
-      Content-type: "application/json"
-      Accept: "application/json"
-      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-  register: keycloak_realm_create
-  when: "keycloak_realm_exists.status == 404"
-
-- name: "Update main Realm {{ keycloak_main_realm_name }} for service Keycloak"
-  local_action: uri
-  args:
-    url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_main_realm_name }}"
-    method: PUT
-    validate_certs: "{{ keycloak_validate_certs }}"
-    body: "{{ keycloak_realm }}"
-    body_format: "json"
-    remote_src: "no"
-    status_code:
-     - 204
-    headers:
-      Content-type: "application/json"
-      Accept: "application/json"
-      Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-  register: keycloak_realm_create
-  when: "keycloak_realm_exists.status == 200"
+# - name: "Update main Realm {{ keycloak_realm }} for service Keycloak"
+#   local_action: uri
+#   args:
+#     url: "{{ keycloak_frontend_url }}/admin/realms/{{ keycloak_realm }}"
+#     method: PUT
+#     validate_certs: "{{ keycloak_validate_certs }}"
+#     body: "{{ keycloak_realm }}"
+#     body_format: "json"
+#     remote_src: "no"
+#     status_code:
+#      - 204
+#     headers:
+#       Content-type: "application/json"
+#       Accept: "application/json"
+#       Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+#   register: keycloak_realm_create
+#   when: "keycloak_realm_exists.status == 200"
