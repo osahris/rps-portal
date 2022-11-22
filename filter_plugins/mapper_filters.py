@@ -67,6 +67,16 @@ types = {
             },
         },
     },
+    "role_from_group": {
+        "idp_mapper_defaults": {
+            "identityProviderMapper": "oidc-advanced-role-idp-mapper",
+            "config": {
+                "syncMode": "FORCE",
+                "are.claim.values.regex": False,
+                "attributes": "[]",
+            },
+        },
+    },
 }
 
 
@@ -95,6 +105,8 @@ def to_client_mapper(definition: dict[str, Any]):
     # for group import we create a single "groups" mapper. that can not be adjusted
     if t == "group":
         return types[t]["client_mapper_defaults"]
+    elif t == "role_from_group":
+        return types["group"]["client_mapper_defaults"]
     else:
         # claim.name has to be present in all supported configs
         mapper = _merge_dictionaries(
@@ -131,6 +143,13 @@ def to_idp_mapper(definition: dict[str, Any]):
                         "value": definition["from"] if "from" in definition else name,
                     }
                 ]
+            ),
+        }
+    elif t == "role_from_group":
+        mapper["config"] = mapper["config"] | {
+            "role": name,
+            "claims": json.dumps(
+                [{"key": "groups", "value": definition["from_group"]}]
             ),
         }
     return _merge_dictionaries(types[t]["idp_mapper_defaults"], mapper)

@@ -73,6 +73,20 @@
       browser: "{{ authentication_flow.end_state.id }}"
     state: present
   register: client
+- name: "create post login flow for {{ item.name }}"
+  community.general.keycloak_authentication:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    alias: "post-idp-login"
+    providerId: "basic-flow"
+    authenticationExecutions:
+      - providerId: "require-role-membership"
+        requirement: "REQUIRED"
+        authenticationConfig:
+          alias: "role-membership-check"
+          config:
+            roles: '{{ item.roles | default([]) | join(",") }}'
 - name: "create idp for {{ item.name }}"
   community.general.keycloak_identity_provider:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
@@ -83,6 +97,7 @@
     enabled: true
     provider_id: "oidc"
     trust_email: true
+    postBrokerLoginFlowAlias: "post-idp-login"
     mappers: "{{ item.import|default([])|to_idp_mappers }}"
     config:
       issuer: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}"
