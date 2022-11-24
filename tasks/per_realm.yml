@@ -12,21 +12,21 @@
       grant_type: "password"
       client_id: "admin-cli"
   register: keycloak_token
-- name: "create group authentication flow for {{ item.name }} in {{ keycloak_main_realm_name }}"
+- name: "create group authentication flow for {{ item.name }} in {{ keycloak_mainrealm.name }}"
   community.general.keycloak_authentication:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
-    realm: "{{ keycloak_main_realm_name }}"
+    realm: "{{ keycloak_mainrealm.name }}"
     alias: "{{ item.name }}-browser-flow"
     copyFrom: "browser"
     authenticationExecutions: []
     state: present
   register: authentication_flow
-- name: "handle require-group authentication execution for {{ item.name }} in {{ keycloak_main_realm_name }}"
+- name: "handle require-group authentication execution for {{ item.name }} in {{ keycloak_mainrealm.name }}"
   keycloak_required_groups_from_mainrealm_flow:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
-    realm: "{{ keycloak_main_realm_name }}"
+    realm: "{{ keycloak_mainrealm.name }}"
     flow: "{{ item.name }}-browser-flow"
     subflow: "{{ item.name }}-browser-flow forms"
     required_groups_from_mainrealm: "{{ item.required_groups_from_mainrealm|default([]) }}"
@@ -44,6 +44,8 @@
     token: "{{ keycloak_token.json.access_token }}"
     realm: "{{ item.name }}"
     name: "{{ group }}"
+    attributes:
+      managed: "true"
     state: present
   loop: "{{ item.groups|default([]) }}"
   loop_control:
@@ -54,6 +56,8 @@
     token: "{{ keycloak_token.json.access_token }}"
     realm: "{{ item.name }}"
     name: "{{ role }}"
+    attributes:
+      managed: "true"
     state: present
   loop: "{{ item.roles|default([]) }}"
   loop_control:
@@ -62,12 +66,12 @@
   community.general.keycloak_client:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
-    realm: "{{ keycloak_main_realm_name }}"
+    realm: "{{ keycloak_mainrealm.name }}"
     client_id: "{{ item.name }}-idp"
     secret: "{{ item.client_secret }}"
     client_authenticator_type: client-secret
     redirect_uris:
-      - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ keycloak_main_realm_name }}-idp/endpoint"
+      - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ keycloak_mainrealm.name }}-idp/endpoint"
     protocol_mappers: "{{ item.import|default([])|to_client_mappers }}"
     authentication_flow_binding_overrides:
       browser: "{{ authentication_flow.end_state.id }}"
@@ -86,7 +90,7 @@
         authenticationConfig:
           alias: "role-membership-check"
           config:
-            roles: '{{ item.roles | default([]) | join(",") }}'
+            roles: '{{ item.required_roles | default([]) | join(",") }}'
 - name: "create idp for {{ item.name }}"
   community.general.keycloak_identity_provider:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
@@ -100,10 +104,10 @@
     postBrokerLoginFlowAlias: "post-idp-login"
     mappers: "{{ item.import|default([])|to_idp_mappers }}"
     config:
-      issuer: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}"
-      authorizationUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}/protocol/openid-connect/auth"
-      tokenUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}/protocol/openid-connect/token"
-      userInfoUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_main_realm_name }}/protocol/openid-connect/userinfo"
+      issuer: "{{ keycloak_frontend_url }}/realms/{{ keycloak_mainrealm.name }}"
+      authorizationUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_mainrealm.name }}/protocol/openid-connect/auth"
+      tokenUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_mainrealm.name }}/protocol/openid-connect/token"
+      userInfoUrl: "{{ keycloak_frontend_url }}/realms/{{ keycloak_mainrealm.name }}/protocol/openid-connect/userinfo"
       clientAuthMethod: client_secret_post
       clientId: "{{ item.name }}-idp"
       clientSecret: "{{ item.client_secret }}"
