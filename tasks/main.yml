@@ -44,7 +44,7 @@
   loop: "{{ keycloak_mainrealm.roles|default([]) }}"
   loop_control:
     loop_var: role
-- name: "create identity provider {{ item.display_name }}"
+- name: "create identity provider"
   community.general.keycloak_identity_provider:
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
