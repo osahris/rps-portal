@@ -44,6 +44,27 @@
   loop: "{{ keycloak_mainrealm.roles|default([]) }}"
   loop_control:
     loop_var: role
+- name: "create identity provider {{ item.display_name }}"
+  community.general.keycloak_identity_provider:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ keycloak_mainrealm.name }}"
+    alias: "{{ idp.alias }}"
+    display_name: "{{ idp.display_name|default(item.alias) }}"
+    provider_id: "oidc"
+    mappers: "{{ item.import|default([])|to_idp_mappers }}"
+    config:
+      clientId: "{{ idp.client_id }}"
+      clientSecret: "{{ idp.client_secret }}"
+      authorizationUrl: "{{ idp.authorization_url }}"
+      tokenUrl: "{{ idp.token_url }}"
+      userInfoUrl: "{{ idp.userinfo_url }}"
+      issuer: "{{ idp.issuer }}"
+      validateSignature: false
+    state: present
+  loop: "{{ keycloak_mainrealm.external_idps|default([]) }}"
+  loop_control:
+    loop_var: idp
 
 - include_tasks: per_realm.yml
   loop: "{{ keycloak_subrealms }}"
