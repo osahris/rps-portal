@@ -1,8 +1,8 @@
 ---
 keycloak_development_mode: false
 
-keycloak_container_image: quay.io/keycloak/keycloak
-keycloak_container_version: 18.0
+keycloak_container_image: registry.gitlab.com/idcohorts/rps/keycloak-docker
+keycloak_container_version: main
 
 keycloak_server_name: "{{ inventory_hostname }}"
 keycloak_protocol: "https"
