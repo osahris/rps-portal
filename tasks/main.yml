@@ -118,7 +118,7 @@
     published_ports: "{{ omit if keycloak_with_proxy_network else '8080:8080' }}"
     env:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_pass }}"
+      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-postgres/keycloak
       KC_DB_USERNAME: keycloak
