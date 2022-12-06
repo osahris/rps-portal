@@ -1,5 +1,10 @@
 ---
 
+- name: required debian packages
+  apt:
+    pkg:
+    - git
+
 - name: nextcloud docker-compose file
   copy:
     content: "{{ nextcloud_docker_compose }}"

@@ -36,4 +36,7 @@
 - import_tasks: apps/oidc_login.yaml
   when: nextcloud_with_oidc_login_app
 
+- import_tasks: custom_theme.yaml
+  when: nextcloud_with_custom_theme
+
 - import_tasks: traefik.yaml

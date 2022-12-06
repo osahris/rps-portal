@@ -8,6 +8,20 @@ _nextcloud_apps_present: "{{ _nextcloud_apps_enabled | union(_nextcloud_apps_dis
 
 _nextcloud_user_oidc_provider: "{{_nextcloud_user_oidc_provider_cmd.stdout|from_json}}"
 
+nextcloud_docker_app_container_default_volumes:
+- nextcloud:/var/www/html
+- apps:/var/www/html/custom_apps
+- config:/var/www/html/config
+- data:/var/www/html/data
+- ./themes:/var/www/html/themes
+- ./skel:/srv/nextcloud/skel
+
+nextcloud_docker_app_container_custom_ca_certificates_volumes:
+- "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+#- "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/var/www/html/resources/config/ca-bundle.crt:ro"
+
+nextcloud_docker_app_container_custom_themes_volumes:
+- "{{nextcloud_project_directory}}/themes/rps/core/template/layout.user.php:/var/www/html/core/template/layout.user.php:ro"
 nextcloud_docker_compose:
   version: '3'
 
