@@ -19,6 +19,7 @@
   copy:
     src: "{{ca_certificates_file}}"
     dest: "{{nextcloud_project_directory}}/certs/ca-certificates.crt"
+  when: nextcloud_with_custom_ca_certificates
 
 - import_tasks: setup.yaml
 

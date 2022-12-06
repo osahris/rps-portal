@@ -57,3 +57,5 @@ nextcloud_oidc_login_attributes:
   groups: 'groups'
 nextcloud_oidc_login_tls_verify: true
 nextcloud_oidc_login_disable_registration: false
+
+nextcloud_with_custom_ca_certificates: false

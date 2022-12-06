@@ -35,7 +35,7 @@ nextcloud_docker_compose:
         - config:/var/www/html/config
         - data:/var/www/html/data
         - themes:/var/www/html/themes
-        - "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro"
+        - "{% if nextcloud_with_custom_ca_certificates %}{{nextcloud_project_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro{% else %}{{omit}}{% endif %}"
         #- "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/var/www/html/resources/config/ca-bundle.crt:ro"
         - ./skel:/srv/nextcloud/skel
       environment:
