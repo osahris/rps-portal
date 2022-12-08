@@ -15,11 +15,19 @@
     path: "{{nextcloud_project_directory}}/skel"
     state: directory
 
+- name: nextcloud themes directory
+  file:
+    path: "{{nextcloud_project_directory}}/themes"
+    state: directory
+
 - name: copy CA certificates file
   copy:
     src: "{{ca_certificates_file}}"
     dest: "{{nextcloud_project_directory}}/certs/ca-certificates.crt"
   when: nextcloud_with_custom_ca_certificates
+
+- import_tasks: custom_theme/setup.yaml
+  when: nextcloud_with_custom_theme
 
 - import_tasks: setup.yaml
 
@@ -35,5 +43,8 @@
 
 - import_tasks: apps/oidc_login.yaml
   when: nextcloud_with_oidc_login_app
+
+- import_tasks: custom_theme/config.yaml
+  when: nextcloud_with_custom_theme
 
 - import_tasks: traefik.yaml
