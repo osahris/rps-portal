@@ -21,7 +21,9 @@ nextcloud_docker_app_container_custom_ca_certificates_volumes:
 #- "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/var/www/html/resources/config/ca-bundle.crt:ro"
 
 nextcloud_docker_app_container_custom_themes_volumes:
-- "{{nextcloud_project_directory}}/themes/rps/core/template/layout.user.php:/var/www/html/core/template/layout.user.php:ro"
+- "{{nextcloud_project_directory}}/themes/rps/core/templates/layout.user.php:/var/www/html/core/templates/layout.user.php:ro"
+#- "{{nextcloud_project_directory}}/ContentSecurityPolicy.php:/var/www/html/lib/public/AppFramework/Http/ContentSecurityPolicy.php:ro"
+
 nextcloud_docker_compose:
   version: '3'
 
@@ -43,15 +45,10 @@ nextcloud_docker_compose:
     app:
       image: nextcloud:apache
       restart: always
-      volumes:
-        - nextcloud:/var/www/html
-        - apps:/var/www/html/custom_apps
-        - config:/var/www/html/config
-        - data:/var/www/html/data
-        - themes:/var/www/html/themes
-        - "{% if nextcloud_with_custom_ca_certificates %}{{nextcloud_project_directory}}/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro{% else %}{{omit}}{% endif %}"
-        #- "{{nextcloud_project_directory}}/certs/ca-certificates.crt:/var/www/html/resources/config/ca-bundle.crt:ro"
-        - ./skel:/srv/nextcloud/skel
+      volumes: "{{ nextcloud_docker_app_container_default_volumes 
+        + (nextcloud_with_custom_ca_certificates|ternary(nextcloud_docker_app_container_custom_ca_certificates_volumes,[])) 
+        + (nextcloud_with_custom_theme|ternary(nextcloud_docker_app_container_custom_themes_volumes,[])) 
+        }}"
       environment:
         VIRTUAL_HOST: "{{ nextcloud_server_name }}"
         REDIS_HOST: redis
@@ -95,23 +92,55 @@ nextcloud_traefik_dynamic_config:
   http:
     routers: "{{ { nextcloud_project_name : nextcloud_traefik_router } }}"
     services: "{{ { nextcloud_project_name : nextcloud_traefik_service } }}"
-    middlewares: "{{ { nextcloud_project_name + '-redirectregex' : nextcloud_traefik_redirect_middleware } }}"
+    middlewares: "{{ 
+      { 
+        nextcloud_project_name + '-redirect-dav' : nextcloud_traefik_redirect_dav_middleware,
+      } | combine(nextcloud_with_custom_theme|ternary({
+              nextcloud_project_name + '-redirect-header' : nextcloud_traefik_redirect_header_middleware,
+              nextcloud_project_name + '-content-security-policy-header' : nextcloud_traefik_content_security_policy_header_middleware,
+      },{})) }}"
 
 nextcloud_traefik_router:
   rule: "Host(`{{nextcloud_server_name}}`)"
   service: "{{nextcloud_project_name}}"
   entrypoints: websecure
-  middlewares:
-    - "{{nextcloud_project_name}}-redirectregex"
+  middlewares: "{{ 
+    [
+      nextcloud_project_name+'-redirect-dav'
+    ] + (nextcloud_with_custom_theme|ternary([
+      nextcloud_project_name+'-redirect-header',
+      nextcloud_project_name+'-content-security-policy-header',
+    ],[])) }}"
 nextcloud_traefik_service:
   loadBalancer:
     servers:
       - url: "{{nextcloud_traefik_url}}"
-nextcloud_traefik_redirect_middleware:
+nextcloud_traefik_redirect_dav_middleware:
   redirectRegex:
     permanent: true
     regex: "https://(.*)/.well-known/(card|cal)dav"
     replacement: "https://${1}/remote.php/dav/"
+
+nextcloud_traefik_redirect_header_middleware:
+  redirectRegex:
+    regex: "^https://(.*)/header.js$"
+    replacement: "https://{{header_server_name}}/header.js"
+
+nextcloud_traefik_content_security_policy_header_middleware:
+  headers:
+    contentSecurityPolicy: >
+      default-src 'none';
+      base-uri 'none';
+      manifest-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline';
+      img-src 'self' data: blob:;
+      font-src 'self' data:;
+      connect-src 'self';
+      media-src 'self';
+      frame-src 'self';
+      frame-ancestors 'self';
+      form-action 'self'
 
 nextcloud_app_container_name: "{{_nextcloud_docker_compose.services.app.keys()|first}}"
 nextcloud_traefik_url: "http://{{nextcloud_app_container_name}}"
@@ -138,3 +167,7 @@ nextcloud_oidc_login_config: # legacy plugin
     oidc_login_attributes: "{{ nextcloud_oidc_login_attributes }}"
     oidc_login_tls_verify: "{{ nextcloud_oidc_login_tls_verify|bool }}"
     oidc_login_disable_registration: "{{ nextcloud_oidc_login_disable_registration|bool }}"
+
+nextcloud_custom_theme_config:
+  system:
+    theme: "{{nextcloud_custom_theme_name}}"
