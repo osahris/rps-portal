@@ -31,6 +31,8 @@ traefik_entry_points:
     # proxyProtocol:
     #   trustedIPs: "{{traefik_websecure_proxy_protocol_trusted_ips}}"
 
+letsencrypt_account_email: "{{ admin_email }}"
+
 traefik_default_certificates_resolver: letsencrypt-staging
 traefik_certificates_resolvers:
   letsencrypt:
