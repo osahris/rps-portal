@@ -18,7 +18,14 @@
     validate_certs: "{{ oauth2_proxy_keycloak_client_validate_certs | default(true) }}"
     # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
     protocol_mappers:
-      # TODO audience setup automatization
+      - name:	audience
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience:	"{{ oauth2_proxy_keycloak_client_client_id }}"
+          id.token.claim: 'true'
+          access.token.claim: 'true'
       - name: groups
         config:
           access.token.claim: 'false'
