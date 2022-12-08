@@ -9,7 +9,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r"""
 ---
-module: keycloak_required_groups_from_mainrealm_flow
+module: keycloak_required_groups_from_parent_realm_flow
 
 short_description: manages a flow that enforces group membership for logging in
 
@@ -40,7 +40,7 @@ options:
             - name of the groupchecksflow
         default: {flowalias}-groupchecks
         type: str
-    required_groups_from_mainrealm:
+    required_groups_from_parent_realm:
         description:
             - list of group names that are required for login
         default: empty
@@ -56,13 +56,13 @@ author:
 
 EXAMPLES = r"""
 - name: "create require-group authentication flow"
-  keycloak_required_groups_from_mainrealm_flow:
+  keycloak_required_groups_from_parent_realm_flow:
     auth_keycloak_url: "https://auth.example.com/auth"
     token: "KEYCLOAK_AUTH_TOKEN"
     realm: "master"
     flow: "master-browser-flow"
     subflow: "master-browser-flow forms"
-    required_groups_from_mainrealm:
+    required_groups_from_parent_realm:
         - group1
         - group2
 """
@@ -172,7 +172,7 @@ def run_module():
         flow=dict(type="str", required=True),
         subflow=dict(type="str"),
         groupchecksflow=dict(type="str"),
-        required_groups_from_mainrealm=dict(type="list", elements="str", default=[]),
+        required_groups_from_parent_realm=dict(type="list", elements="str", default=[]),
     )
 
     argument_spec.update(meta_args)
@@ -200,8 +200,8 @@ def run_module():
     groupchecksalias = (
         module.params.get("groupchecksflow") or f"{flowalias}-groupchecks"
     )
-    required_groups_from_mainrealm = (
-        module.params.get("required_groups_from_mainrealm") or []
+    required_groups_from_parent_realm = (
+        module.params.get("required_groups_from_parent_realm") or []
     )
 
     kc = KeycloakAPIExt(module, connection_header)
@@ -212,7 +212,7 @@ def run_module():
     executions = kc.get_executions_representation({"alias": subflowalias}, realm)
     groupchecks_execution = extract_groups_check_execution(executions)
 
-    if len(required_groups_from_mainrealm) == 0:
+    if len(required_groups_from_parent_realm) == 0:
         if groupchecks_execution is not None:
             kc.delete_execution(groupchecks_execution["id"], realm)
 
@@ -220,7 +220,7 @@ def run_module():
             result["msg"] = "groupchecks execution has been deleted"
         module.exit_json(**result)
 
-    # there are some required_groups_from_mainrealm
+    # there are some required_groups_from_parent_realm
     msgs = []
     # first check if we need to create the subflow
     if groupchecks_execution is None:
@@ -233,7 +233,7 @@ def run_module():
         groupchecks_execution["id"],
         {
             "alias": groupchecksalias,
-            "config": {"groups": ",".join(required_groups_from_mainrealm)},
+            "config": {"groups": ",".join(required_groups_from_parent_realm)},
         },
         realm,
     )
