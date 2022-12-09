@@ -58,6 +58,8 @@
       - "{{rps_groups_interface_suite_config_file}}:/var/www/gruppeninterface-rps/suite.config.json"
     ports:
      - "3000:3000"
+    recreate: yes
+
 #   loop: "{{ rps_groups_interface_instances }}"
 #   loop_control:
 #     loop_var: rps_groups_interface_instance
