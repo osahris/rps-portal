@@ -1,0 +1,6 @@
+nginx_vhost_https: false
+nginx_vhost_name: static-website
+nginx_vhost_certificate_name: "{{ static_website_server_name }}"
+nginx_vhost_server_names:
+  - "{{ static_website_server_name }}"
+nginx_security_headers: false
