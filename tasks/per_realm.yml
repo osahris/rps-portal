@@ -139,7 +139,7 @@
     alias: "{{ idp.alias }}"
     display_name: "{{ idp.display_name|default(item.alias) }}"
     provider_id: "oidc"
-    mappers: "{{ item.import|default([])|to_idp_mappers }}"
+    mappers: "{{ idp.import|default([])|to_idp_mappers }}"
     config:
       clientId: "{{ idp.client_id }}"
       clientSecret: "{{ idp.client_secret }}"
