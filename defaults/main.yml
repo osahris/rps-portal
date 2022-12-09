@@ -2,9 +2,6 @@
 # defaults file for keycloak-subrealms
 keycloak_admin_username: admin
 keycloak_auth_realm: master
-keycloak_main_realm_name: users
 keycloak_validate_certs: yes
 keycloak_frontend_url: https://{{keycloak_server_name}}
-keycloak_mainrealm:
-  name: users
-keycloak_subrealms: []
+keycloak_realms: []
