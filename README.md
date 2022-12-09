@@ -93,6 +93,10 @@ keycloak_realms:
         # import test group from parent_realm
         - name: "test"
           type: "group"
+        # import test2 group from group test in parent_realm
+        - name: "test2"
+          type: "group"
+          from: "test"
         # assign "test" role when user is in "test2" group in parent_realm
         - name: "test"
           type: "role_from_group"
@@ -100,6 +104,7 @@ keycloak_realms:
       # user must be in group "test" or "test2" (you probably need to somehow import it - see above - or set it manually after initial import)
       required_groups:
         - "test"
+        - "test2"
       # same just for roles
       required_roles:
         - "test"
