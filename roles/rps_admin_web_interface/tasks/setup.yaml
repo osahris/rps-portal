@@ -3,6 +3,8 @@
 - name: debian package requirements
   apt:
     pkg:
+      # Podman
+      - podman
       # PostgreSQL
       - postgresql
       - libpq-dev

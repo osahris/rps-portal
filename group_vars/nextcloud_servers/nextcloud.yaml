@@ -10,11 +10,10 @@ nextcloud_keycloak_admin_password: "{{ keycloak_management_password }}"
 
 nextcloud_configure_oidc: "{{ keycloak_server_name is defined and not (nextcloud_ignore_oidc | default(false)) }}"
 nextcloud_oidc_login_client_id: nextcloud
-nextcloud_oidc_login_provider_url: "https://{{ keycloak_server_name }}/realms/{{keycloak_main_realm_name}}"
-nextcloud_oidc_login_logout_url: "https://{{ keycloak_server_name }}/realms/{{keycloak_main_realm_name}}/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_server_name }}%2F/logout"
+nextcloud_oidc_login_provider_url: "https://{{ keycloak_server_name }}/realms/{{keycloak_default_realm}}"
+nextcloud_oidc_login_logout_url: "https://{{ keycloak_server_name }}/realms/{{keycloak_default_realm}}/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_server_name }}%2F/logout"
 
-
-nextcloud_keycloak_realm: "{{keycloak_main_realm_name}}"
+nextcloud_keycloak_realm: "{{keycloak_default_realm}}"
 
 nextcloud_database_type: postgresql
 nextcloud_database_host: localhost
