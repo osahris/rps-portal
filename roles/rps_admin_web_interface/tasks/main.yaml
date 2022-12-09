@@ -1,7 +1,18 @@
 ---
+
 - import_tasks: setup.yaml
 
-- import_tasks: rps-admin-interface.yaml
+- name: make sure openresty is absent
+  apt:
+    pkg: openresty
+    state: absent
 
-- import_role:
-    name: openresty
+- import_role: 
+    name: oauth2-proxy
+  tags: oauth2-proxy
+
+- import_role: 
+    name: nginx
+  tags: nginx
+
+- import_tasks: rps-admin-interface.yaml
