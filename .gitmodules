@@ -84,10 +84,10 @@
 	url = ../ansible-role-collabora.git
 [submodule "roles/podman"]
 	path = roles/podman
-	url = ../../rps/ansible-role-podman.git
+	url = ../ansible-role-podman.git
 [submodule "roles/nodejs"]
 	path = roles/nodejs
-	url = ../rps/ansible-role-nodejs
+	url = ../ansible-role-nodejs
 [submodule "roles/netbox"]
 	path = roles/netbox
 	url = ../ansible-role-netbox.git
