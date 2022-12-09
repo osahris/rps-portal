@@ -21,24 +21,6 @@
     enabled: true
     state: present
 - block:
-    - name: "create group authentication flow for {{ item.name }} in {{ item.parent_realm}}"
-      community.general.keycloak_authentication:
-        auth_keycloak_url: "{{ keycloak_frontend_url }}"
-        token: "{{ keycloak_token.json.access_token }}"
-        realm: "{{ item.parent_realm }}"
-        alias: "{{ item.name }}-browser-flow"
-        copyFrom: "browser"
-        authenticationExecutions: []
-        state: present
-      register: authentication_flow
-    - name: "handle require-group authentication execution for {{ item.name }} in {{ item.parent_realm }}"
-      keycloak_required_groups_from_parent_realm_flow:
-        auth_keycloak_url: "{{ keycloak_frontend_url }}"
-        token: "{{ keycloak_token.json.access_token }}"
-        realm: "{{ item.parent_realm }}"
-        flow: "{{ item.name }}-browser-flow"
-        subflow: "{{ item.name }}-browser-flow forms"
-        required_groups_from_parent_realm: "{{ item.required_groups_from_parent_realm|default([]) }}"
     - name: "create post login flow for {{ item.name }}"
       community.general.keycloak_authentication:
         auth_keycloak_url: "{{ keycloak_frontend_url }}"
@@ -47,6 +29,12 @@
         alias: "post-idp-login"
         providerId: "basic-flow"
         authenticationExecutions:
+          - providerId: "require-group-membership"
+            requirement: "REQUIRED"
+            authenticationConfig:
+              alias: "group-membership-check"
+              config:
+                groups: '{{ item.required_groups | default([]) | join(",") }}'
           - providerId: "require-role-membership"
             requirement: "REQUIRED"
             authenticationConfig:
@@ -94,8 +82,6 @@
         redirect_uris:
           - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ item.parent_realm }}-idp/endpoint"
         protocol_mappers: "{{ item.import|default([])|to_client_mappers }}"
-        authentication_flow_binding_overrides:
-          browser: "{{ authentication_flow.end_state.id }}"
         state: present
     - name: "create idp for {{ item.name }}"
       community.general.keycloak_identity_provider:
