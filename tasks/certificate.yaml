@@ -2,4 +2,12 @@
 
 - import_role:
     name: certificate
-  when: openproject_db_host == 'localhost'
+  vars:
+    certificate_name: "{{openproject_server_name}}"
+    certificate_common_name: "{{openproject_server_name}}"
+    certificate_directory: /etc/ssl
+    certificate_key_usage:
+      - digitalSignature
+      - keyEncipherment
+    certificate_extended_key_usage:
+      - serverAuth
