@@ -34,13 +34,13 @@
             authenticationConfig:
               alias: "group-membership-check"
               config:
-                groups: '{{ item.required_groups | default([]) | join(",") }}'
+                groups: '{{ item.parent_realm.required_groups | default([]) | join(",") }}'
           - providerId: "require-role-membership"
             requirement: "REQUIRED"
             authenticationConfig:
               alias: "role-membership-check"
               config:
-                roles: '{{ item.required_roles | default([]) | join(",") }}'
+                roles: '{{ item.parent_realm.required_roles | default([]) | join(",") }}'
     - name: "create immediate redirect authentication flow for {{ item.name }}"
       community.general.keycloak_authentication:
         auth_keycloak_url: "{{ keycloak_frontend_url }}"
@@ -54,7 +54,7 @@
             authenticationConfig:
               alias: "idp"
               config:
-                defaultProvider: "{{ item.parent_realm }}-idp"
+                defaultProvider: "{{ item.parent_realm.name }}-idp"
         state: present
     - name: "Set browser flow to idp redirect"
       local_action: uri
@@ -71,38 +71,38 @@
           Content-type: "application/json"
           Accept: "application/json"
           Authorization: "Bearer {{ keycloak_token.json.access_token }}"
-    - name: "create client for {{ item.name }} in {{ item.parent_realm }}"
+    - name: "create client for {{ item.name }} in {{ item.parent_realm.name }}"
       community.general.keycloak_client:
         auth_keycloak_url: "{{ keycloak_frontend_url }}"
         token: "{{ keycloak_token.json.access_token }}"
-        realm: "{{ item.parent_realm }}"
+        realm: "{{ item.parent_realm.name }}"
         client_id: "{{ item.name }}-idp"
-        secret: "{{ item.client_secret }}"
+        secret: "{{ item.parent_realm.client_secret }}"
         client_authenticator_type: client-secret
         redirect_uris:
-          - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ item.parent_realm }}-idp/endpoint"
-        protocol_mappers: "{{ item.import|default([])|to_client_mappers }}"
+          - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ item.parent_realm.name }}-idp/endpoint"
+        protocol_mappers: "{{ item.parent_realm.import|default([])|to_client_mappers }}"
         state: present
     - name: "create idp for {{ item.name }}"
       community.general.keycloak_identity_provider:
         auth_keycloak_url: "{{ keycloak_frontend_url }}"
         token: "{{ keycloak_token.json.access_token }}"
         realm: "{{ item.name }}"
-        alias: "{{ item.parent_realm }}-idp"
-        display_name: "{{ item.parent_realm }}-idp"
+        alias: "{{ item.parent_realm.name }}-idp"
+        display_name: "{{ item.parent_realm.name }}-idp"
         enabled: true
         provider_id: "oidc"
         trust_email: true
         postBrokerLoginFlowAlias: "post-idp-login"
-        mappers: "{{ item.import|default([])|to_idp_mappers }}"
+        mappers: "{{ item.parent_realm.import|default([])|to_idp_mappers }}"
         config:
-          issuer: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm }}"
-          authorizationUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm }}/protocol/openid-connect/auth"
-          tokenUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm }}/protocol/openid-connect/token"
-          userInfoUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm }}/protocol/openid-connect/userinfo"
+          issuer: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}"
+          authorizationUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}/protocol/openid-connect/auth"
+          tokenUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}/protocol/openid-connect/token"
+          userInfoUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}/protocol/openid-connect/userinfo"
           clientAuthMethod: client_secret_post
           clientId: "{{ item.name }}-idp"
-          clientSecret: "{{ item.client_secret }}"
+          clientSecret: "{{ item.parent_realm.client_secret }}"
           syncMode: FORCE
         state: present
   when: item.parent_realm is defined
