@@ -30,8 +30,8 @@ oauth2_proxy_with_keycloak_client: true
 oauth2_proxy_keycloak_client_auth_keycloak_url:  "{{oauth2_proxy_keycloak_client_url}}"
 oauth2_proxy_keycloak_client_auth_client_id: admin-cli
 oauth2_proxy_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
-oauth2_proxy_keycloak_client_auth_username: "{{keycloak_management_user|default('admin')}}"
-oauth2_proxy_keycloak_client_auth_password: "{{keycloak_management_pass}}"
+oauth2_proxy_keycloak_client_auth_username: "{{keycloak_management_username|default('admin')}}"
+oauth2_proxy_keycloak_client_auth_password: "{{keycloak_management_password}}"
 oauth2_proxy_keycloak_client_validate_certs: true
 
 oauth2_proxy_keycloak_client_url: "https://{{ keycloak_server_name }}"
