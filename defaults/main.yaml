@@ -1,4 +1,7 @@
+---
+netbox_version: v3.3
 netbox_keycloak_url: "https://{{ keycloak_server_name }}"
 netbox_keycloak_client_id: "{{inventory_hostname}}"
 netbox_keycloak_realm: "{{keycloak_default_realm}}"
 keycloak_management_client_id: admin-cli
+netbox_remote_auth_default_groups: []

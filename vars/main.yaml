@@ -5,11 +5,13 @@ netbox_docker_compose_override:
   version: '3.4'
   services:
     netbox:
+      image: netboxcommunity/netbox:{{netbox_version}}
       environment:
         ALLOWED_HOSTS: "{{netbox_server_name}}"
         CSRF_TRUSTED_ORIGINS: "https://{{netbox_server_name}}/*"
         REMOTE_AUTH_ENABLED: "true"
         REMOTE_AUTH_HEADER: 'HTTP_X_FORWARDED_PREFERRED_USERNAME'
+        REMOTE_AUTH_DEFAULT_GROUPS: "{{ netbox_remote_auth_default_groups | join(' ') }}"
     oauth2-proxy:
       container_name: oauth2-proxy
       image: quay.io/oauth2-proxy/oauth2-proxy:v7.3.0
