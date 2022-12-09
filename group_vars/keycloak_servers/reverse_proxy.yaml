@@ -13,9 +13,9 @@ reverse_proxy_nginx_vhost_custom: |
   }
   {{header_nginx_inclusion}}
   location = / {
-    return 303 "/realms/{{keycloak_main_realm_name}}/account";
+    return 303 "/realms/{{keycloak_default_realm}}/account";
   }
   location = /register {
-    return 303 "/realms/{{keycloak_main_realm_name}}/protocol/openid-connect/registrations?client_id=account&response_type=code";
+    return 303 "/realms/{{keycloak_default_realm}}/protocol/openid-connect/registrations?client_id=account&response_type=code";
   }
   rewrite ^/auth/(.*)$ /$1;

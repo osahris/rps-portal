@@ -4,7 +4,7 @@ rps_groups_interface_interface_heading: "{{ inventory_hostname }}"
 rps_groups_interface_interface_title: "{{ inventory_hostname }}"
 
 rps_groups_interface_keycloak_client_id: "{{rps_groups_interface_server_name}}"
-rps_groups_interface_keycloak_realm: "{{ keycloak_main_realm_name }}"
+rps_groups_interface_keycloak_realm: "{{ keycloak_default_realm }}"
 
 rps_groups_interface_config_directory: /etc/rps-groups-interface
 

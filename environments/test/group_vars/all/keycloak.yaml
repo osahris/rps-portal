@@ -1,2 +1,2 @@
 keycloak_server_name: accounts.{{dns_suffix}}
-keycloak_main_realm_name: users
+keycloak_default_realm: users
