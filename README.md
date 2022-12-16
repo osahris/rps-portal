@@ -20,10 +20,6 @@ A working keycloak with a mainrealm
 
   realm to use for authenticating as `keycloak_admin_username`. defaults to `master`
 
-- keycloak_main_realm_name
-
-  realm name used as root realm for all subrealms. defaults to `users`
-
 - keycloak_validate_certs
 
   if certs should be validated. useful for self signed certs. should always be true on prod systems. defaults to `true`
