@@ -24,6 +24,7 @@ oauth2_proxy_environment:
   # cookie
   OAUTH2_PROXY_COOKIE_SECRET: "{{oauth2_proxy_cookie_secret}}"
   OAUTH2_PROXY_COOKIE_NAME: "{{oauth2_proxy_cookie_name}}"
+  OAUTH2_PROXY_COOKIE_DOMAINS: "{{oauth2_proxy_cookie_domain}}"
 
   # provider (keycloak-oidc is the only option for now)
   OAUTH2_PROXY_PROVIDER: keycloak-oidc
