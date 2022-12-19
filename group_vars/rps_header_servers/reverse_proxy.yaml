@@ -1,7 +1,7 @@
 ---
 reverse_proxy_server_name: "{{rps_header_server_name}}"
 reverse_proxy_nginx_vhost_custom: |
-  add_header 'Access-Control-Allow-Origin' 'https://dt-hub.dzif.de' always;
+  add_header 'Access-Control-Allow-Origin' $allow_origin always;
   add_header 'Access-Control-Allow-Credentials' 'true' always;
   add_header 'Access-Control-Allow-Methods' 'GET, OPTIONS' always;
   add_header 'Access-Control-Allow-Headers' 'access-control-allow-origin' always;
