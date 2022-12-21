@@ -31,7 +31,7 @@
           access.token.claim: 'false'
           claim.name: groups
           full.path: 'false'
-          id.token.claim: 'false'
+          id.token.claim: 'true'
           userinfo.token.claim: 'true'
         consentRequired: false
         protocol: openid-connect
