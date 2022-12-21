@@ -1,0 +1,28 @@
+---
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.rps_header_servers }}"
+
+- hosts: rps_header_servers
+  remote_user: root
+
+  # pre_tasks:
+  # - name: podman
+  #   apt:
+  #     pkg: podman
+  # - name: Start header container
+  #   containers.podman.podman_container:
+  #     name: header
+  #     state: absent
+  # - name: remove podman
+  #   apt:
+  #     pkg: podman
+  #     state: absent
+
+  roles:
+  - role: docker
+  - role: oauth2-proxy
+  - role: rps-header
