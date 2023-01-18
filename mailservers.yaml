@@ -1,11 +1,5 @@
 ---
 
-- hosts: reverse_proxies
-  remote_user: root
-  roles:
-    - role: reverse_proxy
-      reverse_proxy_for_hosts: "{{ groups.mailservers }}"
-
 - hosts: mailservers
   remote_user: root
   roles:
@@ -13,6 +7,5 @@
     - certificate
     - mariadb
     - dovecot
-    - name: sympa
-      certificate_provider: selfsigned
+    - sympa
     - postfix
