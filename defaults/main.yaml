@@ -73,3 +73,5 @@ traefik_proxy_network_ipam_config:
   - subnet: fd31:80::/64 # local container proxy network
 
 traefik_default_tls_options_type: mintls12
+
+traefik_socat_https_proxies: []

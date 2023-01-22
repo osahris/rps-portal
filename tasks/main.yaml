@@ -90,3 +90,4 @@
     state: absent
   when: not traefik_dashboard_hostname is defined
 
+- import_tasks: socat-https-proxy.yaml
