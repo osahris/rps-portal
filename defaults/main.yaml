@@ -74,4 +74,4 @@ traefik_proxy_network_ipam_config:
 
 traefik_default_tls_options_type: mintls12
 
-traefik_socat_https_proxies: []
+socat_https_proxies: []
