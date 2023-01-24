@@ -1,0 +1,13 @@
+---
+
+- hosts: reverse_proxies
+  remote_user: root
+  roles:
+    - role: reverse_proxy
+      reverse_proxy_for_hosts: "{{ groups.wiki_bookstack_servers }}"
+
+- hosts: wiki_bookstack_servers
+  remote_user: root
+  roles:
+  - role: docker
+  - role: wiki-bookstack
