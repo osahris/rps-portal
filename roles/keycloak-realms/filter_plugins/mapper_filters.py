@@ -127,7 +127,8 @@ def to_idp_mapper(definition: dict[str, Any]):
 
     # claim.name has to be present in all supported configs
     mapper = _merge_dictionaries(
-        {"name": name, "config": {"claim": name}},
+        # name must be unique
+        {"name": f"{name}-{t}", "config": {"claim": name}},
         definition["idp"] if "idp" in definition else {},
     )
     # special case for attribute: predefine user.attribute
