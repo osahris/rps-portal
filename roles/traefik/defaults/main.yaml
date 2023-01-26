@@ -33,7 +33,7 @@ traefik_entry_points:
 
 letsencrypt_account_email: "{{ admin_email }}"
 
-traefik_default_certificates_resolver: letsencrypt-staging
+traefik_default_certificates_resolver: letsencrypt
 traefik_certificates_resolvers:
   letsencrypt:
     acme:
