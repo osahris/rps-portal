@@ -1,6 +1,7 @@
 ---
 - name: "Create access_token for keycloak for user {{ keycloak_admin_username }}"
   local_action: uri
+  become: false
   args:
     url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
     method: POST
@@ -58,6 +59,7 @@
         state: present
     - name: "Set browser flow to idp redirect"
       local_action: uri
+      become: false
       args:
         url: "{{ keycloak_frontend_url }}/admin/realms/{{ item.name }}"
         method: PUT
