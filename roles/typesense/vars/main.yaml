@@ -1,0 +1,83 @@
+---
+
+typesense_docker_compose:
+  version: '3'
+
+  services:
+    typesense:
+      networks:
+        - typesense
+        - proxy
+      image: typesense/typesense:0.23.1
+      restart: unless-stopped
+      command: --data-dir /data --api-key="{{typesense_api_key}}"
+      volumes:
+        - typesense:/data
+    typesense-oauth-proxy:
+      networks:
+        - proxy
+        - typesense
+      image: registry.gitlab.com/idcohorts/rps/typesense-oauth-proxy:main
+      restart: unless-stopped
+      environment:
+        ADDRESS: 0.0.0.0:4000
+        ISSUER: https://{{keycloak_server_name}}/realms/{{keycloak_realm}}
+        TYPESENSE_OAUTH_PROXY_LOG: typesense_oauth_proxy=debug # typesense_oauth_proxy=trace # only "trace" for more debug
+        TYPESENSE_URL: http://typesense:8108
+        TYPESENSE_ADMIN_API_KEY: "{{typesense_api_key}}"
+        PROXY_COLLECTIONS_FILE: /data/proxy_collections.yaml
+      volumes:
+        - ./typesense-oauth-proxy-data:/data
+      labels:
+        traefik.enable: "true"
+    typesense-frontend:
+      image: registry.gitlab.com/idcohorts/num/num-matchmaking-prototype:keycloak-authentication
+      labels:
+        traefik.enable: "true"
+      networks:
+        - proxy
+  volumes:
+    typesense: {}
+
+  networks:
+    typesense:
+    proxy:
+      external: true
+
+typesense_traefik_dynamic_config:
+  http:
+    routers:
+      typesense-oauth:
+        rule: "Host(`{{typesense_server_name}}`) && PathPrefix(`/typesense-oauth`)"
+        service: typesense-oauth-proxy
+        entrypoints: websecure
+        middlewares:
+          - typesense-stripprefix
+      typesense:
+        rule: "Host(`{{typesense_server_name}}`) && PathPrefix(`/typesense`)"
+        service: typesense-oauth-proxy
+        entrypoints: websecure
+        middlewares:
+          - typesense-stripprefix
+      typesense-frontend:
+        rule: "Host(`{{typesense_server_name}}`)"
+        service: typesense-frontend
+        entrypoints: websecure
+    services:
+      typesense-oauth-proxy:
+        loadBalancer:
+          servers:
+            - url: http://{{_typesense_docker_compose.services['typesense-oauth-proxy'].keys()|first}}:4000
+      typesense:
+        loadBalancer:
+          servers:
+            - url: http://{{_typesense_docker_compose.services['typesense'].keys()|first}}:8108
+      typesense-frontend:
+        loadBalancer:
+          servers:
+            - url: http://typesense-frontend
+    middlewares:
+      typesense-stripprefix:
+        stripPrefix:
+          prefixes:
+            - "/typesense-oauth"
