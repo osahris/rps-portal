@@ -77,8 +77,8 @@
       - "{{traefik_config_directory}}/:/etc/traefik:ro"
       - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
       - "{{traefik_config_directory}}/certs:/etc/ssl/certs:ro"
-    etc_hosts:
-      acme-v02.api.letsencrypt.org: 134.95.61.105
+    # etc_hosts:
+    #   acme-v02.api.letsencrypt.org: 134.95.61.105
 
 - name: traefik dashboard dynamic config
   copy:
@@ -93,3 +93,4 @@
   when: not traefik_dashboard_hostname is defined
 
 - import_tasks: socat-https-proxy.yaml
+  when: socat_https_proxies is defined
