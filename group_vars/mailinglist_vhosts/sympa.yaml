@@ -1,1 +1,0 @@
-sympa_datasource_url_prefix: https://{{rps_sync_services_server_name}}/sympa-datasource/{{rps_sympa_remote_datasource_apikey}}

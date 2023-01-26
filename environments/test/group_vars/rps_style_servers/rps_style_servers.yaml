@@ -1,2 +1,0 @@
-rps_style_server_name: "{{inventory_hostname_short}}.rps.{{dns_suffix}}"
-rps_style_server_name_version: dev

@@ -1,3 +1,0 @@
-ansible_python_interpreter: /usr/bin/python3
-admin_email: markus.brechtel@uk-koeln.de
-nextcloud_admin_user: admin

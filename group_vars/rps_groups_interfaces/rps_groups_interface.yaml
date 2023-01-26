@@ -1,4 +1,0 @@
-rps_groups_interface_config:
-  keycloak_realm_url: "{{keycloak_realm_url}}"
-  language: de
-  user_attributes: "{{user_attributes}}"

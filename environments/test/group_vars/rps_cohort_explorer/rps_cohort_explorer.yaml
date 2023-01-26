@@ -1,3 +1,0 @@
-rps_cohort_explorer_server_name: cohort-explorer.{{dns_suffix}}
-rps_cohort_explorer_git_version: main
-rps_cohort_explorer_repo: https://{{ rps_cohort_explorer_deploy_token }}@gitlab.com/idcohorts/cohortexplorer.git

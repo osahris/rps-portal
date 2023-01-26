@@ -1,6 +1,0 @@
-keycloak_management_url: https://{{keycloak_server_name}}/
-keycloak_saml_endpoint_url: https://{{keycloak_server_name}}/realms/{{keycloak_default_realm}}/protocol/saml/descriptor
-keycloak_well_known_openid_configuration_url: https://{{keycloak_server_name}}/realms/{{keycloak_default_realm}}/.well-known/openid-configuration
-keycloak_logout_url: https://{{keycloak_server_name}}/realms/{{keycloak_default_realm}}/protocol/openid-connect/logout?redirect_uri={{logout_redirect_url}}
-keycloak_management_realm: master
-keycloak_realm: "{{ keycloak_default_realm }}"

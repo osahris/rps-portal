@@ -1,2 +1,0 @@
-# the current setup uses a double reverse proxy setup - one from container to uwsgi - one from global reverse proxy to container
-alerta_standalone_https: no

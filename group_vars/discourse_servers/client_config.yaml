@@ -1,6 +1,0 @@
-rps_service_admin_config:
-  service_type: discourse
-  discourse_server_name: "{{ discourse_server_name|default(inventory_hostname) }}"
-  discourse_url: "{{ 'https://' + discourse_server_name|default(inventory_hostname) }}"
-  discourse_username: system
-  discourse_api_key: "{{ discourse_api_key }}"

@@ -1,8 +1,0 @@
----
-header_repo: https://{{gitlab_deploy_token}}@gitlab.com/idcohorts/rps/rps-vue-header.git
-
-header_keycloak_auth_url: https://{{keycloak_server_name}}/auth
-header_nginx_inclusion: |-
-  {% if rps_header_server_name is defined %}
-  rewrite ^/header.js$ https://{{rps_header_server_name}}/header.js redirect;
-  {% endif %}

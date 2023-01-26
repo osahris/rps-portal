@@ -1,6 +1,0 @@
-reverse_proxy_server_name: "{{ alerta_server_name }}"
-
-reverse_proxy_nginx_vhost_custom: |
-  location / {
-    proxy_pass http://{{inventory_hostname}}:80/;
-  }

@@ -1,2 +1,0 @@
-alerta_server_name: alerta.{{ dns_suffix }}
-netdata_server_name: netdata.{{ dns_suffix }}
