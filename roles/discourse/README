@@ -1,0 +1,40 @@
+# ansible role discourse
+
+A role for setting up discource using the discource docker installer
+
+## required variables
+
+| variable                        | purpose                                               |
+| ------------------------------- | ----------------------------------------------------- |
+| discourse_admin_users           | list of emails, that become admin users when logging in |
+| discourse_database_password     | password used for database access                     |
+| discourse_openid_client_secret  | uuid used for authenticating discourse as client to keycloak, client object will be created by keycloak api |
+| discourse_openid_client_secret  | uuid used for authenticating discourse as client to keycloak, client object will be created by keycloak api |
+
+## optional variables
+
+| variable                             | default value                   | purpose                                               |
+| ------------------------------------ | ------------------------------- | ----------------------------------------------------- |
+| discourse_server_name                | "{{ inventory_hostname }}"      | fully qualified domain name discourse will be accessible from |
+| discourse_mail_domain                | "{{ discourse_hostname }}"      | ? |
+| discourse_https_host                 | true                            | run with built-in webserver using letsencrypt for https |
+| discourse_letsencrypt_account_email  | ""                              | email to use, when getting LE certificate |
+| discourse_validate_certs             | yes                             | validate certificates (e.g. keycloak)     |
+| discourse_web_ratelimited            | true                            |      |
+| discourse_mail_reveiver_tls_enabled  | false                           | enables port 465 binding for tls connections |
+| discourse_open_id_hostname           | first hostname in keycloak_servers inventory | host name of keycloak server - used to derive other keycloak urls |
+| discourse_keycloak_realm_name        | users                           | keycloak application realm to use |
+| discourse_keycloak_redirect_hostname | first hostname in discourse_servers inventory  | will be used to derive discourse_keycloak_redirect_uri |
+
+
+## SUPPORT: Edit user's email in Discourse or change primary email
+ssh root@dialog.napkon.de
+docker container exec -ti web rails c
+
+1. Delete secondary email (if exists!):
+User.find_by_email('secondary@gmail.com').delete()
+2. Find the user by current primary email:
+user = User.find_by_email('primary@gmail.com')
+3. Change email
+user.email = "secondary@gmail.com"
+user.save!

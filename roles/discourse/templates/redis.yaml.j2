@@ -1,0 +1,13 @@
+templates:
+  - "templates/redis.template.yml"
+
+env:
+  LANG: en_US.UTF-8
+
+volumes:
+  - volume:
+        host: /var/lib/discourse/shared/redis
+        guest: /shared
+  - volume:
+        host: /var/lib/discourse/shared/redis/log/var-log
+        guest: /var/log

@@ -1,0 +1,150 @@
+templates:
+  - "templates/web.template.yml"
+{% if discourse_web_ratelimited %}
+  - "templates/web.ratelimited.template.yml"
+{% endif %}
+
+{% if discourse_https_host %}
+  - "templates/web.ssl.template.yml"
+  - "templates/web.letsencrypt.ssl.template.yml"
+{% endif %}
+
+## which TCP/IP ports should this container expose?
+## If you want Discourse to share a port with another webserver like Apache or nginx,
+## see https://meta.discourse.org/t/17247 for details
+expose:
+  - "80:80"   # http
+{% if discourse_https_host %}
+  - "443:443" # https
+{% endif %}
+
+# Use 'links' key to link containers together, aka use Docker --link flag.
+links:
+  - link:
+      name: redis
+      alias: redis
+  - link:
+      name: postgres
+      alias: postgres
+
+# any extra arguments for Docker?
+# docker_args:
+
+params:
+  ## Which Git revision should this container use? (default: tests-passed)
+  version: {{discourse_version}}
+
+env:
+  # TODO What is wrong here?
+  #LANG: {{locales|to_json}}
+
+  ## How many concurrent web requests are supported? Depends on memory and CPU cores.
+  ## will be set automatically by bootstrap based on detected CPUs, or you can override
+  #UNICORN_WORKERS: 3
+
+  ## The domain name this Discourse instance will respond to
+  DISCOURSE_HOSTNAME: "{{ discourse_server_name }}"
+
+  ## Uncomment if you want the container to be started with the same
+  ## hostname (-h option) as specified above (default "$hostname-$config")
+  #DOCKER_USE_HOSTNAME: true
+
+  ## List of comma delimited emails that will be made admin and developer
+  ## on initial signup example 'user1@example.com,user2@example.com'
+  DISCOURSE_DEVELOPER_EMAILS: "{{discourse_admin_users|join(',')}}"
+
+  ## TODO: The SMTP mail server used to validate new accounts and send notifications
+  # SMTP ADDRESS, username, and password are required
+  # WARNING the char '#' in SMTP password can cause problems!
+  DISCOURSE_SMTP_ADDRESS: "{{discourse_smtp_address}}"
+  DISCOURSE_SMTP_PORT: "{{discourse_smtp_port}}"
+  DISCOURSE_SMTP_USER_NAME: "{{discourse_smtp_user_name}}"
+  DISCOURSE_SMTP_PASSWORD: "{{discourse_smtp_password}}"
+  DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
+
+{% if discourse_letsencrypt_account_email is defined %}
+  ## If you added the Lets Encrypt template, uncomment below to get a free SSL certificate
+  LETSENCRYPT_ACCOUNT_EMAIL: "{{discourse_letsencrypt_account_email}}"
+{% endif %}
+
+  ## configure connectivity to the databases
+  DISCOURSE_DB_SOCKET: ''
+  DISCOURSE_DB_USERNAME: discourse
+  DISCOURSE_DB_PASSWORD: "{{discourse_database_password}}"
+  DISCOURSE_DB_HOST: postgres
+  DISCOURSE_REDIS_HOST: redis
+
+  ## The CDN address for this Discourse instance (configured to pull)
+  #DISCOURSE_CDN_URL: //discourse-cdn.example.com
+
+  ## Admin API rate limits
+  DISCOURSE_MAX_ADMIN_API_REQS_PER_KEY_PER_MINUTE : 1000
+  DISCOURSE_MAX_REQS_PER_IP_MODE: warn
+
+volumes:
+  - volume:
+      host: /var/lib/discourse/shared/web
+      guest: /shared
+  - volume:
+      host: /var/lib/discourse/shared/web/log/var-log
+      guest: /var/log
+
+## Plugins go here
+## see https://meta.discourse.org/t/19157 for details
+hooks:
+  after_code:
+    - exec:
+        cd: $home/plugins
+        cmd:
+          - sudo -E -u discourse git clone https://github.com/discourse/docker_manager.git
+          - sudo -E -u discourse git clone https://github.com/gdpelican/babble.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-openid-connect.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-user-notes.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-canned-replies.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-solved.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-assign.git
+          - sudo -E -u discourse git clone https://github.com/gdpelican/retort.git
+          #- sudo -E -u discourse git clone https://github.com/pfaffman/discourse-topic-default-tag.git
+          - sudo -E -u discourse git clone https://github.com/discourse/discourse-restricted-replies.git
+
+## Remember, this is YAML syntax - you can only have one block with a name
+run:
+  - exec: echo "Beginning of custom commands"
+
+  ## If you want to configure password login for root, uncomment and change:
+  ## Use only one of the following lines:
+  #- exec: /usr/sbin/usermod -p 'PASSWORD_HASH' root
+  #- exec: /usr/sbin/usermod -p "$(mkpasswd -m sha-256 'RAW_PASSWORD')" root
+
+  ## If you want to authorized additional users, uncomment and change:
+  #- exec: ssh-import-id username
+  #- exec: ssh-import-id anotherusername
+{% if discourse_theme is defined %}
+  - exec: echo '{"napkon-theme":{"url":"{{ discourse_theme }}","default":true}}' | rake themes:install
+{% endif %}
+
+  # openid settings
+  - exec: rails r "SiteSetting.enable_local_logins=false"
+  - exec: rails r "SiteSetting.enable_local_logins_via_email=false"
+  - exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
+  #- exec: rails r "SiteSetting.login_required=true"
+  - exec: rails r "SiteSetting.openid_connect_enabled=true"
+  - exec: rails r "SiteSetting.openid_connect_verbose_logging=true"
+  - exec: rails r "SiteSetting.openid_connect_overrides_email=true"
+  - exec: rails r "SiteSetting.openid_connect_discovery_document='{{ discourse_open_id_discovery_uri }}'"
+  - exec: rails r "SiteSetting.openid_connect_client_id='discourse'"
+  - exec: rails r "SiteSetting.openid_connect_client_secret='{{ discourse_openid_client_secret }}'"
+  - exec: rails r "SiteSetting.email_editable=false"
+  - exec: rails r "SiteSetting.sso_overrides_username=true"
+  - exec: rails r "SiteSetting.sso_overrides_email=true"
+  - exec: rails r "SiteSetting.sso_overrides_name=true"
+  # these have special flags to enable them
+  - exec: rails r "SiteSetting.assign_enabled=true"
+  - exec: rails r "SiteSetting.user_notes_enabled=true"
+{% if discourse_mail_from is defined %}
+  - exec: rails r "SiteSetting.notification_email='{{ discourse_mail_from }}'"
+{% endif %}
+
+
+  - exec: echo "End of custom commands"
+  - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
