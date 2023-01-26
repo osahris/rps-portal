@@ -1,9 +1,0 @@
----
-
-- hosts: wordpress_servers
-  remote_user: root
-  roles:
-    - mariadb
-    - php
-    - nginx
-    - wordpress
