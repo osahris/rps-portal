@@ -8,7 +8,7 @@
       state: directory
   - name: ansible secrets facts
     copy:
-      content: "{{ secrets_fact }}"
+      content: "{{ secrets_fact | to_nice_json }}"
       dest: /etc/ansible/facts.d/secrets.fact
   - name: Gather facts again after secrets generation
     setup:
@@ -17,3 +17,5 @@
     tags: traefik
   - role: keycloak
     tags: keycloak
+  - role: keycloak-realms
+    tags: keycloak-realms
