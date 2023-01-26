@@ -1,2 +1,2 @@
 [rps_servers]
-dev.numhub.de ansible_ssh_user=root
+dev.numhub.de ansible_ssh_user=root admin_email=markus.brechtel@uk-koeln.de

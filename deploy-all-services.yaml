@@ -1,5 +1,19 @@
 ---
 - hosts: rps_servers
   become: true
+  pre_tasks:
+  - name: ansible facts directory
+    file:
+      path: /etc/ansible/facts.d
+      state: directory
+  - name: ansible secrets facts
+    copy:
+      content: "{{ secrets_fact }}"
+      dest: /etc/ansible/facts.d/secrets.fact
+  - name: Gather facts again after secrets generation
+    setup:
   roles:
   - role: traefik
+    tags: traefik
+  - role: keycloak
+    tags: keycloak
