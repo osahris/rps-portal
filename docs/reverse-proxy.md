@@ -1,0 +1,1 @@
+how traefik works:
