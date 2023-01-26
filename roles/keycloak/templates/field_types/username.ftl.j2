@@ -1,0 +1,9 @@
+<#if !realm.registrationEmailAsUsername>
+<div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}">
+
+    <div class="${properties.kcInputWrapperClass!}">${msg("username")} <sub>*</sub>
+      {%if 'description' in field %}<p>{{field.description}}</p>{% endif %}
+        <input type="text" id="username" class="${properties.kcInputClass!}" name="username" value="${(register.formData.username!'')}" autocomplete="username" />
+    </div>
+</div>
+</#if>

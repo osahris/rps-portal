@@ -1,0 +1,9 @@
+<div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('email',properties.kcFormGroupErrorClass!)}">
+    <div class="${properties.kcLabelWrapperClass!}">
+        <label for="email" class="${properties.kcLabelClass!}">${msg("email")}</label> <sub>*</sub>
+      {%if 'description' in field %}<p>{{field.description}}</p>{% endif %}
+    </div>
+    <div class="${properties.kcInputWrapperClass!}">
+        <input required type="text" id="email" class="${properties.kcInputClass!}" name="email" value="${(register.formData.email!'')}" autocomplete="email" />
+    </div>
+</div>
