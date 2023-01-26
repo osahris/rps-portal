@@ -1,0 +1,4 @@
+---
+
+- import_tasks: keycloak.yaml
+- include_tasks: setup/{{oauth2_proxy_setup}}.yaml

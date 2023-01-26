@@ -1,0 +1,16 @@
+---
+
+- import_tasks: ../config.yaml
+
+- import_tasks: binary-download.yaml
+
+- name: oauth2-proxy systemd service unit
+  copy:
+    src: oauth2-proxy@.service
+    dest: /etc/systemd/system/
+
+- name: oauth2-proxy systemd service
+  systemd:
+    name: oauth2-proxy@{{oauth2_proxy_instance}}.service
+    state: "{{oauth2_proxy_config_copy_task.changed|ternary('restarted','started')}}"
+    enabled: true

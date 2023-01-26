@@ -1,0 +1,49 @@
+---
+oauth2_proxy_install_directory: /opt/oauth2-proxy
+oauth2_proxy_config_directory: /etc/oauth2-proxy
+
+oauth2_proxy_git_repo: https://github.com/oauth2-proxy/oauth2-proxy.git
+oauth2_proxy_git_version: master
+oauth2_proxy_foldername: oauth2-proxy-v{{oauth2_proxy_version}}.{{oauth2_proxy_platform}}-{{oauth2_proxy_architecture}}
+oauth2_proxy_archive_filename: "{{oauth2_proxy_foldername}}.tar.gz"
+oauth2_proxy_sha256sum_filename: "{{oauth2_proxy_foldername}}-sha256sum.txt"
+oauth2_proxy_download_url: https://github.com/oauth2-proxy/oauth2-proxy/releases/download
+oauth2_proxy_archive_url: "{{oauth2_proxy_download_url}}/v{{oauth2_proxy_version}}/{{oauth2_proxy_archive_filename}}"
+oauth2_proxy_sha256sum_url: "{{oauth2_proxy_download_url}}/v{{oauth2_proxy_version}}/{{oauth2_proxy_sha256sum_filename}}"
+oauth2_proxy_platform: linux
+oauth2_proxy_architecture: "{{oauth2_proxy_architecture_map[ansible_architecture]}}"
+oauth2_proxy_architecture_map:
+  x86_64: amd64
+
+oauth2_proxy_environment:
+  # general
+  OAUTH2_PROXY_HTTP_ADDRESS: "{{oauth2_proxy_http_address}}"
+  OAUTH2_PROXY_SHOW_DEBUG_ON_ERROR: "{{oauth2_proxy_show_debug_on_error|bool|lower}}"
+  OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "{{oauth2_proxy_skip_provider_button|bool|lower}}"
+  
+  # cookie
+  OAUTH2_PROXY_COOKIE_SECRET: "{{oauth2_proxy_cookie_secret}}"
+  OAUTH2_PROXY_COOKIE_NAME: "{{oauth2_proxy_cookie_name}}"
+  OAUTH2_PROXY_COOKIE_DOMAINS: "{{oauth2_proxy_cookie_domain}}"
+
+  # provider (keycloak-oidc is the only option for now)
+  OAUTH2_PROXY_PROVIDER: keycloak-oidc
+
+  # keycloak
+  OAUTH2_PROXY_CLIENT_ID: "{{ oauth2_proxy_client_id }}"
+  OAUTH2_PROXY_CLIENT_SECRET: "{{ oauth2_proxy_client_secret }}"
+  OAUTH2_PROXY_REDIRECT_URL: "{{ oauth2_proxy_redirect_url }}"
+  OAUTH2_PROXY_OIDC_ISSUER_URL: "{{ oauth2_proxy_oidc_issuer_url }}"
+  OAUTH2_PROXY_SCOPE: "{{ oauth2_proxy_scope }}"
+
+  # authorization
+  OAUTH2_PROXY_EMAIL_DOMAINS: '{{oauth2_proxy_email_domains}}'
+  OAUTH2_PROXY_ALLOWED_GROUPS: "{{oauth2_proxy_allowed_groups|default(omit)}}"
+  OAUTH2_PROXY_ALLOWED_ROLES: "{{oauth2_proxy_allowed_roles|default(omit)}}"
+
+  # upstream
+  OAUTH2_PROXY_UPSTREAMS: "{{oauth2_proxy_upstreams|default(omit)}}"
+  OAUTH2_PROXY_SET_XAUTHREQUEST: "{{oauth2_proxy_set_xauthrequest|bool|lower}}"
+
+  # logging
+  OAUTH2_PROXY_REQUEST_LOGGING: "{{oauth2_proxy_request_logging|bool|lower}}"
