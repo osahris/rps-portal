@@ -135,17 +135,18 @@
       traefik.http.routers.keycloak-http.entrypoints: http
       traefik.http.middlewares.test-ratelimit.ratelimit.burst: '100'
 
-# - name: Wait for keycloak
-#   local_action: uri
-#   args:
-#     url: "{{ keycloak_frontend_url }}/realms/master/"
-#     validate_certs: "{{ keycloak_validate_certs }}"
-#     status_code: 200
-#   register: result
-#   until: result.status == 200
-#   retries: 180
-#   delay: 1
-#
+- name: Wait for keycloak
+  local_action: uri
+  become: false
+  args:
+    url: "{{ keycloak_frontend_url }}/realms/master/"
+    validate_certs: "{{ keycloak_validate_certs }}"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 180
+  delay: 1
+
 # - name: "Create Token for service Keycloak"
 #   local_action: uri
 #   args:
