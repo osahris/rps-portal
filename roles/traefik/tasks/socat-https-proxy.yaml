@@ -1,0 +1,35 @@
+---
+- name: socat https proxy containers
+  docker_container:
+    name: socat-https-proxy-{{ item.name }}
+    image: alpine/socat
+    command: >
+      TCP4-LISTEN:443,fork,reuseaddr
+      PROXY:{{item.proxy_server}}:{{item.server}}:{{item.port}},proxyport={{item.proxy_port | default('3128') }}
+    networks:
+      - name: proxy 
+  loop: "{{ socat_https_proxies }}"
+  loop_control:
+    label: "{{ item.name }}"
+- name: napkon suite keycloak redirector hack traefik config
+  copy:
+    content:
+      tcp:
+        routers: "{{ { ('socat-https-proxy-' + item.name) : socat_traefik_router } }}"
+        services: "{{ { ('socat-https-proxy-' + item.name) : socat_traefik_service } }}"
+    dest: /etc/traefik/conf.d/socat-https-proxy-{{ item.name }}.yaml
+  vars:
+    socat_traefik_router:
+      rule: "HostSNI(`{{item.server}}`)"
+      entrypoints: websecure
+      tls:
+        passthrough: true
+      service: socat-https-proxy-{{ item.name }}
+    socat_traefik_service:
+      loadBalancer:
+        servers:
+          - address: "socat-https-proxy-{{ item.name }}:443"
+  loop: "{{ socat_https_proxies }}"
+  loop_control:
+    label: "{{ item.name }}"
+

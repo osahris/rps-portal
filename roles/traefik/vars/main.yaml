@@ -1,0 +1,39 @@
+---
+
+traefik_static_config:
+  api:
+    dashboard: true
+    insecure: false
+  providers:
+    file:
+      directory: /etc/traefik/conf.d
+      watch: true
+  entryPoints: "{{ traefik_entry_points }}"
+  certificatesResolvers: "{{ traefik_certificates_resolvers }}"
+  log:
+    level: "{{traefik_log_level}}"
+
+traefik_tls_config:
+  tls:
+    options:
+      default: "{{traefik_default_tls_options_map[traefik_default_tls_options_type]}}"
+
+traefik_default_tls_options_map:
+  mintls12:
+    minVersion: VersionTLS12
+  mintls13:
+    minVersion: VersionTLS13
+  client_auth:
+    minVersion: VersionTLS13
+    clientAuth:
+      caFiles:
+        - /etc/ssl/certs/ca-certificates.crt
+      clientAuthType: RequireAndVerifyClientCert
+
+traefik_dashboard_dynamic_config:
+  http:
+    routers:
+      traefik-dashboard:
+        rule: "Host(`{{traefik_dashboard_hostname}}`)"
+        entrypoints: websecure
+        service: api@internal
