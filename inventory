@@ -1,0 +1,2 @@
+[rps_servers]
+dev.numhub.de ansible_ssh_user=root

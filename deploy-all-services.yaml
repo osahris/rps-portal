@@ -1,5 +1,5 @@
 ---
-- hosts: rps_server
+- hosts: rps_servers
   become: true
   roles:
   - role: traefik
