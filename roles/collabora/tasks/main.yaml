@@ -1,0 +1,20 @@
+---
+
+- import_role:
+    name: docker
+
+- name: collabora docker container
+  community.docker.docker_container:
+    name: collabora
+    image: "{{collabora_domain_image}}"
+    state: started
+    restart: yes
+    container_default_behavior: no_defaults
+    ports:
+     - "9980:9980"
+     - "[::]:9980:9980"
+    env: "{{collabora_docker_env}}"
+    capabilities:
+      - MKNOD
+      # - SYS_CHROOT
+      # - FOWNER

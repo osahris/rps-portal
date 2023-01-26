@@ -1,0 +1,6 @@
+collabora_docker_env:
+  domain: "{{collabora_domain}}"
+  username: "{{collabora_admin_username}}"
+  password: "{{collabora_admin_password}}"
+  server_name: "{{collabora_server_name}}"
+  extra_params: --o:ssl.enable=false --o:ssl.termination=true
