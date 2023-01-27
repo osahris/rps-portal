@@ -16,7 +16,7 @@
 
 - name: create oauth2-proxy docker container
   docker_container:
-    name: oauth2-proxy
+    name: "{{oauth2_proxy_docker_container_name}}"
     image: "{{oauth2_proxy_oci_image}}"
     networks:
       - name: "{{traefik_proxy_network}}"
