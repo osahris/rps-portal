@@ -1,5 +1,5 @@
 ---
-oauth2_proxy_version: 7.3.0
+oauth2_proxy_version: 7.4.0
 oauth2_proxy_oci_image: quay.io/oauth2-proxy/oauth2-proxy:v{{oauth2_proxy_version}}
 
 oauth2_proxy_server_name: "{{ inventory_hostname }}"
