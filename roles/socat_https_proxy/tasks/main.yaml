@@ -1,4 +1,5 @@
 ---
+
 - name: socat https proxy containers
   docker_container:
     name: socat-https-proxy-{{ item.name }}
@@ -11,7 +12,8 @@
   loop: "{{ socat_https_proxies }}"
   loop_control:
     label: "{{ item.name }}"
-- name: napkon suite keycloak redirector hack traefik config
+
+- name: traefik dynamic config
   copy:
     content:
       tcp:
