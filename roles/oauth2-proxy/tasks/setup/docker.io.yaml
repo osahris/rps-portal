@@ -21,3 +21,4 @@
     networks:
       - name: "{{traefik_proxy_network}}"
     env: "{{oauth2_proxy_environment}}"
+    restart_policy: unless-stopped

@@ -79,6 +79,7 @@
       - "{{traefik_config_directory}}/certs:/etc/ssl/certs:ro"
     # etc_hosts:
     #   acme-v02.api.letsencrypt.org: 134.95.61.105
+    restart_policy: unless-stopped
 
 - name: traefik dashboard dynamic config
   copy:
