@@ -1,17 +1,6 @@
 ---
-- name: docker debian packages installed
-  apt:
-    update_cache: true
-    pkg:
-      - docker.io
-      - python3-docker
-      - docker-compose
-      - apparmor
-
-- name: start docker service
-  service:
+- import_role:
     name: docker
-    state: started
 
 - name: traefik ssl-certs docker volume
   docker_volume:
