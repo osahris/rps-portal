@@ -26,3 +26,10 @@
     
   - role: keycloak-realms
     tags: keycloak-realms
+
+#- role: rps_admin_web_interface
+#  tags: rps-admin-web-interface
+
+#- role: rps_groups_interface
+#  tags: rps-groups-interface
+
