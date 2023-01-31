@@ -1,0 +1,66 @@
+# setup docker-compose with specific version
+#- import_tasks: setup.yaml
+
+# install docker using docker role
+- import_role:
+    name: docker
+
+#
+#
+# get all necessary files
+- name: clone rps-admin-tools git repository
+  git:
+    repo: "{{ rps_admin_web_interface_git_repo }}"
+    dest: "{{ rps_admin_web_interface_directory }}"
+    force: true
+
+- name: copy rps admin web interface Dockerfile
+  template:
+    src: Dockerfile.j2
+    dest: "{{ rps_admin_web_interface_directory }}/Dockerfile"
+
+- name: copy rps admin web interface docker-compose.yaml
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ rps_admin_web_interface_directory }}/docker-compose.yaml"
+
+#
+#
+# create config files
+- name: copy rps_admin_tools_web_1_dynamic_config
+  copy:
+    content: "{{ rps_admin_tools_web_1_dynamic_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/rps-admin-tools-web-1.yaml"
+
+- name: rps admin web interface logs directory
+  file:
+    path: "{{ rps_admin_web_interface_logs_directory }}"
+    state: directory
+
+- name: rps admin web interface config directory
+  file:
+    path: "{{ rps_admin_web_interface_config_directory }}"
+    state: directory
+
+- name: rps admin web interface config
+  copy:
+    content: "{{rps_tools_config|to_json}}"
+    dest: "{{ rps_admin_web_interface_directory }}/rps-admin-tools.json"
+
+- name: rps admin web interface local settings
+  template:
+    src: settings_local.py.j2
+    dest: "{{ rps_admin_web_interface_directory }}/web_interface/web_interface/settings_local.py"
+
+#
+#
+# deploy dockerized rps admin web interface
+- name: build compose
+  ansible.builtin.command: docker-compose build
+  args:
+    chdir: "{{ rps_admin_web_interface_directory }}"
+
+- name: deploy compose
+  ansible.builtin.command: docker-compose up -d
+  args:
+    chdir: "{{ rps_admin_web_interface_directory }}"

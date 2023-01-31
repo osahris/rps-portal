@@ -1,0 +1,11 @@
+# needed for the rps_admin_interface role
+gitlab_deploy_token: token_for_RPS-Admin-Tools
+rps_admin_web_interface_secret_key: secret_key
+rps_admin_web_interface_server_name: "admin.{{inventory_hostname}}"
+rps_admin_web_interface_debug: true
+keycloak_default_realm: users
+rps_groups_interface_keycloak_client_id: kc_client_id
+
+rps_admin_web_interface_db_name: db_name
+rps_admin_web_interface_db_user: db_user
+rps_admin_web_interface_db_password: db_pass
