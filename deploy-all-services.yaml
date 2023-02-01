@@ -30,6 +30,9 @@
   - role: traefik
     tags: traefik
 
+  - role: idia
+    tags: idia
+
   # - role: oauth2-proxy
   #   oauth2_proxy_docker_container_name: oauth2-proxy-ingress
   #   tags: oauth2-proxy-ingress
