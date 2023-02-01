@@ -1,5 +1,4 @@
 ---
-
 traefik_static_config:
   api:
     dashboard: true
@@ -8,32 +7,39 @@ traefik_static_config:
     file:
       directory: /etc/traefik/conf.d
       watch: true
-  entryPoints: "{{ traefik_entry_points }}"
-  certificatesResolvers: "{{ traefik_certificates_resolvers }}"
-  log:
-    level: "{{traefik_log_level}}"
+  entryPoints:
+    web:
+      address: ":80"
+      http:
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+    websecure:
+      address: ":443"
 
-traefik_tls_config:
-  tls:
-    options:
-      default: "{{traefik_default_tls_options_map[traefik_default_tls_options_type]}}"
-
-traefik_default_tls_options_map:
-  mintls12:
-    minVersion: VersionTLS12
-  mintls13:
-    minVersion: VersionTLS13
-  client_auth:
-    minVersion: VersionTLS13
-    clientAuth:
-      caFiles:
-        - /etc/ssl/certs/ca-certificates.crt
-      clientAuthType: RequireAndVerifyClientCert
+  certificatesResolvers:
+    letsencrypt:
+      acme:
+        email: '{{ letsencrypt_account_email }}'
+        storage: "{{ssl_certs_file}}"
+        tlsChallenge: true
+        caServer: "https://acme-v02.api.letsencrypt.org/directory"
+    letsencrypt-staging:
+      acme:
+        email: '{{ letsencrypt_account_email }}'
+        storage: "{{ssl_certs_file}}"
+        tlsChallenge: true
+        caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+    #step-ca-acme:
+    #  TODO
 
 traefik_dashboard_dynamic_config:
   http:
     routers:
-      traefik-dashboard:
+      traefik:
         rule: "Host(`{{traefik_dashboard_hostname}}`)"
         entrypoints: websecure
+        tls:
+          certresolver: "{{traefik_certresolver}}"
         service: api@internal

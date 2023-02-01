@@ -1,0 +1,25 @@
+---
+version: "3"
+
+networks:
+  {{ traefik_proxy_network }}:
+    external: true
+
+
+services:
+
+  traefik:
+    container_name: traefik
+    image: traefik:v2.8
+    restart: unless-stopped #"{{traefik_copy_static_config_task.changed}}"
+    networks:
+      - {{ traefik_proxy_network }}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - "{{traefik_directory}}/:/etc/traefik:ro"
+      # Use if a volume with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
+      # - "{{traefik_ssl_certs_docker_volume_name|default("put a volume name if needed")}}}:/ssl-certs"
+      # Use if a folder with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
+      - "{{ssl_certs_path}}/:/ssl-certs/"

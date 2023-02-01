@@ -1,7 +1,15 @@
 ---
 - hosts: rps_servers
   become: true
+
+
   pre_tasks:
+
+  - name: Display current host
+    debug: 
+      msg: 
+      - "{{ ansible_ssh_host }}"
+      - "{{ inventory_hostname }}"
   - name: ansible facts directory
     file:
       path: /etc/ansible/facts.d
@@ -12,24 +20,28 @@
       dest: /etc/ansible/facts.d/secrets.fact
   - name: Gather facts again after secrets generation
     setup:
+
+
   roles:
+
+  - role: docker
+    tags: docker
 
   - role: traefik
     tags: traefik
 
-  - role: oauth2-proxy
-    oauth2_proxy_docker_container_name: oauth2-proxy-ingress
-    tags: oauth2-proxy-ingress
+  # - role: oauth2-proxy
+  #   oauth2_proxy_docker_container_name: oauth2-proxy-ingress
+  #   tags: oauth2-proxy-ingress
 
-  - role: keycloak
-    tags: keycloak
-    
-  - role: keycloak-realms
-    tags: keycloak-realms
+  # - role: keycloak
+  #   tags: keycloak
+
+  # - role: keycloak-realms
+  #   tags: keycloak-realms
 
 # - role: rps_admin_web_interface
 #   tags: rps-admin-web-interface
 
 # - role: rps_groups_interface
 #   tags: rps-groups-interface
-

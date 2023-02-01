@@ -1,1 +1,3 @@
 *.auto.json
+inventory-dev
+roles/idia/*
