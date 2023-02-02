@@ -5,6 +5,9 @@
     - "{{ ansible_ssh_host }}"
     - "{{ inventory_hostname }}"
 
+- name: create directory
+  file: path={{remote_path}} state=directory
+
 - name: copy all static files
   synchronize:
     recursive: true
@@ -22,6 +25,9 @@
   file:
     path: "/ssl-certs/"
     state: directory
+
+- name: create traefik config directory
+  file: path={{traefik_directory}}/conf.d state=directory
 
 - name: copy traefik dynamic config
   copy:

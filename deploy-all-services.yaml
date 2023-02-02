@@ -30,6 +30,9 @@
   - role: traefik
     tags: traefik
 
+  - role: collabora
+    tags: collabora
+
   - role: idia
     tags: idia
 
