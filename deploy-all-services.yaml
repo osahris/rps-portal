@@ -41,8 +41,7 @@
   - role: keycloak-realms
     tags: keycloak-realms
   - role: oauth2-proxy
-    oauth2_proxy_docker_container_name: oauth2-proxy-ingress
-    tags: oauth2-proxy-ingress
+    tags: oauth2-proxy
   - role: rps-groups-interface
     tags: rps-groups-interface
 # - role: rps_admin_web_interface

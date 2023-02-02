@@ -1,134 +1,33 @@
 ---
-
-# - import_role:
-#     name: docker
-
-- name: create traefik dir
+- name: create application directory
   file:
-    path: /var/lib/traefik
+    path: "{{remote_path}}"
     state: directory
-
-- name: install git # we need to fetch the theme
-  apt:
-    name: git
-    state: present
-
-- name: traefik config
-  template:
-    src: "traefik.toml.j2"
-    dest: /var/lib/traefik/traefik.toml
-  register: traefik_conf
-  when: keycloak_with_traefik
-
-- name: traefik dynamic config
-  copy:
-    content: "{{ keycloak_traefik_dynamic_config }}"
-    dest: "{{traefik_config_directory}}/conf.d/keycloak.yaml"  
-
-- name: create proxy network
-  community.general.docker_network:
-    name: "{{keycloak_proxy_network}}"
-
-- name: install traefik
-  community.general.docker_container:
-    name: traefik
-    image: traefik:v2.3
-    container_default_behavior: no_defaults
-    #networks_cli_compatible: false
-    restart_policy: always
-    ports:
-      - 80:80
-      - 443:443
-      #- 127.0.0.1:8080:8080 # dashboard. should not be publically visible. use ssh tunnel to view it
-    networks:
-      - name: "{{keycloak_proxy_network}}"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/traefik/traefik.toml:/etc/traefik/traefik.toml
-      - /var/lib/traefik/certs:/var/traefik_certs
-    restart: "{{ traefik_conf.changed }}"
-  when: keycloak_with_traefik
-
-- name: keycloak directory
-  file:
-    path: /var/lib/keycloak
-    state: directory
-
-- name: create keycloak network
-  community.general.docker_network:
-    name: keycloak
-
-# hmm deploy via docker or standalone? docker way for now
-- name: postgres docker container
-  community.general.docker_container:
-    name: keycloak-postgres
-    image: postgres:12.4 # postgres 13 is just out. use more stable version
-    restart_policy: always
-    container_default_behavior: no_defaults
-    networks_cli_compatible: false
-    networks:
-      - name: keycloak
-    volumes:
-      - /var/lib/keycloak/postgres/:/var/lib/postgresql/data # maybe use docker volume instead host volume?
-    env:
-      POSTGRES_USER: keycloak
-      POSTGRES_DB: keycloak # explicitly (default == POSTGRES_USER)
-      POSTGRES_PASSWORD: "{{ keycloak_postgres_password }}"
-
-- name: fetch keycloak theme
-  git:
-    repo: "{{ keycloak_theme }}"
-    dest: "/var/lib/keycloak/themes/ansible-theme"
-    version: master
-    force: true
-  register: theme
-  when: keycloak_theme is defined
-
-- name: keycloak extensions directory
-  file:
-    path: /var/lib/keycloak/extensions
-    state: directory
-    mode: 0777
-
 
 - import_tasks: theme.yaml
   tags:
     - theme
   when: keycloak_theme is defined
 
-- name: keycloak docker container
-  community.general.docker_container:
-    name: keycloak
-    image: "{{keycloak_container_image}}:{{keycloak_container_version}}"
-    restart_policy: always
-    container_default_behavior: no_defaults
-    #networks_cli_compatible: false
-    command: "{{keycloak_development_mode|ternary('start-dev','start --auto-build --db=postgres')}}"
-    state: started
-    networks:
-      - name: "{{keycloak_proxy_network}}"
-      - name: keycloak
-    volumes:
-      - /var/lib/keycloak/themes:/opt/keycloak/themes
-    published_ports: "{{ omit if keycloak_with_proxy_network else '8080:8080' }}"
-    env:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: "{{ keycloak_admin_password }}"
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloak-postgres/keycloak
-      KC_DB_USERNAME: keycloak
-      KC_DB_PASSWORD: "{{ keycloak_postgres_password }}"
-      KC_PROXY: edge
-      KC_HOSTNAME: "{{ keycloak_server_name }}"
-      KC_FEATURES: admin-fine-grained-authz
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.keycloak-https.rule: Host(`{{ keycloak_server_name }}`)
-      traefik.http.routers.keycloak-https.entrypoints: https
-      traefik.http.routers.keycloak-https.tls.certresolver: letsencrypt
-      traefik.http.routers.keycloak-http.rule: Host(`{{ keycloak_server_name }}`)
-      traefik.http.routers.keycloak-http.entrypoints: http
-      traefik.http.middlewares.test-ratelimit.ratelimit.burst: '100'
+- name: create application files
+  template:
+    src: "{{item}}"
+    dest: "{{remote_path}}/{{item | regex_replace('\\.j2$', '') }}"
+  with_items:
+    - "docker-compose.yaml.j2"
+    - "env-keycloak.j2"
+    - "env-postgres.j2"
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    files: "docker-compose.yaml"
+    pull: true
+
+- name: traefik dynamic config
+  copy:
+    content: "{{ keycloak_traefik_dynamic_config }}"
+    dest: "{{traefik_directory}}/conf.d/keycloak.yaml"
 
 - name: Wait for keycloak
   local_action: uri

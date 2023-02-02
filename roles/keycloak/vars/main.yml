@@ -1,4 +1,6 @@
 ---
+project_name: keycloak
+remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
 keycloak_traefik_dynamic_config:
   http:
     routers:
@@ -6,6 +8,8 @@ keycloak_traefik_dynamic_config:
         rule: "Host(`{{keycloak_server_name}}`)"
         entrypoints: websecure
         service: keycloak
+        tls:
+          certresolver: "{{traefik_certresolver}}"
     services:
       keycloak:
         loadBalancer:

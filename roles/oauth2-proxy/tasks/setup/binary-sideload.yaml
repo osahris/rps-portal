@@ -1,7 +1,0 @@
----
-
-- name: copy sideloaded binary
-  copy: 
-    src: ~/oauth2-proxy/bin/oauth2-proxy
-    dest: /usr/local/bin/oauth2-proxy
-    mode: 0755

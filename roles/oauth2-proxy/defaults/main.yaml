@@ -1,11 +1,10 @@
 ---
-oauth2_proxy_version: 7.4.0
-oauth2_proxy_oci_image: quay.io/oauth2-proxy/oauth2-proxy:v{{oauth2_proxy_version}}
+oauth2_proxy_proxy_network: "proxy"
+oauth2_proxy_container_version: v7.4.0
+oauth2_proxy_container_image: quay.io/oauth2-proxy/oauth2-proxy
 
-oauth2_proxy_server_name: "{{ inventory_hostname }}"
-oauth2_proxy_base_url: "https://oauth2-proxy-ingress.{{ oauth2_proxy_server_name }}"
-
-oauth2_proxy_setup: docker.io
+oauth2_proxy_server_name: "oauth2-proxy.{{ inventory_hostname }}"
+oauth2_proxy_base_url: "https://{{ oauth2_proxy_server_name }}"
 
 oauth2_proxy_http_address: ":4180"
 oauth2_proxy_show_debug_on_error: false
@@ -13,7 +12,8 @@ oauth2_proxy_show_debug_on_error: false
 # https://github.com/oauth2-proxy/oauth2-proxy/issues/1322
 oauth2_proxy_skip_provider_button: false
 oauth2_proxy_cookie_name: _oauth2_proxy
-oauth2_proxy_cookie_domain: "{{ oauth2_proxy_server_name }}"
+# use our baseurl and NOT oauth2_proxy_server_name so that all services see the cookie!
+oauth2_proxy_cookie_domain: "{{ inventory_hostname }}"
 # otherwise we will get a stale access token. because default keycloak defaults to 60s
 oauth2_proxy_cookie_refresh: "55s"
 

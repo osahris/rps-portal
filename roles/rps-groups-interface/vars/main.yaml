@@ -1,4 +1,6 @@
 ---
+project_name: "rps-groups-interface"
+remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
 rps_groups_interface_traefik_dynamic_config:
   http:
     middlewares:
@@ -11,6 +13,8 @@ rps_groups_interface_traefik_dynamic_config:
         rule: "Host(`{{rps_groups_interface_server_name}}`)"
         entrypoints: websecure
         service: rps-groups-interface
+        tls:
+          certresolver: "{{traefik_certresolver}}"
         middlewares:
           - rps-groups-interface-add-oauth2-redirect-header
           - oauth2-errors

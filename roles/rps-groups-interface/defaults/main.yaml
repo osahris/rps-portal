@@ -2,7 +2,8 @@
 rps_groups_interface_proxy_network: "proxy"
 rps_groups_interface_server_name: "groups.{{ inventory_hostname }}"
 
-rps_groups_interface_docker_image: registry.gitlab.com/idcohorts/rps/rps-gruppeninterface:main
+rps_groups_interface_container_image: registry.gitlab.com/idcohorts/rps/rps-gruppeninterface
+rps_groups_interface_container_version: main
 
 rps_groups_interface_keycloak_client_url: "https://{{ keycloak_server_name }}"
 rps_groups_interface_keycloak_client_realm_url: "{{rps_groups_interface_keycloak_client_url}}/admin/realms/{{rps_groups_interface_keycloak_client_realm}}"
