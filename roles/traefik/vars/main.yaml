@@ -7,32 +7,8 @@ traefik_static_config:
     file:
       directory: /etc/traefik/conf.d
       watch: true
-  entryPoints:
-    web:
-      address: ":80"
-      http:
-        redirections:
-          entryPoint:
-            to: websecure
-            scheme: https
-    websecure:
-      address: ":443"
-
-  certificatesResolvers:
-    letsencrypt:
-      acme:
-        email: '{{ letsencrypt_account_email }}'
-        storage: "{{ssl_certs_file}}"
-        tlsChallenge: true
-        caServer: "https://acme-v02.api.letsencrypt.org/directory"
-    letsencrypt-staging:
-      acme:
-        email: '{{ letsencrypt_account_email }}'
-        storage: "{{ssl_certs_file}}"
-        tlsChallenge: true
-        caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
-    #step-ca-acme:
-    #  TODO
+  entryPoints: "{{ traefik_entry_points }}"
+  certificatesResolvers: "{{ traefik_certificates_resolvers }}"
 
 traefik_dashboard_dynamic_config:
   http:

@@ -13,3 +13,64 @@ letsencrypt_account_email:  "{{ admin_email }}"
 # Use if a folder with ssl-certs is preferable. Uncomment relative part in tasks/main.yaml
 ssl_certs_path:           "/ssl-certs"
 ssl_certs_file:           "{{ssl_certs_path}}/acme.json"
+
+traefik_entry_points:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        # options: default
+        certResolver: "{{ traefik_default_certificates_resolver }}"
+        # domains:
+        #   - main: example.com
+        #     sans:
+        #       - foo.example.com
+        #       - bar.example.com
+        #   - main: test.com
+        #     sans:
+        #       - foo.test.com
+        #       - bar.test.com
+    # proxyProtocol:
+    #   trustedIPs: "{{traefik_websecure_proxy_protocol_trusted_ips}}"
+
+traefik_default_certificates_resolver: letsencrypt
+traefik_certificates_resolvers:
+  letsencrypt:
+    acme:
+      email: '{{ letsencrypt_account_email }}'
+      storage: "/ssl-certs/acme-letsencrypt.json"
+      tlsChallenge: true
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+  letsencrypt-staging:
+    acme:
+      email: '{{ letsencrypt_account_email }}'
+      storage: "/ssl-certs/acme-letsencrypt-staging.json"
+      tlsChallenge: true
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+  # step-ca:
+  #   acme:
+  #     email: '{{ stepca_email }}'
+  #     storage: "/ssl-certs/acme-step-ca.json"
+  #     tlsChallenge: true
+  #     caServer: '{{ stepca_server_url }}'
+  # letsencrypt-http:
+  #   acme:
+  #     email: '{{ letsencrypt_account_email }}'
+  #     storage: "/ssl-certs/acme-letsencrypt.json"
+  #     httpChallenge:
+  #       entryPoint: web
+  #     caServer: "https://acme-v02.api.letsencrypt.org/directory"
+  # letsencrypt-staging-http:
+  #   acme:
+  #     email: '{{ letsencrypt_account_email }}'
+  #     storage: "/ssl-certs/acme-letsencrypt-staging.json"
+  #     httpChallenge:
+  #       entryPoint: web
+  #     caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
