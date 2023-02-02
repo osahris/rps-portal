@@ -1,0 +1,15 @@
+---
+- name: deploy rps-groups-interface
+  docker_container:
+    name: rps-groups-interface
+    image: "{{ rps_groups_interface_docker_image }}"
+    networks:
+      - name: "{{rps_groups_interface_proxy_network}}"
+    restart_policy: unless-stopped
+    env:
+      BASE_URL: "https://{{rps_groups_interface_server_name}}"
+      KEYCLOAK_REALM_URL: "{{ rps_groups_interface_keycloak_client_realm_url }}"
+- name: traefik dynamic config
+  copy:
+    content: "{{ rps_groups_interface_traefik_dynamic_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/rps-groups-interface.yaml"

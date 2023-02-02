@@ -1,0 +1,22 @@
+---
+rps_groups_interface_traefik_dynamic_config:
+  http:
+    middlewares:
+      rps-groups-interface-add-oauth2-redirect-header:
+        headers:
+          customrequestheaders:
+            X-Auth-Request-Redirect: "https://{{rps_groups_interface_server_name}}"
+    routers:
+      rps-groups-interface:
+        rule: "Host(`{{rps_groups_interface_server_name}}`)"
+        entrypoints: websecure
+        service: rps-groups-interface
+        middlewares:
+          - rps-groups-interface-add-oauth2-redirect-header
+          - oauth2-errors
+          - oauth2-auth
+    services:
+      rps-groups-interface:
+        loadBalancer:
+          servers:
+            - url: http://rps-groups-interface:3000
