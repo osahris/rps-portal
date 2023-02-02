@@ -36,18 +36,13 @@
   - role: idia
     tags: idia
 
-  # - role: oauth2-proxy
-  #   oauth2_proxy_docker_container_name: oauth2-proxy-ingress
-  #   tags: oauth2-proxy-ingress
-
-  # - role: keycloak
-  #   tags: keycloak
-
-  # - role: keycloak-realms
-  #   tags: keycloak-realms
-
+  - role: keycloak
+    tags: keycloak
+  - role: keycloak-realms
+    tags: keycloak-realms
+  - role: oauth2-proxy
+    tags: oauth2-proxy
+  - role: rps-groups-interface
+    tags: rps-groups-interface
 # - role: rps_admin_web_interface
 #   tags: rps-admin-web-interface
-
-# - role: rps_groups_interface
-#   tags: rps-groups-interface

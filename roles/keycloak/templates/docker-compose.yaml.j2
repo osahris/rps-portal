@@ -1,0 +1,44 @@
+---
+version: "3"
+
+networks:
+  {{ keycloak_proxy_network }}:
+    external: true
+  keycloak-internal:
+
+volumes:
+  postgres:
+
+services:
+  keycloak:
+    container_name: {{project_name}}
+    image: {{ keycloak_container_image }}:{{ keycloak_container_version }}
+    restart: unless-stopped
+    env_file: env-keycloak
+    command:
+      - start
+    volumes:
+      - ./themes:/opt/keycloak/themes
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --fail http://127.0.0.1:8080/realms/master  || exit 1",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+    networks:
+      - {{ keycloak_proxy_network }}
+      - keycloak-internal
+
+  postgres:
+    container_name: {{project_name}}-postgres
+    image: postgres:15.1
+    restart: unless-stopped
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file: env-postgres
+    networks:
+      - keycloak-internal

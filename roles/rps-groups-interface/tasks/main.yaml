@@ -1,5 +1,4 @@
 ---
-- import_tasks: keycloak.yaml
 - name: create application directory
   file:
     path: "{{remote_path}}"
@@ -23,5 +22,5 @@
 
 - name: traefik dynamic config
   copy:
-    content: "{{ oauth2_proxy_traefik_dynamic_config }}"
-    dest: "{{traefik_directory}}/conf.d/oauth2_proxy.yaml"
+    content: "{{ rps_groups_interface_traefik_dynamic_config }}"
+    dest: "{{traefik_directory}}/conf.d/rps-groups-interface.yaml"
