@@ -1,6 +1,6 @@
 ---
 
-- name: docker debian packages installed
+- name: install docker linux packages 
   apt:
     update_cache: true
     pkg:
