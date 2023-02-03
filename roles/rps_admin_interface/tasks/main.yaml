@@ -60,7 +60,41 @@
   args:
     chdir: "{{ rps_admin_web_interface_directory }}"
 
-- name: deploy compose
-  ansible.builtin.command: docker-compose up -d
-  args:
-    chdir: "{{ rps_admin_web_interface_directory }}"
+- name: create web_interface network
+  community.general.docker_network:
+    name: web_interface
+
+- name: rps_admin_web_interface starting db
+  community.general.docker_container:
+    name: "{{rps_admin_web_interface_db_containername}}"
+    image: postgres
+    restart_policy: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data_admin_interface
+    networks:
+      - name: web_interface
+    env:
+      POSTGRES_DB: "{{ rps_admin_web_interface_db_name }}"
+      POSTGRES_USER: "{{  rps_admin_web_interface_db_user }}"
+      POSTGRES_PASSWORD: "{{ rps_admin_web_interface_db_password }}"
+
+- name: rps_admin_web_interface starting web
+  community.general.docker_container:
+    name: rps-admin-tools_web_1
+    image: rps-admin-tools_web:latest
+    #build: "{{ rps_admin_web_interface_directory }}/Dockerfile"
+    command:  >
+              bash -c "python setup.py install && python web_interface/manage.py migrate &&
+              python web_interface/manage.py runserver 0.0.0.0:8000"
+    networks:
+      - name: web_interface
+      - name: proxy
+    volumes:
+      - "{{ rps_admin_web_interface_directory }}:/code"
+    ports:
+      - "8000"
+    env:
+      POSTGRES_NAME: "{{ rps_admin_web_interface_db_name }}"
+      POSTGRES_USER: "{{  rps_admin_web_interface_db_user }}"
+      POSTGRES_PASSWORD: "{{ rps_admin_web_interface_db_password }}"
+      DJANGO_SETTINGS_MODULE: "web_interface.settings_local"

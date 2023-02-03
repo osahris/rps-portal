@@ -6,6 +6,7 @@ rps_admin_web_interface_debug: true
 keycloak_default_realm: users
 rps_groups_interface_keycloak_client_id: kc_client_id
 
-rps_admin_web_interface_db_name: db_name
-rps_admin_web_interface_db_user: db_user
-rps_admin_web_interface_db_password: db_pass
+rps_admin_web_interface_db_name: test_db
+rps_admin_web_interface_db_user: test_user
+rps_admin_web_interface_db_password: test_password123!
+rps_admin_web_interface_db_containername: db_123123123

@@ -6,6 +6,7 @@ rps_admin_web_interface_db_directory: /var/lib/rps-admin-web-interface
 rps_admin_web_interface_logs_directory: "{{rps_admin_web_interface_directory}}/web_interface/logs"
 rps_admin_web_interface_config_directory: /etc/rps-admin-web-interface
 rps_admin_web_interface_config_file: "{{rps_admin_web_interface_config_directory}}/rps-admin-tools.json"
+rps_admin_web_interface_media_directory: "{{rps_admin_web_interface_directory}}/web_interface/media"
 
 # needed for traefik role
 rps_admin_tools_web_1_dynamic_config:

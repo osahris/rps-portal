@@ -27,10 +27,11 @@ DATABASES = {
         'NAME': os.environ.get('POSTGRES_NAME'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': 'db',
+        'HOST': '{{rps_admin_web_interface_db_containername}}',
         'PORT': 5432,
     }
 }
+
 
 {% if rps_admin_web_interface_email_host is defined %}
 EMAIL_HOST = "{{rps_admin_web_interface_email_host}}"
