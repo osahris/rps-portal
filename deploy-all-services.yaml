@@ -44,5 +44,7 @@
     tags: oauth2-proxy
   - role: rps-groups-interface
     tags: rps-groups-interface
+  - role: rps_admin_interface
+    tags: rps_admin_interface
 # - role: rps_admin_web_interface
 #   tags: rps-admin-web-interface

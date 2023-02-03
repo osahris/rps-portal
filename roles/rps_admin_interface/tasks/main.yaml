@@ -1,100 +1,38 @@
-# setup docker-compose with specific version
-#- import_tasks: setup.yaml
+---
+- name: install git
+  apt:
+    name: git
+    state: present
 
-# install docker using docker role
-- import_role:
-    name: docker
-
-#
-#
-# get all necessary files
 - name: clone rps-admin-tools git repository
   git:
     repo: "{{ rps_admin_web_interface_git_repo }}"
-    dest: "{{ rps_admin_web_interface_directory }}"
+    dest: "{{ remote_path }}/rps-admin-tools"
     force: true
-
-- name: copy rps admin web interface Dockerfile
-  template:
-    src: Dockerfile.j2
-    dest: "{{ rps_admin_web_interface_directory }}/Dockerfile"
 
 - name: copy rps admin web interface docker-compose.yaml
   template:
     src: docker-compose.yaml.j2
-    dest: "{{ rps_admin_web_interface_directory }}/docker-compose.yaml"
+    dest: "{{ remote_path }}/docker-compose.yaml"
 
-#
-#
-# create config files
-- name: copy rps_admin_tools_web_1_dynamic_config
+- name: traefik dynamic config
   copy:
-    content: "{{ rps_admin_tools_web_1_dynamic_config }}"
-    dest: "{{traefik_config_directory}}/conf.d/rps-admin-tools-web-1.yaml"
-
-- name: rps admin web interface logs directory
-  file:
-    path: "{{ rps_admin_web_interface_logs_directory }}"
-    state: directory
-
-- name: rps admin web interface config directory
-  file:
-    path: "{{ rps_admin_web_interface_config_directory }}"
-    state: directory
+    content: "{{ rps_admin_interface_traefik_dynamic_config }}"
+    dest: "{{traefik_directory}}/conf.d/rps-admin-interface.yaml"
 
 - name: rps admin web interface config
   copy:
     content: "{{rps_tools_config|to_json}}"
-    dest: "{{ rps_admin_web_interface_directory }}/rps-admin-tools.json"
+    dest: "{{ remote_path }}/rps-admin-tools.json"
 
 - name: rps admin web interface local settings
   template:
     src: settings_local.py.j2
-    dest: "{{ rps_admin_web_interface_directory }}/web_interface/web_interface/settings_local.py"
+    dest: "{{ remote_path }}/settings_local.py"
 
-#
-#
-# deploy dockerized rps admin web interface
-- name: build compose
-  ansible.builtin.command: docker-compose build
-  args:
-    chdir: "{{ rps_admin_web_interface_directory }}"
-
-- name: create web_interface network
-  community.general.docker_network:
-    name: web_interface
-
-- name: rps_admin_web_interface starting db
-  community.general.docker_container:
-    name: "{{rps_admin_web_interface_db_containername}}"
-    image: postgres
-    restart_policy: always
-    volumes:
-      - ./data/db:/var/lib/postgresql/data_admin_interface
-    networks:
-      - name: web_interface
-    env:
-      POSTGRES_DB: "{{ rps_admin_web_interface_db_name }}"
-      POSTGRES_USER: "{{  rps_admin_web_interface_db_user }}"
-      POSTGRES_PASSWORD: "{{ rps_admin_web_interface_db_password }}"
-
-- name: rps_admin_web_interface starting web
-  community.general.docker_container:
-    name: rps-admin-tools_web_1
-    image: rps-admin-tools_web:latest
-    #build: "{{ rps_admin_web_interface_directory }}/Dockerfile"
-    command:  >
-              bash -c "python setup.py install && python web_interface/manage.py migrate &&
-              python web_interface/manage.py runserver 0.0.0.0:8000"
-    networks:
-      - name: web_interface
-      - name: proxy
-    volumes:
-      - "{{ rps_admin_web_interface_directory }}:/code"
-    ports:
-      - "8000"
-    env:
-      POSTGRES_NAME: "{{ rps_admin_web_interface_db_name }}"
-      POSTGRES_USER: "{{  rps_admin_web_interface_db_user }}"
-      POSTGRES_PASSWORD: "{{ rps_admin_web_interface_db_password }}"
-      DJANGO_SETTINGS_MODULE: "web_interface.settings_local"
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    files: "docker-compose.yaml"
+    pull: true
+    build: true

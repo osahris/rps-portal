@@ -4,11 +4,16 @@ networks:
   proxy:
     external:
       name: proxy
+
+volumes:
+  postgres:
+  logs:
+
 services:
   db:
     image: postgres
     volumes:
-      - ./data/db:/var/lib/postgresql/data_admin_interface
+      - postgres:/var/lib/postgresql/data_admin_interface
     environment:
       - POSTGRES_DB={{ rps_admin_web_interface_db_name }}
       - POSTGRES_USER={{  rps_admin_web_interface_db_user }}
@@ -16,16 +21,17 @@ services:
     networks:
       - web_interface
   web:
-    build: .
+    build: rps-admin-tools
     command: >
               bash -c "python setup.py install && python web_interface/manage.py migrate &&
               python web_interface/manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code
+      - ./rps-admin-tools.json:/etc/rps-admin-web-interface/rps-admin-tools.json:ro
+      - ./settings_local.py:/code/web_interface/web_interface/settings_local.py:ro
     expose:
       - "8000"
     environment:
-      - POSTGRES_NAME={{ rps_admin_web_interface_db_name }}}
+      - POSTGRES_NAME={{ rps_admin_web_interface_db_name }}
       - POSTGRES_USER={{  rps_admin_web_interface_db_user }}
       - POSTGRES_PASSWORD={{ rps_admin_web_interface_db_password }}
       - DJANGO_SETTINGS_MODULE=web_interface.settings_local
@@ -34,11 +40,3 @@ services:
       - proxy
     depends_on:
       - db
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.rps-admin-tools-web-1-https.rule=Host(`{{ rps_admin_web_interface_server_name }}`)"
-      - "traefik.http.routers.rps-admin-tools-web-1-https.entrypoints=https"
-      - "traefik.http.routers.rps-admin-tools-web-1-https.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.rps-admin-tools-web-1-http.rule=Host(`{{ rps_admin_web_interface_server_name }}`)"
-      - "traefik.http.routers.rps-admin-tools-web-1-http.entrypoints=http"
-      - "traefik.http.middlewares.test-ratelimit.ratelimit.burst=100"
