@@ -96,7 +96,7 @@ def to_idp_mappers(definitions):
     return map(lambda definition: to_idp_mapper(definition), definitions)
 
 
-def to_client_mapper(definition: dict[str, Any]):
+def to_client_mapper(definition):
     t = definition.pop("type")
     name = definition.pop("name")
     if t not in types:
@@ -115,11 +115,12 @@ def to_client_mapper(definition: dict[str, Any]):
         )
     # special case for attribute: predefine user.attribute
     if t == "attribute":
-        mapper["config"] = mapper["config"] | {"user.attribute": name}
+        mapper["config"].update({"user.attribute": name})
+
     return _merge_dictionaries(types[t]["client_mapper_defaults"], mapper)
 
 
-def to_idp_mapper(definition: dict[str, Any]):
+def to_idp_mapper(definition):
     t = definition.pop("type")
     name = definition.pop("name")
     if t not in types:
@@ -133,26 +134,32 @@ def to_idp_mapper(definition: dict[str, Any]):
     )
     # special case for attribute: predefine user.attribute
     if t == "attribute":
-        mapper["config"] = mapper["config"] | {"user.attribute": name}
+        mapper["config"].update({"user.attribute": name})
     elif t == "group":
-        mapper["config"] = mapper["config"] | {
-            "group": f"/{name}",
-            "claims": json.dumps(
-                [
-                    {
-                        "key": "groups",
-                        "value": definition["from"] if "from" in definition else name,
-                    }
-                ]
-            ),
-        }
+        mapper["config"].update(
+            {
+                "group": f"/{name}",
+                "claims": json.dumps(
+                    [
+                        {
+                            "key": "groups",
+                            "value": definition["from"]
+                            if "from" in definition
+                            else name,
+                        }
+                    ]
+                ),
+            }
+        )
     elif t == "role_from_group":
-        mapper["config"] = mapper["config"] | {
-            "role": name,
-            "claims": json.dumps(
-                [{"key": "groups", "value": definition["from_group"]}]
-            ),
-        }
+        mapper["config"].update(
+            {
+                "role": name,
+                "claims": json.dumps(
+                    [{"key": "groups", "value": definition["from_group"]}]
+                ),
+            }
+        )
     return _merge_dictionaries(types[t]["idp_mapper_defaults"], mapper)
 
 
