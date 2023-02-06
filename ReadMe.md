@@ -11,7 +11,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] docker
 - [x] idia
 - [x] keycloak
-- [ ] keycloak-realms
+- [x] keycloak-realms
 - [ ] nextcloud
 - [x] oauth2-proxy
 - [ ] openproject
