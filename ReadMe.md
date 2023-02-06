@@ -16,7 +16,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] oauth2-proxy
 - [ ] openproject
 - [ ] proskive
-- [ ] rps_admin_interface
+- [x] rps_admin_interface
 - [ ] rps_cohort_explorer
 - [x] rps_groups_interface
 - [ ] rps_style_servers
