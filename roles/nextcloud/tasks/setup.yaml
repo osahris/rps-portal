@@ -1,22 +1,22 @@
 ---
 
-- name: required debian packages
+- name: install required debian packages
   apt:
     pkg:
     - git
 
-- name: nextcloud docker-compose file
+- name: copy nextcloud docker-compose file
   copy:
     content: "{{ nextcloud_docker_compose }}"
     dest: "{{ nextcloud_project_directory }}/docker-compose.yml"
 
-- name: nextcloud docker-compose
+- name: deploy nextcloud docker-compose
   community.docker.docker_compose:
     project_name: "{{ nextcloud_project_name }}"
     project_src: "{{ nextcloud_project_directory }}"
   register: _nextcloud_docker_compose
 
-- name: nextcloud status
+- name: check nextcloud status
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
@@ -27,7 +27,7 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
-- name: nextcloud install
+- name: install nextcloud
   when: not _nextcloud_status.installed
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"

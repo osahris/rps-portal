@@ -1,21 +1,21 @@
 ---
 
-- name: nextcloud project directory
+- name: create nextcloud project directory
   file:
     path: "{{ nextcloud_project_directory }}"
     state: directory
 
-- name: nextcloud certs directory
+- name: create nextcloud certs directory
   file:
     path: "{{nextcloud_project_directory}}/certs"
     state: directory
 
-- name: nextcloud certs directory
+- name: create nextcloud certs directory
   file:
     path: "{{nextcloud_project_directory}}/skel"
     state: directory
 
-- name: nextcloud themes directory
+- name: create nextcloud themes directory
   file:
     path: "{{nextcloud_project_directory}}/themes"
     state: directory

@@ -1,6 +1,6 @@
 ---
 
-- name: keycloak client
+- name: set keycloak client config
   local_action: keycloak_client
   become: false
   args:
