@@ -1,4 +1,55 @@
 ---
+# Ansible variables
+project_name: "nextcloud" #{{role_name}}"
+remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+project_domain_name: "{{inventory_hostname}}"
+
+# TBD: generate password automatically
+# nextcloud_postgres_password: "{{ nextcloud_postgres_password | default(lookup('/dev/null length=32 chars=ascii_letters,digits')) }}"
+nextcloud_postgres_password: "<kznm'njyflj,eltncvtybnm!1"
+
+
+
+# # # ------------------------------------------ #
+# # # Reverse proxy and SSL certification config #
+# # # ------------------------------------------ #
+traefik_directory:          "/app/{{inventory_hostname}}/traefik"
+traefik_dashboard_hostname: "traefik.{{project_domain_name}}"
+traefik_certresolver:       "letsencrypt"
+letsencrypt_account_email:  "{{ admin_email }}"
+app_port: "80"
+
+# # For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+
+      nextcloud:
+          # rule: "Host(`{{project_domain_name}}`) && ( PathPrefix(`/api/`) || Path(`/api`) ) )"
+          rule: "Host(`nextcloud.{{project_domain_name}}`)"
+          # rule: "Host(`{{project_domain_name}}`)"
+          entrypoints: websecure
+          # middlewares:
+          #   - oauth2-proxy-auth-redirect
+          tls:
+            certresolver: "{{traefik_certresolver}}"
+            domains:
+            - main: "nextcloud.{{project_domain_name}}"
+            # - main: "{{project_domain_name}}"
+              sans:
+                - "{{traefik_dashboard_hostname}}"
+          service: nextcloud
+
+    services:
+      nextcloud:
+        loadBalancer:
+          servers:
+            - url: "http://{{project_name}}_app:{{app_port}}" # "http://container_name:container_port"
+
+
+
+
+# # ------------------------------------------ #
 _nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
 _nextcloud_status: "{{_nextcloud_status_task.stdout | from_json}}"
 
@@ -24,69 +75,69 @@ nextcloud_docker_app_container_custom_themes_volumes:
 - "{{nextcloud_project_directory}}/themes/rps/core/templates/layout.user.php:/var/www/html/core/templates/layout.user.php:ro"
 #- "{{nextcloud_project_directory}}/ContentSecurityPolicy.php:/var/www/html/lib/public/AppFramework/Http/ContentSecurityPolicy.php:ro"
 
-nextcloud_docker_compose:
-  version: '3'
+# nextcloud_docker_compose:
+#   version: '3'
 
-  services:
-    db:
-      image: postgres:14
-      restart: always
-      volumes:
-        - db:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: nextcloud
-        POSTGRES_USER: nextcloud
-        POSTGRES_PASSWORD: "{{nextcloud_postgres_password}}"
+#   services:
+#     db:
+#       image: postgres:14
+#       restart: always
+#       volumes:
+#         - db:/var/lib/postgresql/data
+#       environment:
+#         POSTGRES_DB: nextcloud
+#         POSTGRES_USER: nextcloud
+#         POSTGRES_PASSWORD: "{{nextcloud_postgres_password}}"
 
-    redis:
-      image: redis:alpine
-      restart: always
+#     redis:
+#       image: redis:alpine
+#       restart: always
 
-    app:
-      image: nextcloud:apache
-      restart: always
-      volumes: "{{ nextcloud_docker_app_container_default_volumes 
-        + (nextcloud_with_custom_ca_certificates|ternary(nextcloud_docker_app_container_custom_ca_certificates_volumes,[])) 
-        + (nextcloud_with_custom_theme|ternary(nextcloud_docker_app_container_custom_themes_volumes,[])) 
-        }}"
-      environment:
-        VIRTUAL_HOST: "{{ nextcloud_server_name }}"
-        REDIS_HOST: redis
-        POSTGRES_HOST: db
-        POSTGRES_DB: "{{nextcloud_postgres_db}}"
-        POSTGRES_USER: "{{nextcloud_postgres_user}}"
-        POSTGRES_PASSWORD: "{{nextcloud_postgres_password}}"
-        OVERWRITEPROTOCOL: https
-        OVERWRITEHOST: "{{ nextcloud_server_name }}"
-        NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_server_name }}"
-      depends_on:
-        - db
-        - redis
-      networks:
-        - proxy
-        - default
+#     app:
+#       image: nextcloud:apache
+#       restart: always
+#       volumes: "{{ nextcloud_docker_app_container_default_volumes 
+#         + (nextcloud_with_custom_ca_certificates|ternary(nextcloud_docker_app_container_custom_ca_certificates_volumes,[])) 
+#         + (nextcloud_with_custom_theme|ternary(nextcloud_docker_app_container_custom_themes_volumes,[])) 
+#         }}"
+#       environment:
+#         VIRTUAL_HOST: "{{ nextcloud_server_name }}"
+#         REDIS_HOST: redis
+#         POSTGRES_HOST: db
+#         POSTGRES_DB: "{{nextcloud_postgres_db}}"
+#         POSTGRES_USER: "{{nextcloud_postgres_user}}"
+#         POSTGRES_PASSWORD: "{{nextcloud_postgres_password}}"
+#         OVERWRITEPROTOCOL: https
+#         OVERWRITEHOST: "{{ nextcloud_server_name }}"
+#         NEXTCLOUD_TRUSTED_DOMAINS: "{{ nextcloud_server_name }}"
+#       depends_on:
+#         - db
+#         - redis
+#       networks:
+#         - proxy
+#         - default
 
-    cron:
-      image: nextcloud:apache
-      restart: always
-      volumes:
-        - nextcloud:/var/www/html
-      entrypoint: /cron.sh
-      depends_on:
-        - db
-        - redis
+#     cron:
+#       image: nextcloud:apache
+#       restart: always
+#       volumes:
+#         - nextcloud:/var/www/html
+#       entrypoint: /cron.sh
+#       depends_on:
+#         - db
+#         - redis
 
-  volumes:
-    db:
-    nextcloud:
-    apps:
-    config:
-    data:
-    themes:
+#   volumes:
+#     db:
+#     nextcloud:
+#     apps:
+#     config:
+#     data:
+#     themes:
 
-  networks:
-    proxy:
-      external: true
+#   networks:
+#     proxy:
+#       external: true
 
 nextcloud_traefik_dynamic_config:
   http:

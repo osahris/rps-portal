@@ -1,7 +1,7 @@
 ---
 nextcloud_server_name: "{{inventory_hostname}}"
 nextcloud_project_name: "{{nextcloud_server_name}}"
-nextcloud_project_directory: /app/nextcloud/{{nextcloud_project_name}}
+nextcloud_project_directory: "/app/{{inventory_hostname}}/{{project_name}}"
 nextcloud_postgres_db: nextcloud
 nextcloud_postgres_user: nextcloud
 
