@@ -1,0 +1,17 @@
+---
+project_name: "static-header-test"
+remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+static_header_test_traefik_dynamic_config:
+  http:
+    routers:
+      static-header-test:
+        rule: "Host(`{{static_header_test_server_name}}`)"
+        entrypoints: websecure
+        service: static-header-test
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+    services:
+      static-header-test:
+        loadBalancer:
+          servers:
+            - url: http://static-header-test

@@ -1,0 +1,15 @@
+---
+version: "3"
+
+networks:
+  {{ header_proxy_network }}:
+    external: true
+
+services:
+  rps-groups-interface:
+    container_name: {{project_name}}
+    build:
+      header
+    restart: unless-stopped
+    networks:
+      - {{ header_proxy_network }}

@@ -1,0 +1,3 @@
+---
+static_header_test_proxy_network: "proxy"
+static_header_test_server_name: "static-header-test.{{ inventory_hostname }}"

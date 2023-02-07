@@ -1,0 +1,16 @@
+---
+version: "3"
+
+networks:
+  {{ static_header_test_proxy_network }}:
+    external: true
+
+services:
+  static-header-test:
+    container_name: {{project_name}}-app
+    image: nginx
+    volumes:
+      - ./html:/usr/share/nginx/html
+    restart: unless-stopped
+    networks:
+      - {{ static_header_test_proxy_network }}

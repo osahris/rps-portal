@@ -48,5 +48,7 @@
     tags: rps-groups-interface
   - role: rps_admin_interface
     tags: rps_admin_interface
-# - role: rps_admin_web_interface
-#   tags: rps-admin-web-interface
+  - role: header
+    tags: header
+  - role: static_header_test
+    tags: static_header_test

@@ -5,7 +5,7 @@ oauth2_proxy_traefik_dynamic_config:
   http:
     routers:
       oauth2-proxy:
-        rule: "Host(`admin.{{ inventory_hostname }}`, `groups.{{ inventory_hostname }}`, `{{ oauth2_proxy_server_name }}`) && PathPrefix(`/oauth2/`)"
+        rule: "HostRegexp(`{subdomain:[a-z-0-9]+}.{{ inventory_hostname }}`) && PathPrefix(`/oauth2/`)"
         entrypoints: websecure
         service: oauth2-proxy
         tls:
