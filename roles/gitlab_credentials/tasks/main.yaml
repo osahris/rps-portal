@@ -1,0 +1,19 @@
+---
+- name: install git
+  apt:
+    name: git
+    state: present
+
+- name: Configure Git credential storage
+  command: "git config --global credential.helper store"
+- name: Populate the Git credential store
+  template:
+    src: git-credentials.j2
+    dest: /root/.git-credentials
+    mode: u=rw,g=,o=
+  # no_log: true
+- name: Login to gitlab registry
+  community.docker.docker_login:
+    registry_url: registry.gitlab.com
+    username: "{{ gitlab_deploy_token_username }}"
+    password: "{{ gitlab_deploy_token_password }}"

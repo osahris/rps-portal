@@ -21,12 +21,12 @@
   - name: Gather facts again after secrets generation
     setup:
 
-
   roles:
 
   - role: docker
     tags: docker
-
+  - role: gitlab_credentials
+    tags: gitlab_credentials
   - role: traefik
     tags: traefik
 
