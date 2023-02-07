@@ -5,7 +5,8 @@ oauth2_proxy_traefik_dynamic_config:
   http:
     routers:
       oauth2-proxy:
-        rule: "HostRegexp(`{subdomain:[a-z-0-9]+}.{{ inventory_hostname }}`) && PathPrefix(`/oauth2/`)"
+        # traefik will look at the host rule to order a certificate so add a separate rule for our hostname because this is used internally
+        rule: "Host(`oauth2-proxy.{{ inventory_hostname }}`) || (HostRegexp(`{subdomain:[a-z-0-9]+}.{{ inventory_hostname }}`) && PathPrefix(`/oauth2/`))"
         entrypoints: websecure
         service: oauth2-proxy
         tls:

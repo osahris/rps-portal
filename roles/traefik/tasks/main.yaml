@@ -1,5 +1,4 @@
 ---
-
 # - name: install docker linux packages
 #   apt:
 #     update_cache: true
@@ -49,26 +48,4 @@
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{traefik_directory}}/"
-    # add multiple docker-compose.yaml or .yml files below
-    files: "{{item}}"
-    # This option ensures that the images are rebuilt
-    # build: true
-  with_items:
-    - "docker-compose.yaml"
-
-# - name: create traefik docker container
-#   docker_container:
-#     name: traefik
-#     image: traefik:v2.8
-#     restart: "{{traefik_copy_static_config_task.changed}}"
-#     networks:
-#       - name: "{{traefik_proxy_network}}"
-#     ports:
-#       - 80:80
-#       - 443:443
-#     volumes:
-#       - "{{traefik_directory}}/:/etc/traefik:ro"
-#       # Use if a volume with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
-#       # - "{{traefik_ssl_certs_docker_volume_name}}:/ssl-certs"
-#       # Use if a folder with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
-#       - "{{ssl_certs_path}}/:/ssl-certs/"
+    restarted: "{{ traefik_copy_static_config_task.changed }}"
