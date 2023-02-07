@@ -35,12 +35,12 @@
       tags: idia
     - role: keycloak
       tags: keycloak
-    - role: keycloak-realms
-      tags: keycloak-realms
-    - role: oauth2-proxy
-      tags: oauth2-proxy
-    - role: rps-groups-interface
-      tags: rps-groups-interface
+    - role: keycloak_realms
+      tags: keycloak_realms
+    - role: oauth2_proxy
+      tags: oauth2_proxy
+    - role: rps_groups_interface
+      tags: rps_groups_interface
     - role: rps_admin_interface
       tags: rps_admin_interface
     - role: header
