@@ -10,7 +10,14 @@ keycloak_realms:
       - scientists
       - vip
     roles:
-      - approved
+      - name: approved
+      - name: groups-management
+        associated_roles:
+          - realm-management.view-users
+          - realm-management.query-users
+          - realm-management.query-groups
+          - realm-management.manage-users
+
   - name: projektportal
     # subrealm is a subrealm. so it doesn't have its own login form but redirects to the parent_realm and imports users from there
     parent_realm:
@@ -43,4 +50,4 @@ keycloak_realms:
     groups:
       - "test"
     roles:
-      - "test"
+      - name: "test"

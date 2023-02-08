@@ -125,10 +125,22 @@
     auth_keycloak_url: "{{ keycloak_frontend_url }}"
     token: "{{ keycloak_token.json.access_token }}"
     realm: "{{ item.name }}"
-    name: "{{ role }}"
+    name: "{{ role.name }}"
     attributes:
       managed: "true"
     state: present
+  loop: "{{ item.roles|default([]) }}"
+  loop_control:
+    loop_var: role
+
+- name: "add associated roles"
+  keycloak_associated_client_roles:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    role_name: "{{ role.name }}"
+    associated_roles: "{{ role.associated_roles}}"
+  when: role.associated_roles is defined and role.associated_roles|length
   loop: "{{ item.roles|default([]) }}"
   loop_control:
     loop_var: role
