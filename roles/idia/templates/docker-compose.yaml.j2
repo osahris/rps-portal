@@ -24,6 +24,8 @@ services:
     networks:
       - proxy
       - {{project_name}} # Uncomment if a network out of scope of Traefik needed
+    env_file: 
+      - "./env"
     volumes:
       - ./db:/app/idia/db
 

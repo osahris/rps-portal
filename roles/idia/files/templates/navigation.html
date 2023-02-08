@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+    Links to the services from the RPS for easy testing:
+    <br>
+    {% for service in services %}
+        <button class="green_button" onclick="location.href='https://{{service.subdomain}}.{{domain}}/';">{{service.name}}</button>
+        <br>
+    {% endfor %}
+{% endblock %}

@@ -30,14 +30,7 @@ value1 = 0
 def home():
     title = "IDIA main page"
     var1_dict = {'key1': value1}
-
-    # if request.method == "POST":
-    #     value1 += 1
-    #     return redirect('/')
-    # else:
-    return render_template('index.html', 
-                            title = title,
-                            var1_dict=var1_dict)
+    return redirect('/navigation')
 
 @app.route('/new')
 def new():
@@ -72,6 +65,24 @@ def db_error():
     return render_template('errors/db_error.html', 
                             title = title)
 
+@app.route('/navigation')
+def practice():
+    title = "RPS Services Navigation"
+    domain = os.environ.get("HOST_DOMAIN")
+    services = [{'subdomain': 'static-header-test', 'name':'Header'},
+                {'subdomain': 'idia',    'name':'IDIA'}, 
+                {'subdomain': 'keycloak', 'name':'Keycloak'},
+                {'subdomain': 'nextcloud', 'name':'Nextcloud'},
+                {'subdomain': 'openproject', 'name':'OpenProject'},
+                {'subdomain': 'admin', 'name':'rps_admin_interface'},
+                {'subdomain': 'groups', 'name':'rps_groups_interface'},
+                {'subdomain': 'traefik', 'name':'Traefik'}
+                ]
+    return  render_template('navigation.html', 
+                            title = title,
+                            domain = domain,
+                            services = services)
+
 @app.errorhandler(404)
 def page_not_found(e):
     title = "Page Not Found"
@@ -83,6 +94,8 @@ def internal_server_error(e):
     title = "Internal Server Error"
     return render_template('errors/500.html', 
                             title = title), 500
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
