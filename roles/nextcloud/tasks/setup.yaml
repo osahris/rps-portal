@@ -65,6 +65,7 @@
     build: true
   with_items:
     - "docker-compose.yaml"
+  # register: _nextcloud_docker_compose
 
 # 
 # 
@@ -75,23 +76,23 @@
 # 
 # 
 
-- name: check nextcloud status
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command: php occ status --output=json
-  register: _nextcloud_status_task
-  changed_when: false
-  retries: 60
-  delay: 1
-  until: _nextcloud_status_task is not failed
+# - name: check nextcloud status
+#   community.docker.docker_container_exec:
+#     container: "{{nextcloud_app_container_name}}"
+#     user: www-data
+#     command: php occ status --output=json
+#   register: _nextcloud_status_task
+#   changed_when: false
+#   retries: 60
+#   delay: 1
+#   until: _nextcloud_status_task is not failed
 
-- name: install nextcloud
-  when: not _nextcloud_status.installed
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command:
-      php occ maintenance:install
-      --admin-user "{{ nextcloud_admin_user }}"
-      --admin-pass "{{ nextcloud_admin_pass }}"
+# - name: install nextcloud
+#   when: not _nextcloud_status.installed
+#   community.docker.docker_container_exec:
+#     container: "{{nextcloud_app_container_name}}"
+#     user: www-data
+#     command:
+#       php occ maintenance:install
+#       --admin-user "{{ nextcloud_admin_user }}"
+#       --admin-pass "{{ nextcloud_admin_pass }}"

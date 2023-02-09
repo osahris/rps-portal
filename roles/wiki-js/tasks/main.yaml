@@ -1,18 +1,80 @@
 ---
+- name: current host
+  debug: 
+    msg: 
+    - "{{ ansible_ssh_host }}"
+    - "{{ inventory_hostname }}"
 
-- name: Create the directories
+- name: create directory
+  file: path={{remote_path}} state=directory
+
+- name: copy all static files
+  synchronize:
+    recursive: true
+    src: "./" # relative to ./files on local role path
+    dest: "{{remote_path}}" # relative to ~/ on remote
+
+- name: copy some templated .j2 files
+  template:
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "docker-compose.yaml.j2"
+    - "env.j2"
+
+- name: create directory for ssl certificates
   file:
-    path: "/opt/wiki-js"
+    path: "/ssl-certs/"
     state: directory
 
-# docker run -d -p 8080:3000 --name wiki --restart unless-stopped 
-# -e "DB_TYPE=postgres" -e "DB_HOST=db" -e "DB_PORT=5432" -e "DB_USER=wikijs" -e "DB_PASS=wikijsrocks" -e "DB_NAME=wiki" ghcr.io/requarks/wiki:2
+- name: create traefik config directory
+  file: path={{traefik_directory}}/conf.d state=directory
 
-- name: docker-compose custom override
+- name: copy traefik dynamic config
   copy:
-    content: "{{wiki_js_docker_compose_override}}"
-    dest: /opt/wiki-js/docker-compose.yml
+    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "{{traefik_directory}}/conf.d/{{project_name}}.yaml"
 
-- name: docker-compose
+# Creation of networks, images, containers
+- name: create docker networks
+  docker_network:
+    name: "{{ item }}"
+  loop:
+    - "{{project_name}}"
+    - "proxy"
+  # driver: overlay
+
+
+- name: deploy docker-compose stack
   docker_compose:
-    project_src: /opt/wiki-js
+    project_src: "{{remote_path}}/"
+    # add multiple docker-compose.yaml / .yml files below
+    files: "{{item}}"
+    # This option ensures that the images are rebuilt
+    build: true
+  with_items:
+    - "docker-compose.yaml"
+
+
+
+
+
+
+# ---
+
+# - name: Create the directories
+#   file:
+#     path: "/opt/wiki-js"
+#     state: directory
+
+# # docker run -d -p 8080:3000 --name wiki --restart unless-stopped 
+# # -e "DB_TYPE=postgres" -e "DB_HOST=db" -e "DB_PORT=5432" -e "DB_USER=wikijs" -e "DB_PASS=wikijsrocks" -e "DB_NAME=wiki" ghcr.io/requarks/wiki:2
+
+# - name: docker-compose custom override
+#   copy:
+#     content: "{{wiki_js_docker_compose_override}}"
+#     dest: /opt/wiki-js/docker-compose.yml
+
+# - name: docker-compose
+#   docker_compose:
+#     project_src: /opt/wiki-js

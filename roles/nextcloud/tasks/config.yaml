@@ -8,8 +8,8 @@
   register: _nextcloud_config_cmd
   changed_when: false
 
-# - debug:
-#     msg: "{{_nextcloud_config}}"
+- debug:
+    msg: "{{_nextcloud_config}}"
 
 - name: set nextcloud system config
   loop: "{{ (nextcloud_config.system|default({})).keys() }}"

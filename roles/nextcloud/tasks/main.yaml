@@ -1,24 +1,14 @@
 ---
 
-- name: create nextcloud project directory
+- name: create nextcloud project directories
   file:
-    path: "{{ nextcloud_project_directory }}"
-    state: directory
-
-- name: create nextcloud certs directory
-  file:
-    path: "{{nextcloud_project_directory}}/certs"
-    state: directory
-
-- name: create nextcloud certs directory
-  file:
-    path: "{{nextcloud_project_directory}}/skel"
-    state: directory
-
-- name: create nextcloud themes directory
-  file:
-    path: "{{nextcloud_project_directory}}/themes"
-    state: directory
+      path: "{{ item }}"
+      state: directory
+  loop:
+  - "{{ nextcloud_project_directory }}"
+  - "{{nextcloud_project_directory}}/certs"
+  - "{{nextcloud_project_directory}}/skel"
+  - "{{nextcloud_project_directory}}/themes"
 
 - name: copy CA certificates file
   copy:
@@ -31,20 +21,20 @@
 
 - import_tasks: setup.yaml
 
-- import_tasks: config.yaml
-  vars:
-    nextcloud_config: "{{nextcloud_default_config}}"
+# - import_tasks: config.yaml
+#   vars:
+#     nextcloud_config: "{{nextcloud_default_config}}"
 
-- import_tasks: keycloak_client.yaml
-  when: nextcloud_with_keycloak_client
+# - import_tasks: keycloak_client.yaml
+#   when: nextcloud_with_keycloak_client
 
-- import_tasks: apps/user_oidc.yaml
-  when: nextcloud_with_user_oidc_app
+# - import_tasks: apps/user_oidc.yaml
+#   when: nextcloud_with_user_oidc_app
 
-- import_tasks: apps/oidc_login.yaml
-  when: nextcloud_with_oidc_login_app
+# - import_tasks: apps/oidc_login.yaml
+#   when: nextcloud_with_oidc_login_app
 
-- import_tasks: custom_theme/config.yaml
-  when: nextcloud_with_custom_theme
+# - import_tasks: custom_theme/config.yaml
+#   when: nextcloud_with_custom_theme
 
-- import_tasks: traefik.yaml
+# - import_tasks: traefik.yaml

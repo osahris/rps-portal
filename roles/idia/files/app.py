@@ -1,3 +1,6 @@
+####################
+# Tulsky V.A. 2023 #
+####################
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -66,7 +69,7 @@ def db_error():
                             title = title)
 
 @app.route('/navigation')
-def practice():
+def navigation():
     title = "RPS Services Navigation"
     domain = os.environ.get("HOST_DOMAIN")
     services = [{'subdomain': 'static-header-test', 'name':'Header'},
@@ -76,7 +79,8 @@ def practice():
                 {'subdomain': 'openproject', 'name':'OpenProject'},
                 {'subdomain': 'admin', 'name':'rps_admin_interface'},
                 {'subdomain': 'groups', 'name':'rps_groups_interface'},
-                {'subdomain': 'traefik', 'name':'Traefik'}
+                {'subdomain': 'traefik', 'name':'Traefik'},
+                {'subdomain': 'wiki-js', 'name':'Wiki.js'},
                 ]
     return  render_template('navigation.html', 
                             title = title,
