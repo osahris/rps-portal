@@ -10,27 +10,29 @@ networks:
 
 services:
 
-  wiki:
+  wiki-bookstack:
     container_name: {{project_name}}_app
-    image: ghcr.io/requarks/wiki:2
+    image: lscr.io/linuxserver/bookstack
     restart: unless-stopped
     logging:
       options:
         max-size: 5m
-    # ports:
-    #   - "80:3000"
+    ports:
+      - 6875:80
     networks:
-      - proxy
+      # - proxy
       - {{project_name}}
-    env_file:
+    env_file: 
       - "./env"
+    volumes:
+      - ./db-data:/config
     depends_on:
       - {{project_name}}_db
-  
-  
+
+
   {{project_name}}_db:
     container_name: {{project_name}}_db
-    image: postgres:11-alpine
+    image: lscr.io/linuxserver/mariadb
     restart: unless-stopped
     logging:
       options:
@@ -38,8 +40,12 @@ services:
     networks:
       - {{project_name}}
     environment:
-      - POSTGRES_DB={{wiki_DB_NAME}}
-      - POSTGRES_PASSWORD={{wiki_DB_PASS}}
-      - POSTGRES_USER={{wiki_DB_USER}}
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - MYSQL_DATABASE={{wiki_DB_DATABASE}}
+      - MYSQL_USER={{wiki_DB_USER}}
+      - MYSQL_PASSWORD={{wiki_DB_PASS}}
+      - MYSQL_ROOT_PASSWORD={{wiki_DB_PASS}}
     volumes:
-      - ./db-data:/var/lib/postgresql/data
+      - ./db-data:/config

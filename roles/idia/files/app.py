@@ -80,6 +80,7 @@ def navigation():
                 {'subdomain': 'admin', 'name':'rps_admin_interface'},
                 {'subdomain': 'groups', 'name':'rps_groups_interface'},
                 {'subdomain': 'traefik', 'name':'Traefik'},
+                {'subdomain': 'wiki-bookstack', 'name':'Wiki Bookstack'},
                 {'subdomain': 'wiki-js', 'name':'Wiki.js'},
                 ]
     return  render_template('navigation.html', 

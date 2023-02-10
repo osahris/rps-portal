@@ -23,30 +23,32 @@
         - always
 
   roles:
-    - role: docker
-      tags: docker
-    - role: gitlab_credentials
-      tags: gitlab_credentials
-    - role: traefik
-      tags: traefik
-    - role: keycloak
-      tags: keycloak
-    - role: keycloak_realms
-      tags: keycloak_realms
-    - role: oauth2_proxy
-      tags: oauth2_proxy
-    - role: rps_groups_interface
-      tags: rps_groups_interface
-    - role: rps_admin_interface
-      tags: rps_admin_interface
-    - role: header
-      tags: header
-    - role: static_header_test
-      tags: static_header_test
+    # - role: docker
+    #   tags: docker
+    # - role: gitlab_credentials
+    #   tags: gitlab_credentials
+    # - role: traefik
+    #   tags: traefik
+    # - role: keycloak
+    #   tags: keycloak
+    # - role: keycloak_realms
+    #   tags: keycloak_realms
+    # - role: oauth2_proxy
+    #   tags: oauth2_proxy
+    # - role: rps_groups_interface
+    #   tags: rps_groups_interface
+    # - role: rps_admin_interface
+    #   tags: rps_admin_interface
+    # - role: header
+    #   tags: header
+    # - role: static_header_test
+    #   tags: static_header_test
 
-    - role: collabora
-      tags: collabora
-    - role: idia
-      tags: idia
-    - role: wiki-js
-      tags: wiki-js
+    # - role: collabora
+    #   tags: collabora
+    # - role: idia
+    #   tags: idia
+    - role: wiki-bookstack
+      tags: wiki-bookstack
+    # - role: wiki-js
+    #   tags: wiki-js
