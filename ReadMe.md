@@ -25,7 +25,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] traefik
 - [ ] typesense
 - [ ] wiki-bookstack
-- [ ] wiki-js
+- [x] wiki-js
 
 
 ## Secrets management
