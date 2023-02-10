@@ -4,6 +4,12 @@ project_name:        "wiki-js" #{{role_name}}"
 remote_path:         "/app/{{inventory_hostname}}/{{project_name}}"
 project_domain_name: "{{inventory_hostname}}"
 
+# # ------------------------------------------ #
+wiki_DB_NAME: "wiki"
+wiki_DB_USER: "wikijs"
+wiki_DB_PASS: "qyO%RE*0h^q0BjVhmrzqqi#OR@3dh7ax"
+
+
 
 # # ------------------------------------------ #
 # # Reverse proxy and SSL certification config #
@@ -22,7 +28,7 @@ traefik_dynamic_config:
 
       wiki-js:
           # rule: "Host(`{{project_domain_name}}`) && ( PathPrefix(`/api/`) || Path(`/api`) ) )"
-          rule: "Host(`wiki-js.{{project_domain_name}}`)"
+          rule: "Host(`{{project_name}}.{{project_domain_name}}`)"
           # rule: "Host(`{{project_domain_name}}`)"
           entrypoints: websecure
           # middlewares:
@@ -30,7 +36,7 @@ traefik_dynamic_config:
           tls:
             certresolver: "{{traefik_certresolver}}"
             domains:
-            - main: "wiki-js.{{project_domain_name}}"
+            - main: "{{project_name}}.{{project_domain_name}}"
             # - main: "{{project_domain_name}}"
               sans:
                 - "{{traefik_dashboard_hostname}}"

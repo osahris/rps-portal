@@ -9,42 +9,35 @@ networks:
 
 services:
 
-  {{project_name}}_app:
+  wiki:
     container_name: {{project_name}}_app
     image: ghcr.io/requarks/wiki:2
     logging:
       options:
         max-size: 5m
+    env_file: 
+      - "./env"
     restart: unless-stopped
     # ports:
     #   - "80:3000"
     networks:
       - proxy
       - {{project_name}}
-    env_file: 
-      - "./env"
     depends_on:
       - {{project_name}}_db
-
-
+  
   {{project_name}}_db:
     container_name: {{project_name}}_db
     image: postgres:11-alpine
-    environment:
-      - POSTGRES_DB="wiki"
-      - POSTGRES_USER="wikijs"
-      - POSTGRES_PASSWORD="wikijsrocks"
     logging:
       options:
         max-size: 5m
+    environment:
+      - POSTGRES_DB={{wiki_DB_NAME}}
+      - POSTGRES_PASSWORD={{wiki_DB_PASS}}
+      - POSTGRES_USER={{wiki_DB_USER}}
     restart: unless-stopped
-    expose:
-      - "5432"
-    networks:
-      - {{project_name}}
     volumes:
       - ./db-data:/var/lib/postgresql/data
-
-
-# volumes:
-#   db-data:
+    networks:
+      - {{project_name}}
