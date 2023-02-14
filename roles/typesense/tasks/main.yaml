@@ -25,6 +25,8 @@
   community.docker.docker_compose:
     project_name: "{{ typesense_project_name }}"
     project_src: "{{ typesense_project_directory }}"
+    pull: true
+    remove_orphans: true
   register: _typesense_docker_compose
 
 - name: typesense traefik dynamic config

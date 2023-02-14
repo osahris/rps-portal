@@ -48,4 +48,6 @@
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{traefik_directory}}/"
+    remove_orphans: true
     restarted: "{{ traefik_copy_static_config_task.changed }}"
+    pull: true

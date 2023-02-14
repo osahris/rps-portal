@@ -52,6 +52,8 @@
     files: "{{item}}"
     # This option ensures that the images are rebuilt
     build: true
+    pull: true
+    remove_orphans: true
   with_items:
     - "docker-compose.yaml"
 

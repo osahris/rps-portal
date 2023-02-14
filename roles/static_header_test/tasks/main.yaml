@@ -25,6 +25,7 @@
     files: "docker-compose.yaml"
     pull: true
     build: true
+    remove_orphans: true
 
 - name: traefik dynamic config
   copy:

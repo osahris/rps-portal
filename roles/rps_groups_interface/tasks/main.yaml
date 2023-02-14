@@ -19,6 +19,7 @@
     project_src: "{{remote_path}}/"
     files: "docker-compose.yaml"
     pull: true
+    remove_orphans: true
 
 - name: traefik dynamic config
   copy:

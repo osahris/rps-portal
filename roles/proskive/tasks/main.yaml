@@ -71,3 +71,5 @@
     files:
       - docker-compose_eigenes_keycloak.yml
   environment: "{{proskive_docker_compose_env}}"
+  pull: true
+  remove_orphans: true
