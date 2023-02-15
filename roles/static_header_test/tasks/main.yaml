@@ -10,9 +10,9 @@
     state: directory
 
 - name: copy index.html
-  copy:
-    src: "files/index.html"
-    dest: "{{remote_path}}/html"
+  template:
+    src: "index.html.j2"
+    dest: "{{remote_path}}/html/index.html"
 
 - name: create docker compose yaml
   template:
