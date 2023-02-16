@@ -1,0 +1,12 @@
+---
+- name: create application directory
+  file:
+    path: "{{remote_path}}"
+    state: directory
+
+- include_tasks: per_env.yml
+  loop:
+    - prod
+    - staging
+  loop_control:
+    loop_var: env

@@ -1,0 +1,7 @@
+---
+wordpress_container_image: wordpress
+wordpress_container_version: 6.1
+wordpress_staging_server_name: "www-staging.{{ inventory_hostname }}"
+wordpress_prod_server_name: "www.{{ inventory_hostname }}"
+
+letsencrypt_account_email: "{{ admin_email }}"

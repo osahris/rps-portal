@@ -52,3 +52,5 @@
       tags: wiki-bookstack
     - role: wiki-js
       tags: wiki-js
+    - role: wordpress
+      tags: wordpress

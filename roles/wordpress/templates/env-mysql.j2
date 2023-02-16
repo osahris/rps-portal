@@ -1,0 +1,4 @@
+MYSQL_DATABASE=wordpress
+MYSQL_USER=wordpress
+MYSQL_PASSWORD={{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_mysql_password') }}
+MYSQL_RANDOM_ROOT_PASSWORD=1
