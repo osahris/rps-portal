@@ -17,13 +17,11 @@ services:
     logging:
       options:
         max-size: 5m
-    ports:
-      - 6875:80
     networks:
-      # - proxy
+      - proxy
       - {{project_name}}
     env_file: 
-      - "./env"
+      - "./env-bookstack"
     volumes:
       - ./db-data:/config
     depends_on:
@@ -39,13 +37,7 @@ services:
         max-size: 5m
     networks:
       - {{project_name}}
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - MYSQL_DATABASE={{wiki_DB_DATABASE}}
-      - MYSQL_USER={{wiki_DB_USER}}
-      - MYSQL_PASSWORD={{wiki_DB_PASS}}
-      - MYSQL_ROOT_PASSWORD={{wiki_DB_PASS}}
+    env_file: 
+      - "./env-db"
     volumes:
       - ./db-data:/config

@@ -9,6 +9,8 @@ wiki_DB_DATABASE: "bookstackapp"
 wiki_DB_USER:     "bookstack"
 wiki_DB_PASS:     "DmycqZTDr6Xbc}jZzq3bgR80CBrjbsOf"
 
+keycloak_host:    "idcohorts.net"
+
 
 
 # # ------------------------------------------ #
@@ -18,7 +20,7 @@ traefik_directory:          "/app/{{inventory_hostname}}/traefik"
 traefik_dashboard_hostname: "traefik.{{project_domain_name}}"
 traefik_certresolver:       "letsencrypt"
 letsencrypt_account_email:  "{{ admin_email }}"
-app_port: "6875"
+app_port: "80"
 
 
 # For each new running service add below a traefik router and a traefik service

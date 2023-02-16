@@ -12,6 +12,9 @@ services:
     container_name: traefik
     image: traefik:v2.8
     restart: unless-stopped #"{{traefik_copy_static_config_task.changed}}"
+    logging:
+      options:
+        max-size: 5m
     networks:
       - {{ traefik_proxy_network }}
     ports:

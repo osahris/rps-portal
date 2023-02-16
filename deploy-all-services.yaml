@@ -48,7 +48,7 @@
       tags: collabora
     - role: idia
       tags: idia
-    #- role: wiki-bookstack
-    #  tags: wiki-bookstack
-    #- role: wiki-js
-    #  tags: wiki-js
+    - role: wiki-bookstack
+      tags: wiki-bookstack
+    - role: wiki-js
+      tags: wiki-js

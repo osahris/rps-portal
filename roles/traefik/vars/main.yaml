@@ -3,8 +3,8 @@ traefik_static_config:
   api:
     dashboard: true
     insecure: false
-  # log:
-  #   level: DEBUG
+  log:
+    level: DEBUG
   providers:
     file:
       directory: /etc/traefik/conf.d

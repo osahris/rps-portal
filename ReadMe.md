@@ -47,7 +47,7 @@ All application configs should reside below `/app/`.
 By convention please create a variable `project_name`, a variable `remote_path: "/app/{{inventory_hostname}}/{{project_name}}"` and a variable `($project_name)_server_name` set to `($project_name).{{ inventory_hostname }} (using `$role/vars/main.yaml`).
 
 Then in the tasks of your role ensure that the directory is being created and deploy all application configs including the `docker-compose.yaml` file in there.
-Make sure that the application uses the well known `proxy` network. This is the network that traefik expects services to reside in.
+Make sure that the application uses the well-known `proxy` network. This is the network that Traefik expects services to reside in.
 
 Example config excerpt:
 
@@ -80,7 +80,7 @@ Example:
 
 Changes in the docker-compose file will automatically trigger a restart (please do not change the default ansible `recreate` setting).
 
-To make your application known to traefik create a traefik configuration in `{{traefik_directory}}/conf.d/{{ project_name }}.yaml` using a variable defined in `$role/vars/main.yaml`.
+To make your application known to Traefik create a traefik configuration in `{{traefik_directory}}/conf.d/{{ project_name }}.yaml` using a variable defined in `$role/vars/main.yaml`.
 
 Example config:
 
