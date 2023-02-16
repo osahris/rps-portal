@@ -1,6 +1,7 @@
 ---
 project_name: wordpress
 remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+
 wordpress_prod_traefik_dynamic_config:
   http:
     routers:
@@ -15,6 +16,7 @@ wordpress_prod_traefik_dynamic_config:
         loadBalancer:
           servers:
             - url: http://wordpress-prod
+
 wordpress_staging_traefik_dynamic_config:
   http:
     routers:
