@@ -26,6 +26,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [ ] typesense
 - [ ] wiki-bookstack
 - [x] wiki-js
+- [ ] wordpress
 
 
 ## Secrets management

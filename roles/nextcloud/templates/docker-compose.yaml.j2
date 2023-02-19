@@ -9,57 +9,42 @@ networks:
 
 services:
 
-  db:
-    image: postgres:14
-    restart: always
-    volumes:
-      - db:/var/lib/postgresql/data
-    networks:
-      - {{project_name}}
-    # env_file: 
-    #   - "./env"
-    environment:
-      - POSTGRES_DB="nextcloud"
-      - POSTGRES_USER="nextcloud"
-      - POSTGRES_PASSWORD="{{nextcloud_postgres_password}}"
-
-  redis:
-    image: redis:alpine
-    restart: always
-
-  app:
-    image: nextcloud:apache
-    restart: always
+  nextcloud:
+    container_name: {{project_name}}_app
+    image: nextcloud:25.0
+    restart: unless-stopped
     logging:
       options:
         max-size: 5m
-    volumes: 
-  {%+ for item in nextcloud_docker_app_container_default_volumes + (nextcloud_with_custom_ca_certificates|ternary(nextcloud_docker_app_container_custom_ca_certificates_volumes,[])) + (nextcloud_with_custom_theme|ternary(nextcloud_docker_app_container_custom_themes_volumes,[])) %}
-    - {{item}}
-  {% endfor +%}
-    env_file: 
-      - "./env"
-    depends_on:
-      - db
-      - redis
+    restart: unless-stopped
+    # ports:
+    #   - 8080:80
     networks:
       - proxy
-      - {{project_name}}
-
-  cron:
-    image: nextcloud:apache
-    restart: always
-    volumes:
-      - nextcloud:/var/www/html
-    entrypoint: /cron.sh
+      - {{project_name}} # Uncomment if a network out of scope of Traefik needed
     depends_on:
-      - db
-      - redis
+      - {{project_name}}_db
+    # links:
+    #   - {{project_name}}_db
+    volumes:
+      - ./nextcloud:/var/www/html
+    env_file:
+      - "./env"
 
-volumes:
-  db:
-  nextcloud:
-  apps:
-  config:
-  data:
-  themes:
+# docker exec -u www-data -it nextcloud_app php occ maintenance:install --admin-user "admin" --admin-pass "pass"
+# docker exec -u www-data -it nextcloud_app php occ app:install sociallogin
+
+  {{project_name}}_db:
+    container_name: {{project_name}}_db
+    image: mariadb:10.5
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - {{project_name}} # Uncomment if a network out of scope of Traefik needed
+    volumes:
+      - ./db-data:/var/lib/mysql
+    env_file:
+      - "./env"
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW

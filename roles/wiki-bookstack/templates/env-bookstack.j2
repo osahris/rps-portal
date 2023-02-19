@@ -13,7 +13,7 @@ DB_DATABASE={{wiki_DB_DATABASE}}
 # and potentially show private details.
 OIDC_DUMP_USER_DETAILS=false
 
-# Set OIDC to be the authentication method
+# Set the authentication method (oidc, standard, ...)
 AUTH_METHOD=oidc
 
 # Control if BookStack automatically initiates login via your OIDC system 
@@ -24,7 +24,7 @@ AUTH_AUTO_INITIATE=false
 
 # Set the display name to be shown on the login button.
 # (Login with <name>)
-OIDC_NAME=SSO
+OIDC_NAME="Keycloak SSO"
 
 # Name of the claims(s) to use for the user's display name.
 # Can have multiple attributes listed, separated with a '|' in which 
@@ -33,14 +33,14 @@ OIDC_NAME=SSO
 OIDC_DISPLAY_NAME_CLAIMS=name
 
 # OAuth Client ID to access the identity provider
-OIDC_CLIENT_ID=wiki-bookstack
+OIDC_CLIENT_ID="wiki-bookstack"
 
 # OAuth Client Secret to access the identity provider
-OIDC_CLIENT_SECRET=5DhtUo3mTSavLMIMDh364gGCOTkIyx1D
+OIDC_CLIENT_SECRET="iF6xy6IG6yukX3xRMKQR8PEkFGhriYQ3"
 
 # Issuer URL
 # Must start with 'https://'
-OIDC_ISSUER=https://accounts.{{keycloak_host}}/realms/users
+OIDC_ISSUER="https://{{keycloak_host}}/realms/{{keycloak_realm}}"
 
 # Enable auto-discovery of endpoints and token keys.
 # As per the standard, expects the service to serve a 
@@ -49,17 +49,17 @@ OIDC_ISSUER_DISCOVER=true
 
 
 
-# Enable OIDC group sync.
-OIDC_USER_TO_GROUPS=true
+# # Enable OIDC group sync.
+# OIDC_USER_TO_GROUPS=true
 
-# Set the attribute from which BookStack will read groups names from.
-OIDC_GROUPS_CLAIM=groups
+# # Set the attribute from which BookStack will read groups names from.
+# OIDC_GROUPS_CLAIM=groups
 
-# Additional scopes to send with the authentication request.
-# By default BookStack only sends the 'openid', 'profile' & 'email' scopes.
-# Many platforms require specific scopes to be requested for group data.
-# Multiple scopes can be added via comma separation.
-OIDC_ADDITIONAL_SCOPES=groups
+# # Additional scopes to send with the authentication request.
+# # By default BookStack only sends the 'openid', 'profile' & 'email' scopes.
+# # Many platforms require specific scopes to be requested for group data.
+# # Multiple scopes can be added via comma separation.
+# OIDC_ADDITIONAL_SCOPES=groups
 
 # Remove the user from roles that don't match OIDC groups upon login.
 # Note: While this is enabled the "Default Registration Role", editable within the 
@@ -69,14 +69,14 @@ OIDC_ADDITIONAL_SCOPES=groups
 
 ############################################################
 ## NOTE: The below are only needed if not using the above ##
-##       auto-discovery option.                           ##
+##       auto-discovery OIDC_ISSUER_DISCOVER option.      ##
 ############################################################
 
 # Path to identity provider token signing public RSA key
-# OIDC_PUBLIC_KEY=file:///keys/idp-public-key.pem
+OIDC_PUBLIC_KEY=file:///keys/idp-public-key.pem
 
 # Full URL to the OIDC authorize endpoint
-#OIDC_AUTH_ENDPOINT=https://accounts.{{keycloak_host}}/realms/users/protocol/openid-connect/auth
+OIDC_AUTH_ENDPOINT=https://{{keycloak_host}}/realms/{{keycloak_realm}}/protocol/openid-connect/auth
 
 # Full URL to the OIDC token endpoint
-#OIDC_TOKEN_ENDPOINT=https://accounts.{{keycloak_host}}/realms/users/protocol/openid-connect/token
+OIDC_TOKEN_ENDPOINT=https://{{keycloak_host}}/realms/{{keycloak_realm}}/protocol/openid-connect/token

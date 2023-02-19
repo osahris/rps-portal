@@ -9,8 +9,8 @@ wiki_DB_DATABASE: "bookstackapp"
 wiki_DB_USER:     "bookstack"
 wiki_DB_PASS:     "DmycqZTDr6Xbc}jZzq3bgR80CBrjbsOf"
 
-keycloak_host:    "idcohorts.net"
-
+keycloak_host:    "keycloak.{{inventory_hostname}}" # "accounts.idcohorts.net"
+keycloak_realm:   "rps"
 
 
 # # ------------------------------------------ #

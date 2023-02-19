@@ -58,23 +58,4 @@
   with_items:
     - "docker-compose.yaml"
 
-
-
-# ---
-
-# - name: Create the directories
-#   file:
-#     path: "/opt/wiki-bookstack"
-#     state: directory
-
-# # docker run -d -p 8080:3000 --name wiki --restart unless-stopped 
-# # -e "DB_TYPE=postgres" -e "DB_HOST=db" -e "DB_PORT=5432" -e "DB_USER=wikijs" -e "DB_PASS=wikijsrocks" -e "DB_NAME=wiki" ghcr.io/requarks/wiki:2
-
-# - name: docker-compose custom override
-#   copy:
-#     content: "{{wiki_bookstack_docker_compose_override}}"
-#     dest: /opt/wiki-bookstack/docker-compose.yml
-
-# - name: docker-compose
-#   docker_compose:
-#     project_src: /opt/wiki-bookstack
+# - import_tasks: keycloak_client.yaml
