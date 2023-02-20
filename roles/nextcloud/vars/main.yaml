@@ -81,6 +81,8 @@ nextcloud_default_config:
   system:
     defaultapp: "{{nextcloud_defaultapp}}"
     skeletondirectory: /srv/nextcloud/skel
+    trusted_domains:
+      - nextcloud.{{project_domain_name}}
 
 nextcloud_user_oidc_config:
   apps:

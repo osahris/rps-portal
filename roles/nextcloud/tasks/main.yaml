@@ -8,6 +8,9 @@
 - name: create directory
   file: path={{remote_path}} state=directory
 
+- name: create skel directory
+  file: path={{remote_path}}/skel state=directory
+
 - name: copy all static files
   synchronize:
     recursive: true
@@ -44,6 +47,8 @@
   - "proxy"
   # driver: overlay
 
+- import_tasks: custom_theme/setup.yaml
+  when: nextcloud_with_custom_theme
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -68,7 +73,6 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
-
 - name: install nextcloud
   when: not _nextcloud_status.installed
   community.docker.docker_container_exec:
@@ -79,13 +83,12 @@
   register: _nextcloud_status_task
   # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/occ_command.html
 
-- name: add host to trusted domains
-  when: _nextcloud_status_task is not failed
-  community.docker.docker_container_exec:
-    container: "{{project_name}}_app"
-    user: www-data
-    command:
-      php occ config:system:set trusted_domains 0 --value=nextcloud.{{project_domain_name}}
+- import_tasks: config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_default_config}}"
+
+- import_tasks: custom_theme/config.yaml
+  when: nextcloud_with_custom_theme
 
 # - import_tasks: keycloak-config.yaml
 
@@ -97,6 +100,3 @@
 
 # - import_tasks: apps/oidc_login.yaml
 #   when: nextcloud_with_oidc_login_app
-
-# - import_tasks: custom_theme/config.yaml
-#   when: nextcloud_with_custom_theme
