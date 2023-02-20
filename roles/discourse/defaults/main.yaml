@@ -1,5 +1,6 @@
 ---
 discourse_service_name: "discourse.{{ inventory_hostname }}"
+discourse_target_directory: "/app/{{ discourse_service_name }}/discourse"
 
 locales:
   lang: de_DE.UTF-8
@@ -14,6 +15,7 @@ discourse_smtp_port: 587
 discourse_mail_domain: "{{ discourse_service_name }}"
 
 discourse_web_ratelimited: true
+discourse_mail_reveiver_enabled: false
 discourse_mail_reveiver_tls_enabled: false
 discourse_https_host: false
 
@@ -26,8 +28,12 @@ discourse_open_id_hostname: "{{ keycloak_service_name }}"
 discourse_open_id_discovery_uri: "{{ discourse_open_id_protocol }}://{{ discourse_open_id_hostname }}/realms/{{ discourse_keycloak_realm_name }}/.well-known/openid-configuration"
 
 discourse_keycloak_realm_name: users
+discourse_keycloak_management_realm: master
+discourse_keycloak_management_username: admin
 
 discourse_keycloak_frontend_url: "{{ discourse_open_id_protocol }}://{{ discourse_open_id_hostname }}/auth"
 discourse_keycloak_redirect_protocol: "https"
 discourse_keycloak_redirect_hostname: "{{ discourse_service_name }}"
 discourse_keycloak_redirect_uri: "{{ discourse_keycloak_redirect_protocol }}://{{ discourse_keycloak_redirect_hostname }}/auth/oidc/callback"
+
+discourse_admin_users: []
