@@ -1,0 +1,10 @@
+---
+openproject_server_name: "{{ inventory_hostname }}"
+openproject_version: stable/11
+openproject_subdirectory: ""
+
+openproject_db_host: localhost
+openproject_db_port: 45432
+openproject_db_user: openproject
+openproject_db_name: openproject
+openproject_postgresql_lc: de_DE.UTF-8

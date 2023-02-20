@@ -1,0 +1,9 @@
+[Unit]
+Description=RPS sympa remote datasource server
+
+[Service]
+Type=simple
+ExecStart=rps-admin --config-file /etc/rps-admin-tools.json run-sympa-remote-datasource-server
+User=rps-sync-scripts
+Group=rps-sync-scripts
+EnvironmentFile=/etc/rps-sympa-datasource.env

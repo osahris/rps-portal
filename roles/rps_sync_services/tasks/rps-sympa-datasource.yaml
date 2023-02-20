@@ -1,0 +1,38 @@
+---
+
+- name: rps-sympa-datasource group
+  group:
+    name: rps-sympa-datasource
+
+- name: rps-sympa-datasource user
+  user:
+    name: rps-sympa-datasource
+    group: rps-sympa-datasource
+    groups:
+      - rps-admin-tools
+    home: /var/lib/rps-sympa-datasource
+
+- name: rps-sympa-datasource env
+  copy:
+    content: |
+      SYMPA_REMOTE_DATASOURCE_SERVER_APIKEY={{rps_sympa_remote_datasource_apikey}}
+      PORT=8081
+    dest: /etc/rps-sympa-datasource.env
+    group: rps-sympa-datasource
+    mode: 0640
+  notify:
+    - restart rps-sympa-datasource systemd service
+
+- name: install rps-sympa-datasource systemd unit
+  copy:
+    src: rps-sympa-datasource.service
+    dest: /etc/systemd/system/rps-sympa-datasource.service
+  notify:
+    - reload systemd
+    - restart rps-sympa-datasource systemd service
+
+- name: ensure rps-sympa-datasource systemd service is enabled and started
+  systemd:
+    name: rps-sympa-datasource.service
+    state: started
+    enabled: true

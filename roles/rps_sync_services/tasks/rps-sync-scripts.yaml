@@ -1,0 +1,34 @@
+---
+
+- name: rps-sync-scripts group
+  group:
+    name: rps-sync-scripts
+
+- name: rps-sync-scripts user
+  user:
+    name: rps-sync-scripts
+    group: rps-sync-scripts
+    groups:
+      - rps-admin-tools
+    home: /var/lib/rps-sync-scripts
+
+- name: install rps-sync-scripts systemd unit
+  copy:
+    src: rps-sync-scripts.service
+    dest: /etc/systemd/system/rps-sync-scripts.service
+  notify:
+    - reload systemd
+    - restart rps-sync-scripts systemd service
+
+- name: install rps-sync-scripts systemd timer
+  copy:
+    src: rps-sync-scripts.timer
+    dest: /etc/systemd/system/rps-sync-scripts.timer
+  notify:
+    - reload systemd
+
+- name: ensure rps-sync-scripts systemd timer is enabled and started
+  systemd:
+    name: rps-sync-scripts.timer
+    state: started
+    enabled: true

@@ -1,0 +1,65 @@
+---
+version: "3"
+
+networks:
+  {{project_name}}:
+    external: true
+  proxy:
+    external: true
+
+services:
+
+  db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
+    networks:
+      - {{project_name}}
+    # env_file: 
+    #   - "./env"
+    environment:
+      - POSTGRES_DB="nextcloud"
+      - POSTGRES_USER="nextcloud"
+      - POSTGRES_PASSWORD="{{nextcloud_postgres_password}}"
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+  app:
+    image: nextcloud:apache
+    restart: always
+    logging:
+      options:
+        max-size: 5m
+    volumes: 
+  {%+ for item in nextcloud_docker_app_container_default_volumes + (nextcloud_with_custom_ca_certificates|ternary(nextcloud_docker_app_container_custom_ca_certificates_volumes,[])) + (nextcloud_with_custom_theme|ternary(nextcloud_docker_app_container_custom_themes_volumes,[])) %}
+    - {{item}}
+  {% endfor +%}
+    env_file: 
+      - "./env"
+    depends_on:
+      - db
+      - redis
+    networks:
+      - proxy
+      - {{project_name}}
+
+  cron:
+    image: nextcloud:apache
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  db:
+  nextcloud:
+  apps:
+  config:
+  data:
+  themes:
