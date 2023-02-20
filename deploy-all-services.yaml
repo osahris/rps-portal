@@ -51,5 +51,7 @@
       tags: nextcloud
     - role: wiki-js
       tags: wiki-js
+    - role: wiki-bookstack
+      tags: wiki-bookstack
     - role: wordpress
       tags: wordpress
