@@ -8,6 +8,9 @@
 - name: create directory
   file: path={{remote_path}} state=directory
 
+- name: create skel directory
+  file: path={{remote_path}}/skel state=directory
+
 - name: copy all static files
   synchronize:
     recursive: true
@@ -79,13 +82,10 @@
   register: _nextcloud_status_task
   # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/occ_command.html
 
-- name: add host to trusted domains
-  when: _nextcloud_status_task is not failed
-  community.docker.docker_container_exec:
-    container: "{{project_name}}_app"
-    user: www-data
-    command:
-      php occ config:system:set trusted_domains 0 --value=nextcloud.{{project_domain_name}}
+- import_tasks: config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_default_config}}"
+
 
 # - import_tasks: keycloak-config.yaml
 
