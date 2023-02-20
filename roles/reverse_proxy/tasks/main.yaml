@@ -10,6 +10,8 @@
   loop_control:
     loop_var: vhost
   when: hostvars[vhost].reverse_proxy_server_name is defined
+  tags:
+  - certificates
 
 - include_role:
     name: openresty
