@@ -2,14 +2,13 @@
 version: "3"
 
 networks:
-  {{ header_proxy_network }}:
+  proxy:
     external: true
 
 services:
   header:
-    container_name: {{project_name}}
     build:
       header
     restart: unless-stopped
     networks:
-      - {{ header_proxy_network }}
+      - proxy

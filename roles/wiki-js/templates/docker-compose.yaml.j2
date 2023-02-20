@@ -2,44 +2,41 @@
 version: "3"
 
 networks:
-  {{project_name}}:
-    external: true
+  wiki-internal:
   proxy:
     external: true
 
+volumes:
+  db:
 
 services:
 
   wiki:
-    container_name: {{project_name}}_app
     image: ghcr.io/requarks/wiki:2
     restart: unless-stopped
     logging:
       options:
         max-size: 5m
-    # ports:
-    #   - "80:3000"
     networks:
       - proxy
-      - {{project_name}}
+      - wiki-internal
     env_file:
       - "./env"
     depends_on:
-      - {{project_name}}_db
+      - db
   
   
-  {{project_name}}_db:
-    container_name: {{project_name}}_db
+  db:
     image: postgres:11-alpine
     restart: unless-stopped
     logging:
       options:
         max-size: 5m
     networks:
-      - {{project_name}}
+      - wiki-internal
     environment:
       - POSTGRES_DB={{wiki_DB_NAME}}
       - POSTGRES_PASSWORD={{wiki_DB_PASS}}
       - POSTGRES_USER={{wiki_DB_USER}}
     volumes:
-      - ./db-data:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data

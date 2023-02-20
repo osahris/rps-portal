@@ -1,10 +1,12 @@
 ---
-- name: create application directory
-  file:
-    path: "{{remote_path}}"
-    state: directory
+- name: debian requirements
+  apt:
+    pkg:
+      - jq
 
 - include_tasks: per_env.yml
+  vars:
+    remote_path: "/app/{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }}"
   loop:
     - prod
     - staging

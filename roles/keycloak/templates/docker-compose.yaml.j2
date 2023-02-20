@@ -2,7 +2,7 @@
 version: "3.4"
 
 networks:
-  {{ keycloak_proxy_network }}:
+  proxy:
     external: true
   keycloak-internal:
 
@@ -11,7 +11,6 @@ volumes:
 
 services:
   keycloak:
-    container_name: {{project_name}}
     image: {{ keycloak_container_image }}:{{ keycloak_container_version }}
     restart: unless-stopped
     env_file: env-keycloak
@@ -30,11 +29,10 @@ services:
       retries: 3
       start_period: 1m
     networks:
-      - {{ keycloak_proxy_network }}
+      - proxy
       - keycloak-internal
 
   postgres:
-    container_name: {{project_name}}-postgres
     image: postgres:15.1
     restart: unless-stopped
     volumes:

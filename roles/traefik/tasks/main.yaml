@@ -1,23 +1,4 @@
 ---
-# - name: install docker linux packages
-#   apt:
-#     update_cache: true
-#     pkg:
-#       - docker.io
-#       - python3-docker
-#       - docker-compose
-#       - apparmor
-
-# - name: start docker service
-#   service:
-#     name: docker
-#     state: started
-
-# Use if a volume with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
-# - name: create traefik ssl-certs docker volume
-#   docker_volume:
-#     name: "{{traefik_ssl_certs_docker_volume_name}}"
-
 - name: create traefik config directory
   file:
     path: "{{traefik_directory}}/conf.d"

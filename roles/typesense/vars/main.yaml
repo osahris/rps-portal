@@ -1,7 +1,6 @@
 ---
-
 typesense_docker_compose:
-  version: '3'
+  version: "3"
 
   services:
     typesense:
@@ -21,7 +20,7 @@ typesense_docker_compose:
       restart: unless-stopped
       environment:
         ADDRESS: 0.0.0.0:4000
-        ISSUER: https://{{keycloak_server_name}}/realms/{{keycloak_realm}}
+        ISSUER: https://{{keycloak_service_name}}/realms/{{keycloak_realm}}
         TYPESENSE_OAUTH_PROXY_LOG: typesense_oauth_proxy=debug # typesense_oauth_proxy=trace # only "trace" for more debug
         TYPESENSE_URL: http://typesense:8108
         TYPESENSE_ADMIN_API_KEY: "{{typesense_api_key}}"
@@ -48,19 +47,19 @@ typesense_traefik_dynamic_config:
   http:
     routers:
       typesense-oauth:
-        rule: "Host(`{{typesense_server_name}}`) && PathPrefix(`/typesense-oauth`)"
+        rule: "Host(`{{typesense_service_name}}`) && PathPrefix(`/typesense-oauth`)"
         service: typesense-oauth-proxy
         entrypoints: websecure
         middlewares:
           - typesense-stripprefix
       typesense:
-        rule: "Host(`{{typesense_server_name}}`) && PathPrefix(`/typesense`)"
+        rule: "Host(`{{typesense_service_name}}`) && PathPrefix(`/typesense`)"
         service: typesense-oauth-proxy
         entrypoints: websecure
         middlewares:
           - typesense-stripprefix
       typesense-frontend:
-        rule: "Host(`{{typesense_server_name}}`)"
+        rule: "Host(`{{typesense_service_name}}`)"
         service: typesense-frontend
         entrypoints: websecure
     services:

@@ -1,0 +1,2 @@
+---
+wiki_bookstack_service_name: "wiki-bookstack.{{ inventory_hostname}}"

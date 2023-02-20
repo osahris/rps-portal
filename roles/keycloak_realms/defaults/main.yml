@@ -3,5 +3,5 @@
 keycloak_admin_username: admin
 keycloak_auth_realm: master
 keycloak_validate_certs: yes
-keycloak_frontend_url: https://{{keycloak_server_name}}
+keycloak_frontend_url: https://{{keycloak_service_name}}
 keycloak_realms: []

@@ -2,8 +2,7 @@
 version: "3"
 
 networks:
-  {{project_name}}:
-    external: true
+  wiki-internal:
   proxy:
     external: true
 
@@ -11,7 +10,6 @@ networks:
 services:
 
   wiki-bookstack:
-    container_name: {{project_name}}_app
     image: lscr.io/linuxserver/bookstack
     restart: unless-stopped
     logging:
@@ -19,25 +17,25 @@ services:
         max-size: 5m
     networks:
       - proxy
-      - {{project_name}}
+      - wiki-internal
     env_file: 
       - "./env-bookstack"
     volumes:
       - ./db-data:/config
     depends_on:
-      - {{project_name}}_db
+      - db
 
 
-  {{project_name}}_db:
-    container_name: {{project_name}}_db
+  db:
     image: lscr.io/linuxserver/mariadb
     restart: unless-stopped
     logging:
       options:
         max-size: 5m
     networks:
-      - {{project_name}}
+      - wiki-internal
     env_file: 
       - "./env-db"
+    # hae? seems wrong
     volumes:
       - ./db-data:/config

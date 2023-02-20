@@ -2,14 +2,13 @@
 version: "3"
 
 networks:
-  {{ oauth2_proxy_proxy_network }}:
+  proxy:
     external: true
 
 services:
   oauth2-proxy:
-    container_name: {{project_name}}
     image: {{ oauth2_proxy_container_image }}:{{ oauth2_proxy_container_version }}
     restart: unless-stopped
     env_file: env
     networks:
-      - {{ oauth2_proxy_proxy_network }}
+      - proxy

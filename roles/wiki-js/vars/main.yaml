@@ -1,49 +1,26 @@
 ---
-# Ansible variables
-project_name:        "wiki-js" #{{role_name}}"
-remote_path:         "/app/{{inventory_hostname}}/{{project_name}}"
-project_domain_name: "{{inventory_hostname}}"
+remote_path: "/app/{{wiki_js_service_name}}"
 
 # # ------------------------------------------ #
 wiki_DB_NAME: "wiki"
 wiki_DB_USER: "wikijs"
 wiki_DB_PASS: "qyO%RE*0h^q0BjVhmrzqqi#OR@3dh7ax"
 
-
-
-# # ------------------------------------------ #
-# # Reverse proxy and SSL certification config #
-# # ------------------------------------------ #
-traefik_directory:          "/app/{{inventory_hostname}}/traefik"
-traefik_dashboard_hostname: "traefik.{{project_domain_name}}"
-traefik_certresolver:       "letsencrypt"
-letsencrypt_account_email:  "{{ admin_email }}"
 app_port: "3000"
-
 
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
   http:
     routers:
-
       wiki-js:
-          # rule: "Host(`{{project_domain_name}}`) && ( PathPrefix(`/api/`) || Path(`/api`) ) )"
-          rule: "Host(`{{project_name}}.{{project_domain_name}}`)"
-          # rule: "Host(`{{project_domain_name}}`)"
-          entrypoints: websecure
-          # middlewares:
-          #   - oauth2-proxy-auth-redirect
-          tls:
-            certresolver: "{{traefik_certresolver}}"
-            domains:
-            - main: "{{project_name}}.{{project_domain_name}}"
-            # - main: "{{project_domain_name}}"
-              sans:
-                - "{{traefik_dashboard_hostname}}"
-          service: wiki-js
+        rule: "Host(`{{wiki_js_service_name}}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: letsencrypt
+        service: wiki-js
 
     services:
       wiki-js:
         loadBalancer:
           servers:
-            - url: "http://{{project_name}}_app:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{wiki_js_service_name|replace('.','')}}_wiki_1:{{app_port}}" # "http://container_name:container_port"

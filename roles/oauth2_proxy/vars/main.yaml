@@ -1,21 +1,20 @@
 ---
-project_name: "oauth2-proxy"
-remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+remote_path: "/app/{{oauth2_proxy_service_name}}"
 oauth2_proxy_traefik_dynamic_config:
   http:
     routers:
       oauth2-proxy:
         # traefik will look at the host rule to order a certificate so add a separate rule for our hostname because this is used internally
-        rule: "Host(`oauth2-proxy.{{ inventory_hostname }}`) || (HostRegexp(`{subdomain:[a-z-0-9]+}.{{ inventory_hostname }}`) && PathPrefix(`/oauth2/`))"
+        rule: "Host(`{{ oauth2_proxy_service_name }}`) || (HostRegexp(`{subdomain:[a-z-0-9]+}.{{ inventory_hostname }}`) && PathPrefix(`/oauth2/`))"
         entrypoints: websecure
         service: oauth2-proxy
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: letsencrypt
     services:
       oauth2-proxy:
         loadBalancer:
           servers:
-            - url: "http://oauth2-proxy:4180"
+            - url: "http://{{ oauth2_proxy_service_name|replace('.', '') }}_oauth2-proxy_1:4180"
     middlewares:
       oauth2-auth:
         forwardAuth:

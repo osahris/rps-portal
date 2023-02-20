@@ -1,6 +1,5 @@
 ---
-project_name: "header"
-remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+remote_path: "/app/{{header_service_name}}"
 
 header_config:
   header_logo_uri: https://idcohorts.net
@@ -100,7 +99,7 @@ header_traefik_dynamic_config:
   http:
     routers:
       header:
-        rule: "Host(`{{header_server_name}}`)"
+        rule: "Host(`{{header_service_name}}`)"
         entrypoints: websecure
         tls:
           certresolver: letsencrypt
@@ -110,4 +109,4 @@ header_traefik_dynamic_config:
       header:
         loadBalancer:
           servers:
-            - url: "http://header"
+            - url: "http://{{header_service_name|replace('.', '')}}_header_1"

@@ -9,7 +9,6 @@ networks:
 services:
   wordpress:
     image: {{ wordpress_container_image }}:{{ wordpress_container_version }}
-    container_name: wordpress-{{env}}
     restart: unless-stopped
     env_file: env-wordpress
     volumes:
@@ -32,7 +31,6 @@ services:
       start_period: 5s
 
   db:
-    container_name: wordpress-mysql-{{env}}
     image: mysql:5.7
     restart: unless-stopped
     env_file: env-mysql

@@ -1,10 +1,9 @@
 ---
-oauth2_proxy_proxy_network: "proxy"
 oauth2_proxy_container_version: v7.4.0
 oauth2_proxy_container_image: quay.io/oauth2-proxy/oauth2-proxy
 
-oauth2_proxy_server_name: "oauth2-proxy.{{ inventory_hostname }}"
-oauth2_proxy_base_url: "https://{{ oauth2_proxy_server_name }}"
+oauth2_proxy_service_name: "oauth2-proxy.{{ inventory_hostname }}"
+oauth2_proxy_base_url: "https://{{ oauth2_proxy_service_name }}"
 
 oauth2_proxy_http_address: ":4180"
 oauth2_proxy_show_debug_on_error: false
@@ -12,13 +11,13 @@ oauth2_proxy_show_debug_on_error: false
 # https://github.com/oauth2-proxy/oauth2-proxy/issues/1322
 oauth2_proxy_skip_provider_button: false
 oauth2_proxy_cookie_name: _oauth2_proxy
-# use our baseurl and NOT oauth2_proxy_server_name so that all services see the cookie!
+# use our baseurl and NOT oauth2_proxy_service_name so that all services see the cookie!
 oauth2_proxy_cookie_domain: "{{ inventory_hostname }}"
 # otherwise we will get a stale access token. because default keycloak defaults to 60s
 oauth2_proxy_cookie_refresh: "55s"
 
-oauth2_proxy_oidc_issuer_url: "https://{{ keycloak_server_name }}/realms/{{oauth2_proxy_keycloak_client_realm}}"
-oauth2_proxy_client_id: "{{oauth2_proxy_server_name}}"
+oauth2_proxy_oidc_issuer_url: "https://{{ keycloak_service_name }}/realms/{{oauth2_proxy_keycloak_client_realm}}"
+oauth2_proxy_client_id: "{{oauth2_proxy_service_name}}"
 #oauth2_proxy_client_secret:
 oauth2_proxy_scope: "openid email profile roles"
 
@@ -41,7 +40,7 @@ oauth2_proxy_keycloak_client_auth_username: "{{keycloak_admin_username|default('
 oauth2_proxy_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 oauth2_proxy_keycloak_client_validate_certs: true
 
-oauth2_proxy_keycloak_client_url: "https://{{ keycloak_server_name }}"
+oauth2_proxy_keycloak_client_url: "https://{{ keycloak_service_name }}"
 oauth2_proxy_keycloak_client_realm_url: "{{oauth2_proxy_keycloak_client_url}}/realms/{{oauth2_proxy_keycloak_client_realm}}"
 oauth2_proxy_keycloak_client_client_id: "{{ oauth2_proxy_client_id }}"
 oauth2_proxy_keycloak_client_realm: "{{ keycloak_realm }}"

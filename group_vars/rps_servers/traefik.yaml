@@ -1,3 +1,2 @@
 ---
-traefik_dashboard_hostname: traefik.{{inventory_hostname}}
-traefik_directory: "/app/{{inventory_hostname}}/traefik"
+traefik_directory: "/app/traefik.{{inventory_hostname}}"

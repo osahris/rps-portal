@@ -1,33 +1,30 @@
 ---
-project_name: wordpress
-remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
-
 wordpress_prod_traefik_dynamic_config:
   http:
     routers:
       wordpress_prod:
-        rule: "Host(`{{wordpress_prod_server_name}}`)"
+        rule: "Host(`{{wordpress_prod_service_name}}`)"
         entrypoints: websecure
         service: wordpress_prod
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: letsencrypt
     services:
       wordpress_prod:
         loadBalancer:
           servers:
-            - url: http://wordpress-prod
+            - url: "http://{{wordpress_prod_service_name|replace('.', '')}}_wordpress_1"
 
 wordpress_staging_traefik_dynamic_config:
   http:
     routers:
       wordpress_staging:
-        rule: "Host(`{{wordpress_staging_server_name}}`)"
+        rule: "Host(`{{wordpress_staging_service_name}}`)"
         entrypoints: websecure
         service: wordpress_staging
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: letsencrypt
     services:
       wordpress_staging:
         loadBalancer:
           servers:
-            - url: http://wordpress-staging
+            - url: "http://{{wordpress_staging_service_name|replace('.', '')}}_wordpress_1"

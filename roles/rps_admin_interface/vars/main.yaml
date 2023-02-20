@@ -1,11 +1,10 @@
 ---
-project_name: "rps-admin-interface"
-remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+remote_path: "/app/{{ rps_admin_interface_service_name }}"
 
 rps_tools_config: |
   {
     "project_id": {{project_id|to_json}},
-    "project_name": {{project_name|to_json}},
+    "project_name": "rps-admin-interface",
 
     "user_first_name_label": {{user_first_name_label|to_json}},
     "user_last_name_label": {{user_last_name_label|to_json}},
@@ -55,8 +54,8 @@ rps_tools_config: |
       {% for service in groups.loomio_servers | default([]) %}
       {{service|to_json}}:{
         "service_type":"loomio",
-        "loomio_server_name": {{ hostvars[service].loomio_server_name |to_json }},
-        "loomio_url": {{ ('https://' + hostvars[service].loomio_server_name + '/') |to_json }},
+        "loomio_service_name": {{ hostvars[service].loomio_service_name |to_json }},
+        "loomio_url": {{ ('https://' + hostvars[service].loomio_service_name + '/') |to_json }},
         "loomio_client_cookie": {{ ('https://' + hostvars[service].loomio_client_cookie + '/') |to_json }}
       },
       {% endfor %}
@@ -77,14 +76,14 @@ rps_admin_interface_traefik_dynamic_config:
       rps-admin-interface-add-oauth2-redirect-header:
         headers:
           customrequestheaders:
-            X-Auth-Request-Redirect: "https://{{rps_admin_interface_server_name}}"
+            X-Auth-Request-Redirect: "https://{{rps_admin_interface_service_name}}"
     routers:
       rps-admin-interface:
-        rule: "Host(`{{rps_admin_interface_server_name}}`)"
+        rule: "Host(`{{rps_admin_interface_service_name}}`)"
         entrypoints: websecure
         service: rps-admin-interface
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: letsencrypt
         middlewares:
           - rps-admin-interface-add-oauth2-redirect-header
           - oauth2-errors
@@ -93,4 +92,4 @@ rps_admin_interface_traefik_dynamic_config:
       rps-admin-interface:
         loadBalancer:
           servers:
-            - url: http://rps-admin-interface_web_1:8000
+            - url: "http://{{ rps_admin_interface_service_name }}_web_1:8000"

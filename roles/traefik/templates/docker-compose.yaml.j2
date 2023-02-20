@@ -5,11 +5,11 @@ networks:
   {{ traefik_proxy_network }}:
     external: true
 
+volumes:
+  certs:
 
 services:
-
   traefik:
-    container_name: traefik
     image: traefik:v2.8
     restart: unless-stopped #"{{traefik_copy_static_config_task.changed}}"
     logging:
@@ -25,4 +25,4 @@ services:
       # Use if a volume with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
       # - "{{traefik_ssl_certs_docker_volume_name|default("put a volume name if needed")}}}:/ssl-certs"
       # Use if a folder with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
-      - "{{ssl_certs_path}}/:/ssl-certs/"
+      - certs:/ssl-certs/"

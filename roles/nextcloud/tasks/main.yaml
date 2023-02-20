@@ -1,9 +1,9 @@
 ---
 - name: current host
-  debug: 
-    msg: 
-    - "{{ ansible_ssh_host }}"
-    - "{{ inventory_hostname }}"
+  debug:
+    msg:
+      - "{{ ansible_ssh_host }}"
+      - "{{ inventory_hostname }}"
 
 - name: create directory
   file: path={{remote_path}} state=directory
@@ -25,27 +25,10 @@
     - "docker-compose.yaml.j2"
     - "env.j2"
 
-- name: create directory for ssl certificates
-  file:
-    path: "/ssl-certs/"
-    state: directory
-
-- name: create traefik config directory
-  file: path={{traefik_directory}}/conf.d state=directory
-
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "{{traefik_directory}}/conf.d/{{project_name}}.yaml"
-
-# Creation of networks, images, containers
-- name: create docker networks
-  docker_network:
-    name: "{{ item }}"
-  loop:
-  - "{{project_name}}"
-  - "proxy"
-  # driver: overlay
+    dest: "{{traefik_directory}}/conf.d/nextcloud.yaml"
 
 - import_tasks: custom_theme/setup.yaml
   when: nextcloud_with_custom_theme
@@ -64,7 +47,7 @@
 
 - name: wait for docker-compose stack deployment
   community.docker.docker_container_exec:
-    container: "{{project_name}}_app"
+    container: "{{nextcloud_service_name|replace('.','')}}_nextcloud_1"
     user: www-data
     command: php occ status --output=json
   register: _nextcloud_status_task
@@ -76,10 +59,9 @@
 - name: install nextcloud
   when: not _nextcloud_status.installed
   community.docker.docker_container_exec:
-    container: "{{project_name}}_app"
+    container: "{{nextcloud_service_name|replace('.','')}}_nextcloud_1"
     user: www-data
-    command:
-      php occ maintenance:install --admin-user="{{MYSQL_USER}}" --admin-pass="{{MYSQL_ROOT_PASSWORD}}" --database="sqlite" --database-name="{{MYSQL_DATABASE}}" --database-host="{{MYSQL_HOST}}" --database-user="{{MYSQL_USER}}" --database-pass="{{MYSQL_PASSWORD}}"
+    command: php occ maintenance:install --admin-user="{{MYSQL_USER}}" --admin-pass="{{MYSQL_ROOT_PASSWORD}}" --database="sqlite" --database-name="{{MYSQL_DATABASE}}" --database-host="{{MYSQL_HOST}}" --database-user="{{MYSQL_USER}}" --database-pass="{{MYSQL_PASSWORD}}"
   register: _nextcloud_status_task
   # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/occ_command.html
 
@@ -97,6 +79,5 @@
 
 - import_tasks: apps/user_oidc.yaml
   when: nextcloud_with_user_oidc_app
-
 # - import_tasks: apps/oidc_login.yaml
 #   when: nextcloud_with_oidc_login_app
