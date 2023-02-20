@@ -1,21 +1,12 @@
 ---
-nextcloud_server_name: "{{inventory_hostname}}"
-nextcloud_project_name: "{{nextcloud_server_name}}"
-nextcloud_project_directory: "/app/{{inventory_hostname}}/{{project_name}}"
-nextcloud_postgres_db: nextcloud
-nextcloud_postgres_user: nextcloud
-
-nextcloud_admin_user: admin
-#nextcloud_admin_pass:
-
 nextcloud_defaultapp: dashboard
 
 nextcloud_with_keycloak_client: true
 nextcloud_keycloak_client_auth_keycloak_url:  "{{nextcloud_keycloak_client_url}}"
 nextcloud_keycloak_client_auth_client_id: admin-cli
 nextcloud_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
-nextcloud_keycloak_client_auth_username: "{{keycloak_management_user|default('admin')}}"
-nextcloud_keycloak_client_auth_password: "{{keycloak_management_pass}}"
+nextcloud_keycloak_client_auth_username: admin
+nextcloud_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 nextcloud_keycloak_client_validate_certs: true
 
 nextcloud_keycloak_client_url: "https://{{ keycloak_server_name }}"

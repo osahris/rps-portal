@@ -1,12 +1,11 @@
 ---
-- name: install nextcloud sociallogin app 
-  when: _nextcloud_status_task is not failed
-  community.docker.docker_container_exec:
-    container: "{{project_name}}_app"
-    user: www-data
-    command:
-      php occ app:install sociallogin
-
+# - name: install nextcloud sociallogin app 
+#   when: _nextcloud_status_task is not failed
+#   community.docker.docker_container_exec:
+#     container: "{{project_name}}_app"
+#     user: www-data
+#     command:
+#       php occ app:install sociallogin
 
 # - name: install nextcloud sociallogin app 
 #   when: _nextcloud_status_task is not failed

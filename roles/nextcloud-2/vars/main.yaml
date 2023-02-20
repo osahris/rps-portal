@@ -50,12 +50,7 @@ traefik_dynamic_config:
 
 
 # # ------------------------------------------ #
-_nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
-_nextcloud_status: "{{_nextcloud_status_task.stdout | from_json}}"
 
-_nextcloud_apps_enabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Enabled|[]|map(&keys(@), @)|[]') }}"
-_nextcloud_apps_disabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Disabled|[]') }}"
-_nextcloud_apps_present: "{{ _nextcloud_apps_enabled | union(_nextcloud_apps_disabled) }}"
 
 _nextcloud_user_oidc_provider: "{{_nextcloud_user_oidc_provider_cmd.stdout|from_json}}"
 
@@ -193,31 +188,7 @@ nextcloud_traefik_content_security_policy_header_middleware:
       frame-ancestors 'self';
       form-action 'self'
 
-nextcloud_app_container_name: "{{_nextcloud_docker_compose.services.app.keys()|first}}"
 nextcloud_traefik_url: "http://{{nextcloud_app_container_name}}"
-
-nextcloud_default_config:
-  system:
-    defaultapp: "{{nextcloud_defaultapp}}"
-    skeletondirectory: /srv/nextcloud/skel
-
-nextcloud_user_oidc_config:
-  apps:
-    user_oidc:
-      allow_multiple_user_backends: "{{nextcloud_user_oidc_allow_multiple_user_backends|bool|lower}}"
-      userinfo_bearer_validation: "{{nextcloud_user_oidc_userinfo_bearer_validation|bool|lower}}"
-
-nextcloud_oidc_login_config: # legacy plugin
-  system:
-    oidc_login_client_id: "{{ nextcloud_oidc_login_client_id }}"
-    oidc_login_client_secret: "{{ nextcloud_oidc_login_client_secret }}"
-    oidc_login_provider_url: "{{ nextcloud_oidc_login_provider_url }}"
-    # oidc_login_logout_url: "{{ nextcloud_oidc_login_logout_url }}"
-    oidc_login_auto_redirect: "{{ nextcloud_oidc_login_auto_redirect|bool }}"
-    oidc_login_redir_fallback: "{{ nextcloud_oidc_login_redir_fallback|bool }}"
-    oidc_login_attributes: "{{ nextcloud_oidc_login_attributes }}"
-    oidc_login_tls_verify: "{{ nextcloud_oidc_login_tls_verify|bool }}"
-    oidc_login_disable_registration: "{{ nextcloud_oidc_login_disable_registration|bool }}"
 
 nextcloud_custom_theme_config:
   system:

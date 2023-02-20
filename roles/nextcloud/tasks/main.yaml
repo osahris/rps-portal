@@ -57,8 +57,6 @@
   with_items:
     - "docker-compose.yaml"
 
-
-
 - name: wait for docker-compose stack deployment
   community.docker.docker_container_exec:
     container: "{{project_name}}_app"
@@ -89,4 +87,16 @@
     command:
       php occ config:system:set trusted_domains 0 --value=nextcloud.{{project_domain_name}}
 
-- import_tasks: keycloak-config.yaml
+# - import_tasks: keycloak-config.yaml
+
+- import_tasks: keycloak_client.yaml
+  when: nextcloud_with_keycloak_client
+
+- import_tasks: apps/user_oidc.yaml
+  when: nextcloud_with_user_oidc_app
+
+# - import_tasks: apps/oidc_login.yaml
+#   when: nextcloud_with_oidc_login_app
+
+# - import_tasks: custom_theme/config.yaml
+#   when: nextcloud_with_custom_theme
