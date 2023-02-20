@@ -1,12 +1,15 @@
 templates:
   - "templates/postgres.template.yml"
 
+docker_args:
+  - '--network discourse'
+
 params:
   db_default_text_search_config: "{{discourse_postgres_db_default_text_search_config}}"
 
   ## Set db_shared_buffers to a max of 25% of the total memory.
   ## will be set automatically by bootstrap based on detected RAM, or you can override
-  db_shared_buffers: "{{(virt_memory/4)|round|int}}MB"
+  #db_shared_buffers: {#"{{(virt_memory/4)|round|int}}MB" #}
 
   ## can improve sorting performance, but adds memory usage per-connection
   #db_work_mem: "40MB"
@@ -16,10 +19,10 @@ env:
 
 volumes:
   - volume:
-        host: /var/lib/discourse/shared/db
+        host: {{discourse_target_directory}}/shared/db
         guest: /shared
   - volume:
-        host: /var/lib/discourse/shared/db/log/var-log
+        host: {{discourse_target_directory}}/shared/db/log/var-log
         guest: /var/log
 
 hooks:

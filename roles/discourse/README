@@ -2,30 +2,16 @@
 
 A role for setting up discource using the discource docker installer
 
-## required variables
+## Warum wird hier kein docker-compose benutzt?
 
-| variable                        | purpose                                               |
-| ------------------------------- | ----------------------------------------------------- |
-| discourse_admin_users           | list of emails, that become admin users when logging in |
-| discourse_database_password     | password used for database access                     |
-| discourse_openid_client_secret  | uuid used for authenticating discourse as client to keycloak, client object will be created by keycloak api |
-| discourse_openid_client_secret  | uuid used for authenticating discourse as client to keycloak, client object will be created by keycloak api |
+Hier ist das Rabbit Hole, falls da jemand rein möchte... 
+https://meta.discourse.org/t/community-supported-official-docker-image/83768
 
-## optional variables
+TLDR: Die Discourse Entwickler weigern sich seit mehr als 5 Jahren ein normales Docker Image von Discourse bereit zu stellen und bestehen darauf, dass man ihren installer benutzt. Alle Kooperationsangebote werden abgelehnt und der Chefentwickler fühlt sich von der Diskussion persönlich angegriffen und sagt das haben wir schon immer so gemacht.
 
-| variable                             | default value                   | purpose                                               |
-| ------------------------------------ | ------------------------------- | ----------------------------------------------------- |
-| discourse_server_name                | "{{ inventory_hostname }}"      | fully qualified domain name discourse will be accessible from |
-| discourse_mail_domain                | "{{ discourse_hostname }}"      | ? |
-| discourse_https_host                 | true                            | run with built-in webserver using letsencrypt for https |
-| discourse_letsencrypt_account_email  | ""                              | email to use, when getting LE certificate |
-| discourse_validate_certs             | yes                             | validate certificates (e.g. keycloak)     |
-| discourse_web_ratelimited            | true                            |      |
-| discourse_mail_reveiver_tls_enabled  | false                           | enables port 465 binding for tls connections |
-| discourse_open_id_hostname           | first hostname in keycloak_servers inventory | host name of keycloak server - used to derive other keycloak urls |
-| discourse_keycloak_realm_name        | users                           | keycloak application realm to use |
-| discourse_keycloak_redirect_hostname | first hostname in discourse_servers inventory  | will be used to derive discourse_keycloak_redirect_uri |
-
+Mögliche Lösungen:
+- Es gibt wohl eine Methode wo Leute herausgefunden haben wie man mit dem offiziellen Discourse-Installer ein Docker Image erstellen kann, dass man dann in eine Registry pushen kann. Wenn wir das hinbekommen, das über die gitlab-ci laufen zu lassen, hätten wir einen Buildprozess mit dem offiziellen Installer. Wir benutzten aktuell den Discourse-Installer so, aber vielleicht bekommen wir das ja hin
+- https://hub.docker.com/r/bitnami/discourse/ benutzen
 
 ## SUPPORT: Edit user's email in Discourse or change primary email
 ssh root@dialog.napkon.de
