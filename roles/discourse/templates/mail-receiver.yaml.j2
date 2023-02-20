@@ -12,6 +12,9 @@
 base_image: discourse/mail-receiver:1.1.2
 update_pups: false
 
+docker_args:
+  - '--network discourse'
+
 expose:
   - "25:25"   # SMTP
 {% if discourse_mail_reveiver_tls_enabled %}
@@ -58,6 +61,14 @@ volumes:
 {% if discourse_mail_reveiver_tls_enabled %}
   # enable tls https://review.discourse.org/t/add-commented-sections-to-enable-incoming-tls/5353
   - volume:
-      host: /var/lib/discourse/shared/web
+      host: {{discourse_target_directory}}/shared/web
       guest: /letsencrypt
+{% endif %}
+
+{% if discourse_mail_reveiver_tls_enabled %}
+run:
+  - exec: echo "enable tls for mail-receiver"
+  - exec: bash -c "echo 'smtps     inet  n       -       n       -       -       smtpd'  >> /etc/postfix/master.cf"
+  - exec: bash -c "echo '  -o syslog_name=postfix/smtps' >> /etc/postfix/master.cf"
+  - exec: bash -c "echo '  -o smtpd_tls_wrappermode=yes' >> /etc/postfix/master.cf"
 {% endif %}

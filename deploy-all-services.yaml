@@ -53,6 +53,10 @@
       tags: collabora
     - role: wiki-js
       tags: wiki-js
+    - role: discourse
+      tags: discourse
+    # - role: wiki-js
+    #   tags: wiki-js
     # - role: wiki-bookstack
     #   tags: wiki-bookstack
     - role: matchmaking

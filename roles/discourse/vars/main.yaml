@@ -1,6 +1,1 @@
 ---
-discourse_containers:
-  - postgres
-  - redis
-  - web
-  - mail-receiver

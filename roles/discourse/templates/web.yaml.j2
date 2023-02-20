@@ -9,6 +9,9 @@ templates:
   - "templates/web.letsencrypt.ssl.template.yml"
 {% endif %}
 
+docker_args:
+  - '--network discourse'
+
 ## which TCP/IP ports should this container expose?
 ## If you want Discourse to share a port with another webserver like Apache or nginx,
 ## see https://meta.discourse.org/t/17247 for details
@@ -26,9 +29,6 @@ links:
   - link:
       name: postgres
       alias: postgres
-
-# any extra arguments for Docker?
-# docker_args:
 
 params:
   ## Which Git revision should this container use? (default: tests-passed)
@@ -53,6 +53,7 @@ env:
   ## on initial signup example 'user1@example.com,user2@example.com'
   DISCOURSE_DEVELOPER_EMAILS: "{{discourse_admin_users|join(',')}}"
 
+{% if discourse_smtp_address is defined %}
   ## TODO: The SMTP mail server used to validate new accounts and send notifications
   # SMTP ADDRESS, username, and password are required
   # WARNING the char '#' in SMTP password can cause problems!
@@ -61,6 +62,7 @@ env:
   DISCOURSE_SMTP_USER_NAME: "{{discourse_smtp_user_name}}"
   DISCOURSE_SMTP_PASSWORD: "{{discourse_smtp_password}}"
   DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
+{% endif %}
 
 {% if discourse_letsencrypt_account_email is defined %}
   ## If you added the Lets Encrypt template, uncomment below to get a free SSL certificate
@@ -83,10 +85,10 @@ env:
 
 volumes:
   - volume:
-      host: /var/lib/discourse/shared/web
+      host: {{discourse_target_directory}}/shared/web
       guest: /shared
   - volume:
-      host: /var/lib/discourse/shared/web/log/var-log
+      host: {{discourse_target_directory}}/shared/web/log/var-log
       guest: /var/log
 
 ## Plugins go here
@@ -97,14 +99,11 @@ hooks:
         cd: $home/plugins
         cmd:
           - sudo -E -u discourse git clone https://github.com/discourse/docker_manager.git
-          - sudo -E -u discourse git clone https://github.com/gdpelican/babble.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-openid-connect.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-user-notes.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-canned-replies.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-solved.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-assign.git
-          - sudo -E -u discourse git clone https://github.com/gdpelican/retort.git
-          #- sudo -E -u discourse git clone https://github.com/pfaffman/discourse-topic-default-tag.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-restricted-replies.git
 
 ## Remember, this is YAML syntax - you can only have one block with a name
@@ -126,7 +125,7 @@ run:
   # openid settings
   - exec: rails r "SiteSetting.enable_local_logins=false"
   - exec: rails r "SiteSetting.enable_local_logins_via_email=false"
-  - exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
+  #- exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
   #- exec: rails r "SiteSetting.login_required=true"
   - exec: rails r "SiteSetting.openid_connect_enabled=true"
   - exec: rails r "SiteSetting.openid_connect_verbose_logging=true"
@@ -135,16 +134,16 @@ run:
   - exec: rails r "SiteSetting.openid_connect_client_id='discourse'"
   - exec: rails r "SiteSetting.openid_connect_client_secret='{{ discourse_openid_client_secret }}'"
   - exec: rails r "SiteSetting.email_editable=false"
-  - exec: rails r "SiteSetting.sso_overrides_username=true"
-  - exec: rails r "SiteSetting.sso_overrides_email=true"
-  - exec: rails r "SiteSetting.sso_overrides_name=true"
+  #- exec: rails r "SiteSetting.sso_overrides_username=true"
+  #- exec: rails r "SiteSetting.sso_overrides_email=true"
+  #- exec: rails r "SiteSetting.sso_overrides_name=true"
   # these have special flags to enable them
-  - exec: rails r "SiteSetting.assign_enabled=true"
-  - exec: rails r "SiteSetting.user_notes_enabled=true"
+  #- exec: rails r "SiteSetting.assign_enabled=true"
+  #- exec: rails r "SiteSetting.user_notes_enabled=true"
 {% if discourse_mail_from is defined %}
   - exec: rails r "SiteSetting.notification_email='{{ discourse_mail_from }}'"
 {% endif %}
 
 
   - exec: echo "End of custom commands"
-  - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
+  #- exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
