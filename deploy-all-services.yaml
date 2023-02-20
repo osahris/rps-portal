@@ -35,6 +35,8 @@
       tags: keycloak_realms
     - role: oauth2_proxy
       tags: oauth2_proxy
+    - role: idia
+      tags: idia
     - role: rps_groups_interface
       tags: rps_groups_interface
     - role: rps_admin_interface
@@ -43,15 +45,13 @@
       tags: rps_header
     - role: static_header_test
       tags: static_header_test
-    - role: collabora
-      tags: collabora
-    - role: idia
-      tags: idia
-    - role: nextcloud
-      tags: nextcloud
-    - role: wiki-js
-      tags: wiki-js
-    - role: wiki-bookstack
-      tags: wiki-bookstack
     - role: wordpress
       tags: wordpress
+    - role: nextcloud
+      tags: nextcloud
+    - role: collabora
+      tags: collabora
+    # - role: wiki-js
+    #   tags: wiki-js
+    # - role: wiki-bookstack
+    #   tags: wiki-bookstack
