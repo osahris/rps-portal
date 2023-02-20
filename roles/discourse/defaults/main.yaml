@@ -1,6 +1,6 @@
 ---
 discourse_service_name: "discourse.{{ inventory_hostname }}"
-discourse_target_directory: "/app/{{ discourse_service_name }}/discourse"
+discourse_target_directory: "/app/{{ discourse_service_name }}"
 
 locales:
   lang: de_DE.UTF-8
