@@ -1,6 +1,0 @@
----
-- name: configure openproject
-  command: openproject configure
-
-- name: restart openproject
-  command: openproject restart
