@@ -41,17 +41,15 @@
       tags: rps_admin_interface
     - role: rps_header
       tags: rps_header
-    # - role: static_header_test
-    #   tags: static_header_test
+    - role: static_header_test
+      tags: static_header_test
     - role: collabora
       tags: collabora
     - role: idia
       tags: idia
     - role: nextcloud
       tags: nextcloud
-    # - role: wiki-bookstack
-    #   tags: wiki-bookstack
-    # - role: wiki-js
-    #   tags: wiki-js
+    - role: wiki-js
+      tags: wiki-js
     - role: wordpress
       tags: wordpress
