@@ -25,4 +25,4 @@
 - name: traefik dynamic config
   copy:
     content: "{{ oauth2_proxy_traefik_dynamic_config }}"
-    dest: "{{traefik_directory}}/conf.d/oauth2_proxy.yaml"
+    dest: "/app/proxy/traefik/conf.d/oauth2_proxy.yaml"

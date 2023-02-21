@@ -1,10 +1,10 @@
 ---
-keycloak_container_image: registry.gitlab.com/idcohorts/rps/keycloak-docker
-keycloak_container_version: main
-
 keycloak_service_name: "keycloak.{{ inventory_hostname }}"
 keycloak_protocol: "https"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_service_name }}"
+
+keycloak_container_image: registry.gitlab.com/idcohorts/rps/keycloak-docker
+keycloak_container_version: main
 
 keycloak_realm: users
 

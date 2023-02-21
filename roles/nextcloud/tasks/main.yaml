@@ -28,7 +28,7 @@
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "{{traefik_directory}}/conf.d/nextcloud.yaml"
+    dest: "/app/proxy/traefik/conf.d/nextcloud.yaml"
 
 - import_tasks: custom_theme/setup.yaml
   when: nextcloud_with_custom_theme

@@ -28,7 +28,7 @@
 - name: traefik dynamic config
   copy:
     content: "{{ keycloak_traefik_dynamic_config }}"
-    dest: "{{traefik_directory}}/conf.d/keycloak.yaml"
+    dest: "/app/proxy/traefik/conf.d/keycloak.yaml"
 
 - name: Wait for keycloak
   local_action: uri

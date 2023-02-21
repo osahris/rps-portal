@@ -89,4 +89,4 @@
 - name: install traefik dynamic config
   copy:
     content: "{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_traefik_dynamic_config') }}"
-    dest: "{{traefik_directory}}/conf.d/wordpress-{{ env }}.yaml"
+    dest: "/app/proxy/traefik/conf.d/wordpress-{{ env }}.yaml"

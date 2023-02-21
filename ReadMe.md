@@ -81,7 +81,7 @@ Example:
 
 Changes in the docker-compose file will automatically trigger a restart (please do not change the default ansible `recreate` setting).
 
-To make your application known to Traefik create a traefik configuration in `{{traefik_directory}}/conf.d/$project_name.yaml` using a variable defined in `$role/vars/main.yaml`.
+To make your application known to Traefik create a traefik configuration in `/app/proxy/traefik/conf.d/$project_name.yaml` using a variable defined in `$role/vars/main.yaml`.
 
 Example config:
 

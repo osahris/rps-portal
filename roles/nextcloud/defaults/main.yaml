@@ -1,6 +1,7 @@
 ---
-nextcloud_defaultapp: files
 nextcloud_service_name: "nextcloud.{{inventory_hostname}}"
+
+nextcloud_defaultapp: files
 
 nextcloud_with_keycloak_client: true
 nextcloud_keycloak_client_auth_keycloak_url: "{{nextcloud_keycloak_client_url}}"

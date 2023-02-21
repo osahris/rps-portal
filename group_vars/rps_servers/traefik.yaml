@@ -1,2 +1,0 @@
----
-traefik_directory: "/app/traefik.{{inventory_hostname}}"

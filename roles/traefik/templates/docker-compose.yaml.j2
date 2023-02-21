@@ -21,7 +21,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - "{{traefik_directory}}/:/etc/traefik:ro"
+      - "/app/proxy/traefik:/etc/traefik:ro"
       # Use if a volume with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
       # - "{{traefik_ssl_certs_docker_volume_name|default("put a volume name if needed")}}}:/ssl-certs"
       # Use if a folder with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
