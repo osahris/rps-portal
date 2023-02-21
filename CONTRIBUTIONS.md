@@ -7,7 +7,7 @@ We thank all contributors of this project!
 - Vasily Tulsky (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Frankfurt)
 - Tom-Robin Raja (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Cologne)
 - Eray Gülcü (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Frankfurt)
-- Andreas Streichert
+- Andreas Streichardt
 - Martin Wilz
 - Christine Gotthardt
 - Maximilian Schons
