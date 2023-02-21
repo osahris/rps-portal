@@ -35,8 +35,8 @@ services:
     networks:
       - wiki-internal
     environment:
-      - POSTGRES_DB={{wiki_DB_NAME}}
-      - POSTGRES_PASSWORD={{wiki_DB_PASS}}
-      - POSTGRES_USER={{wiki_DB_USER}}
+      - POSTGRES_DB={{wiki_js_DB_NAME}}
+      - POSTGRES_PASSWORD={{wiki_js_database_password}}
+      - POSTGRES_USER={{wiki_js_DB_USER}}
     volumes:
       - db:/var/lib/postgresql/data

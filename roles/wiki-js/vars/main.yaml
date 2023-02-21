@@ -2,10 +2,8 @@
 remote_path: "/app/{{wiki_js_service_name}}"
 
 # # ------------------------------------------ #
-wiki_DB_NAME: "wiki"
-wiki_DB_USER: "wikijs"
-wiki_DB_PASS: "qyO%RE*0h^q0BjVhmrzqqi#OR@3dh7ax"
-
+wiki_js_DB_NAME: "wiki"
+wiki_js_DB_USER: "wikijs"
 app_port: "3000"
 
 # For each new running service add below a traefik router and a traefik service

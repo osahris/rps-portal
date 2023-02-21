@@ -51,7 +51,7 @@
       tags: nextcloud
     - role: collabora
       tags: collabora
-    # - role: wiki-js
-    #   tags: wiki-js
+    - role: wiki-js
+      tags: wiki-js
     # - role: wiki-bookstack
     #   tags: wiki-bookstack
