@@ -45,7 +45,7 @@ Whenever possible try to deploy applications using `docker-compose`.
 
 All application configs should reside below `/app/`.
 
-By convention please create a variable `($project_name)_service_name` (using `defaults`) and a variable `remote_path: "/app/{{($project_name)_service_name}}"` (using `vars`)
+By convention please create a variable `($project_name)_service_name` (using `defaults`) and a variable `remote_path: "/app/{{($project_name)_service_name}}"` (using `vars`) for the server name the application is reachable under.
 
 Then in the tasks of your role ensure that the directory is being created and deploy all application configs including the `docker-compose.yaml` file in there.
 Make sure that the application uses the well-known `proxy` network. This is the network that Traefik expects services to reside in.
