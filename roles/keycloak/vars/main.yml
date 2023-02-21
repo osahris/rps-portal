@@ -1,17 +1,16 @@
 ---
-project_name: keycloak
-remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+remote_path: "/app/{{keycloak_service_name}}"
 keycloak_traefik_dynamic_config:
   http:
     routers:
       keycloak:
-        rule: "Host(`{{keycloak_server_name}}`)"
+        rule: "Host(`{{keycloak_service_name}}`)"
         entrypoints: websecure
         service: keycloak
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: letsencrypt
     services:
       keycloak:
         loadBalancer:
           servers:
-            - url: http://keycloak:8080
+            - url: "http://{{ keycloak_service_name|replace('.', '') }}_keycloak_1:8080"

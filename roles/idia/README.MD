@@ -9,12 +9,12 @@ The service is running in a docker container under the reverse proxy from a Trae
 
 2. Use the docker network **proxy** to connect with Traefik, use the network **{{project_name}}** for internal communications of docker containers out of scope of Traefik.
 
-3. By default, the service will run under the domain **https://idia.{{project_domain_name}}** as defined in **./vars/main.yaml** by the following code:
+3. By default, the service will run under the domain **https://{{idia_service_name}}** as defined in **./vars/main.yaml** by the following code:
     ```yaml
     # ./vars/main.yaml
     traefik_dynamic_config:
       http:
         routers:
           app_name:
-            rule: "Host(`idia.{{project_domain_name}}`)"
+            rule: "Host(`{{idia_service_name}}`)"
     ```

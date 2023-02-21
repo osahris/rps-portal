@@ -1,18 +1,10 @@
 ---
 # Default values, can be overwritten by values from vars/main.yaml
 
-traefik_directory:          "/app/{{inventory_hostname}}/traefik"
-traefik_dashboard_hostname: "traefik.{{project_domain_name}}"
-traefik_proxy_network:      "proxy"
-traefik_certresolver:       "letsencrypt"
-letsencrypt_account_email:  "{{ admin_email }}"
-
-# Use if a volume with ssl-certs is preferable. Uncomment relative part in tasks/main.yaml
-# traefik_ssl_certs_docker_volume_name: traefik-ssl-certs
-
-# Use if a folder with ssl-certs is preferable. Uncomment relative part in tasks/main.yaml
-ssl_certs_path:           "/ssl-certs"
-ssl_certs_file:           "{{ssl_certs_path}}/acme.json"
+traefik_service_name: "traefik.{{inventory_hostname}}"
+traefik_proxy_network: "proxy"
+traefik_certresolver: "letsencrypt"
+letsencrypt_account_email: "{{ admin_email }}"
 
 traefik_entry_points:
   web:
@@ -26,31 +18,18 @@ traefik_entry_points:
     address: ":443"
     http:
       tls:
-        # options: default
-        certResolver: "{{ traefik_default_certificates_resolver }}"
-        # domains:
-        #   - main: example.com
-        #     sans:
-        #       - foo.example.com
-        #       - bar.example.com
-        #   - main: test.com
-        #     sans:
-        #       - foo.test.com
-        #       - bar.test.com
-    # proxyProtocol:
-    #   trustedIPs: "{{traefik_websecure_proxy_protocol_trusted_ips}}"
+        certResolver: "letsencrypt"
 
-traefik_default_certificates_resolver: letsencrypt
 traefik_certificates_resolvers:
   letsencrypt:
     acme:
-      email: '{{ letsencrypt_account_email }}'
+      email: "{{ letsencrypt_account_email }}"
       storage: "/ssl-certs/acme-letsencrypt.json"
       tlsChallenge: true
       caServer: "https://acme-v02.api.letsencrypt.org/directory"
   letsencrypt-staging:
     acme:
-      email: '{{ letsencrypt_account_email }}'
+      email: "{{ letsencrypt_account_email }}"
       storage: "/ssl-certs/acme-letsencrypt-staging.json"
       tlsChallenge: true
       caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"

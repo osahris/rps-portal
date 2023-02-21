@@ -6,9 +6,7 @@ networks:
     external: true
 
 services:
-
-  {{project_name}}_app:
-    container_name: {{project_name}}
+  app:
     image: "{{collabora_domain_image}}"
     restart: unless-stopped
     logging:
@@ -16,13 +14,7 @@ services:
         max-size: 5m
     networks:
       - proxy
-    # ports:
-    #  - "{{app_port}}:{{app_port}}"
-    #  - "[::]:{{app_port}}:{{app_port}}"
     env_file: 
       - "./env"
-    # privileged: true
     cap_add:
       - MKNOD
-      # - SYS_CHROOT
-      # - FOWNER

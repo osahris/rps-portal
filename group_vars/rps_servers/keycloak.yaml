@@ -1,6 +1,7 @@
 ---
-keycloak_server_name: "keycloak.{{ inventory_hostname }}"
+keycloak_service_name: "keycloak.{{ inventory_hostname }}"
 keycloak_realm: rps
+
 keycloak_realms:
   - name: rps
     # groups that should be created in our realm

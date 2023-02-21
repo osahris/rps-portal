@@ -1,20 +1,16 @@
 ---
+keycloak_service_name: "keycloak.{{ inventory_hostname }}"
+keycloak_protocol: "https"
+keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_service_name }}"
+
 keycloak_container_image: registry.gitlab.com/idcohorts/rps/keycloak-docker
 keycloak_container_version: main
-
-keycloak_server_name: "{{ inventory_hostname }}"
-keycloak_protocol: "https"
-keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_server_name }}"
 
 keycloak_realm: users
 
 # keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
-
-letsencrypt_account_email: "{{ admin_email }}"
-
-#keycloak_theme: "https://{{ gitlab_deploy_token}}@gitlab.com/research-project-suite/keycloak-theme"
 
 keycloak_validate_certs: true
 keycloak_with_proxy_network: true

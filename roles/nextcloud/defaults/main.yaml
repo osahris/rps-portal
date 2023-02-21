@@ -1,20 +1,22 @@
 ---
+nextcloud_service_name: "nextcloud.{{inventory_hostname}}"
+
 nextcloud_defaultapp: files
 
 nextcloud_with_keycloak_client: true
-nextcloud_keycloak_client_auth_keycloak_url:  "{{nextcloud_keycloak_client_url}}"
+nextcloud_keycloak_client_auth_keycloak_url: "{{nextcloud_keycloak_client_url}}"
 nextcloud_keycloak_client_auth_client_id: admin-cli
 nextcloud_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
 nextcloud_keycloak_client_auth_username: admin
 nextcloud_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 nextcloud_keycloak_client_validate_certs: true
 
-nextcloud_keycloak_client_url: "https://{{ keycloak_server_name }}"
+nextcloud_keycloak_client_url: "https://{{ keycloak_service_name }}"
 nextcloud_keycloak_client_realm_url: "{{nextcloud_keycloak_client_url}}/realms/{{nextcloud_keycloak_client_realm}}"
-nextcloud_keycloak_client_client_id: "{{ nextcloud_server_name }}"
+nextcloud_keycloak_client_client_id: "{{ nextcloud_service_name }}"
 nextcloud_keycloak_client_realm: "{{ keycloak_realm }}"
-nextcloud_keycloak_client_redirect_uris: 
-  - https://{{ nextcloud_server_name }}/*
+nextcloud_keycloak_client_redirect_uris:
+  - https://{{ nextcloud_service_name }}/*
 #nextcloud_keycloak_client_secret:
 
 # new user_oidc plugin options
@@ -39,13 +41,13 @@ nextcloud_user_oidc_extra_claims: ""
 nextcloud_with_oidc_login_app: false
 nextcloud_oidc_login_client_id: "{{nextcloud_keycloak_client_client_id}}"
 nextcloud_oidc_login_provider_url: "{{nextcloud_keycloak_client_realm_url}}"
-#nextcloud_oidc_login_logout_url: "https://{{ keycloak_server_name }}/realms/{{keycloak_realm}}/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_server_name }}%2F/logout"
+#nextcloud_oidc_login_logout_url: "https://{{ keycloak_service_name }}/realms/{{keycloak_realm}}/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_service_name }}%2F/logout"
 nextcloud_oidc_login_auto_redirect: true
 nextcloud_oidc_login_redir_fallback: true
 nextcloud_oidc_login_attributes:
-  id: 'preferred_username'
-  mail: 'email'
-  groups: 'groups'
+  id: "preferred_username"
+  mail: "email"
+  groups: "groups"
 nextcloud_oidc_login_tls_verify: true
 nextcloud_oidc_login_disable_registration: false
 

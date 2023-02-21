@@ -1,0 +1,2 @@
+---
+wiki_js_service_name: "wiki-js.{{ inventory_hostname}}"

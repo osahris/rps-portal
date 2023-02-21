@@ -2,15 +2,17 @@
 version: "3"
 
 networks:
-  {{project_name}}:
-    external: true
   proxy:
     external: true
+  nextcloud-internal:
+
+volumes:
+  db:
+  nextcloud:
 
 services:
 
   nextcloud:
-    container_name: {{project_name}}_app
     image: nextcloud:25.0
     restart: unless-stopped
     logging:
@@ -21,30 +23,27 @@ services:
     #   - 8080:80
     networks:
       - proxy
-      - {{project_name}} # Uncomment if a network out of scope of Traefik needed
+      - nextcloud-internal
     depends_on:
-      - {{project_name}}_db
-    # links:
-    #   - {{project_name}}_db
+      - db
     volumes:
-      - ./nextcloud:/var/www/html
+      - nextcloud:/var/www/html
     env_file:
       - "./env"
 
 # docker exec -u www-data -it nextcloud_app php occ maintenance:install --admin-user "admin" --admin-pass "pass"
 # docker exec -u www-data -it nextcloud_app php occ app:install sociallogin
 
-  {{project_name}}_db:
-    container_name: {{project_name}}_db
+  db:
     image: mariadb:10.5
     restart: unless-stopped
     logging:
       options:
         max-size: 5m
     networks:
-      - {{project_name}} # Uncomment if a network out of scope of Traefik needed
+      - nextcloud-internal
     volumes:
-      - ./db-data:/var/lib/mysql
+      - db:/var/lib/mysql
     env_file:
       - "./env"
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW

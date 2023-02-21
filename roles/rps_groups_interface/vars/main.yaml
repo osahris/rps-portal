@@ -1,20 +1,19 @@
 ---
-project_name: "rps-groups-interface"
-remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+remote_path: "/app/{{rps_groups_interface_service_name}}"
 rps_groups_interface_traefik_dynamic_config:
   http:
     middlewares:
       rps-groups-interface-add-oauth2-redirect-header:
         headers:
           customrequestheaders:
-            X-Auth-Request-Redirect: "https://{{rps_groups_interface_server_name}}"
+            X-Auth-Request-Redirect: "https://{{rps_groups_interface_service_name}}"
     routers:
       rps-groups-interface:
-        rule: "Host(`{{rps_groups_interface_server_name}}`)"
+        rule: "Host(`{{rps_groups_interface_service_name}}`)"
         entrypoints: websecure
         service: rps-groups-interface
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: letsencrypt
         middlewares:
           - rps-groups-interface-add-oauth2-redirect-header
           - oauth2-errors
@@ -23,4 +22,4 @@ rps_groups_interface_traefik_dynamic_config:
       rps-groups-interface:
         loadBalancer:
           servers:
-            - url: http://rps-groups-interface:3000
+            - url: http://rps-groups-interface_1:3000

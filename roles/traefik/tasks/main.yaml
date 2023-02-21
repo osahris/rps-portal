@@ -1,45 +1,26 @@
 ---
-# - name: install docker linux packages
-#   apt:
-#     update_cache: true
-#     pkg:
-#       - docker.io
-#       - python3-docker
-#       - docker-compose
-#       - apparmor
-
-# - name: start docker service
-#   service:
-#     name: docker
-#     state: started
-
-# Use if a volume with ssl-certs is preferable. Uncomment relative part in defaults/main.yaml
-# - name: create traefik ssl-certs docker volume
-#   docker_volume:
-#     name: "{{traefik_ssl_certs_docker_volume_name}}"
-
 - name: create traefik config directory
   file:
-    path: "{{traefik_directory}}/conf.d"
+    path: "/app/proxy/traefik/conf.d"
     state: directory
 
 - name: copy traefik static config
   copy:
     content: "{{ traefik_static_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "{{traefik_directory}}/traefik.yaml"
+    dest: "/app/proxy/traefik/traefik.yaml"
   register: traefik_copy_static_config_task
 
 - name: copy some templated .j2 files
   template:
     src: "{{item}}" # relative to ./templates on local role path
-    dest: "{{traefik_directory}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+    dest: "/app/proxy/traefik/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
   with_items:
     - "docker-compose.yaml.j2"
 
 - name: copy traefik dashboard dynamic config
   copy:
     content: "{{ traefik_dashboard_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "{{traefik_directory}}/conf.d/traefik-dashboard.yaml"
+    dest: "/app/proxy/traefik/conf.d/traefik-dashboard.yaml"
 
 - name: create traefik docker proxy network
   docker_network:
@@ -47,7 +28,7 @@
 
 - name: deploy docker-compose stack
   docker_compose:
-    project_src: "{{traefik_directory}}/"
+    project_src: "/app/proxy/traefik"
     remove_orphans: true
     restarted: "{{ traefik_copy_static_config_task.changed }}"
     pull: true

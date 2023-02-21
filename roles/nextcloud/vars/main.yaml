@@ -1,65 +1,40 @@
 ---
-nextcloud_server_name: nextcloud.{{project_domain_name}}
-
 # Ansible variables
-project_name: "nextcloud" #{{role_name}}"
-remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
-project_domain_name: "{{inventory_hostname}}"
-
-
-# # ------------------------------------------ #
-# # Reverse proxy and SSL certification config #
-# # ------------------------------------------ #
-traefik_directory:          "/app/{{inventory_hostname}}/traefik"
-traefik_dashboard_hostname: "traefik.{{project_domain_name}}"
-traefik_certresolver:       "letsencrypt"
-letsencrypt_account_email:  "{{ admin_email }}"
+remote_path: "/app/{{nextcloud_service_name}}"
 app_port: "80"
 
 # # ------------------------------------------ #
-_nextcloud_status:   "{{_nextcloud_status_task.stdout | from_json}}"
+_nextcloud_status: "{{_nextcloud_status_task.stdout | from_json}}"
 _nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
 
 # # ------------------------------------------ #
-MYSQL_HOST:          "{{project_name}}_db"
-MYSQL_DATABASE:      "nextcloud"
-MYSQL_USER:          "admin"
-MYSQL_PASSWORD:      "Lfgj[eqnfr-nj]"
+MYSQL_HOST: "{{nextcloud_service_name|replace('.','')}}_db_1"
+MYSQL_DATABASE: "nextcloud"
+MYSQL_USER: "admin"
+MYSQL_PASSWORD: "Lfgj[eqnfr-nj]"
 MYSQL_ROOT_PASSWORD: "Lfgj[eqnfr-nj]"
 # # ------------------------------------------ #
-keycloak_domain:     "keycloak.{{inventory_hostname}}"
-keycloak_realm:      "rps"
-keycloak_my_application_id:      "nextcloud"
+keycloak_domain: "keycloak.{{inventory_hostname}}"
+keycloak_realm: "rps"
+keycloak_my_application_id: "nextcloud"
 keycloak_my_super_secret_secret: "dsaNzueQeiT4OCKJeh1Hca5MqeBrGHTG"
 
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
   http:
     routers:
-
       nextcloud:
-          # rule: "Host(`{{project_domain_name}}`) && ( PathPrefix(`/api/`) || Path(`/api`) ) )"
-          rule: "Host(`nextcloud.{{project_domain_name}}`)"
-          # rule: "Host(`{{project_domain_name}}`)"
-          entrypoints: websecure
-          # middlewares:
-          #   - oauth2-proxy-auth-redirect
-          tls:
-            certresolver: "{{traefik_certresolver}}"
-            domains:
-            - main: "nextcloud.{{project_domain_name}}"
-            # - main: "{{project_domain_name}}"
-              sans:
-                - "{{traefik_dashboard_hostname}}"
-          service: nextcloud
+        rule: "Host(`{{ nextcloud_service_name }}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: letsencrypt
+        service: nextcloud
 
     services:
       nextcloud:
         loadBalancer:
           servers:
-            - url: "http://{{project_name}}_app:{{app_port}}" # "http://container_name:container_port"
-
-
+            - url: "http://{{nextcloud_service_name|replace('.', '')}}_nextcloud_1:{{app_port}}" # "http://container_name:container_port"
 
     # middlewares:
     #   oauth2-proxy-auth-redirect:
@@ -71,7 +46,7 @@ traefik_dynamic_config:
     #         - Authorization
     #         - X-Auth-Request-Groups
 
-nextcloud_app_container_name: nextcloud_app
+nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
 
 _nextcloud_apps_enabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Enabled|[]|map(&keys(@), @)|[]') }}"
 _nextcloud_apps_disabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Disabled|[]') }}"
@@ -82,7 +57,7 @@ nextcloud_default_config:
     defaultapp: "{{nextcloud_defaultapp}}"
     skeletondirectory: /srv/nextcloud/skel
     trusted_domains:
-      - nextcloud.{{project_domain_name}}
+      - "{{ nextcloud_service_name }}"
 
 nextcloud_user_oidc_config:
   apps:

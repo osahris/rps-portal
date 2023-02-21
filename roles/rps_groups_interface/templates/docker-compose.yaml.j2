@@ -2,14 +2,13 @@
 version: "3"
 
 networks:
-  {{ rps_groups_interface_proxy_network }}:
+  proxy:
     external: true
 
 services:
   rps-groups-interface:
-    container_name: {{project_name}}
     image: {{ rps_groups_interface_container_image }}:{{ rps_groups_interface_container_version }}
     restart: unless-stopped
     env_file: env
     networks:
-      - {{ rps_groups_interface_proxy_network }}
+      - proxy

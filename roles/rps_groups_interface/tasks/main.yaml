@@ -24,4 +24,4 @@
 - name: traefik dynamic config
   copy:
     content: "{{ rps_groups_interface_traefik_dynamic_config }}"
-    dest: "{{traefik_directory}}/conf.d/rps-groups-interface.yaml"
+    dest: "/app/proxy/traefik/conf.d/rps-groups-interface.yaml"

@@ -1,0 +1,2 @@
+---
+idia_service_name: "idia.{{ inventory_hostname }}"

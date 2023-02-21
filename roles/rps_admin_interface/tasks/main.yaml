@@ -18,7 +18,7 @@
 - name: traefik dynamic config
   copy:
     content: "{{ rps_admin_interface_traefik_dynamic_config }}"
-    dest: "{{traefik_directory}}/conf.d/rps-admin-interface.yaml"
+    dest: "/app/proxy/traefik/conf.d/rps-admin-interface.yaml"
 
 - name: rps admin web interface config
   copy:

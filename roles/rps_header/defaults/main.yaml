@@ -1,5 +1,4 @@
 ---
-header_proxy_network: "proxy"
-header_server_name: "header.{{ inventory_hostname }}"
+header_service_name: "header.{{ inventory_hostname }}"
 
 header_git_repo: "https://gitlab.com/idcohorts/rps/rps-vue-header.git"

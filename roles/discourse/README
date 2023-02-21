@@ -15,8 +15,8 @@ A role for setting up discource using the discource docker installer
 
 | variable                             | default value                   | purpose                                               |
 | ------------------------------------ | ------------------------------- | ----------------------------------------------------- |
-| discourse_server_name                | "{{ inventory_hostname }}"      | fully qualified domain name discourse will be accessible from |
-| discourse_mail_domain                | "{{ discourse_hostname }}"      | ? |
+| discourse_service_name               | "discourse.{{ inventory_hostname }}"      | fully qualified domain name discourse will be accessible from |
+| discourse_mail_domain                | "{{ discourse_service_name }}"  | ? |
 | discourse_https_host                 | true                            | run with built-in webserver using letsencrypt for https |
 | discourse_letsencrypt_account_email  | ""                              | email to use, when getting LE certificate |
 | discourse_validate_certs             | yes                             | validate certificates (e.g. keycloak)     |

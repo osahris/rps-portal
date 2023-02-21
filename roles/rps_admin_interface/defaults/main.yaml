@@ -1,3 +1,10 @@
+---
+rps_admin_interface_service_name: "admin.{{ inventory_hostname }}"
+
+project_id: numhub-main
+interface_heading: "{{ rps_admin_web_interface_service_name }}"
+interface_title: "{{ rps_admin_web_interface_service_name }}"
+
 # needed for the rps_admin_interface role
 rps_admin_web_interface_git_repo: https://gitlab.com/idcohorts/rps/rps-admin-tools.git
 rps_admin_web_interface_directory: /root/rps-admin-web-interface/rps-admin-tools
@@ -8,8 +15,10 @@ rps_admin_web_interface_config_directory: /etc/rps-admin-web-interface
 rps_admin_web_interface_config_file: "{{rps_admin_web_interface_config_directory}}/rps-admin-tools.json"
 rps_admin_web_interface_media_directory: "{{rps_admin_web_interface_directory}}/web_interface/media"
 
-rps_admin_interface_proxy_network: "proxy"
-rps_admin_interface_server_name: "admin.{{ inventory_hostname }}"
+rps_admin_web_interface_db_name: rps_admin_interface
+rps_admin_web_interface_db_user: rps_admin_interface
+
+rps_groups_interface_keycloak_client_id: "{{ rps_admin_web_interface_service_name }}"
 
 user_first_name_label: Vorname
 user_last_name_label: Nachname
@@ -34,6 +43,5 @@ user_import_group_owner_label: owner of groups
 group_sync_default_membership_source: discourse
 group_sync_default_membership_store: accounts
 
-project_id: numhub-main
-interface_heading: "{{ rps_admin_web_interface_server_name }}"
-interface_title: "{{ rps_admin_web_interface_server_name }}"
+rps_admin_web_interface_debug: true
+keycloak_default_realm: users
