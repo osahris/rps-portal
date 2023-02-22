@@ -2,6 +2,7 @@
 version: "3"
 
 networks:
+  rps-groups-interface-internal:
   proxy:
     external: true
 
@@ -9,6 +10,9 @@ services:
   rps-groups-interface:
     image: {{ rps_groups_interface_container_image }}:{{ rps_groups_interface_container_version }}
     restart: unless-stopped
-    env_file: env
+    env_file: env-rps-groups-interface
     networks:
-      - proxy
+      - rps-groups-interface-internal
+
+{{ansible_managed|comment}}
+  {{ rps_groups_interface_oauth2_proxy_docker_services|items2dict|to_yaml|indent(2) }}

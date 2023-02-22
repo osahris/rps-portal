@@ -4,15 +4,25 @@
     path: "{{remote_path}}"
     state: directory
 
+- include_tasks: oauth2_proxy_setup.yaml
+  loop: "{{ rps_groups_interface_managed_realms }}"
+  loop_control:
+    loop_var: realm
+
 - name: create docker compose yaml
   template:
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
 
-- name: create docker compose env file
+- name: create docker compose env-rps-groups-interface file
   template:
-    src: "env.j2"
-    dest: "{{remote_path}}/env"
+    src: "env-rps-groups-interface.j2"
+    dest: "{{remote_path}}/env-rps-groups-interface"
+
+- name: create docker compose env-oauth2-proxy file
+  template:
+    src: "env-oauth2-proxy.j2"
+    dest: "{{remote_path}}/env-oauth2-proxy"
 
 - name: deploy docker-compose stack
   docker_compose:
