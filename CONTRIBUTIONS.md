@@ -8,6 +8,7 @@ We thank all contributors of this project!
 - Tom-Robin Raja (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Cologne)
 - Eray Gülcü (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Frankfurt)
 - Andreas Streichardt
+- Philipp Kaluza (Ghostroute Consulting) <consult@ghostroute.eu>
 - Martin Wilz
 - Christine Gotthardt
 - Maximilian Schons
