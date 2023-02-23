@@ -14,9 +14,7 @@ OAUTH2_PROXY_SCOPE=openid email profile roles
 
 # authorization
 OAUTH2_PROXY_EMAIL_DOMAINS=*
-
-# upstream
-OAUTH2_PROXY_UPSTREAMS=http://rps-groups-interface:3000
+OAUTH2_PROXY_PASS_ACCESS_TOKEN=true
 
 # logging
 OAUTH2_PROXY_REQUEST_LOGGING={{rps_groups_interface_oauth2_proxy_request_logging|bool|lower}}
