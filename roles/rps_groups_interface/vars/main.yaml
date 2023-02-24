@@ -2,24 +2,26 @@
 remote_path: "/app/{{rps_groups_interface_service_name}}"
 rps_groups_interface_traefik_dynamic_config:
   http:
-    middlewares:
-      rps-groups-interface-add-oauth2-redirect-header:
-        headers:
-          customrequestheaders:
-            X-Auth-Request-Redirect: "https://{{rps_groups_interface_service_name}}"
-    routers:
-      rps-groups-interface:
-        rule: "Host(`{{rps_groups_interface_service_name}}`)"
-        entrypoints: websecure
-        service: rps-groups-interface
-        tls:
-          certresolver: letsencrypt
-        middlewares:
-          - rps-groups-interface-add-oauth2-redirect-header
-          - oauth2-errors
-          - oauth2-auth
-    services:
-      rps-groups-interface:
-        loadBalancer:
-          servers:
-            - url: http://rps-groups-interface_1:3000
+    routers: "{{ rps_groups_interface_managed_realms|map('to_traefik_router', rps_groups_interface_service_name)|items2dict }}"
+    services: "{{ rps_groups_interface_managed_realms|map('to_traefik_service')|items2dict }}"
+
+rps_groups_interface_oauth2_proxy_base_service:
+  image: "{{ rps_groups_interface_oauth2_proxy_container_image }}:{{ rps_groups_interface_oauth2_proxy_container_version }}"
+  restart: unless-stopped
+  env_file: env-oauth2-proxy
+  networks:
+    - proxy
+
+rps_groups_interface_rps_groups_interface_base_service:
+  image: "{{ rps_groups_interface_container_image }}:{{ rps_groups_interface_container_version }}"
+  restart: unless-stopped
+
+# this creates one oauth proxy service per managed realm as a docker compose usable service definition
+rps_groups_interface_oauth2_proxy_docker_services: "{{ rps_groups_interface_managed_realms|map('to_oauth2_docker_service', rps_groups_interface_service_name, keycloak_service_name, rps_groups_interface_oauth2_proxy_base_service) }}"
+rps_groups_interface_oauth2_proxy_rps_groups_interface_services: "{{ rps_groups_interface_managed_realms|map('to_rps_groups_interface_docker_service', rps_groups_interface_service_name, keycloak_service_name, rps_groups_interface_rps_groups_interface_base_service) }}"
+
+rps_groups_interface_docker_compose:
+  version: "3"
+
+  networks: "{{ dict(rps_groups_interface_managed_realms|map(attribute='name')|map('regex_replace', '^(.*)$', 'rps-groups-interface-\\1-realm')|product([{}]))|combine({'proxy': {'external': true}}) }}"
+  services: "{{ rps_groups_interface_oauth2_proxy_docker_services|items2dict|combine(rps_groups_interface_oauth2_proxy_rps_groups_interface_services|items2dict) }}"

@@ -4,15 +4,21 @@
     path: "{{remote_path}}"
     state: directory
 
+- include_tasks: oauth2_proxy_setup.yaml
+  loop: "{{ rps_groups_interface_managed_realms }}"
+  loop_control:
+    loop_var: realm
+
+# does not use a template like normally because it is super dynamic. see vars/
 - name: create docker compose yaml
-  template:
-    src: "docker-compose.yaml.j2"
+  copy:
+    content: "{{ rps_groups_interface_docker_compose|to_nice_yaml(indent=2) }}"
     dest: "{{remote_path}}/docker-compose.yaml"
 
-- name: create docker compose env file
+- name: create docker compose env-oauth2-proxy file
   template:
-    src: "env.j2"
-    dest: "{{remote_path}}/env"
+    src: "env-oauth2-proxy.j2"
+    dest: "{{remote_path}}/env-oauth2-proxy"
 
 - name: deploy docker-compose stack
   docker_compose:
