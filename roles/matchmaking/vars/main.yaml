@@ -1,0 +1,38 @@
+---
+remote_path: "/app/{{matchmaking_service_name}}"
+app_port: "80"
+
+keycloak_service_name: "keycloak.{{ inventory_hostname }}"
+keycloak_realm_name: "rps"
+keycloak_client_ID: "matchmaking.vasily.iodatalabs.dev"
+
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      matchmaking:
+        rule: "Host(`{{matchmaking_service_name}}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: letsencrypt
+          domains:
+            - main: "{{matchmaking_service_name}}"
+        service: matchmaking
+
+    services:
+      matchmaking:
+        loadBalancer:
+          servers:
+            - url: "http://{{matchmaking_service_name|replace('.', '')}}_matchmaking_1:{{app_port}}" # "http://container_name:container_port"
+
+
+    # middlewares:
+    #   oauth2-proxy-auth-redirect:
+    #     forwardAuth:
+    #       address: http://oauth2-proxy:4180/
+    #       trustForwardHeader: true
+    #       authResponseHeaders:
+    #         - X-Auth-Request-Access-Token
+    #         - Authorization
+    #         - X-Auth-Request-Groups

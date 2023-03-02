@@ -1,0 +1,62 @@
+body {
+    /* Font Family */
+    --global--font-primary: "Raleway", "Roboto Bold", Helvetica, sans-serif;
+    --global--font-secondary: "Raleway", "Roboto Light", Helvetica, sans-serif;
+
+    /* Font Size */
+    --global--font-size-base: 20px;
+    --global--font-size-xs: 1rem;
+    --global--font-size-sm: 1.125rem;
+    --global--font-size-md: 1.25rem;
+    --global--font-size-lg: 1.5rem;
+    --global--font-size-xl: 2.25rem;
+    --global--font-size-xxl: 4rem;
+    --global--font-size-xxxl: 5rem;
+    --global--font-size-page-title: var(--global--font-size-xxl);
+    --global--letter-spacing: normal;
+
+    /* Line Height */
+    --global--line-height-body: 1.7;
+    --global--line-height-heading: 1.3;
+    --global--line-height-page-title: 1.1;
+
+    /* Colors */
+    --global--color-black: #000;
+    --global--color-dark-gray: #44546a;
+    --global--color-gray: #8497b0;
+    --global--color-light-gray: rgba(132, 151, 176, 0.2);
+    --global--color-green: #8497B0;
+    --global--color-blue: #d1dfe4;
+    --global--color-red: #eb576a;
+    --global--color-orange: #e4dad1;
+    --global--color-yellow: #eeeadd;
+    --global--color-white: #fff;
+
+    --global--color-highlight: var(--global--color-red);
+    --global--color-primary: var(--global--color-dark-gray);
+    --global--color-secondary: var(--global--color-light-gray)
+
+    /* global--Headings */
+    --global--heading--font-family: var(--global--font-primary);
+    --global--heading--font-size-h6: var(--global--font-size-xs);
+    --global--heading--font-size-h5: var(--global--font-size-sm);
+    --global--heading--font-size-h4: var(--global--font-size-lg);
+    --global--heading--font-size-h3: calc(1.25 * var(--global--font-size-lg));
+    --global--heading--font-size-h2: var(--global--font-size-xl);
+    --global--heading--font-size-h1: var(--global--font-size-page-title);
+    --global--heading--letter-spacing-h6: 0.05em;
+    --global--heading--letter-spacing-h5: 0.05em;
+    --global--heading--letter-spacing-h4: var(--global--letter-spacing);
+    --global--heading--letter-spacing-h3: var(--global--letter-spacing);
+    --global--heading--letter-spacing-h2: var(--global--letter-spacing);
+    --global--heading--letter-spacing-h1: var(--global--letter-spacing);
+    --global--heading--line-height-h6: var(--global--line-height-global--heading);
+    --global--heading--line-height-h5: var(--global--line-height-global--heading);
+    --global--heading--line-height-h4: var(--global--line-height-global--heading);
+    --global--heading--line-height-h3: var(--global--line-height-global--heading);
+    --global--heading--line-height-h2: var(--global--line-height-global--heading);
+    --global--heading--line-height-h1: var(--global--line-height-page-title);
+    --global--heading--font-weight: normal;
+    --global--heading--font-weight-page-title: 300;
+    --global--heading--font-weight-strong: 600;
+}

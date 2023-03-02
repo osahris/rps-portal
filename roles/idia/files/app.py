@@ -75,6 +75,7 @@ def navigation():
     services = [{'subdomain': 'static-header-test', 'name':'Header'},
                 {'subdomain': 'idia',               'name':'IDIA'}, 
                 {'subdomain': 'keycloak',           'name':'Keycloak'},
+                {'subdomain': 'matchmaking',        'name':'Matchmaking'},
                 {'subdomain': 'nextcloud',          'name':'Nextcloud'},
                 {'subdomain': 'openproject',        'name':'OpenProject'},
                 {'subdomain': 'admin',              'name':'rps_admin_interface'},

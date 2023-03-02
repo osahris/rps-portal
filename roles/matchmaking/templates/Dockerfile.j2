@@ -1,0 +1,24 @@
+FROM node:16 as builder
+
+WORKDIR /src
+
+COPY package.json package-lock.json ./
+RUN yarn
+
+COPY . ./
+
+# ENV VUE_APP_TYPESENSE_SEARCH_ONLY_API_KEY=
+# #ENV VUE_APP_TYPESENSE_HOST=typesense-oauth-proxy.typesense-oauth-proxy-demo.unfug.jetzt
+# #ENV VUE_APP_TYPESENSE_PORT=443
+# #ENV VUE_APP_TYPESENSE_PROTOCOL=https
+# ENV VUE_APP_TYPESENSE_PATH=/typesense
+
+# ENV VUE_APP_TYPESENSE_COLLECTION_NAME=num_users
+# ENV VUE_APP_KEYCLOAK_URL=https://{{keycloak_service_name}}/auth
+# ENV VUE_APP_KEYCLOAK_REALM={{keycloak_realm_name}}
+# ENV VUE_APP_KEYCLOAK_CLIENT_ID={{keycloak_client_ID}}
+
+RUN yarn run build
+
+FROM nginx
+COPY --from=builder /src/dist/ /usr/share/nginx/html
