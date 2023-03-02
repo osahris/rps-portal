@@ -1,0 +1,33 @@
+version: "3"
+
+networks:
+  proxy:
+    external: true
+  db:
+
+volumes:
+  db:
+  data:
+
+services:
+  db:
+    image: postgres:14
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - db.env
+    networks:
+      - db
+  gitea: 
+    image: gitea/gitea:1
+    restart: unless-stopped
+    volumes:
+      - data:/data
+      #- /etc/timezone:/etc/timezone:ro
+      #- /etc/localtime:/etc/localtime:ro
+    env_file:
+      - gitea.env
+    networks:
+      - proxy
+      - db

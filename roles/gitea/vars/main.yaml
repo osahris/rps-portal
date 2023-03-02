@@ -1,0 +1,42 @@
+---
+gitea_secrets:
+  gitea_db_pass: "{{ gitea_db_pass | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_security_secret_key: "{{ gitea_security_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_admin_password: "{{ gitea_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+gitea_config_tree:
+  DEFAULT:
+    APP_NAME: "{{gitea_app_name}}"
+    RUN_MODE: prod
+  database:
+    DB_TYPE: postgres
+    HOST: db:5432
+    NAME: "{{gitea_db_name}}"
+    USER: "{{gitea_db_user}}"
+    PASSWD: "{{gitea_db_pass}}"
+  server:
+    ROOT_URL: "https://{{gitea_service_name}}"
+    HTTP_PORT: "{{gitea_http_port}}"
+  security:
+    SECRET_KEY: "{{ gitea_security_secret_key }}"
+    INSTALL_LOCK: true
+  openid:
+    ENABLE_OPENID_SIGNIN: false # this is OpenID not OpenID Connect!
+  oauth2_client:
+    REGISTER_EMAIL_CONFIRM: false
+    ENABLE_OPENID_SIGNUP: true
+  service:
+    ALLOW_ONLY_EXTERNAL_REGISTRATION: false
+
+gitea_traefik_dynamic_config:
+  http:
+    routers:
+      gitea:
+        rule: "Host(`{{gitea_service_name}}`)"
+        service: gitea
+        entrypoints: websecure
+    services:
+      gitea:
+        loadBalancer:
+          servers:
+            - url: "http://{{gitea_service_name|replace('.', '')}}_gitea_1:{{gitea_http_port}}"

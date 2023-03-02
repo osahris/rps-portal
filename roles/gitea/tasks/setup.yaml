@@ -1,0 +1,31 @@
+---
+
+- name: app folder for service
+  file:
+    path: /app/{{gitea_service_name}}
+    state: directory
+
+- name: db env file
+  template:
+    src: db.env.j2
+    dest: /app/{{gitea_service_name}}/db.env
+
+- name: gitea env file
+  template:
+    src: gitea.env.j2
+    dest: /app/{{gitea_service_name}}/gitea.env
+
+- name: docker-compose file
+  copy:
+    src: docker-compose.yaml
+    dest: /app/{{gitea_service_name}}/docker-compose.yaml
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: /app/{{ gitea_service_name }}
+  register: gitea_docker_compose_task
+
+- name: wait for gitea http port to be open
+  wait_for:
+      port: "{{ gitea_http_port }}"
+      host: "{{ gitea_docker_compose_task.services.gitea[gitea_service_name|replace('.', '')+'_gitea_1'].networks.proxy.IPAddress }}"
