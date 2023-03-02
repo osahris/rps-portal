@@ -2,7 +2,7 @@ templates:
   - "templates/postgres.template.yml"
 
 docker_args:
-  - '--network discourse'
+  - '--network {{discourse_service_name|replace('.', '')}}'
 
 params:
   db_default_text_search_config: "{{discourse_postgres_db_default_text_search_config}}"

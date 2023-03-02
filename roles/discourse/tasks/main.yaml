@@ -1,8 +1,7 @@
 ---
 - name: discourse docker network
   docker_network:
-    name: discourse
-    driver: bridge
+    name: "{{discourse_service_name|replace('.', '')}}"
 
 - name: discourse docker repo
   git:
@@ -12,53 +11,59 @@
 - name: discourse postgres container config
   template:
     src: "postgres.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/postgres.yml"
+    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_postgres_1.yml"
   register: discourse_postgres_container_task
 
 - name: discourse redis container config
   template:
     src: "redis.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/redis.yml"
+    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_redis_1.yml"
   register: discourse_redis_container_task
 
 - name: discourse web container config
   template:
     src: "web.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/web.yml"
+    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_web_1.yml"
   register: discourse_web_container_task
 
 - name: discourse mail-receiver container config
   template:
     src: "mail-receiver.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/mail-receiver.yml"
+    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_mail_receiver_1.yml"
   register: discourse_mail_receiver_container_task
   when: discourse_mail_reveiver_enabled
 
 - name: rebuild discourse postgres container
-  command: ./launcher rebuild postgres --skip-prereqs
+  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_postgres_1 --skip-prereqs
   args:
     chdir: "{{discourse_target_directory}}"
   when: discourse_postgres_container_task.changed
 
 - name: rebuild discourse redis container
-  command: ./launcher rebuild redis --skip-prereqs
+  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_redis_1 --skip-prereqs
   args:
     chdir: "{{discourse_target_directory}}"
   when: discourse_redis_container_task.changed
 
 - name: rebuild discourse web container
-  command: ./launcher rebuild web --skip-prereqs
+  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_web_1 --skip-prereqs
   args:
     chdir: "{{discourse_target_directory}}"
-  #when: discourse_web_container_task.changed
+  when: discourse_web_container_task.changed
 
 - name: rebuild discourse mail-receiver container
-  command: ./launcher rebuild mail-receiver --skip-prereqs
+  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_mail_receiver_1 --skip-prereqs
   args:
     chdir: "{{discourse_target_directory}}"
   when: 
     - discourse_mail_reveiver_enabled
     - discourse_mail_receiver_container_task.changed
+
+- name: ensure web container is connected to proxy network
+  docker_network:
+    name: proxy
+    connected:
+      - "{{discourse_service_name|replace('.', '')}}_web_1"
 
 - name: ensure postgres container is started
   command: ./launcher start postgres --skip-prereqs

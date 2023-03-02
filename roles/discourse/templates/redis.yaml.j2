@@ -2,7 +2,7 @@ templates:
   - "templates/redis.template.yml"
 
 docker_args:
-  - '--network discourse'
+  - '--network {{discourse_service_name|replace('.', '')}}'
 
 env:
   LANG: en_US.UTF-8

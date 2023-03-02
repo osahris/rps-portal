@@ -10,7 +10,7 @@ templates:
 {% endif %}
 
 docker_args:
-  - '--network discourse'
+  - '--network {{discourse_service_name|replace('.', '')}}'
 
 ## which TCP/IP ports should this container expose?
 ## If you want Discourse to share a port with another webserver like Apache or nginx,
@@ -24,10 +24,10 @@ expose:
 # Use 'links' key to link containers together, aka use Docker --link flag.
 links:
   - link:
-      name: redis
+      name: {{discourse_service_name|replace('.', '')}}_redis_1
       alias: redis
   - link:
-      name: postgres
+      name: {{discourse_service_name|replace('.', '')}}_redis_1
       alias: postgres
 
 params:
@@ -143,7 +143,7 @@ run:
 {% if discourse_mail_from is defined %}
   - exec: rails r "SiteSetting.notification_email='{{ discourse_mail_from }}'"
 {% endif %}
-
+  - exec: rails r "SiteSetting.max_category_nesting = 3"
 
   - exec: echo "End of custom commands"
   #- exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
