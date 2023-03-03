@@ -105,5 +105,4 @@ class FilterModule(object):
             "to_rps_groups_interface_docker_service": to_rps_groups_interface_docker_service,
             "to_traefik_service": to_traefik_service,
             "to_traefik_router": to_traefik_router,
-            "to_traefik_middleware": to_traefik_middleware,
         }
