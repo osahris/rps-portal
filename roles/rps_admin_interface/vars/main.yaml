@@ -92,4 +92,4 @@ rps_admin_interface_traefik_dynamic_config:
       rps-admin-interface:
         loadBalancer:
           servers:
-            - url: "http://{{ rps_admin_interface_service_name }}_web_1:8000"
+            - url: "http://{{ rps_admin_interface_service_name|replace('.', '') }}_web_1:8000"
