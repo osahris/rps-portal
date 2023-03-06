@@ -27,6 +27,17 @@ oauth2_proxy_traefik_dynamic_config:
             - X-Auth-Request-Groups
           # unclear if this is really needed and what it does but it is present everywhere in the docs
           trustForwardHeader: true
+      oauth2-auth-admin-interface:
+        forwardAuth:
+          address: "{{ oauth2_proxy_base_url }}/oauth2/auth?allowed_groups=admins"
+          authResponseHeaders:
+            - X-Auth-Request-Access-Token
+            - X-Auth-Request-User
+            - X-Auth-Request-Email
+            - X-Auth-Request-Preferred-Username
+            - X-Auth-Request-Groups
+          # unclear if this is really needed and what it does but it is present everywhere in the docs
+          trustForwardHeader: true
       oauth2-errors:
         errors:
           status:

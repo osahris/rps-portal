@@ -87,7 +87,7 @@ rps_admin_interface_traefik_dynamic_config:
         middlewares:
           - rps-admin-interface-add-oauth2-redirect-header
           - oauth2-errors
-          - oauth2-auth
+          - oauth2-auth-admin-interface
     services:
       rps-admin-interface:
         loadBalancer:
