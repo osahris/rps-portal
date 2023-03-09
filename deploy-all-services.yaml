@@ -57,3 +57,5 @@
     #   tags: wiki-bookstack
     - role: matchmaking
       tags: matchmaking
+    - role: minimum_viable_product
+      tags: minimum_viable_product

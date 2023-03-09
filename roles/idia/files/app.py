@@ -72,11 +72,12 @@ def db_error():
 def navigation():
     title = "RPS Services Navigation"
     domain = os.environ.get("HOST_DOMAIN")
-    services = [{'name': 'Header (static)',         'subdomain': 'static-header-test'},
-                {'name': 'Header',                  'subdomain': 'header'},
+    services = [{'name': 'Header',                  'subdomain': 'header'},
+                {'name': 'Header (static)',         'subdomain': 'static-header-test'},
                 {'name': 'IDIA',                    'subdomain': 'idia'}, 
                 {'name': 'Keycloak',                'subdomain': 'keycloak'},
                 {'name': 'Matchmaking',             'subdomain': 'matchmaking'},
+                {'name': 'Minimum viable product',  'subdomain': 'mvp'},
                 {'name': 'Nextcloud',               'subdomain': 'nextcloud'},
                 {'name': 'OpenProject',             'subdomain': 'openproject'},
                 {'name': 'rps_admin_interface',     'subdomain': 'admin'},
@@ -84,8 +85,8 @@ def navigation():
                 {'name': 'Traefik',                 'subdomain': 'traefik'},
                 {'name': 'Wiki Bookstack',          'subdomain': 'wiki-bookstack'},
                 {'name': 'Wiki.js',                 'subdomain': 'wiki-js'},
-                {'name': 'Wordpress (Prod)',        'subdomain': 'www'},
                 {'name': 'Wordpress (Dev)',         'subdomain': 'www-staging'},
+                {'name': 'Wordpress (Prod)',        'subdomain': 'www'},
                 ]
     return  render_template('navigation.html', 
                             title = title,
