@@ -58,7 +58,7 @@ Here, the {{remote_path}} will be automatically replaced by the value from the *
 
 5. The variables from **/vars/main.yaml** will be used for templating on the step **d** in the list above. These ones will override the values from **/defaults/main.yaml**.
 
-6. The folder **./roles/traefik** contains the ansible role for a docker container with Treafik (ansible-role-traefik : https://gitlab.com/idcohorts/rps/ansible-role-traefik).
+6. The folder **./roles/traefik** contains the Ansible role for a Docker container with Treafik (https://gitlab.com/idcohorts/rps/research-project-suite/-/tree/dev/roles/traefik).
 
 4. To execute this Ansible playbook run in the shell:
     ```shell
