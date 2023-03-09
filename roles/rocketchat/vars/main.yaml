@@ -1,0 +1,26 @@
+project_name: "rocketchat"
+remote_path: "/app/{{inventory_hostname}}/{{project_name}}"
+
+rocketchat_traefik_dynamic_config:
+  http:
+    middlewares:
+      rocketchat-add-oauth2-redirect-header:
+        headers:
+          customrequestheaders:
+            X-Auth-Request-Redirect: "https://{{rocketchat_server_name}}"
+    routers:
+      rocketchat:
+        rule: "Host(`{{rocketchat_server_name}}`)"
+        entrypoints: websecure
+        service: rocketchat
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        middlewares:
+          - rocketchat-add-oauth2-redirect-header
+          - oauth2-errors
+          - oauth2-auth
+    services:
+      rocketchat:
+        loadBalancer:
+          servers:
+            - url: http://rocketchat_rocketchat_1:3000
