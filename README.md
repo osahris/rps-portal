@@ -13,6 +13,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] keycloak
 - [x] keycloak-realms
 - [ ] matchmaking
+- [x] minimum_viable_product
 - [ ] nextcloud
 - [x] oauth2-proxy
 - [ ] openproject
@@ -29,6 +30,10 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] wiki-js
 - [ ] wordpress
 
+
+## Add a new service
+
+The quick way to add a new service is to copy the `minimum_viable_product` folder and follow the instructions in the `README.md` inside. Do not forget to include it in the services list above and mark with [ ] when in progress or with [x] when fully ready to be deployed.
 
 ## Secrets management
 

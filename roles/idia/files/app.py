@@ -77,7 +77,7 @@ def navigation():
                 {'name': 'IDIA',                    'subdomain': 'idia'}, 
                 {'name': 'Keycloak',                'subdomain': 'keycloak'},
                 {'name': 'Matchmaking',             'subdomain': 'matchmaking'},
-                {'name': 'Minimum viable product',  'subdomain': 'mvp'},
+                {'name': 'MVP',                     'subdomain': 'mvp'},
                 {'name': 'Nextcloud',               'subdomain': 'nextcloud'},
                 {'name': 'OpenProject',             'subdomain': 'openproject'},
                 {'name': 'rps_admin_interface',     'subdomain': 'admin'},

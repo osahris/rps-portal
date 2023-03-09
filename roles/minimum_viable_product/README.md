@@ -27,7 +27,7 @@ As an example, you may organize the following simple Ansible playbook structure 
   ```yaml
   # ./inventory/hosts
   [<server_group>]
-  domain.name.net ansible_ssh_host=12.34.56.78 ansible_ssh_user=root admin_email=adminusername@domain.name.net
+  <domain.name.net> ansible_ssh_host=12.34.56.78 ansible_ssh_user=root admin_email=adminusername@domain.name.net
   ```
 
 2. In the  **<playbook-name>.yaml** file you specify the tasks and roles that this Ansible playbook consists of. Example of that file content:
@@ -68,6 +68,8 @@ Here, the {{remote_path}} will be automatically replaced by the value from the *
     ```shell
     $ ansible-playbook -i ./inventory ./<playbook-name>.yaml --ask-pass --ask-become-pass
     ```
+
+5. Observe your web-service by default under **https://mvp.<domain.name.net>** with **<domain.name.net>** taken from the **./inventory** file. This is defined via the **{{service_domain_name}}** value in the **./defaults/main.yaml** and the configuration of Traefik (see more info below).
 
 
 
