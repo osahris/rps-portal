@@ -1,7 +1,9 @@
-# MVP of a service under Traefik
+# What is IDIA
 
 This is an IDIA (I did it already) application. Description will be added later.
 The service is running in a docker container under the reverse proxy from a Traefik container.
+
+Currently the service provides a navigation webpage for easy testing of the other services in the RPS stack.
 
 ## How to use:
 

@@ -11,16 +11,18 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] docker
 - [x] idia
 - [x] keycloak
-- [x] keycloak-realms
+- [x] keycloak_realms
 - [ ] matchmaking
 - [x] minimum_viable_product
 - [ ] nextcloud
-- [x] oauth2-proxy
+- [x] oauth2_proxy
 - [ ] openproject
 - [ ] proskive
+- [ ] rocketchat
 - [x] rps_admin_interface
 - [ ] rps_cohort_explorer
 - [x] rps_groups_interface
+- [ ] rps_header
 - [ ] rps_style_servers
 - [ ] rps_sync_services
 - [ ] socat_https_proxy

@@ -49,14 +49,14 @@
       tags: wordpress
     - role: nextcloud
       tags: nextcloud
+    # - role: typesense
+    #   tags: typesense
     - role: collabora
       tags: collabora
     - role: wiki-js
       tags: wiki-js
     - role: rocketchat
       tags: rocketchat
-    # - role: wiki-js
-    #   tags: wiki-js
     - role: wiki-js
       tags: wiki-js
     # - role: wiki-bookstack
