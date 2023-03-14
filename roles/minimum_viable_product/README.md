@@ -52,7 +52,8 @@ As an example, you may organize the following simple Ansible playbook structure 
     - d. copy some templated .j2 files from **./templates** to {{remote_path}} on the host(s). Files to template-copy are listed under *with_items*
     - e. copy the dynamic configuration for Traefik
     - f. deploy the project stack with docker-compose files listed under *with_items*
-Here, the {{remote_path}} will be automatically replaced by the value from the **./defaults/main.yaml**, **./vars/main.yaml** or **./inventory** (increasing priority order).
+
+    Here, the {{remote_path}} will be automatically replaced by the value from the **./defaults/main.yaml**, **./vars/main.yaml** or **./inventory** (increasing priority order).
 
 4. The variables from **/defaults/main.yaml** will be used for templating on the step **d** in the list above.
 
