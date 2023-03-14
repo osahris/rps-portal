@@ -24,19 +24,19 @@
 
   roles:
     - role: docker
-      tags: docker
+      tags: docker, core
     - role: gitlab_credentials
-      tags: gitlab_credentials
+      tags: gitlab_credentials, core
     - role: traefik
-      tags: traefik
+      tags: traefik, core
     - role: idia
-      tags: idia
+      tags: idia, core
     - role: keycloak
-      tags: keycloak
+      tags: keycloak, core
     - role: keycloak_realms
-      tags: keycloak_realms
+      tags: keycloak_realms, core
     - role: oauth2_proxy
-      tags: oauth2_proxy
+      tags: oauth2_proxy, core
     - role: rps_groups_interface
       tags: rps_groups_interface
     - role: rps_admin_interface

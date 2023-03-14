@@ -13,11 +13,6 @@ MYSQL_DATABASE: "nextcloud"
 MYSQL_USER: "admin"
 MYSQL_PASSWORD: "Lfgj[eqnfr-nj]"
 MYSQL_ROOT_PASSWORD: "Lfgj[eqnfr-nj]"
-# # ------------------------------------------ #
-keycloak_domain: "keycloak.{{inventory_hostname}}"
-keycloak_realm: "rps"
-keycloak_my_application_id: "nextcloud"
-keycloak_my_super_secret_secret: "dsaNzueQeiT4OCKJeh1Hca5MqeBrGHTG"
 
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
