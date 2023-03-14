@@ -101,6 +101,8 @@ header_traefik_dynamic_config:
       header:
         rule: "Host(`{{header_service_name}}`)"
         entrypoints: websecure
+        middlewares:
+        - header-redirect
         tls:
           certresolver: letsencrypt
         service: header
@@ -128,6 +130,6 @@ header_traefik_dynamic_config:
     middlewares:
       header-redirect:
         redirectRegex:
-          regex: "^https://*.{{inventory_hostname}}/header.js"
+          regex: "^http?s://.*.{{inventory_hostname}}/header.js"
           replacement: "https://{{header_service_name}}/header.js"
           permanent: true
