@@ -28,11 +28,10 @@ services:
       - db
     volumes:
       - nextcloud:/var/www/html
+      - ./nextcloud/themes:/var/www/html/themes
     env_file:
       - "./env"
 
-# docker exec -u www-data -it nextcloud_app php occ maintenance:install --admin-user "admin" --admin-pass "pass"
-# docker exec -u www-data -it nextcloud_app php occ app:install sociallogin
 
   db:
     image: mariadb:10.5

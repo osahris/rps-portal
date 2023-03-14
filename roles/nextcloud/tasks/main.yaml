@@ -72,8 +72,6 @@
 - import_tasks: custom_theme/config.yaml
   when: nextcloud_with_custom_theme
 
-# - import_tasks: keycloak-config.yaml
-
 - import_tasks: keycloak_client.yaml
   when: nextcloud_with_keycloak_client
 

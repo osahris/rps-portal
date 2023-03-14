@@ -24,6 +24,8 @@ traefik_dynamic_config:
       nextcloud:
         rule: "Host(`{{ nextcloud_service_name }}`)"
         entrypoints: websecure
+        middlewares: 
+        - header-redirect
         tls:
           certresolver: letsencrypt
         service: nextcloud

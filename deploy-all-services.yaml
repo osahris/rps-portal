@@ -26,7 +26,7 @@
     - role: docker
       tags: docker, core
     - role: gitlab_credentials
-      tags: gitlab_credentials, core
+      tags: gitlab_credentials, gitlab-credentials, core
     - role: traefik
       tags: traefik, core
     - role: idia
@@ -34,17 +34,17 @@
     - role: keycloak
       tags: keycloak, core
     - role: keycloak_realms
-      tags: keycloak_realms, core
+      tags: keycloak_realms, keycloak-realms, core
     - role: oauth2_proxy
       tags: oauth2_proxy, core
     - role: rps_groups_interface
-      tags: rps_groups_interface
+      tags: rps_groups_interface, rps-groups-interface
     - role: rps_admin_interface
-      tags: rps_admin_interface
+      tags: rps_admin_interface, rps-admin-interface
     - role: rps_header
-      tags: rps_header
+      tags: rps_header, rps-header
     - role: static_header_test
-      tags: static_header_test
+      tags: static_header_test, static-header-test, core
     - role: wordpress
       tags: wordpress
     - role: nextcloud
@@ -54,14 +54,12 @@
     - role: collabora
       tags: collabora
     - role: wiki-js
-      tags: wiki-js
+      tags: wiki_js, wiki-js
     - role: rocketchat
       tags: rocketchat
-    - role: wiki-js
-      tags: wiki-js
     # - role: wiki-bookstack
-    #   tags: wiki-bookstack
+    #   tags: wiki_bookstack, wiki-bookstack
     - role: matchmaking
       tags: matchmaking
     - role: minimum_viable_product
-      tags: minimum_viable_product
+      tags: minimum_viable_product, minimum-viable-product

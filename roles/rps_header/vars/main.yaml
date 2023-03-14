@@ -110,3 +110,24 @@ header_traefik_dynamic_config:
         loadBalancer:
           servers:
             - url: "http://{{header_service_name|replace('.', '')}}_header_1"
+
+    # This 'header-redirect' middleware redirects every subdomain SERVICENAME.domain/header.js to header.domain/header.js
+    # If this SERVICENAME has this middleware included like this --|
+    #                                                              |
+    # traefik_dynamic_config:                                      |
+    #   http:                                                      |
+    #     routers:                                                 |
+    #       SERVICENAME:                                           |
+    #         rule: "Host(`SERVICENAME.domain`)"                   |
+    #         entrypoints: websecure                               |
+    #         middlewares:                                         |
+    #         - header-redirect # <<< ------ here ------ <<< ------|
+    #         tls:
+    #           certresolver: letsencrypt
+    #         service: SERVICENAME
+    middlewares:
+      header-redirect:
+        redirectRegex:
+          regex: "^https://*.{{inventory_hostname}}/header.js"
+          replacement: "https://{{header_service_name}}/header.js"
+          permanent: true
