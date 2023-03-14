@@ -47,7 +47,7 @@
 
 - name: wait for docker-compose stack deployment
   community.docker.docker_container_exec:
-    container: "{{nextcloud_service_name|replace('.','')}}_nextcloud_1"
+    container: "{{nextcloud_app_container_name}}"
     user: www-data
     command: php occ status --output=json
   register: _nextcloud_status_task
@@ -59,7 +59,7 @@
 - name: install nextcloud
   when: not _nextcloud_status.installed
   community.docker.docker_container_exec:
-    container: "{{nextcloud_service_name|replace('.','')}}_nextcloud_1"
+    container: "{{nextcloud_app_container_name}}"
     user: www-data
     command: php occ maintenance:install --admin-user="{{MYSQL_USER}}" --admin-pass="{{MYSQL_ROOT_PASSWORD}}" --database="sqlite" --database-name="{{MYSQL_DATABASE}}" --database-host="{{MYSQL_HOST}}" --database-user="{{MYSQL_USER}}" --database-pass="{{MYSQL_PASSWORD}}"
   register: _nextcloud_status_task
