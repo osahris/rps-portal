@@ -6,6 +6,7 @@ keycloak_realms:
   - name: rps
     # groups that should be created in our realm
     groups:
+      - admin
       - developers
       - support
       - scientists
