@@ -19,6 +19,8 @@ traefik_dynamic_config:
       wiki-bookstack:
         rule: "Host(`{{wiki_bookstack_service_name}}`)"
         entrypoints: websecure
+        middlewares:
+        - header-redirect
         tls:
           certresolver: letsencrypt
         service: wiki-bookstack

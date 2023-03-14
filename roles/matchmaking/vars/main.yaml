@@ -14,6 +14,8 @@ traefik_dynamic_config:
       matchmaking:
         rule: "Host(`{{matchmaking_service_name}}`)"
         entrypoints: websecure
+        middlewares:
+        - header-redirect
         tls:
           certresolver: letsencrypt
           domains:

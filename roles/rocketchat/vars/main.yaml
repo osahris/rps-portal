@@ -16,6 +16,7 @@ rocketchat_traefik_dynamic_config:
         tls:
           certresolver: "{{traefik_certresolver}}"
         middlewares:
+          - header-redirect
           - rocketchat-add-oauth2-redirect-header
     services:
       rocketchat:
