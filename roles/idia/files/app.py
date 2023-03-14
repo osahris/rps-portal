@@ -80,6 +80,7 @@ def navigation():
                 {'name': 'MVP',                     'subdomain': 'mvp'},
                 {'name': 'Nextcloud',               'subdomain': 'nextcloud'},
                 {'name': 'OpenProject',             'subdomain': 'openproject'},
+                {'name': 'RocketChat',              'subdomain': 'rocketchat'},
                 {'name': 'rps_admin_interface',     'subdomain': 'admin'},
                 {'name': 'rps_groups_interface',    'subdomain': 'groups',       'path': 'realms/rps'},
                 {'name': 'Traefik',                 'subdomain': 'traefik'},
