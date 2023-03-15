@@ -72,7 +72,8 @@ def db_error():
 def navigation():
     title = "RPS Services Navigation"
     domain = os.environ.get("HOST_DOMAIN")
-    services = [{'name': 'Header',                  'subdomain': 'header'},
+    services = [{'name': 'Budibase',                'subdomain': 'budibase'},
+                {'name': 'Header',                  'subdomain': 'header'},
                 {'name': 'Header (static)',         'subdomain': 'static-header-test'},
                 {'name': 'IDIA',                    'subdomain': 'idia'}, 
                 {'name': 'Keycloak',                'subdomain': 'keycloak'},
