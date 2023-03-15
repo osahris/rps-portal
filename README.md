@@ -6,6 +6,7 @@ TBD Description
 
 The [x]-marked roles are ready to be deployed within one button click, without further pre-adjustments:
 
+- [ ] budibase
 - [x] collabora
 - [ ] discourse
 - [x] docker

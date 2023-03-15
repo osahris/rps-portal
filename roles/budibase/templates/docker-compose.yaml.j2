@@ -2,20 +2,18 @@
 version: "3"
 
 networks:
-  {{service_name}}:
-    external: true
   proxy:
     external: true
 
 services:
 
-  "{{service_name}}": # Change this to the name of your service
+  "{{service_name}}":
     image: budibase/budibase:latest
     restart: unless-stopped
-    # expose:
-    #   - "801" # Uncomment if other containers should reach through this port internally
+    logging:
+      options:
+        max-size: 5m
     networks:
       - proxy
-      # - {{service_name}} # Uncomment if a network out of scope of Traefik needed
     volumes:
       - /local/path/data:/dat

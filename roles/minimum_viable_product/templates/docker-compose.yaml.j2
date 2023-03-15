@@ -2,8 +2,8 @@
 version: "3"
 
 networks:
-  {{service_name}}:
-    external: true
+  # {{service_name}}: # Uncomment if a network out of scope of Traefik needed
+  #   external: true
   proxy:
     external: true
 
@@ -18,4 +18,6 @@ services:
     #   - "801" # Uncomment if other containers should reach through this port internally
     networks:
       - proxy
-      # - {{service_name}} # Uncomment if a network out of scope of Traefik needed
+    #   - {{service_name}} # Uncomment if a network out of scope of Traefik needed
+    # env_file: 
+    #   - "./env" # Uncomment to import from file the environment variables to the cantainer
