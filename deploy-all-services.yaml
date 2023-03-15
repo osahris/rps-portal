@@ -54,7 +54,7 @@
     - role: nextcloud
       tags: nextcloud
     - role: minimum_viable_product
-      tags: minimum_viable_product, minimum-viable-product
+      tags: minimum_viable_product, minimum-viable-product, mvp
     - role: rocketchat
       tags: rocketchat
     # - role: typesense
