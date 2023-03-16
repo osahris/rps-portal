@@ -1,4 +1,90 @@
 ---
 header_service_name: "header.{{ inventory_hostname }}"
 
-header_git_repo: "https://gitlab.com/idcohorts/rps/rps-vue-header.git"
+rps_header_image: registry.gitlab.com/idcohorts/rps/rps-vue-header:dev
+
+rps_header_userinfo_url: https://{{header_service_name}}/oauth2/userinfo
+rps_header_sign_in_url: https://{{header_service_name}}/oauth2/sign_in
+rps_header_sign_out_url: https://{{header_service_name}}/oauth2/sign_out
+
+rps_header_config:
+  header_logo_uri: https://idia.{{ inventory_hostname }}
+  header_contact_url: https://idia.{{ inventory_hostname }}
+  header_support_url: https://idia.{{ inventory_hostname }}
+
+  # small style configuration
+  iconStyle: fas
+  hasLogin: true
+  producedBy: Idcohorts
+  header_login_title: Anmelden
+  header_logout_title: Abmelden
+
+  # header configuration
+  header_top_navbar_links:
+    - title: Account
+      link: https://keycloak.{{ inventory_hostname }}
+      requireLogin: false
+      class: ""
+      icon: user
+      visibility: []
+    - title: Hilfe & Kontakt
+      link: https://idia.{{ inventory_hostname }}
+      requireLogin: false
+      class: ""
+      icon: circle-question
+      visibility: []
+  header_bottom_navbar_links:
+    - title: Suite
+      icon: tools
+      link: https://idia.{{ inventory_hostname }}
+      requireLogin: false
+      isDisabled: false
+      type: dropdown
+      visibility:
+        - vip
+        - uk-frankfurt
+      children:
+        - title: Chat
+          text: Coming soon...
+          link: https://rocketchat.{{ inventory_hostname }}
+          requireLogin: false
+          visibility:
+            - vip
+            - uk-frankfurt
+        - title: Chat
+          link: https://rocketchat.{{ inventory_hostname }}
+          requireLogin: false
+          visibility:
+            - vip
+            - uk-frankfurt
+        - title: Dokumente
+          requireLogin: false
+          link: https://nextcloud.{{ inventory_hostname }}/apps/files/
+          visibility:
+            - vip
+        - title: Kalendar
+          link: https://nextcloud.{{ inventory_hostname }}/apps/calendar/
+          requireLogin: false
+          visibility:
+            - vip
+        - title: Support
+          link: https://idia.{{ inventory_hostname }}
+          requireLogin: false
+          visibility:
+            - vip
+  footer_configuration:
+    has_first_logo: true
+    alt_first_logo: Logo DZG
+    has_second_logo: true
+    alt_second_logo: Bundesministerium für Bildung und Forschung
+    footer_sitemap: []
+    last_link_row:
+      - name: Impressum
+        link: https://idia.{{ inventory_hostname }}
+        isDisabled: true
+      - name: Datenschutz
+        link: https://idia.{{ inventory_hostname }}
+        isDisabled: true
+      - name: Intranet
+        link: https://idia.{{ inventory_hostname }}
+        isDisabled: true

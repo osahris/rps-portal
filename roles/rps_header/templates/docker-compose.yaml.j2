@@ -7,8 +7,13 @@ networks:
 
 services:
   header:
-    build:
-      header
+    image: {{ rps_header_image }}
     restart: unless-stopped
     networks:
       - proxy
+    volumes:
+      - ./header_config.yaml:/opt/header/config.yaml:ro
+    environment:
+      RPS_HEADER_USERINFO_URL: ${RPS_HEADER_USERINFO_URL}
+      RPS_HEADER_SIGN_IN_URL: ${RPS_HEADER_SIGN_IN_URL}
+      RPS_HEADER_SIGN_OUT_URL: ${RPS_HEADER_SIGN_OUT_URL}
