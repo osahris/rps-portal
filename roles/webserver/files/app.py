@@ -9,6 +9,8 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     servicename = request.args.get('app')
+    if servicename=='' or servicename==None:
+        servicename = 'idia'
     domain = os.environ.get("HOST_DOMAIN")
     services = [{'name': 'Budibase',                'subdomain': 'budibase'},
                 {'name': 'Header',                  'subdomain': 'header'},
@@ -38,7 +40,8 @@ def home():
                                     domain = domain,
                                     service=service)
     if success == False:
-        return render_template('errors/service_not_found.html')
+        title = servicename
+        return render_template('errors/service_not_found.html', servicename=servicename)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -52,7 +55,7 @@ def internal_server_error(e):
     return render_template('errors/500.html', 
                             title = title), 500
 
-def service_not_found(e):
+def service_not_found(servicename):
     title = "Service Not Found"
     return render_template('errors/service_not_found.html', 
                             title = title)
