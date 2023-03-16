@@ -12,27 +12,27 @@ rps_header_sign_out_redirect_url: https://{{keycloak_service_name}}/realms/{{key
 rps_header_root_redirect_url: https://{{header_service_name}}/test
 
 rps_header_config:
-  header_logo_uri: https://idia.{{ inventory_hostname }}
-  header_contact_url: https://idia.{{ inventory_hostname }}
-  header_support_url: https://idia.{{ inventory_hostname }}
+  header_logo_uri: https://{{ inventory_hostname }}/?app=idia
+  header_contact_url: https://{{ inventory_hostname }}/?app=idia
+  header_support_url: https://{{ inventory_hostname }}/?app=idia
 
   # small style configuration
   iconStyle: fas
   hasLogin: true
-  producedBy: Idcohorts
+  producedBy: IDCohorts
   header_login_title: Anmelden
   header_logout_title: Abmelden
 
   # header configuration
   header_top_navbar_links:
     - title: Account
-      link: https://keycloak.{{ inventory_hostname }}
+      link: https://{{ inventory_hostname }}/?app=keycloak
       requireLogin: false
       class: ""
       icon: user
       visibility: []
     - title: Hilfe & Kontakt
-      link: https://idia.{{ inventory_hostname }}
+      link: https://{{ inventory_hostname }}/?app=idia
       requireLogin: false
       class: ""
       icon: circle-question
@@ -40,7 +40,7 @@ rps_header_config:
   header_bottom_navbar_links:
     - title: Suite
       icon: tools
-      link: https://idia.{{ inventory_hostname }}
+      link: https://{{ inventory_hostname }}/?app=idia
       requireLogin: false
       isDisabled: false
       type: dropdown
@@ -50,13 +50,13 @@ rps_header_config:
       children:
         - title: Chat
           text: Coming soon...
-          link: https://rocketchat.{{ inventory_hostname }}
+          link: https://{{ inventory_hostname }}/?app=rocketchat
           requireLogin: false
           visibility:
             - vip
             - uk-frankfurt
         - title: Chat
-          link: https://rocketchat.{{ inventory_hostname }}
+          link: https://{{ inventory_hostname }}/?app=rocketchat
           requireLogin: false
           visibility:
             - vip
@@ -72,7 +72,7 @@ rps_header_config:
           visibility:
             - vip
         - title: Support
-          link: https://idia.{{ inventory_hostname }}
+          link: https://{{ inventory_hostname }}/?app=idia
           requireLogin: false
           visibility:
             - vip
@@ -84,11 +84,11 @@ rps_header_config:
     footer_sitemap: []
     last_link_row:
       - name: Impressum
-        link: https://idia.{{ inventory_hostname }}
+        link: https://{{ inventory_hostname }}/?app=idia
         isDisabled: true
       - name: Datenschutz
-        link: https://idia.{{ inventory_hostname }}
+        link: https://{{ inventory_hostname }}/?app=idia
         isDisabled: true
       - name: Intranet
-        link: https://idia.{{ inventory_hostname }}
+        link: https://{{ inventory_hostname }}/?app=idia
         isDisabled: true

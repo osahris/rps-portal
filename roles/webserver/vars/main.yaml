@@ -1,0 +1,36 @@
+---
+# Ansible variables
+remote_path: "/app/{{webserver_service_name}}"
+app_port: "80"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      webserver:
+        rule: "Host(`{{webserver_service_name}}`)"
+        entrypoints: websecure
+        middlewares:
+        - header-redirect
+        tls:
+          certresolver: letsencrypt
+          domains:
+            - main: "{{webserver_service_name}}"
+        service: webserver
+
+    services:
+      webserver:
+        loadBalancer:
+          servers:
+            - url: "http://{{webserver_service_name|replace('.', '')}}_webserver_1:{{app_port}}" # "http://container_name:container_port"
+
+
+    # middlewares:
+    #   oauth2-proxy-auth-redirect:
+    #     forwardAuth:
+    #       address: http://oauth2-proxy:4180/
+    #       trustForwardHeader: true
+    #       authResponseHeaders:
+    #         - X-Auth-Request-Access-Token
+    #         - Authorization
+    #         - X-Auth-Request-Groups

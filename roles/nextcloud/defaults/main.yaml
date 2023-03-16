@@ -53,7 +53,7 @@ nextcloud_oidc_login_disable_registration: false
 
 nextcloud_with_custom_ca_certificates: false
 
-nextcloud_with_custom_theme: true
+nextcloud_with_custom_theme: false
 nextcloud_custom_theme_name: rps
 nextcloud_theme_repo: https://gitlab.com/idcohorts/rps/nextcloud-theme.git
 nextcloud_theme_version: main

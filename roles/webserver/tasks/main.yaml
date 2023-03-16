@@ -1,0 +1,40 @@
+---
+- name: current host
+  debug:
+    msg:
+      - "{{ ansible_ssh_host }}"
+      - "{{ inventory_hostname }}"
+
+- name: create directory
+  file: path={{remote_path}} state=directory
+
+- name: copy all static files
+  synchronize:
+    recursive: true
+    src: "./" # relative to ./files on local role path
+    dest: "{{remote_path}}" # relative to ~/ on remote
+
+- name: copy some templated .j2 files
+  template:
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "docker-compose.yaml.j2"
+    - "env.j2"
+
+- name: copy traefik dynamic config
+  copy:
+    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/app/proxy/traefik/conf.d/{{service_name}}.yaml"
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    # add multiple docker-compose.yaml / .yml files below
+    files: "{{item}}"
+    # This option ensures that the images are rebuilt
+    build: true
+    pull: true
+    remove_orphans: true
+  with_items:
+    - "docker-compose.yaml"

@@ -65,6 +65,6 @@
       tags: wiki_js, wiki-js
     - role: wordpress
       tags: wordpress
-
-
-      
+    - role: webserver
+      tags: webserver
+ 

@@ -36,6 +36,6 @@ header_traefik_dynamic_config:
     middlewares:
       header-redirect:
         redirectRegex:
-          regex: "^http?s://.*.{{inventory_hostname}}/header.js"
+          regex: "^http?s://.*{{inventory_hostname}}/header.js"
           replacement: "https://{{header_service_name}}/header.js"
           permanent: true
