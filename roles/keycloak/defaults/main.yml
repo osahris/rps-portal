@@ -21,3 +21,9 @@ keycloak_registration_form_pages: {}
 keycloak_registration_form_fields: {}
 
 keycloak_admin_username: admin
+
+keycloak_secrets:
+  keycloak_admin_password: "{{ keycloak_admin_password  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  keycloak_postgres_password: "{{ keycloak_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+keycloak_admin_password: "{{ ansible_local.keycloak_secrets[keycloak_service_name].keycloak_admin_password | default(ansible_local.secrets.keycloak_admin_password) }}"
+keycloak_postgres_password: "{{ ansible_local.keycloak_secrets[keycloak_service_name].keycloak_postgres_password | default(ansible_local.secrets.keycloak_postgres_password) }}"

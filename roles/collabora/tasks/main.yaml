@@ -1,4 +1,6 @@
 ---
+- import_tasks: secrets.yaml
+
 # - import_role:
 #     name: docker
 

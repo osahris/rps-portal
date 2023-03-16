@@ -45,3 +45,9 @@ group_sync_default_membership_store: accounts
 
 rps_admin_web_interface_debug: true
 keycloak_default_realm: users
+
+rps_admin_interface_secrets:
+  rps_admin_web_interface_db_password: "{{ rps_admin_web_interface_db_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  rps_admin_web_interface_secret_key: "{{ rps_admin_web_interface_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+rps_admin_web_interface_db_password: "{{ ansible_local.rps_admin_interface_secrets.rps_admin_web_interface_db_password | default(ansible_local.secrets.rps_admin_web_interface_db_password) }}"
+rps_admin_web_interface_secret_key: "{{ ansible_local.rps_admin_interface_secrets.rps_admin_web_interface_secret_key | default(ansible_local.secrets.rps_admin_web_interface_secret_key) }}"

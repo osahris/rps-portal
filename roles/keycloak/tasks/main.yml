@@ -1,4 +1,6 @@
 ---
+- import_tasks: secrets.yaml
+
 - name: create application directory
   file:
     path: "{{remote_path}}"

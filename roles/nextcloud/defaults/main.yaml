@@ -5,6 +5,12 @@ nextcloud_version: 25.0
 
 nextcloud_defaultapp: files
 
+nextcloud_secrets:
+  nextcloud_db_admin_password: "{{ nextcloud_db_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  nextcloud_keycloak_client_secret: "{{ nextcloud_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+nextcloud_db_admin_password: "{{ ansible_local.nextcloud_secrets[nextcloud_service_name].nextcloud_db_admin_password | default(ansible_local.secrets.nextcloud_db_admin_password) }}"
+nextcloud_keycloak_client_secret: "{{ ansible_local.nextcloud_secrets[nextcloud_service_name].nextcloud_keycloak_client_secret | default(ansible_local.secrets.nextcloud_keycloak_client_secret) }}"
+
 nextcloud_with_keycloak_client: true
 nextcloud_keycloak_client_auth_keycloak_url: "{{nextcloud_keycloak_client_url}}"
 nextcloud_keycloak_client_auth_client_id: admin-cli
