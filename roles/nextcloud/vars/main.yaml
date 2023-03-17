@@ -26,6 +26,7 @@ traefik_dynamic_config:
         entrypoints: websecure
         middlewares: 
         - header-redirect
+        - nextcloud-headers
         tls:
           certresolver: letsencrypt
         service: nextcloud
@@ -36,16 +37,25 @@ traefik_dynamic_config:
           servers:
             - url: "http://{{nextcloud_app_container_name}}:{{app_port}}" # "http://container_name:container_port"
 
-    # middlewares:
-    #   oauth2-proxy-auth-redirect:
-    #     forwardAuth:
-    #       address: http://oauth2-proxy:4180/
-    #       trustForwardHeader: true
-    #       authResponseHeaders:
-    #         - X-Auth-Request-Access-Token
-    #         - Authorization
-    #         - X-Auth-Request-Groups
+    middlewares:
+      nextcloud-headers:
+        headers:
+          contentSecurityPolicy: "{{ nextcloud_content_security_policy }}"
 
+
+nextcloud_content_security_policy: >
+  default-src 'none';
+  base-uri 'none';
+  manifest-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: blob:;
+  font-src 'self' data:;
+  connect-src 'self';
+  media-src 'self';
+  frame-src 'self';
+  frame-ancestors 'self';
+  form-action 'self'
 
 _nextcloud_apps_enabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Enabled|[]|map(&keys(@), @)|[]') }}"
 _nextcloud_apps_disabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Disabled|[]') }}"
