@@ -11,6 +11,8 @@ rps_header_sign_out_redirect_url: https://{{keycloak_service_name}}/realms/{{key
 #rps_header_keycloak_logout_redirect_url: https://{{header_service_name}}
 rps_header_root_redirect_url: https://{{header_service_name}}/test
 
+rps_header_webserver_env: prod
+
 rps_header_config:
   header_logo_uri: https://{{ inventory_hostname }}/?app=idia
   header_contact_url: https://{{ inventory_hostname }}/?app=idia
