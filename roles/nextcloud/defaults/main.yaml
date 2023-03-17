@@ -1,6 +1,8 @@
 ---
 nextcloud_service_name: "nextcloud.{{inventory_hostname}}"
 
+nextcloud_version: 25.0
+
 nextcloud_defaultapp: files
 
 nextcloud_with_keycloak_client: true
@@ -52,6 +54,10 @@ nextcloud_oidc_login_tls_verify: true
 nextcloud_oidc_login_disable_registration: false
 
 nextcloud_with_custom_ca_certificates: false
+
+nextcloud_with_header_injection: true
+nextcloud_header_injection_repo: https://gitlab.com/idcohorts/rps/rps-nextcloud-header-injection.git
+nextcloud_header_injection_version: "nextcloud/v{{ nextcloud_version }}"
 
 nextcloud_with_custom_theme: false
 nextcloud_custom_theme_name: rps

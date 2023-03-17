@@ -33,6 +33,9 @@
 - import_tasks: custom_theme/setup.yaml
   when: nextcloud_with_custom_theme
 
+- import_tasks: header_injection.yaml
+  when: nextcloud_with_header_injection
+
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
