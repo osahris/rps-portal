@@ -5,3 +5,7 @@ keycloak_auth_realm: master
 keycloak_validate_certs: yes
 keycloak_frontend_url: https://{{keycloak_service_name}}
 keycloak_realms: []
+
+keycloak_realms_secrets:
+  keycloak_subrealm_client_default_secret: "{{ keycloak_subrealm_client_default_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+keycloak_subrealm_client_default_secret: "{{ ansible_local.keycloak_realms.keycloak_subrealm_client_default_secret }}"

@@ -1,3 +1,5 @@
 ---
+- import_tasks: secrets.yaml
+
 - include_tasks: per_realm.yml
   loop: "{{ keycloak_realms }}"
