@@ -1,1 +1,15 @@
 ---
+discourse_traefik_dynamic_config:
+  http:
+    routers:
+      keycloak:
+        rule: "Host(`{{discourse_service_name}}`)"
+        entrypoints: websecure
+        service: discourse
+        tls:
+          certresolver: letsencrypt
+    services:
+      discourse:
+        loadBalancer:
+          servers:
+            - url: "http://{{ discourse_service_name|replace('.', '') }}_web_1"

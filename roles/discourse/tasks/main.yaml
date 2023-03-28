@@ -1,90 +1,80 @@
 ---
-- name: discourse docker network
-  docker_network:
-    name: "{{discourse_service_name|replace('.', '')}}"
+
+- name: discourse app discourse_target_directory
+  file:
+    path: "{{discourse_target_directory}}"
+    state: directory
+
+- name: postgres env file
+  template:
+    src: "postgres.env.j2"
+    dest: "{{discourse_target_directory}}/postgres.env"
 
 - name: discourse docker repo
   git:
     repo: https://github.com/discourse/discourse_docker.git
-    dest: "{{discourse_target_directory}}"
+    dest: "{{discourse_target_directory}}/discourse_docker"
 
-- name: discourse postgres container config
-  template:
-    src: "postgres.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_postgres_1.yml"
-  register: discourse_postgres_container_task
-
-- name: discourse redis container config
-  template:
-    src: "redis.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_redis_1.yml"
-  register: discourse_redis_container_task
-
-- name: discourse web container config
+- name: discourse web image builder config
   template:
     src: "web.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_web_1.yml"
-  register: discourse_web_container_task
+    dest: "{{discourse_target_directory}}/discourse_docker/containers/{{discourse_service_name|replace('.', '')}}_web_image_builder.yml"
+  register: discourse_web_image_builder_task
 
-- name: discourse mail-receiver container config
+- when: discourse_web_image_builder_task.changed
+  block:
+  - name: docker-compose file for databases
+    template:
+      src: "docker-compose.yaml.j2"
+      dest: "{{discourse_target_directory}}/docker-compose.yaml"
+      force: yes
+    vars:
+      discourse_with_web_in_docker_compose: false
+
+  - name: deploy docker-compose stack without databases
+    docker_compose:
+      project_src: "{{discourse_target_directory}}/"
+
+  - name: bootstrap discourse web container
+    command: ./launcher bootstrap {{discourse_service_name|replace('.', '')}}_web_image_builder
+    args:
+      chdir: "{{discourse_target_directory}}/discourse_docker"
+
+- name: discourse web env file
   template:
-    src: "mail-receiver.yaml.j2"
-    dest: "{{discourse_target_directory}}/containers/{{discourse_service_name|replace('.', '')}}_mail_receiver_1.yml"
-  register: discourse_mail_receiver_container_task
-  when: discourse_mail_reveiver_enabled
+    src: "web.env.j2"
+    dest: "{{discourse_target_directory}}/web.env"
 
-- name: rebuild discourse postgres container
-  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_postgres_1 --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-  when: discourse_postgres_container_task.changed
+# - name: bootstrap discourse mail-receiver container
+#   command: ./launcher bootstrap {{discourse_service_name|replace('.', '')}}_mail_receiver_1
+#   args:
+#     chdir: "{{discourse_target_directory}}/discourse_docker"
+#   when: 
+#     - discourse_mail_reveiver_enabled
+#     - discourse_mail_receiver_container_task.changed
 
-- name: rebuild discourse redis container
-  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_redis_1 --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-  when: discourse_redis_container_task.changed
+# - name: discourse mail-receiver container config
+#   template:
+#     src: "mail-receiver.yaml.j2"
+#     dest: "{{discourse_target_directory}}/discourse_docker/containers/{{discourse_service_name|replace('.', '')}}_mail_receiver_1.yml"
+#   register: discourse_mail_receiver_container_task
+#   when: discourse_mail_reveiver_enabled
 
-- name: rebuild discourse web container
-  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_web_1 --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-  when: discourse_web_container_task.changed
+# - when: discourse_web_image_builder_task.changed and discourse_mail_reveiver_enabled
 
-- name: rebuild discourse mail-receiver container
-  command: ./launcher rebuild {{discourse_service_name|replace('.', '')}}_mail_receiver_1 --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-  when: 
-    - discourse_mail_reveiver_enabled
-    - discourse_mail_receiver_container_task.changed
+- name: docker-compose file
+  template:
+    src: "docker-compose.yaml.j2"
+    dest: "{{discourse_target_directory}}/docker-compose.yaml"
 
-- name: ensure web container is connected to proxy network
-  docker_network:
-    name: proxy
-    connected:
-      - "{{discourse_service_name|replace('.', '')}}_web_1"
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{discourse_target_directory}}/"
 
-- name: ensure postgres container is started
-  command: ./launcher start postgres --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-
-- name: ensure redis container is started
-  command: ./launcher start redis --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-
-- name: ensure web container is started
-  command: ./launcher start web --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-
-- name: ensure mail-receiver container is started
-  command: ./launcher start mail-receiver --skip-prereqs
-  args:
-    chdir: "{{discourse_target_directory}}"
-  when: discourse_mail_reveiver_enabled
+- name: traefik dynamic config
+  copy:
+    content: "{{ discourse_traefik_dynamic_config }}"
+    dest: "/app/proxy/traefik/conf.d/{{discourse_service_name}}.yaml"
 
 - name: ensure discourse keycloak client
   local_action:
@@ -96,9 +86,8 @@
     auth_password: "{{ discourse_keycloak_management_password }}"
     client_id: discourse
     realm: "{{ discourse_keycloak_realm_name }}"
-    redirect_uris: [
-      "{{ discourse_keycloak_redirect_uri }}"
-    ]
+    redirect_uris:
+      - "{{ discourse_keycloak_redirect_uri }}"
     validate_certs: "{{ discourse_validate_certs }}"
     client_authenticator_type: client-secret
     secret: "{{ discourse_openid_client_secret }}"

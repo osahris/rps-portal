@@ -1,0 +1,50 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+  internal:
+
+volumes:
+  postgres:
+  redis:
+  web-shared:
+  web-log:
+
+services:
+  redis:
+    image: redis:7.0
+    restart: unless-stopped
+    volumes:
+      - redis:/data
+    networks:
+      - internal
+
+  postgres:
+    image: postgres:15.1
+    restart: unless-stopped
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file: postgres.env
+    networks:
+      - internal
+
+{% if discourse_with_web_in_docker_compose | default(true) %}
+# -e  -e  -e UNICORN_WORKERS=3 -e UNICORN_SIDEKIQS=1 -e RUBY_GLOBAL_METHOD_CACHE_SIZE=131072 -e RUBY_GC_HEAP_GROWTH_MAX_SLOTS=40000 -e RUBY_GC_HEAP_INIT_SLOTS=400000 -e RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR=1.5 -e DISCOURSE_DB_SOCKET= -e DISCOURSE_DB_HOST=postgres -e DISCOURSE_DB_PORT= -e DISCOURSE_HOSTNAME=discourse.dev.numhub.de -e DISCOURSE_DEVELOPER_EMAILS= -e DISCOURSE_DB_USERNAME=discourse -e DISCOURSE_DB_PASSWORD=slGMkg9Hjjgod5uTVP80z0XVYLCFApTB -e DISCOURSE_REDIS_HOST=redis -e DISCOURSE_MAX_ADMIN_API_REQS_PER_KEY_PER_MINUTE=1000 -e DISCOURSE_MAX_REQS_PER_IP_MODE=warn -h numhub-dev-discoursedevnumhubde-web-image-builder -e DOCKER_HOST_IP=172.17.0.1 --name discoursedevnumhubde_web_image_builder -t --mac-address 02:08:dc:7d:a4:26 --network discoursedevnumhubde_internal local_discourse/discoursedevnumhubde_web_image_builder /sbin/boot
+  web:
+    image: local_discourse/{{discourse_service_name|replace('.', '')}}_web_image_builder
+    restart: unless-stopped
+    shm_size: 512m
+    command: /sbin/boot
+    depends_on:
+      - redis
+      - postgres
+    env_file: web.env
+    volumes:
+      - web-shared:/shared
+      - web-log:/var/log
+    networks:
+      - proxy
+      - internal
+{% endif %}

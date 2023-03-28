@@ -13,7 +13,7 @@ base_image: discourse/mail-receiver:1.1.2
 update_pups: false
 
 docker_args:
-  - '--network {{discourse_service_name|replace('.', '')}}'
+  - '--network {{discourse_service_name|replace('.', '')}}_internal'
 
 expose:
   - "25:25"   # SMTP

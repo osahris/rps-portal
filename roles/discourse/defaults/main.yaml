@@ -17,6 +17,8 @@ discourse_mail_domain: "{{ discourse_service_name }}"
 discourse_web_ratelimited: true
 discourse_mail_reveiver_enabled: false
 discourse_mail_reveiver_tls_enabled: false
+
+discourse_http_host: false
 discourse_https_host: false
 
 discourse_validate_certs: yes

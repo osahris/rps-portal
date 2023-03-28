@@ -10,13 +10,15 @@ templates:
 {% endif %}
 
 docker_args:
-  - '--network {{discourse_service_name|replace('.', '')}}'
+  - '--network {{discourse_service_name|replace('.', '')}}_internal'
 
 ## which TCP/IP ports should this container expose?
 ## If you want Discourse to share a port with another webserver like Apache or nginx,
 ## see https://meta.discourse.org/t/17247 for details
 expose:
+{% if discourse_http_host %}
   - "80:80"   # http
+{% endif %}
 {% if discourse_https_host %}
   - "443:443" # https
 {% endif %}
@@ -27,7 +29,7 @@ links:
       name: {{discourse_service_name|replace('.', '')}}_redis_1
       alias: redis
   - link:
-      name: {{discourse_service_name|replace('.', '')}}_redis_1
+      name: {{discourse_service_name|replace('.', '')}}_postgres_1
       alias: postgres
 
 params:
@@ -72,7 +74,7 @@ env:
   ## configure connectivity to the databases
   DISCOURSE_DB_SOCKET: ''
   DISCOURSE_DB_USERNAME: discourse
-  DISCOURSE_DB_PASSWORD: "{{discourse_database_password}}"
+  DISCOURSE_DB_PASSWORD: "{{discourse_postgres_password}}"
   DISCOURSE_DB_HOST: postgres
   DISCOURSE_REDIS_HOST: redis
 
@@ -82,14 +84,6 @@ env:
   ## Admin API rate limits
   DISCOURSE_MAX_ADMIN_API_REQS_PER_KEY_PER_MINUTE : 1000
   DISCOURSE_MAX_REQS_PER_IP_MODE: warn
-
-volumes:
-  - volume:
-      host: {{discourse_target_directory}}/shared/web
-      guest: /shared
-  - volume:
-      host: {{discourse_target_directory}}/shared/web/log/var-log
-      guest: /var/log
 
 ## Plugins go here
 ## see https://meta.discourse.org/t/19157 for details
