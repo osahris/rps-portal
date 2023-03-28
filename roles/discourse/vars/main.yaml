@@ -2,7 +2,7 @@
 discourse_traefik_dynamic_config:
   http:
     routers:
-      keycloak:
+      discourse:
         rule: "Host(`{{discourse_service_name}}`)"
         entrypoints: websecure
         service: discourse
