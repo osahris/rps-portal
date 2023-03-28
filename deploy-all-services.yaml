@@ -9,16 +9,6 @@
             msg:
               - "{{ ansible_ssh_host }}"
               - "{{ inventory_hostname }}"
-        # - name: Create ansible facts directory
-        #   file:
-        #     path: /etc/ansible/facts.d
-        #     state: directory
-        # - name: Copy ansible secrets facts
-        #   copy:
-        #     content: "{{ secrets_fact | to_nice_json }}"
-        #     dest: /etc/ansible/facts.d/secrets.fact
-        # - name: Gather facts again after secrets generation
-        #   setup:
 
   roles:
     - role: docker
