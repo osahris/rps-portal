@@ -1,5 +1,8 @@
 ---
 discourse_service_name: "discourse.{{ inventory_hostname }}"
+discourse_target_directory: "/app/{{ discourse_service_name }}"
+
+discourse_base_url: "https://{{ discourse_service_name }}"
 
 locales:
   lang: de_DE.UTF-8
@@ -7,6 +10,11 @@ locales:
 
 discourse_version: stable
 
+discourse_secrets:
+  discourse_postgres_password: "{{ discourse_postgres_password  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  discourse_oidc_sso_client_secret: "{{ discourse_oidc_sso_client_secret  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+discourse_postgres_password: "{{ ansible_local[discourse_service_name].discourse_postgres_password }}"
 discourse_postgres_db_default_text_search_config: pg_catalog.german
 
 discourse_smtp_port: 587
@@ -14,20 +22,40 @@ discourse_smtp_port: 587
 discourse_mail_domain: "{{ discourse_service_name }}"
 
 discourse_web_ratelimited: true
+discourse_mail_reveiver_enabled: false
 discourse_mail_reveiver_tls_enabled: false
+
+discourse_http_host: false
 discourse_https_host: false
 
 discourse_validate_certs: yes
 
 discourse_api_username: system
 
-discourse_open_id_protocol: "https"
-discourse_open_id_hostname: "{{ keycloak_service_name }}"
-discourse_open_id_discovery_uri: "{{ discourse_open_id_protocol }}://{{ discourse_open_id_hostname }}/realms/{{ discourse_keycloak_realm_name }}/.well-known/openid-configuration"
+discourse_admin_users: []
 
-discourse_keycloak_realm_name: users
 
-discourse_keycloak_frontend_url: "{{ discourse_open_id_protocol }}://{{ discourse_open_id_hostname }}/auth"
-discourse_keycloak_redirect_protocol: "https"
-discourse_keycloak_redirect_hostname: "{{ discourse_service_name }}"
-discourse_keycloak_redirect_uri: "{{ discourse_keycloak_redirect_protocol }}://{{ discourse_keycloak_redirect_hostname }}/auth/oidc/callback"
+discourse_with_oidc_sso: true
+discourse_oidc_sso_client_id: "{{ discourse_service_name }}"
+discourse_oidc_sso_discovery_url: "{{ discourse_keycloak_client_realm_url }}/.well-known/openid-configuration"
+discourse_oidc_sso_client_secret: "{{ ansible_local[discourse_service_name].discourse_oidc_sso_client_secret }}"
+
+discourse_with_keycloak_client: true
+
+discourse_keycloak_base_url: "https://{{ keycloak_service_name }}"
+
+discourse_keycloak_client_auth_keycloak_url: "{{discourse_keycloak_base_url}}"
+discourse_keycloak_client_auth_client_id: admin-cli
+discourse_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+discourse_keycloak_client_auth_username: admin
+discourse_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+discourse_keycloak_client_validate_certs: true
+
+discourse_keycloak_client_realm: "rps"
+discourse_keycloak_client_realm_url: "{{discourse_keycloak_base_url}}/realms/{{discourse_keycloak_client_realm}}"
+discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
+discourse_keycloak_client_redirect_uris:
+  - "{{ discourse_base_url }}/auth/oidc/callback"
+discourse_keycloak_client_secret: "{{ discourse_oidc_sso_client_secret }}"
+
+discourse_with_traefik: true

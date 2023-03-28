@@ -49,6 +49,8 @@
       tags: budibase
     - role: collabora
       tags: collabora
+    - role: discourse
+      tags: discourse
     - role: matchmaking
       tags: matchmaking
     - role: nextcloud

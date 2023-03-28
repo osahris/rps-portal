@@ -9,11 +9,16 @@ templates:
   - "templates/web.letsencrypt.ssl.template.yml"
 {% endif %}
 
+docker_args:
+  - '--network {{discourse_service_name|replace('.', '')}}_internal'
+
 ## which TCP/IP ports should this container expose?
 ## If you want Discourse to share a port with another webserver like Apache or nginx,
 ## see https://meta.discourse.org/t/17247 for details
 expose:
+{% if discourse_http_host %}
   - "80:80"   # http
+{% endif %}
 {% if discourse_https_host %}
   - "443:443" # https
 {% endif %}
@@ -21,14 +26,11 @@ expose:
 # Use 'links' key to link containers together, aka use Docker --link flag.
 links:
   - link:
-      name: redis
+      name: {{discourse_service_name|replace('.', '')}}_redis_1
       alias: redis
   - link:
-      name: postgres
+      name: {{discourse_service_name|replace('.', '')}}_postgres_1
       alias: postgres
-
-# any extra arguments for Docker?
-# docker_args:
 
 params:
   ## Which Git revision should this container use? (default: tests-passed)
@@ -53,6 +55,7 @@ env:
   ## on initial signup example 'user1@example.com,user2@example.com'
   DISCOURSE_DEVELOPER_EMAILS: "{{discourse_admin_users|join(',')}}"
 
+{% if discourse_smtp_address is defined %}
   ## TODO: The SMTP mail server used to validate new accounts and send notifications
   # SMTP ADDRESS, username, and password are required
   # WARNING the char '#' in SMTP password can cause problems!
@@ -61,6 +64,7 @@ env:
   DISCOURSE_SMTP_USER_NAME: "{{discourse_smtp_user_name}}"
   DISCOURSE_SMTP_PASSWORD: "{{discourse_smtp_password}}"
   DISCOURSE_SMTP_ENABLE_START_TLS: true           # (optional, default true)
+{% endif %}
 
 {% if discourse_letsencrypt_account_email is defined %}
   ## If you added the Lets Encrypt template, uncomment below to get a free SSL certificate
@@ -70,7 +74,7 @@ env:
   ## configure connectivity to the databases
   DISCOURSE_DB_SOCKET: ''
   DISCOURSE_DB_USERNAME: discourse
-  DISCOURSE_DB_PASSWORD: "{{discourse_database_password}}"
+  DISCOURSE_DB_PASSWORD: "{{discourse_postgres_password}}"
   DISCOURSE_DB_HOST: postgres
   DISCOURSE_REDIS_HOST: redis
 
@@ -81,14 +85,6 @@ env:
   DISCOURSE_MAX_ADMIN_API_REQS_PER_KEY_PER_MINUTE : 1000
   DISCOURSE_MAX_REQS_PER_IP_MODE: warn
 
-volumes:
-  - volume:
-      host: /var/lib/discourse/shared/web
-      guest: /shared
-  - volume:
-      host: /var/lib/discourse/shared/web/log/var-log
-      guest: /var/log
-
 ## Plugins go here
 ## see https://meta.discourse.org/t/19157 for details
 hooks:
@@ -97,14 +93,11 @@ hooks:
         cd: $home/plugins
         cmd:
           - sudo -E -u discourse git clone https://github.com/discourse/docker_manager.git
-          - sudo -E -u discourse git clone https://github.com/gdpelican/babble.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-openid-connect.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-user-notes.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-canned-replies.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-solved.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-assign.git
-          - sudo -E -u discourse git clone https://github.com/gdpelican/retort.git
-          #- sudo -E -u discourse git clone https://github.com/pfaffman/discourse-topic-default-tag.git
           - sudo -E -u discourse git clone https://github.com/discourse/discourse-restricted-replies.git
 
 ## Remember, this is YAML syntax - you can only have one block with a name
@@ -126,25 +119,25 @@ run:
   # openid settings
   - exec: rails r "SiteSetting.enable_local_logins=false"
   - exec: rails r "SiteSetting.enable_local_logins_via_email=false"
-  - exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
+  #- exec: rails r "SiteSetting.external_auth_skip_create_confirm=true"
   #- exec: rails r "SiteSetting.login_required=true"
   - exec: rails r "SiteSetting.openid_connect_enabled=true"
   - exec: rails r "SiteSetting.openid_connect_verbose_logging=true"
   - exec: rails r "SiteSetting.openid_connect_overrides_email=true"
-  - exec: rails r "SiteSetting.openid_connect_discovery_document='{{ discourse_open_id_discovery_uri }}'"
-  - exec: rails r "SiteSetting.openid_connect_client_id='discourse'"
-  - exec: rails r "SiteSetting.openid_connect_client_secret='{{ discourse_openid_client_secret }}'"
+  - exec: rails r "SiteSetting.openid_connect_discovery_document='{{ discourse_oidc_sso_discovery_url }}'"
+  - exec: rails r "SiteSetting.openid_connect_client_id='{{ discourse_oidc_sso_client_id }}'"
+  - exec: rails r "SiteSetting.openid_connect_client_secret='{{ discourse_oidc_sso_client_secret }}'"
   - exec: rails r "SiteSetting.email_editable=false"
-  - exec: rails r "SiteSetting.sso_overrides_username=true"
-  - exec: rails r "SiteSetting.sso_overrides_email=true"
-  - exec: rails r "SiteSetting.sso_overrides_name=true"
+  #- exec: rails r "SiteSetting.sso_overrides_username=true"
+  #- exec: rails r "SiteSetting.sso_overrides_email=true"
+  #- exec: rails r "SiteSetting.sso_overrides_name=true"
   # these have special flags to enable them
-  - exec: rails r "SiteSetting.assign_enabled=true"
-  - exec: rails r "SiteSetting.user_notes_enabled=true"
+  #- exec: rails r "SiteSetting.assign_enabled=true"
+  #- exec: rails r "SiteSetting.user_notes_enabled=true"
 {% if discourse_mail_from is defined %}
   - exec: rails r "SiteSetting.notification_email='{{ discourse_mail_from }}'"
 {% endif %}
-
+  - exec: rails r "SiteSetting.max_category_nesting = 3"
 
   - exec: echo "End of custom commands"
-  - exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
+  #- exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
