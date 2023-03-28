@@ -27,18 +27,15 @@ rps_header_config:
 
   # header configuration
   header_top_navbar_links:
+    - title: Cloud
+      link: https://nextcloud.{{ inventory_hostname }}
+      icon: cloud
     - title: Account
-      link: https://{{ inventory_hostname }}/?app=keycloak
-      requireLogin: false
-      class: ""
+      link: https://keycloak.{{ inventory_hostname }}/realms/rps/account/
       icon: user
-      visibility: []
     - title: Hilfe & Kontakt
-      link: https://{{ inventory_hostname }}/?app=idia
-      requireLogin: false
-      class: ""
+      link: https://support.{{ inventory_hostname }}
       icon: circle-question
-      visibility: []
   header_bottom_navbar_links:
     - title: Suite
       icon: tools
