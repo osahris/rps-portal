@@ -5,4 +5,4 @@ collabora_service_name: "collabora.{{ inventory_hostname }}"
 
 collabora_secrets:
   collabora_admin_password: "{{ collabora_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-collabora_admin_password: "{{ ansible_local.collabora_secrets[collabora_service_name].collabora_admin_password | default(ansible_local.secrets.collabora_admin_password) }}"
+collabora_admin_password: "{{ ansible_local[collabora_service_name].collabora_admin_password | default(ansible_local.secrets.collabora_admin_password) }}"
