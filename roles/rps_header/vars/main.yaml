@@ -1,106 +1,14 @@
 ---
 remote_path: "/app/{{header_service_name}}"
 
-header_config:
-  header_logo_uri: https://idcohorts.net
-  header_keycloak_userinfo_url: /oauth2/userinfo
-  header_keycloak_auth_url: /oauth2/sign_in
-  header_keycloak_logout_url: /oauth2/sign_out
-  wordpress_logout_api: /
-  header_contact_url: https://idcohorts.net
-  header_support_url: mailto:nick.schulze@uk-koeln.de
-
-  # small style configuration
-  iconStyle: fas
-  hasLogin: true
-  producedBy: Idcohorts
-  header_login_title: Anmelden
-  header_logout_title: Abmelden
-
-  # header configuration
-  header_top_navbar_links:
-    - title: Account
-      link: https://dzif.de
-      requireLogin: false
-      class: ""
-      icon: user
-      visibility: []
-    - title: Hilfe & Kontakt
-      link: https://dzif.de
-      requireLogin: false
-      class: ""
-      icon: circle-question
-      visibility: []
-  header_bottom_navbar_links:
-    - title: Suite
-      icon: tools
-      link: https://dzif.de
-      requireLogin: false
-      isDisabled: false
-      type: dropdown
-      visibility:
-        - vip
-        - uk-frankfurt
-      children:
-        - title: Chat
-          text: Coming soon...
-          link: https://dzif.de
-          requireLogin: false
-          visibility:
-            - vip
-            - uk-frankfurt
-        - title: Chat
-          link: https://dzif.de
-          requireLogin: false
-          visibility:
-            - vip
-            - uk-frankfurt
-        - title: Dokumente
-          requireLogin: false
-          link: https://dzif.de
-          visibility:
-            - vip
-        - title: Kalendar
-          link: https://dzif.de
-          requireLogin: false
-          visibility:
-            - vip
-        - title: Support
-          link: https://dzif.de
-          requireLogin: false
-          visibility:
-            - vip
-    - title: Data & Tool Hub
-      link: https://dt-hub.dzif.de/
-      type: ""
-      requireLogin: false
-      visibility: []
-  footer_configuration:
-    has_first_logo: true
-    alt_first_logo: Logo DZG
-    has_second_logo: true
-    alt_second_logo: Bundesministerium für Bildung und Forschung
-    footer_sitemap: []
-    last_link_row:
-      - name: Impressum
-        link: https://dzif.de
-        isDisabled: true
-      - name: Datenschutz
-        link: https://dzif.de
-        isDisabled: true
-      - name: Intranet
-        link: https://dzif.de
-        isDisabled: true
-      - name: Anmelden
-        link: https://dzif.de
-        isDisabled: true
-
 header_traefik_dynamic_config:
   http:
     routers:
       header:
         rule: "Host(`{{header_service_name}}`)"
         entrypoints: websecure
+        middlewares:
+        - header-redirect
         tls:
           certresolver: letsencrypt
         service: header
@@ -109,4 +17,25 @@ header_traefik_dynamic_config:
       header:
         loadBalancer:
           servers:
-            - url: "http://{{header_service_name|replace('.', '')}}_header_1"
+            - url: "http://{{header_service_name|replace('.', '')}}_header_1:4080"
+
+    # This 'header-redirect' middleware redirects every subdomain SERVICENAME.domain/header.js to header.domain/header.js
+    # If this SERVICENAME has this middleware included like this --|
+    #                                                              |
+    # traefik_dynamic_config:                                      |
+    #   http:                                                      |
+    #     routers:                                                 |
+    #       SERVICENAME:                                           |
+    #         rule: "Host(`SERVICENAME.domain`)"                   |
+    #         entrypoints: websecure                               |
+    #         middlewares:                                         |
+    #         - header-redirect # <<< ------ here ------ <<< ------|
+    #         tls:
+    #           certresolver: letsencrypt
+    #         service: SERVICENAME
+    middlewares:
+      header-redirect:
+        redirectRegex:
+          regex: "^http?s://.*{{inventory_hostname}}/header.js"
+          replacement: "https://{{header_service_name}}/header.js"
+          permanent: true

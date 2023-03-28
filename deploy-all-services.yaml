@@ -24,40 +24,49 @@
 
   roles:
     - role: docker
-      tags: docker
+      tags: docker, core
     - role: gitlab_credentials
-      tags: gitlab_credentials
+      tags: gitlab_credentials, gitlab-credentials, core
     - role: traefik
-      tags: traefik
-    - role: keycloak
-      tags: keycloak
-    - role: keycloak_realms
-      tags: keycloak_realms
-    - role: oauth2_proxy
-      tags: oauth2_proxy
+      tags: traefik, core
     - role: idia
-      tags: idia
+      tags: idia, core
+    - role: keycloak
+      tags: keycloak, core
+    - role: keycloak_realms
+      tags: keycloak_realms, keycloak-realms, core
+    - role: oauth2_proxy
+      tags: oauth2_proxy, core
     - role: rps_groups_interface
-      tags: rps_groups_interface
+      tags: rps_groups_interface, rps-groups-interface
     - role: rps_admin_interface
-      tags: rps_admin_interface
+      tags: rps_admin_interface, rps-admin-interface
     - role: rps_header
-      tags: rps_header
-    - role: static_header_test
-      tags: static_header_test
-    - role: wordpress
-      tags: wordpress
-    - role: nextcloud
-      tags: nextcloud
+      tags: rps_header, rps-header
+    # - role: static_header_test
+    #   tags: static_header_test, static-header-test, core
+    - role: budibase
+      tags: budibase
     - role: collabora
       tags: collabora
-    - role: wiki-js
-      tags: wiki-js
     - role: discourse
       tags: discourse
-    # - role: wiki-js
-    #   tags: wiki-js
-    # - role: wiki-bookstack
-    #   tags: wiki-bookstack
     - role: matchmaking
       tags: matchmaking
+    - role: nextcloud
+      tags: nextcloud
+    - role: minimum_viable_product
+      tags: minimum_viable_product, minimum-viable-product, mvp
+    - role: rocketchat
+      tags: rocketchat
+    # - role: typesense
+    #   tags: typesense
+    # - role: wiki-bookstack
+    #   tags: wiki_bookstack, wiki-bookstack
+    - role: wiki-js
+      tags: wiki_js, wiki-js
+    - role: wordpress
+      tags: wordpress
+    - role: webserver
+      tags: webserver
+ 

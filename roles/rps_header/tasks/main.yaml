@@ -4,27 +4,20 @@
     path: "{{remote_path}}"
     state: directory
 
-- name: install git
-  apt:
-    name: git
-    state: present
-
-- name: clone header git repository
-  git:
-    repo: "{{ header_git_repo }}"
-    dest: "{{ remote_path }}/header"
-    force: true
-    version: "sign-out-oauth2"
-
 - name: create config.yaml
   copy:
-    content: "{{ header_config }}"
-    dest: "{{ remote_path }}/header/config.yaml"
+    content: "{{ rps_header_config }}"
+    dest: "{{ remote_path }}/header_config.yaml"
 
 - name: create docker compose yaml
   template:
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
+
+- name: create env file
+  template:
+    src: "env.j2"
+    dest: "{{remote_path}}/.env"
 
 - name: deploy docker-compose stack
   docker_compose:

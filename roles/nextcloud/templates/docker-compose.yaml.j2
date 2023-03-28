@@ -13,7 +13,7 @@ volumes:
 services:
 
   nextcloud:
-    image: nextcloud:25.0
+    image: nextcloud:{{ nextcloud_version }}
     restart: unless-stopped
     logging:
       options:
@@ -28,11 +28,13 @@ services:
       - db
     volumes:
       - nextcloud:/var/www/html
+      - ./nextcloud/themes:/var/www/html/themes
+{% if nextcloud_with_header_injection %}
+      - ./rps-nextcloud-header-injection/core/templates/layout.user.php:/var/www/html/core/templates/layout.user.php
+{% endif %}
     env_file:
       - "./env"
 
-# docker exec -u www-data -it nextcloud_app php occ maintenance:install --admin-user "admin" --admin-pass "pass"
-# docker exec -u www-data -it nextcloud_app php occ app:install sociallogin
 
   db:
     image: mariadb:10.5

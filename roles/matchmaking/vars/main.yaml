@@ -4,7 +4,7 @@ app_port: "80"
 
 keycloak_service_name: "keycloak.{{ inventory_hostname }}"
 keycloak_realm_name: "rps"
-keycloak_client_ID: "matchmaking.vasily.iodatalabs.dev"
+keycloak_client_ID: "matchmaking.{{ inventory_hostname }}"
 
 
 # For each new running service add below a traefik router and a traefik service
@@ -14,6 +14,8 @@ traefik_dynamic_config:
       matchmaking:
         rule: "Host(`{{matchmaking_service_name}}`)"
         entrypoints: websecure
+        middlewares:
+        - header-redirect
         tls:
           certresolver: letsencrypt
           domains:

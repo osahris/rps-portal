@@ -33,6 +33,9 @@
 - import_tasks: custom_theme/setup.yaml
   when: nextcloud_with_custom_theme
 
+- import_tasks: header_injection.yaml
+  when: nextcloud_with_header_injection
+
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
@@ -47,7 +50,7 @@
 
 - name: wait for docker-compose stack deployment
   community.docker.docker_container_exec:
-    container: "{{nextcloud_service_name|replace('.','')}}_nextcloud_1"
+    container: "{{nextcloud_app_container_name}}"
     user: www-data
     command: php occ status --output=json
   register: _nextcloud_status_task
@@ -59,7 +62,7 @@
 - name: install nextcloud
   when: not _nextcloud_status.installed
   community.docker.docker_container_exec:
-    container: "{{nextcloud_service_name|replace('.','')}}_nextcloud_1"
+    container: "{{nextcloud_app_container_name}}"
     user: www-data
     command: php occ maintenance:install --admin-user="{{MYSQL_USER}}" --admin-pass="{{MYSQL_ROOT_PASSWORD}}" --database="sqlite" --database-name="{{MYSQL_DATABASE}}" --database-host="{{MYSQL_HOST}}" --database-user="{{MYSQL_USER}}" --database-pass="{{MYSQL_PASSWORD}}"
   register: _nextcloud_status_task
@@ -71,8 +74,6 @@
 
 - import_tasks: custom_theme/config.yaml
   when: nextcloud_with_custom_theme
-
-# - import_tasks: keycloak-config.yaml
 
 - import_tasks: keycloak_client.yaml
   when: nextcloud_with_keycloak_client

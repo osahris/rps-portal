@@ -1,0 +1,21 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+    
+services:
+
+  {{service_name}}: # Service name
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    logging:
+      options:
+        max-size: 5m
+    restart: unless-stopped
+    networks:
+      - proxy
+    env_file: 
+      - "./env"

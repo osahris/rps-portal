@@ -1,6 +1,8 @@
 ---
 nextcloud_service_name: "nextcloud.{{inventory_hostname}}"
 
+nextcloud_version: 25.0
+
 nextcloud_defaultapp: files
 
 nextcloud_with_keycloak_client: true
@@ -12,9 +14,9 @@ nextcloud_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 nextcloud_keycloak_client_validate_certs: true
 
 nextcloud_keycloak_client_url: "https://{{ keycloak_service_name }}"
+nextcloud_keycloak_client_realm: "rps"
 nextcloud_keycloak_client_realm_url: "{{nextcloud_keycloak_client_url}}/realms/{{nextcloud_keycloak_client_realm}}"
 nextcloud_keycloak_client_client_id: "{{ nextcloud_service_name }}"
-nextcloud_keycloak_client_realm: "{{ keycloak_realm }}"
 nextcloud_keycloak_client_redirect_uris:
   - https://{{ nextcloud_service_name }}/*
 #nextcloud_keycloak_client_secret:
@@ -53,7 +55,11 @@ nextcloud_oidc_login_disable_registration: false
 
 nextcloud_with_custom_ca_certificates: false
 
-nextcloud_with_custom_theme: true
+nextcloud_with_header_injection: true
+nextcloud_header_injection_repo: https://gitlab.com/idcohorts/rps/rps-nextcloud-header-injection.git
+nextcloud_header_injection_version: "nextcloud/v{{ nextcloud_version }}"
+
+nextcloud_with_custom_theme: false
 nextcloud_custom_theme_name: rps
 nextcloud_theme_repo: https://gitlab.com/idcohorts/rps/nextcloud-theme.git
 nextcloud_theme_version: main

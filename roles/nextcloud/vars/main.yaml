@@ -8,16 +8,14 @@ _nextcloud_status: "{{_nextcloud_status_task.stdout | from_json}}"
 _nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
 
 # # ------------------------------------------ #
-MYSQL_HOST: "{{nextcloud_service_name|replace('.','')}}_db_1"
+nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
+nextcloud_db_container_name:  "{{nextcloud_service_name|replace('.','')}}_db_1"
+# # ------------------------------------------ #
+MYSQL_HOST: "{{nextcloud_db_container_name}}"
 MYSQL_DATABASE: "nextcloud"
 MYSQL_USER: "admin"
-MYSQL_PASSWORD: "Lfgj[eqnfr-nj]"
-MYSQL_ROOT_PASSWORD: "Lfgj[eqnfr-nj]"
-# # ------------------------------------------ #
-keycloak_domain: "keycloak.{{inventory_hostname}}"
-keycloak_realm: "rps"
-keycloak_my_application_id: "nextcloud"
-keycloak_my_super_secret_secret: "dsaNzueQeiT4OCKJeh1Hca5MqeBrGHTG"
+MYSQL_PASSWORD: "{{nextcloud_db_admin_password}}"
+MYSQL_ROOT_PASSWORD: "{{nextcloud_db_admin_password}}"
 
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
@@ -26,6 +24,9 @@ traefik_dynamic_config:
       nextcloud:
         rule: "Host(`{{ nextcloud_service_name }}`)"
         entrypoints: websecure
+        middlewares: 
+        - header-redirect
+        - nextcloud-headers
         tls:
           certresolver: letsencrypt
         service: nextcloud
@@ -34,19 +35,27 @@ traefik_dynamic_config:
       nextcloud:
         loadBalancer:
           servers:
-            - url: "http://{{nextcloud_service_name|replace('.', '')}}_nextcloud_1:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{nextcloud_app_container_name}}:{{app_port}}" # "http://container_name:container_port"
 
-    # middlewares:
-    #   oauth2-proxy-auth-redirect:
-    #     forwardAuth:
-    #       address: http://oauth2-proxy:4180/
-    #       trustForwardHeader: true
-    #       authResponseHeaders:
-    #         - X-Auth-Request-Access-Token
-    #         - Authorization
-    #         - X-Auth-Request-Groups
+    middlewares:
+      nextcloud-headers:
+        headers:
+          contentSecurityPolicy: "{{ nextcloud_content_security_policy }}"
 
-nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
+
+nextcloud_content_security_policy: >
+  default-src 'none';
+  base-uri 'none';
+  manifest-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: blob:;
+  font-src 'self' data:;
+  connect-src 'self';
+  media-src 'self';
+  frame-src 'self';
+  frame-ancestors 'self';
+  form-action 'self'
 
 _nextcloud_apps_enabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Enabled|[]|map(&keys(@), @)|[]') }}"
 _nextcloud_apps_disabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Disabled|[]') }}"

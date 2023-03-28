@@ -1,0 +1,28 @@
+---
+- name: Creates directory
+  file:
+    path: "{{ remote_path }}"
+    state: directory
+
+- name: copy rocketchat docker-compose.yaml
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ remote_path }}/docker-compose.yaml"
+
+- name: copy rocketchat.env
+  template:
+    src: rocketchat.env.j2
+    dest: "{{ remote_path }}/rocketchat.env"
+
+- name: traefik dynamic config
+  copy:
+    content: "{{ rocketchat_traefik_dynamic_config }}"
+    dest: "/app/proxy/traefik/conf.d/rocketchat.yaml"
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    files: "docker-compose.yaml"
+    pull: true
+    build: true
+    remove_orphans: true

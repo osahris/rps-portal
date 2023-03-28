@@ -1,0 +1,23 @@
+---
+version: "3"
+
+networks:
+  # {{service_name}}: # Uncomment if a network out of scope of Traefik needed
+  #   external: true
+  proxy:
+    external: true
+
+services:
+
+  "{{service_name}}": # Change this to the name of your service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    # expose:
+    #   - "801" # Uncomment if other containers should reach through this port internally
+    networks:
+      - proxy
+    #   - {{service_name}} # Uncomment if a network out of scope of Traefik needed
+    # env_file: 
+    #   - "./env" # Uncomment to import from file the environment variables to the cantainer

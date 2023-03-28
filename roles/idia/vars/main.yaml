@@ -10,6 +10,8 @@ traefik_dynamic_config:
       idia:
         rule: "Host(`{{idia_service_name}}`)"
         entrypoints: websecure
+        middlewares:
+        - header-redirect
         tls:
           certresolver: letsencrypt
           domains:
