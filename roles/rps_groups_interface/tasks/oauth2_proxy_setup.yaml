@@ -12,7 +12,7 @@
     realm: "{{ realm.name }}"
     redirect_uris: "https://{{ rps_groups_interface_service_name }}/realms/{{ realm.name }}/oauth2/callback"
     client_authenticator_type: client-secret
-    secret: "{{ realm.client_secret }}"
+    secret: "{{ realm.client_secret | default(rps_groups_interface_default_client_secret) }}"
     state: present
     validate_certs: true
     protocol_mappers:

@@ -17,7 +17,7 @@ rps_groups_interface_rps_groups_interface_base_service:
   restart: unless-stopped
 
 # this creates one oauth proxy service per managed realm as a docker compose usable service definition
-rps_groups_interface_oauth2_proxy_docker_services: "{{ rps_groups_interface_managed_realms|map('to_oauth2_docker_service', rps_groups_interface_service_name, keycloak_service_name, rps_groups_interface_oauth2_proxy_base_service) }}"
+rps_groups_interface_oauth2_proxy_docker_services: "{{ rps_groups_interface_managed_realms|map('to_oauth2_docker_service', rps_groups_interface_service_name, keycloak_service_name, rps_groups_interface_oauth2_proxy_base_service, rps_groups_interface_default_client_secret, rps_groups_interface_default_cookie_secret) }}"
 rps_groups_interface_oauth2_proxy_rps_groups_interface_services: "{{ rps_groups_interface_managed_realms|map('to_rps_groups_interface_docker_service', rps_groups_interface_service_name, keycloak_service_name, rps_groups_interface_rps_groups_interface_base_service) }}"
 
 rps_groups_interface_docker_compose:

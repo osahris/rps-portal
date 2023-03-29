@@ -20,10 +20,10 @@ def _merge_dictionaries(dict1, dict2):
     return dict2
 
 
-def to_oauth2_docker_service(realm, service_name, keycloak_service_name, base_service):
+def to_oauth2_docker_service(realm, service_name, keycloak_service_name, base_service, rps_groups_interface_default_client_secret, rps_groups_interface_default_cookie_secret):
     name = realm.pop("name")
-    client_secret = realm.pop("client_secret")
-    cookie_secret = realm.pop("cookie_secret")
+    client_secret = realm.get("client_secret", rps_groups_interface_default_client_secret)
+    cookie_secret = realm.get("cookie_secret", rps_groups_interface_default_cookie_secret)
     redirect_url = f"https://{service_name}/realms/{name}/oauth2/callback"
     issuer_url = f"https://{keycloak_service_name}/realms/{name}"
     service = _merge_dictionaries(

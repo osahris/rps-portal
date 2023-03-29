@@ -16,7 +16,7 @@ rps_groups_interface_oauth2_proxy_container_image: quay.io/oauth2-proxy/oauth2-p
 rps_groups_interface_oauth2_proxy_request_logging: false
 
 rps_groups_interface_secrets:
-  rps_groups_interface_client_secret: "{{ rps_groups_interface_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  rps_groups_interface_cookie_secret: "{{ rps_groups_interface_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-rps_groups_interface_client_secret: "{{ ansible_local.rps_groups_interface_secrets.rps_groups_interface_client_secret }}"
-rps_groups_interface_cookie_secret: "{{ ansible_local.rps_groups_interface_secrets.rps_groups_interface_cookie_secret }}"
+  rps_groups_interface_default_client_secret: "{{ rps_groups_interface_default_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  rps_groups_interface_default_cookie_secret: "{{ rps_groups_interface_default_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+rps_groups_interface_default_client_secret: "{{ ansible_local.rps_groups_interface_secrets.rps_groups_interface_default_client_secret }}"
+rps_groups_interface_default_cookie_secret: "{{ ansible_local.rps_groups_interface_secrets.rps_groups_interface_default_cookie_secret }}"

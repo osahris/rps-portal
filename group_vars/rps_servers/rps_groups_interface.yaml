@@ -1,8 +1,4 @@
 ---
 rps_groups_interface_managed_realms:
   - name: rps
-    client_secret: "{{ rps_groups_interface_rps_client_secret }}"
-    cookie_secret: "{{ rps_groups_interface_rps_cookie_secret }}"
   - name: projektportal
-    client_secret: "{{ rps_groups_interface_projektportal_client_secret }}"
-    cookie_secret: "{{ rps_groups_interface_projektportal_cookie_secret }}"
