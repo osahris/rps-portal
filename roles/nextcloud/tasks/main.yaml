@@ -5,6 +5,8 @@
       - "{{ ansible_ssh_host }}"
       - "{{ inventory_hostname }}"
 
+- import_tasks: secrets.yaml
+
 - name: create directory
   file: path={{remote_path}} state=directory
 
@@ -39,14 +41,9 @@
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
-    # add multiple docker-compose.yaml / .yml files below
-    files: "{{item}}"
-    # This option ensures that the images are rebuilt
-    build: true
+  
     pull: true
     remove_orphans: true
-  with_items:
-    - "docker-compose.yaml"
 
 - name: wait for docker-compose stack deployment
   community.docker.docker_container_exec:

@@ -26,7 +26,6 @@ keycloak_realms:
       # name of parent_realm (on the same keycloak server)
       name: rps
       # whatever secret you want. use ansible_vault or something else
-      client_secret: "{{ keycloak_subrealm_client_secret }}"
       import:
         # import user attribute "title" from parent_realm
         - name: "title"

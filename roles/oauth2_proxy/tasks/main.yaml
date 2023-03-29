@@ -1,4 +1,6 @@
 ---
+- import_tasks: secrets.yaml
+
 - import_tasks: keycloak.yaml
 - name: create application directory
   file:

@@ -1,4 +1,6 @@
 ---
+- import_tasks: secrets.yaml
+
 - name: install git
   apt:
     name: git
@@ -17,3 +19,4 @@
     registry_url: registry.gitlab.com
     username: "{{ gitlab_deploy_token_username }}"
     password: "{{ gitlab_deploy_token_password }}"
+
