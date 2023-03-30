@@ -29,7 +29,7 @@ oauth2_proxy_traefik_dynamic_config:
           trustForwardHeader: true
       oauth2-auth-admin-interface:
         forwardAuth:
-          address: "{{ oauth2_proxy_base_url }}/oauth2/auth?allowed_groups=admins"
+          address: "{{ oauth2_proxy_base_url }}/oauth2/auth?allowed_groups=admin"
           authResponseHeaders:
             - X-Auth-Request-Access-Token
             - X-Auth-Request-User
