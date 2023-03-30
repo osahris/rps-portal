@@ -1,5 +1,6 @@
 ---
-keycloak_service_name: "keycloak.{{ inventory_hostname }}"
+keycloak_service_name: "{{ inventory_hostname }}"
+
 keycloak_protocol: "https"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_service_name }}"
 

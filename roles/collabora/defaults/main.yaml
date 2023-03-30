@@ -1,7 +1,8 @@
 ---
+collabora_service_name: "{{ inventory_hostname }}"
+
 collabora_admin_username: admin
 collabora_domain_image: collabora/code
-collabora_service_name: "collabora.{{ inventory_hostname }}"
 
 collabora_secrets:
   collabora_admin_password: "{{ collabora_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"

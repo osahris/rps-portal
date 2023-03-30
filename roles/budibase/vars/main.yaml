@@ -11,6 +11,7 @@ budibase_secrets:
   budibase_admin_user_password: "{{ budibase_admin_user_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   # budibase_admin_user_email: "{{ budibase_admin_user_email | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
+service_domain_name: "{{budibase_service_name}}"
 remote_path: "/app/{{service_domain_name}}"
 
 traefik_certresolver: "letsencrypt"
