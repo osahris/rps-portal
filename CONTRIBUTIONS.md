@@ -6,7 +6,7 @@ We thank all contributors of this project!
 - Chin Branson Lee (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Cologne)
 - Vasily Tulsky (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Frankfurt)
 - Tom-Robin Raja (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Cologne)
-- Eray Gülcü (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Frankfurt)
+- Eray Güçlü (Working Group Cohorts in Infectious Diseases and Oncology; University Hospital Frankfurt)
 - Andreas Streichardt
 - Philipp Kaluza (Ghostroute Consulting) <consult@ghostroute.eu>
 - Martin Wilz
