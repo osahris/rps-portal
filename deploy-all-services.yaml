@@ -51,8 +51,8 @@
     #   tags: typesense
     # - role: wiki-bookstack
     #   tags: wiki_bookstack, wiki-bookstack
-    - role: wiki-js
-      tags: wiki_js, wiki-js
+    # - role: wiki-js
+    #   tags: wiki_js, wiki-js
     # - role: wordpress
     #   tags: wordpress
     - role: webserver
