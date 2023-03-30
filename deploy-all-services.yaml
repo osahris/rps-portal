@@ -1,6 +1,9 @@
 ---
 - hosts: rps_servers
   become: true
+  vars:
+    budibase_service_name: "budibase.{{ inventory_hostname }}"
+    rps_people_service_name: "people.{{ inventory_hostname }}"
 
   pre_tasks:
     - block:

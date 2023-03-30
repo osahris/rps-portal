@@ -1,2 +1,0 @@
----
-matchmaking_service_name: "matchmaking.{{ inventory_hostname }}"
