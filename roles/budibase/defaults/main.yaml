@@ -1,3 +1,13 @@
 ---
 service_name: "budibase"
 service_domain_name: "{{service_name}}.{{ inventory_hostname }}"
+
+budibase_api_encryption_key: "{{ ansible_local[service_name].budibase_api_encryption_key | default(ansible_local.secrets.budibase_api_encryption_key) }}"
+budibase_jwt_secret: "{{ ansible_local[service_name].budibase_jwt_secret | default(ansible_local.secrets.budibase_jwt_secret) }}"
+budibase_minio_access_key: "{{ ansible_local[service_name].budibase_minio_access_key | default(ansible_local.secrets.budibase_minio_access_key) }}"
+budibase_minio_secret_key: "{{ ansible_local[service_name].budibase_minio_secret_key | default(ansible_local.secrets.budibase_minio_secret_key) }}"
+budibase_couch_db_password: "{{ ansible_local[service_name].budibase_couch_db_password | default(ansible_local.secrets.budibase_couch_db_password) }}"
+budibase_couch_db_user: "{{ ansible_local[service_name].budibase_couch_db_user | default(ansible_local.secrets.budibase_couch_db_user) }}"
+budibase_redis_password: "{{ ansible_local[service_name].budibase_redis_password | default(ansible_local.secrets.budibase_redis_password) }}"
+budibase_internal_api_key: "{{ ansible_local[service_name].budibase_internal_api_key | default(ansible_local.secrets.budibase_internal_api_key) }}"
+budibase_admin_user_password: "{{ ansible_local[service_name].budibase_admin_user_password | default(ansible_local.secrets.budibase_admin_user_password) }}"

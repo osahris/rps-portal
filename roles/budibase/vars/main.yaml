@@ -1,4 +1,16 @@
 ---
+budibase_secrets:
+  budibase_api_encryption_key: "{{ budibase_api_encryption_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_jwt_secret: "{{ budibase_jwt_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_minio_access_key: "{{ budibase_minio_access_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_minio_secret_key: "{{ budibase_minio_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_couch_db_password: "{{ budibase_couch_db_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_couch_db_user: "{{ budibase_couch_db_user | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_redis_password: "{{ budibase_redis_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_internal_api_key: "{{ budibase_internal_api_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_admin_user_password: "{{ budibase_admin_user_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  # budibase_admin_user_email: "{{ budibase_admin_user_email | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
 remote_path: "/app/{{service_domain_name}}"
 
 traefik_certresolver: "letsencrypt"

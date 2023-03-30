@@ -1,2 +1,5 @@
+; [rps_servers]
+; dev.numhub.de ansible_ssh_user=root admin_email=markus.brechtel@uk-koeln.de
+
 [rps_servers]
-dev.numhub.de ansible_ssh_user=root admin_email=markus.brechtel@uk-koeln.de
+nick.iodatalabs.dev ansible_ssh_user=root admin_email=nick.schulze@uk-koeln.de
