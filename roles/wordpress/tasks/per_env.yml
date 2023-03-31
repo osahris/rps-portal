@@ -35,7 +35,7 @@
     pull: true
     remove_orphans: true
 
-# bah. ansible doesn't support waiting for docker-compose setup. fck
+# ansible doesn't support waiting for docker-compose setup
 - block:
     - name: get infos from wordpress container
       community.docker.docker_container_info:
