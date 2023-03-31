@@ -1,0 +1,27 @@
+FROM python:3.10
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV FLASK_APP rps-admin-tools/rps_admin_interface/run.py
+ENV FLASK_RUN_HOST=0.0.0.0
+
+WORKDIR /var/www/
+
+# copy dependencies
+COPY rps-admin-tools/requirements.txt .
+COPY rps-admin-tools/rps_admin_tools/ ./rps_admin_tools/
+COPY rps-admin-tools/rps_admin_scripts/ ./rps_admin_scripts/
+
+# Configuration
+COPY config.NUMHub.yaml .
+
+# install python dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 5000
+
+COPY . .
+
+CMD ["flask", "run"]

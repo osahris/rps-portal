@@ -1,0 +1,31 @@
+remote_path: "/app/{{service_domain_name}}"
+
+traefik_certresolver: "letsencrypt"
+app_port: "5000"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    middlewares:
+      rps-admin-interface-add-oauth2-redirect-header:
+        headers:
+          customrequestheaders:
+            X-Auth-Request-Redirect: "https://{{service_domain_name}}"
+
+    routers:
+      admin_interface: # <-- Change this to your service name
+        rule: "Host(`{{service_domain_name}}`)"
+        entrypoints: websecure
+        service: "admin_interface" # <-- Change this to your service name
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        middlewares:
+          - rps-admin-interface-add-oauth2-redirect-header
+          - oauth2-errors
+          - oauth2-auth-admin-interface
+          - header-redirect
+    services:
+      admin_interface: # <-- Change this to your service name
+        loadBalancer:
+          servers:
+            - url: "http://{{service_domain_name|replace('.','')}}_{{service_name}}_1:{{app_port}}" # "http://container_name:container_port"
