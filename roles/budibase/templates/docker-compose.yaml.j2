@@ -19,6 +19,7 @@ services:
     networks:
       - proxy
     environment:
+      CUSTOM_DOMAIN: {{budibase_custom_domain}}
       JWT_SECRET: {{budibase_jwt_secret}}
       MINIO_ACCESS_KEY: {{budibase_minio_access_key}}
       MINIO_SECRET_KEY: {{budibase_minio_secret_key}}
