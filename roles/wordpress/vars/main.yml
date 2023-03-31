@@ -1,4 +1,10 @@
 ---
+wordpress_secrets:
+  wordpress_staging_admin_password: "{{ wordpress_staging_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_staging_mysql_password: "{{ wordpress_staging_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_prod_admin_password: "{{ wordpress_prod_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_prod_mysql_password: "{{ wordpress_prod_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
 wordpress_prod_traefik_dynamic_config:
   http:
     routers:
