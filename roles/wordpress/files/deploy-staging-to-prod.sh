@@ -13,47 +13,47 @@ cp -al wp-backup.0 wp-backup.1
 
 mkdir -p wp-backup.0/html/
 
-STAGING_CONTAINER_ID=$(docker-compose ps -q wordpress)
-if [ -z "$STAGING_CONTAINER_ID" ]; then
+DRAFT_CONTAINER_ID=$(docker-compose ps -q wordpress)
+if [ -z "$DRAFT_CONTAINER_ID" ]; then
     echo "Couldn't find staging container"
     exit 2
 fi
-STAGING_VOLUME=$(docker inspect $STAGING_CONTAINER_ID  | jq -r '.[0].Mounts[] | select(.Destination == "/var/www/html") | .Source')
-if [ -z "$STAGING_VOLUME" ]; then
+DRAFT_VOLUME=$(docker inspect $DRAFT_CONTAINER_ID  | jq -r '.[0].Mounts[] | select(.Destination == "/var/www/html") | .Source')
+if [ -z "$DRAFT_VOLUME" ]; then
     echo "Couldn't find staging volume"
     exit 3
 fi
-STAGING_NETWORK=$(docker inspect $STAGING_CONTAINER_ID  | jq -r '.[0].NetworkSettings.Networks | to_entries | .[] | select(.key | contains("internal")) | .key')
-if [ -z "$STAGING_NETWORK" ]; then
+DRAFT_NETWORK=$(docker inspect $DRAFT_CONTAINER_ID  | jq -r '.[0].NetworkSettings.Networks | to_entries | .[] | select(.key | contains("internal")) | .key')
+if [ -z "$DRAFT_NETWORK" ]; then
     echo "Couldn't find staging network"
     exit 3
 fi
 
 . env-prod
 
-PROD_CONTAINER_ID=$(cd ../$PROD_SERVICE_NAME && docker-compose ps -q wordpress)
-if [ -z "$PROD_CONTAINER_ID" ]; then
+LIVE_CONTAINER_ID=$(cd ../$LIVE_SERVICE_NAME && docker-compose ps -q wordpress)
+if [ -z "$LIVE_CONTAINER_ID" ]; then
     echo "Couldn't find prod container"
     exit 2
 fi
-PROD_VOLUME=$(docker inspect $PROD_CONTAINER_ID  | jq -r '.[0].Mounts[] | select(.Destination == "/var/www/html") | .Source')
-if [ -z "$PROD_VOLUME" ]; then
+LIVE_VOLUME=$(docker inspect $LIVE_CONTAINER_ID  | jq -r '.[0].Mounts[] | select(.Destination == "/var/www/html") | .Source')
+if [ -z "$LIVE_VOLUME" ]; then
     echo "Couldn't find prod volume"
     exit 3
 fi
-PROD_NETWORK=$(docker inspect $PROD_CONTAINER_ID  | jq -r '.[0].NetworkSettings.Networks | to_entries | .[] | select(.key | contains("internal")) | .key')
-if [ -z "$PROD_NETWORK" ]; then
+LIVE_NETWORK=$(docker inspect $LIVE_CONTAINER_ID  | jq -r '.[0].NetworkSettings.Networks | to_entries | .[] | select(.key | contains("internal")) | .key')
+if [ -z "$LIVE_NETWORK" ]; then
     echo "Couldn't find prod network"
     exit 3
 fi
 
 # backup wp assets
-rsync -az --delete $STAGING_VOLUME/ wp-backup.0/html/
+rsync -az --delete $DRAFT_VOLUME/ wp-backup.0/html/
 
 . env-mysql
 
 # dump staging db to backup folder
-docker run --rm --network=$STAGING_NETWORK -v $(pwd)/wp-backup.0:/backupdata mysql:5.7 \
+docker run --rm --network=$DRAFT_NETWORK -v $(pwd)/wp-backup.0:/backupdata mysql:5.7 \
     mysqldump -h db \
           -u wordpress \
           --password=$MYSQL_PASSWORD \
@@ -81,9 +81,9 @@ docker run --rm --network=$STAGING_NETWORK -v $(pwd)/wp-backup.0:/backupdata mys
           --skip-set-charset=FALSE;
 
 # push assets to production
-rsync -a --delete --exclude=wp-config.php --exclude=.htaccess wp-backup.0/html/ $PROD_VOLUME/
+rsync -a --delete --exclude=wp-config.php --exclude=.htaccess wp-backup.0/html/ $LIVE_VOLUME/
 
-. ../$PROD_SERVICE_NAME/env-mysql
+. ../$LIVE_SERVICE_NAME/env-mysql
 
 rm -f importer.sql
 echo "DROP DATABASE wordpress;
@@ -94,7 +94,7 @@ SOURCE /backupdata/$TODAY-dump.sql;
 EXIT" > importer.sql
 
 # restore db backup to production
-docker run -i --rm --network=$PROD_NETWORK -v $(pwd)/wp-backup.0:/backupdata mysql:5.7 \
+docker run -i --rm --network=$LIVE_NETWORK -v $(pwd)/wp-backup.0:/backupdata mysql:5.7 \
     mysql -h db \
           -u wordpress \
           --password=$MYSQL_PASSWORD \

@@ -15,18 +15,18 @@
     - "wp-extra-config.php.j2"
 
 - block:
-    - name: deploy env prod helper
+    - name: deploy env live helper
       template:
         src: env-prod.j2
-        dest: "{{remote_path}}/env-prod"
+        dest: "{{remote_path}}/env-live"
         mode: 0755
 
     - name: deploy update script
       copy:
         src: files/deploy-staging-to-prod.sh
-        dest: "{{remote_path}}/deploy-staging-to-prod.sh"
+        dest: "{{remote_path}}/deploy-draft-to-live.sh"
         mode: 0755
-  when: env == "staging"
+  when: env == "draft"
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -84,7 +84,7 @@
     search_string: 'RewriteRule "^wp-admin/" "-" [F]'
     insertafter: "RewriteBase /"
     line: 'RewriteRule "^wp-admin/" "-" [F]'
-  when: env == "prod"
+  when: env == "live"
 
 - name: install traefik dynamic config
   copy:

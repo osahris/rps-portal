@@ -1,36 +1,36 @@
 ---
 wordpress_secrets:
-  wordpress_staging_admin_password: "{{ wordpress_staging_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  wordpress_staging_mysql_password: "{{ wordpress_staging_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  wordpress_prod_admin_password: "{{ wordpress_prod_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  wordpress_prod_mysql_password: "{{ wordpress_prod_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_draft_admin_password: "{{ wordpress_draft_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_draft_mysql_password: "{{ wordpress_draft_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_live_admin_password: "{{ wordpress_live_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_live_mysql_password: "{{ wordpress_live_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
-wordpress_prod_traefik_dynamic_config:
+wordpress_live_traefik_dynamic_config:
   http:
     routers:
-      wordpress_prod:
-        rule: "Host(`{{wordpress_prod_service_name}}`)"
+      wordpress_live:
+        rule: "Host(`{{wordpress_live_service_name}}`)"
         entrypoints: websecure
-        service: wordpress_prod
+        service: wordpress_live
         tls:
           certresolver: letsencrypt
     services:
-      wordpress_prod:
+      wordpress_live:
         loadBalancer:
           servers:
-            - url: "http://{{wordpress_prod_service_name|replace('.', '')}}_wordpress_1"
+            - url: "http://{{wordpress_live_service_name|replace('.', '')}}_wordpress_1"
 
-wordpress_staging_traefik_dynamic_config:
+wordpress_draft_traefik_dynamic_config:
   http:
     routers:
-      wordpress_staging:
-        rule: "Host(`{{wordpress_staging_service_name}}`)"
+      wordpress_draft:
+        rule: "Host(`{{wordpress_draft_service_name}}`)"
         entrypoints: websecure
-        service: wordpress_staging
+        service: wordpress_draft
         tls:
           certresolver: letsencrypt
     services:
-      wordpress_staging:
+      wordpress_draft:
         loadBalancer:
           servers:
-            - url: "http://{{wordpress_staging_service_name|replace('.', '')}}_wordpress_1"
+            - url: "http://{{wordpress_draft_service_name|replace('.', '')}}_wordpress_1"
