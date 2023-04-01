@@ -1,8 +1,6 @@
 ---
-wordpress_container_image: wordpress
-wordpress_container_version: 6.1
-wordpress_staging_service_name: "www-staging.{{ inventory_hostname }}"
-wordpress_prod_service_name: "www.{{ inventory_hostname }}"
+wordpress_container_image: wordpress:{{ wordpress_version }}
+wordpress_version: 6.1
 
 wordpress_staging_admin_password: "{{ ansible_local.wordpress_secrets.wordpress_staging_admin_password }}"
 wordpress_staging_mysql_password: "{{ ansible_local.wordpress_secrets.wordpress_staging_mysql_password }}"
