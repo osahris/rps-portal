@@ -2,8 +2,10 @@
 wordpress_secrets:
   wordpress_draft_admin_password: "{{ wordpress_draft_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   wordpress_draft_mysql_password: "{{ wordpress_draft_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_draft_mysql_root_password: "{{ wordpress_draft_mysql_root_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   wordpress_live_admin_password: "{{ wordpress_live_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   wordpress_live_mysql_password: "{{ wordpress_live_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_live_mysql_root_password: "{{ wordpress_live_mysql_root_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 wordpress_live_traefik_dynamic_config:
   http:

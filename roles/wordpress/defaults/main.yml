@@ -7,9 +7,8 @@ wordpress_live_service_name: "www.{{ inventory_hostname }}"
 
 wordpress_draft_admin_password: "{{ ansible_local.wordpress_secrets.wordpress_draft_admin_password }}"
 wordpress_draft_mysql_password: "{{ ansible_local.wordpress_secrets.wordpress_draft_mysql_password }}"
-wordpress_staging_admin_password: "{{ ansible_local.wordpress_secrets.wordpress_staging_admin_password }}"
-wordpress_staging_mysql_password: "{{ ansible_local.wordpress_secrets.wordpress_staging_mysql_password }}"
-wordpress_prod_admin_password: "{{ ansible_local.wordpress_secrets.wordpress_prod_admin_password }}"
-wordpress_prod_mysql_password: "{{ ansible_local.wordpress_secrets.wordpress_prod_mysql_password }}"
+wordpress_draft_mysql_root_password: "{{ ansible_local.wordpress_secrets.wordpress_draft_mysql_root_password }}"
+
 wordpress_live_admin_password: "{{ ansible_local.wordpress_secrets.wordpress_live_admin_password }}"
 wordpress_live_mysql_password: "{{ ansible_local.wordpress_secrets.wordpress_live_mysql_password }}"
+wordpress_live_mysql_root_password: "{{ ansible_local.wordpress_secrets.wordpress_live_mysql_root_password }}"
