@@ -13,6 +13,8 @@ wordpress_live_traefik_dynamic_config:
       wordpress_live:
         rule: "Host(`{{wordpress_live_service_name}}`)"
         entrypoints: websecure
+        middlewares: 
+          - header-redirect
         service: wordpress_live
         tls:
           certresolver: letsencrypt
@@ -28,6 +30,8 @@ wordpress_draft_traefik_dynamic_config:
       wordpress_draft:
         rule: "Host(`{{wordpress_draft_service_name}}`)"
         entrypoints: websecure
+        middlewares: 
+          - header-redirect
         service: wordpress_draft
         tls:
           certresolver: letsencrypt
