@@ -14,12 +14,18 @@
     - "env-wordpress.j2"
     - "wp-extra-config.php.j2"
 
+- name: deploy wp-cli helper
+  copy:
+    src: wp-cli-helper.sh
+    dest: "{{remote_path}}/wp-cli"
+    mode: 0755
+
 - block:
     - name: deploy env live helper
       template:
         src: env-live.j2
         dest: "{{remote_path}}/env-live"
-        mode: 0755
+        mode: 0644
 
     - name: deploy update script
       copy:
@@ -47,36 +53,18 @@
         host: "{{ result.container.NetworkSettings.Networks.proxy.IPAddress }}"
 
 - name: check wordpress installation status
-  community.docker.docker_container: &wp-cli
-    name: ansible-wp-cli
-    image: wordpress:cli
-    pull: true
-    # hihi. fail wordpress. it is even documented here: https://hub.docker.com/_/wordpress/
-    user: 33:33
-    command: "wp core is-installed"
-    detach: false
-    volumes_from: "{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name')|replace('.', '') }}_wordpress_1"
-    env_file: "{{remote_path}}/env-wordpress"
-    networks:
-      - name: "{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name')|replace('.', '') }}_wordpress-internal"
-  ignore_errors: true
+  command: ./wp-cli core is-installed
+  args:
+    chdir: "{{remote_path}}"
+  changed_when: false
+  failed_when: false
   register: wordpress_installation_status
 
-- name: remove helper container again because ansible can't retrieve status when container is set to auto_remove
-  community.docker.docker_container:
-    name: ansible-wp-cli
-    state: absent
-
-- block:
-    - name: install wordpress
-      community.docker.docker_container:
-        <<: *wp-cli
-        command: "wp core install --admin_user=admin --admin_email={{ admin_email }} --url=https://{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }} --title=rps --skip-email --admin_password={{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_admin_password') }}"
-    - name: remove helper container again because ansible can't retrieve status when container is set to auto_remove
-      community.docker.docker_container:
-        name: ansible-wp-cli
-        state: absent
-  when: wordpress_installation_status.status != 0
+- name: install wordpress
+  command: ./wp-cli core install --admin_user=admin --admin_email={{ admin_email }} --url=https://{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }} --title=rps --skip-email --admin_password={{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_admin_password') }}
+  args:
+    chdir: "{{remote_path}}"
+  when: wordpress_installation_status.rc != 0
 
 - name: forbid traffic to wp-admin
   ansible.builtin.lineinfile:
