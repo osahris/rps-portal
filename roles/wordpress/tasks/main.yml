@@ -10,7 +10,7 @@
   vars:
     remote_path: "/app/{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }}"
   loop:
-    - prod
-    - staging
+    - draft
+    #- live
   loop_control:
     loop_var: env
