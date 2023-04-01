@@ -52,7 +52,7 @@ rsync -az --delete $DRAFT_VOLUME/ wp-backup.0/html/
 
 . env-mysql
 
-# dump staging db to backup folder
+# dump draft db to backup folder
 docker run --rm --network=$DRAFT_NETWORK -v $(pwd)/wp-backup.0:/backupdata mysql:5.7 \
     mysqldump -h db \
           -u wordpress \
