@@ -17,13 +17,13 @@
 - block:
     - name: deploy env live helper
       template:
-        src: env-prod.j2
+        src: env-live.j2
         dest: "{{remote_path}}/env-live"
         mode: 0755
 
     - name: deploy update script
       copy:
-        src: files/deploy-staging-to-prod.sh
+        src: files/deploy-draft-to-live.sh
         dest: "{{remote_path}}/deploy-draft-to-live.sh"
         mode: 0755
   when: env == "draft"
