@@ -1,0 +1,2 @@
+---
+budibase_service_name: "budibase.{{ inventory_hostname }}"

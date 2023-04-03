@@ -1,0 +1,2 @@
+---
+collabora_service_name: "collabora.{{ inventory_hostname }}"

@@ -17,7 +17,7 @@ def home():
                 {'name': 'Header (static)',         'subdomain': 'static-header-test'},
                 {'name': 'IDIA',                    'subdomain': 'idia'}, 
                 {'name': 'Keycloak',                'subdomain': 'keycloak'},
-                {'name': 'Matchmaking',             'subdomain': 'matchmaking'},
+                {'name': 'rps_people',             'subdomain': 'rps_people'},
                 {'name': 'MVP',                     'subdomain': 'mvp'},
                 {'name': 'Nextcloud',               'subdomain': 'nextcloud'},
                 {'name': 'OpenProject',             'subdomain': 'openproject'},

@@ -39,8 +39,8 @@
       tags: collabora
     - role: discourse
       tags: discourse
-    - role: matchmaking
-      tags: matchmaking
+    - role: rps_people
+      tags: rps_people, rps-people
     - role: nextcloud
       tags: nextcloud
     - role: minimum_viable_product
@@ -51,8 +51,8 @@
     #   tags: typesense
     # - role: wiki-bookstack
     #   tags: wiki_bookstack, wiki-bookstack
-    - role: wiki-js
-      tags: wiki_js, wiki-js
+    # - role: wiki-js
+    #   tags: wiki_js, wiki-js
     # - role: wordpress
     #   tags: wordpress
     - role: webserver

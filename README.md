@@ -13,7 +13,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] idia
 - [x] keycloak
 - [x] keycloak_realms
-- [ ] matchmaking
+- [ ] rps_people
 - [x] minimum_viable_product
 - [ ] nextcloud
 - [x] oauth2_proxy

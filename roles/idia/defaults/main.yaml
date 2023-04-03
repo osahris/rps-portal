@@ -1,2 +1,2 @@
 ---
-idia_service_name: "idia.{{ inventory_hostname }}"
+idia_service_name: "{{ inventory_hostname }}"
