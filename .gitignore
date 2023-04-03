@@ -1,3 +1,4 @@
 *.auto.json
 inventory-dev
 __pycache__
+*_inventory

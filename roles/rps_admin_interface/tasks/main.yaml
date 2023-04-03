@@ -10,31 +10,45 @@
   git:
     repo: "{{ rps_admin_web_interface_git_repo }}"
     dest: "{{ remote_path }}/rps-admin-tools"
+    version: "{{ rps_admin_web_interface_branch }}"
     force: true
 
+#TODO: better setup of the rps_admin_tools_config
 - name: copy rps admin web interface docker-compose.yaml
   template:
     src: docker-compose.yaml.j2
-    dest: "{{ remote_path }}/docker-compose.yaml"
+    dest: "{{ remote_path }}/rps-admin-tools/docker-compose.yaml"
+- name: copy rps admin web interface Dockerfile
+  template:
+    src: Dockerfile.j2
+    dest: "{{ remote_path }}/rps-admin-tools/Dockerfile"
+- name: copy rps admin web interface Dockerfile
+  template:
+    src: .env.j2
+    dest: "{{ remote_path }}/rps-admin-tools/.env"
+- name: copy rps config file
+  template:
+    src: config.yaml.j2
+    dest: "{{ remote_path }}/rps-admin-tools/config.yaml"
 
 - name: traefik dynamic config
   copy:
     content: "{{ rps_admin_interface_traefik_dynamic_config }}"
     dest: "/app/proxy/traefik/conf.d/rps-admin-interface.yaml"
 
-- name: rps admin web interface config
-  copy:
-    content: "{{rps_tools_config|to_json}}"
-    dest: "{{ remote_path }}/rps-admin-tools.json"
+# - name: rps admin web interface config
+#   copy:
+#     content: "{{rps_tools_config|to_json}}"
+#     dest: "{{ remote_path }}/rps-admin-tools.json"
 
-- name: rps admin web interface local settings
-  template:
-    src: settings_local.py.j2
-    dest: "{{ remote_path }}/settings_local.py"
+# - name: rps admin web interface local settings
+#   template:
+#     src: settings_local.py.j2
+#     dest: "{{ remote_path }}/settings_local.py"
 
 - name: deploy docker-compose stack
   docker_compose:
-    project_src: "{{remote_path}}/"
+    project_src: "{{remote_path}}/rps-admin-tools"
     files: "docker-compose.yaml"
     pull: true
     build: true

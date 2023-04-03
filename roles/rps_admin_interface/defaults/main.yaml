@@ -7,6 +7,7 @@ interface_title: "{{ rps_admin_web_interface_service_name }}"
 
 # needed for the rps_admin_interface role
 rps_admin_web_interface_git_repo: https://gitlab.com/idcohorts/rps/rps-admin-tools.git
+rps_admin_web_interface_branch: brans-dev
 rps_admin_web_interface_directory: /root/rps-admin-web-interface/rps-admin-tools
 rps_admin_web_interface_log_directory: /var/log/rps-admin-web-interface
 rps_admin_web_interface_db_directory: /var/lib/rps-admin-web-interface
