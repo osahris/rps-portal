@@ -13,6 +13,8 @@ rps_header_root_redirect_url: https://{{header_service_name}}/test
 
 rps_header_webserver_env: prod
 
+rps_header_allowed_origins: []
+
 rps_header_config:
   header_logo_uri: https://{{ inventory_hostname }}/?app=idia
   header_contact_url: https://{{ inventory_hostname }}/?app=idia

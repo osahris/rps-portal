@@ -1,0 +1,7 @@
+---
+rps_header_allowed_origins:
+  - https://{{ keycloak_service_name }}
+  - https://{{ rps_people_service_name }}
+  - https://{{ budibase_service_name }}
+  - https://{{ idia_service_name }}
+  - https://{{ discourse_service_name }}
