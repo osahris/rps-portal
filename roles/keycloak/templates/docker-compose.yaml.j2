@@ -18,6 +18,7 @@ services:
       - start
     volumes:
       - ./themes:/opt/keycloak/themes
+      - ./tmp:/opt/keycloak/tmp
     healthcheck:
       test:
         [
