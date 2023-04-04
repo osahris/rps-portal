@@ -1,0 +1,2 @@
+wordpress_draft_service_name: "www-draft.{{ inventory_hostname }}"
+wordpress_live_service_name: "www.{{ inventory_hostname }}"

@@ -2,9 +2,6 @@
 wordpress_container_image: wordpress:{{ wordpress_version }}
 wordpress_version: 6.1
 
-wordpress_draft_service_name: "www-draft.{{ inventory_hostname }}"
-wordpress_live_service_name: "www.{{ inventory_hostname }}"
-
 wordpress_draft_admin_password: "{{ ansible_local.wordpress_secrets.wordpress_draft_admin_password }}"
 wordpress_draft_mysql_password: "{{ ansible_local.wordpress_secrets.wordpress_draft_mysql_password }}"
 wordpress_draft_mysql_root_password: "{{ ansible_local.wordpress_secrets.wordpress_draft_mysql_root_password }}"
