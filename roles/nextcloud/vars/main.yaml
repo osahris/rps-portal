@@ -11,11 +11,9 @@ _nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
 nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
 nextcloud_db_container_name:  "{{nextcloud_service_name|replace('.','')}}_db_1"
 # # ------------------------------------------ #
-MYSQL_HOST: "{{nextcloud_db_container_name}}"
-MYSQL_DATABASE: "nextcloud"
-MYSQL_USER: "admin"
-MYSQL_PASSWORD: "{{nextcloud_db_admin_password}}"
-MYSQL_ROOT_PASSWORD: "{{nextcloud_db_admin_password}}"
+
+nextcloud_mysql_user: nextcloud
+nextcloud_mysql_database: nextcloud
 
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
