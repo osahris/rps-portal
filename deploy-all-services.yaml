@@ -25,6 +25,8 @@
       tags: keycloak_realms, keycloak-realms, core
     - role: oauth2_proxy
       tags: oauth2_proxy, core
+    - role: rps_profile_interface
+      tags: rps_profile_interface, rps-profile-interface, profile
     - role: rps_groups_interface
       tags: rps_groups_interface, rps-groups-interface
     - role: rps_admin_interface

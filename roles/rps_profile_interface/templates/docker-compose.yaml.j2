@@ -1,0 +1,18 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+
+
+services:
+  profile:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    # expose:
+    #   - "801" # Uncomment if other containers should reach through this port internally
+    networks:
+      - proxy
