@@ -1,0 +1,5 @@
+---
+redirects:
+  - host: kontakte.dev.numhub.de
+    path: /
+    target: https://discourse.dev.numhub.de

@@ -1,0 +1,5 @@
+---
+- name: traefik dynamic config
+  template:
+    src: traefik-redirects.yaml.j2
+    dest: "/app/proxy/traefik/conf.d/redirects.yaml"
