@@ -1,0 +1,17 @@
+---
+remote_path: "/app/{{static_website_service_name}}"
+static_website_traefik_dynamic_config:
+  http:
+    routers:
+      static-header-test:
+        rule: "Host(`{{static_website_service_name}}`)"
+        entrypoints: websecure
+        service: static-header-test
+        middlewares: "{{ static_website_require_auth | ternary(['oauth2-auth'], []) | combine( static_website_header_redirect | ternary (['header_redirect'], []) ) }}"
+        tls:
+          certresolver: letsencrypt
+    services:
+      static-header-test:
+        loadBalancer:
+          servers:
+            - url: "http://{{static_website_service_name | replace('.', '')}}_static-header-test_1"
