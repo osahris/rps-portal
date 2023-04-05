@@ -53,3 +53,5 @@ keycloak_realms:
       - "test"
     roles:
       - name: "test"
+
+user_attributes: []

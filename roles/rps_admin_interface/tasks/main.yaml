@@ -1,55 +1,55 @@
 ---
 - import_tasks: secrets.yaml
 
-- name: install git
-  apt:
-    name: git
-    state: present
+- include_tasks: oauth2_proxy_setup.yaml
+  loop: "{{ rps_admin_interface_managed_realms }}"
+  loop_control:
+    loop_var: realm
+    
+- name: display current host
+  debug:
+    msg:
+      - "{{ service_domain_name }}"
+      - "{{ ansible_ssh_host }}"
+      - "{{ app_port }}"
+      - "{{ inventory_hostname }}"
+
+- name: create directory - {{remote_path}}
+  file: 
+    path: "{{remote_path}}" 
+    state: directory
+    recurse: yes
 
 - name: clone rps-admin-tools git repository
   git:
     repo: "{{ rps_admin_web_interface_git_repo }}"
-    dest: "{{ remote_path }}/rps-admin-tools"
-    version: "{{ rps_admin_web_interface_branch }}"
+    version: "{{ rps_admin_web_interface_git_branch }}"
+    dest: "{{ remote_path }}"
     force: true
 
-#TODO: better setup of the rps_admin_tools_config
-- name: copy rps admin web interface docker-compose.yaml
+- name: copy some templated .j2 files
   template:
-    src: docker-compose.yaml.j2
-    dest: "{{ remote_path }}/rps-admin-tools/docker-compose.yaml"
-- name: copy rps admin web interface Dockerfile
-  template:
-    src: Dockerfile.j2
-    dest: "{{ remote_path }}/rps-admin-tools/Dockerfile"
-- name: copy rps admin web interface Dockerfile
-  template:
-    src: .env.j2
-    dest: "{{ remote_path }}/rps-admin-tools/.env"
-- name: copy rps config file
-  template:
-    src: config.yaml.j2
-    dest: "{{ remote_path }}/rps-admin-tools/config.yaml"
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - ".env.j2"
+    - "docker-compose.yml.j2"
+    - "config.yaml.j2"
+    - "Dockerfile.j2"
 
-- name: traefik dynamic config
+- name: copy traefik dynamic config
   copy:
-    content: "{{ rps_admin_interface_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/rps-admin-interface.yaml"
-
-# - name: rps admin web interface config
-#   copy:
-#     content: "{{rps_tools_config|to_json}}"
-#     dest: "{{ remote_path }}/rps-admin-tools.json"
-
-# - name: rps admin web interface local settings
-#   template:
-#     src: settings_local.py.j2
-#     dest: "{{ remote_path }}/settings_local.py"
+    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/app/proxy/traefik/conf.d/{{service_name}}.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:
-    project_src: "{{remote_path}}/rps-admin-tools"
-    files: "docker-compose.yaml"
-    pull: true
+    project_src: "{{remote_path}}/"
+    # add multiple docker-compose.yaml / .yml files below
+    files: "{{item}}"
+    # This option ensures that the images are rebuilt
     build: true
+    pull: true
     remove_orphans: true
+  with_items:
+    - "docker-compose.yml"

@@ -8,55 +8,17 @@ loomio_server_name: dialog.netzwerk-universitaetsmedizin.de
 sympa_enabled: false
 
 services:
-      group hierachy:{
-        service_type: "group_hierachy",
-      },
-      {% for service in groups.keycloak_servers | default([]) %}
-        {{service|to_json}}:{
-          service_type: "keycloak",
-          keycloak_management_url: {{hostvars[service].keycloak_management_url|to_json}},
-          keycloak_management_username: {{hostvars[service].keycloak_management_username|to_json}},
-          keycloak_management_password: {{hostvars[service].keycloak_management_password|to_json}},
-          keycloak_management_realm: {{hostvars[service].keycloak_management_realm|to_json}},
-          keycloak_realm: {{hostvars[service].keycloak_realm|to_json}},
-        },
-        {{(service+'/profile')|to_json}}:{
-          service_type": "keycloak_profile",
-          keycloak_management_url: {{hostvars[service].keycloak_management_url|to_json}},
-          keycloak_management_username: {{hostvars[service].keycloak_management_username|to_json}},
-          keycloak_management_password: {{hostvars[service].keycloak_management_password|to_json}},
-          keycloak_management_realm: {{hostvars[service].keycloak_management_realm|to_json}},
-          keycloak_realm: {{hostvars[service].keycloak_realm|to_json}},
-        },
-      {% endfor %}
-      {% for service in groups.discourse_servers | default([]) %}
-        {{service|to_json}}:{{ hostvars[service].rps_service_admin_config |to_json }},
-      {% endfor %}
-      {% for service in groups.nextcloud_servers | default([]) %}
-        {{service|to_json}}:{{ hostvars[service].rps_service_admin_config |to_json }},
-      {% endfor %}
-      {% for service in groups.loomio_servers | default([]) %}
-        {{service|to_json}}:{
-          "service_type":"loomio",
-          "loomio_service_name": {{ hostvars[service].loomio_service_name |to_json }},
-          "loomio_url": {{ ('https://' + hostvars[service].loomio_service_name + '/') |to_json }},
-          "loomio_client_cookie": {{ ('https://' + hostvars[service].loomio_client_cookie + '/') |to_json }}
-        },
-      {% endfor %}
-      {% for service in groups.mailinglist_servers | default([]) %}
-        {{service|to_json}}:{
-          "service_type":"sympa",
-          "sympa_export_rsync_target":
-            "sympa-sync@{{service}}:/var/lib/mailinglist-sync/{{service}}"
-        }
-      {% endfor %}
-  budibase:
+  accounts:
     {
-      #TODO: Automatization for API key
-      budibase_api_key: #AddAPIKeyHere,
-      budibase_base_url: {{budibase_custom_domain}},
-      service_type: budibase,
+      keycloak_management_client_secret: "{{rps_admin_web_interface_default_client_secret}}",
+      keycloak_management_realm: "{{keycloak_management_realm|default('master')}}",
+      keycloak_management_url: "https://{{keycloak_service_name}}",
+      keycloak_management_client_id: "rps-admin-interface",
+      keycloak_realm: "rps",
+      service_type: keycloak,
+      default_required_actions: ['UPDATE_PASSWORD','UPDATE_PROFILE','VERIFY_EMAIL']
     }
+    
 user_attributes: {{user_attributes}}
 user_email_label: {{user_email_label }}
 user_first_name_label: {{user_first_name_label}}

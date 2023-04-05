@@ -1,54 +1,17 @@
 ---
-rps_admin_interface_service_name: "admin.{{ inventory_hostname }}"
+service_name: "admin"
+service_domain_name: "{{service_name}}.{{ inventory_hostname }}"
+rps_admin_web_interface_service_name: "{{service_domain_name}}"
 
-project_id: numhub-main
-interface_heading: "{{ rps_admin_web_interface_service_name }}"
-interface_title: "{{ rps_admin_web_interface_service_name }}"
-
-# needed for the rps_admin_interface role
 rps_admin_web_interface_git_repo: https://gitlab.com/idcohorts/rps/rps-admin-tools.git
-rps_admin_web_interface_branch: brans-dev
-rps_admin_web_interface_directory: /root/rps-admin-web-interface/rps-admin-tools
-rps_admin_web_interface_log_directory: /var/log/rps-admin-web-interface
-rps_admin_web_interface_db_directory: /var/lib/rps-admin-web-interface
-rps_admin_web_interface_logs_directory: "{{rps_admin_web_interface_directory}}/web_interface/logs"
-rps_admin_web_interface_config_directory: /etc/rps-admin-web-interface
-rps_admin_web_interface_config_file: "{{rps_admin_web_interface_config_directory}}/rps-admin-tools.json"
-rps_admin_web_interface_media_directory: "{{rps_admin_web_interface_directory}}/web_interface/media"
+rps_admin_web_interface_git_branch: dev
 
-rps_admin_web_interface_db_name: rps_admin_interface
-rps_admin_web_interface_db_user: rps_admin_interface
+project_id: rps-dev
 
-rps_groups_interface_keycloak_client_id: "{{ rps_admin_web_interface_service_name }}"
+remote_path: "/app/{{service_domain_name}}"
+rps_admin_web_interface_default_client_secret: "{{ ansible_local.rps_admin_interface_secrets.rps_admin_web_interface_default_client_secret }}"
+rps_admin_interface_managed_realms: []
 
-user_first_name_label: Vorname
-user_last_name_label: Nachname
-user_username_label: Benutzername
-user_email_label: E-Mail
-user_attributes:
-  - key: Anrede
-    label: Anrede
-  - key: Titel
-    label: Titel
-  - key: Ort
-    label: Ort
-  - key: Institution
-    label: Institution
-  - key: Abteilung
-    label: Abteilung
-  - key: Telefon
-    label: Telefon
-user_import_group_membership_label: groups
-user_import_group_owner_label: owner of groups
-
-group_sync_default_membership_source: discourse
-group_sync_default_membership_store: accounts
-
-rps_admin_web_interface_debug: true
-keycloak_default_realm: users
-
-rps_admin_interface_secrets:
-  rps_admin_web_interface_db_password: "{{ rps_admin_web_interface_db_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  rps_admin_web_interface_secret_key: "{{ rps_admin_web_interface_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-rps_admin_web_interface_db_password: "{{ ansible_local.rps_admin_interface_secrets.rps_admin_web_interface_db_password | default(ansible_local.secrets.rps_admin_web_interface_db_password) }}"
-rps_admin_web_interface_secret_key: "{{ ansible_local.rps_admin_interface_secrets.rps_admin_web_interface_secret_key | default(ansible_local.secrets.rps_admin_web_interface_secret_key) }}"
+rps_admin_web_interface_keycloak_service_url: "https://{{ keycloak_service_name }}"
+rps_admin_web_interface_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"
+rps_admin_web_interface_keycloak_auth_password: "{{keycloak_admin_password}}"

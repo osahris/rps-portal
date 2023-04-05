@@ -1,6 +1,0 @@
----
-service_name: "web"
-service_domain_name: "{{service_name}}.{{ inventory_hostname }}"
-
-rps_admin_web_interface_git_repo: https://gitlab.com/idcohorts/rps/rps-admin-tools.git
-rps_admin_web_interface_git_branch: dev

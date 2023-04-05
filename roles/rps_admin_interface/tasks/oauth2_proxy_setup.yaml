@@ -1,0 +1,39 @@
+---
+- name: keycloak client for {realm}
+  local_action: keycloak_client
+  become: false
+  args:
+    auth_client_id: "admin-cli"
+    auth_keycloak_url: "{{ rps_admin_web_interface_keycloak_service_url }}"
+    auth_realm: "master"
+    auth_username: "{{ rps_admin_web_interface_keycloak_auth_username }}"
+    auth_password: "{{ rps_admin_web_interface_keycloak_auth_password }}"
+    client_id: "rps-admin-interface"
+    realm: "{{ realm.name }}"
+    redirect_uris: "https://{{ rps_admin_web_interface_service_name }}/realms/{{ realm.name }}/oauth2/callback"
+    client_authenticator_type: client-secret
+    secret: "{{ realm.client_secret | default(rps_admin_web_interface_default_client_secret) }}"
+    state: present
+    direct_access_grants_enabled: true
+    service_accounts_enabled : true
+    standard_flow_enabled: false
+    validate_certs: true
+    protocol_mappers:
+      - name: audience
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience: "rps-admin-interface"
+          id.token.claim: "true"
+          access.token.claim: "true"
+      - name: admin
+        config:
+          access.token.claim: "false"
+          claim.name: admin
+          full.path: "false"
+          id.token.claim: "true"
+          userinfo.token.claim: "true"
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-group-membership-mapper
