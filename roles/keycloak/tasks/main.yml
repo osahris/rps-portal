@@ -6,11 +6,6 @@
     path: "{{remote_path}}"
     state: directory
 
-- import_tasks: theme.yaml
-  tags:
-    - theme
-  when: keycloak_theme is defined
-
 - name: create application files
   template:
     src: "{{item}}"
