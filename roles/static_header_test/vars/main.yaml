@@ -7,6 +7,8 @@ static_header_test_traefik_dynamic_config:
         rule: "Host(`{{static_header_test_service_name}}`)"
         entrypoints: websecure
         service: static-header-test
+        middleware:
+          - header-redirect
         tls:
           certresolver: letsencrypt
     services:
