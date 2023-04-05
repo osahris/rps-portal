@@ -11,20 +11,10 @@
               - "{{ inventory_hostname }}"
 
   roles:
-    - role: docker
-      tags: docker, core
-    - role: gitlab_credentials
-      tags: gitlab_credentials, gitlab-credentials, core
-    - role: traefik
-      tags: traefik, core
+    - role: rps_core_services
+
     - role: idia
-      tags: idia, core
-    - role: keycloak
-      tags: keycloak, core
-    - role: keycloak_realms
-      tags: keycloak_realms, keycloak-realms, core
-    - role: oauth2_proxy
-      tags: oauth2_proxy, core
+      tags: idia
     - role: rps_profile_interface
       tags: rps_profile_interface, rps-profile-interface, profile
     - role: rps_groups_interface
