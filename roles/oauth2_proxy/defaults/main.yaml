@@ -1,5 +1,5 @@
 ---
-oauth2_proxy_service_name: "oauth2-proxy.{{ inventory_hostname }}"
+oauth2_proxy_service_name: "{{ inventory_hostname }}"
 oauth2_proxy_base_url: "https://{{ oauth2_proxy_service_name }}"
 
 oauth2_proxy_container_version: v7.4.0
