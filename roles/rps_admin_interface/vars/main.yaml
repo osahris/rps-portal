@@ -23,6 +23,7 @@ traefik_dynamic_config:
         service: "admin_interface" # <-- Change this to your service name
         tls:
           certresolver: "{{traefik_certresolver}}"
+        #TODO: middleware funktioniert nicht
         middlewares:
           - rps-admin-interface-add-oauth2-redirect-header
           # - oauth2-auth-admin-interface
