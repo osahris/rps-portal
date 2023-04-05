@@ -2,6 +2,8 @@
 oauth2_proxy_service_name: "{{ inventory_hostname }}"
 oauth2_proxy_base_url: "https://{{ oauth2_proxy_service_name }}"
 
+oauth2_root_redirect_url: "{{ oauth2_proxy_base_url }}/oauth2/userinfo"
+
 oauth2_proxy_container_version: v7.4.0
 oauth2_proxy_container_image: quay.io/oauth2-proxy/oauth2-proxy
 
