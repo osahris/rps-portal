@@ -25,11 +25,11 @@ traefik_dynamic_config:
           certresolver: "{{traefik_certresolver}}"
         middlewares:
           - rps-admin-interface-add-oauth2-redirect-header
-          - oauth2-errors
           # - oauth2-auth-admin-interface
+          - oauth2-errors
           - header-redirect
     services:
       admin_interface: # <-- Change this to your service name
         loadBalancer:
           servers:
-            - url: "http://{{service_domain_name|replace('.','')}}_web_1:5000" # "http://container_name:container_port"
+            - url: "http://{{service_domain_name|replace('.','')}}_web_1:{{app_port}}" # "http://container_name:container_port"

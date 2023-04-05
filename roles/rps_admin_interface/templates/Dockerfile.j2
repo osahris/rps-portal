@@ -5,7 +5,6 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP run.py
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5000
 ENV FLASK_DEBUG=0
 
 WORKDIR /var/www/
@@ -22,6 +21,6 @@ RUN pip install alerta
 WORKDIR /var/www/rps_admin_interface
 COPY ./config.yaml .
 
-EXPOSE 5000
+EXPOSE {{app_port}}
 
 CMD [ "python3", "-m" , "flask", "run", "-p", "{{app_port}}"]
