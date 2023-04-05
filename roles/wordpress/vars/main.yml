@@ -32,7 +32,7 @@ wordpress_draft_traefik_dynamic_config:
         entrypoints: websecure
         middlewares: 
           - header-redirect
-          - oauth2-auth
+          #- oauth2-auth
         service: wordpress_draft
         tls:
           certresolver: letsencrypt
