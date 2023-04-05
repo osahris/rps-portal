@@ -1,11 +1,11 @@
 ---
-remote_path: "/app/{{header_service_name}}"
+remote_path: "/app/{{rps_header_service_name}}"
 
 header_traefik_dynamic_config:
   http:
     routers:
       header:
-        rule: "Host(`{{header_service_name}}`)"
+        rule: "Host(`{{rps_header_service_name}}`)"
         entrypoints: websecure
         middlewares:
         - header-redirect
@@ -15,7 +15,7 @@ header_traefik_dynamic_config:
         service: header
 
       header-oauth2-endpoints:
-        rule: "Host(`{{ header_service_name }}`) && PathPrefix(`/oauth2/`)"
+        rule: "Host(`{{ rps_header_service_name }}`) && PathPrefix(`/oauth2/`)"
         entrypoints: websecure
         service: oauth2-proxy
         middlewares:
@@ -24,7 +24,7 @@ header_traefik_dynamic_config:
           certresolver: letsencrypt
 
       header-oauth2-userinfo-options-for-xhr:
-        rule: "Host(`{{ header_service_name }}`) && PathPrefix(`/oauth2/userinfo`) && Method(`OPTIONS`)"
+        rule: "Host(`{{ rps_header_service_name }}`) && PathPrefix(`/oauth2/userinfo`) && Method(`OPTIONS`)"
         entrypoints: websecure
         service: header-always-200-responder
         middlewares:
@@ -36,12 +36,12 @@ header_traefik_dynamic_config:
       header:
         loadBalancer:
           servers:
-            - url: http://{{header_service_name|replace('.', '')}}_header_1:4080
+            - url: http://{{rps_header_service_name|replace('.', '')}}_header_1:4080
 
       header-always-200-responder:
         loadBalancer:
           servers:
-            - url: http://{{header_service_name|replace('.', '')}}_always-200-responder_1
+            - url: http://{{rps_header_service_name|replace('.', '')}}_always-200-responder_1
 
     # This 'header-redirect' middleware redirects every subdomain SERVICENAME.domain/header.js to header.domain/header.js
     # If this SERVICENAME has this middleware included like this --|
@@ -62,7 +62,7 @@ header_traefik_dynamic_config:
         redirectRegex:
           # match /header.js for every URL
           regex: "^https?://[^/]+/header.js$"
-          replacement: "https://{{header_service_name}}/header.js"
+          replacement: "https://{{rps_header_service_name}}/header.js"
       header-root-redirect:
         redirectRegex:
           # match / for every URL

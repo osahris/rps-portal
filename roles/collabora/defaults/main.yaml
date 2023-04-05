@@ -1,6 +1,4 @@
 ---
-collabora_service_name: "{{ inventory_hostname }}"
-
 collabora_admin_username: admin
 collabora_domain_image: collabora/code
 

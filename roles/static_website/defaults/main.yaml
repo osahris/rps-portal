@@ -1,5 +1,5 @@
 ---
-static_website_service_name: "{{ inventory_hostname }}"
+#static_website_service_name
 static_website_git_version: main
 static_website_require_auth: false
 static_website_header_redirect: false

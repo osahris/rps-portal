@@ -1,5 +1,4 @@
 ---
-typesense_service_name: "{{inventory_hostname}}"
 typesense_project_name: "{{typesense_service_name}}"
 typesense_project_directory: /srv/typesense/{{typesense_project_name}}
 typesense_oauth_proxy_collection_configuration:

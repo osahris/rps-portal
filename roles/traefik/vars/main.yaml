@@ -16,7 +16,7 @@ traefik_dashboard_dynamic_config:
   http:
     routers:
       traefik:
-        rule: "Host(`{{traefik_service_name}}`)"
+        rule: "Host(`{{traefik_dashboard_service_name}}`)"
         entrypoints: websecure
         tls:
           certresolver: letsencrypt

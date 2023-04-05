@@ -1,6 +1,4 @@
 ---
-discourse_service_name: "{{ inventory_hostname }}"
-
 discourse_target_directory: "/app/{{ discourse_service_name }}"
 
 discourse_base_url: "https://{{ discourse_service_name }}"

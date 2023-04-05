@@ -1,5 +1,6 @@
 ---
 # Ansible variables
+service_name: "webserver"
 remote_path: "/app/{{webserver_service_name}}"
 app_port: "80"
 

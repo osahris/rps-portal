@@ -1,0 +1,2 @@
+---
+nextcloud_service_name: "nextcloud.{{inventory_hostname}}"

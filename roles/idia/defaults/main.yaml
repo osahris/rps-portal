@@ -1,2 +1,1 @@
 ---
-idia_service_name: "{{ inventory_hostname }}"

@@ -1,6 +1,5 @@
 ---
 rps_groups_interface_proxy_network: "proxy"
-rps_groups_interface_service_name: "groups.{{ inventory_hostname }}"
 
 rps_groups_interface_container_image: registry.gitlab.com/idcohorts/rps/rps-gruppeninterface
 rps_groups_interface_container_version: dev

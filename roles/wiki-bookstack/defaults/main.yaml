@@ -1,6 +1,4 @@
 ---
-wiki_bookstack_service_name: "wiki-bookstack.{{ inventory_hostname}}"
-
 wiki_bookstack_keycloak_client_auth_client_id: admin-cli
 wiki_bookstack_keycloak_client_auth_keycloak_url: keycloak.{{inventory_hostname}}
 wiki_bookstack_keycloak_client_auth_realm: master

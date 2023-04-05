@@ -1,0 +1,2 @@
+---
+typesense_service_name: "typesense.{{inventory_hostname}}"

@@ -1,4 +1,6 @@
 ---
+rps_header_service_name: "header.{{ inventory_hostname }}"
+
 rps_header_root_redirect_url: https://{{ oauth2_proxy_service_name }}
 rps_header_allowed_origins:
   - https://{{ keycloak_service_name }}

@@ -1,6 +1,4 @@
 ---
-rps_admin_interface_service_name: "admin.{{ inventory_hostname }}"
-
 project_id: numhub-main
 interface_heading: "{{ rps_admin_web_interface_service_name }}"
 interface_title: "{{ rps_admin_web_interface_service_name }}"
