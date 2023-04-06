@@ -33,6 +33,10 @@ nextcloud_keycloak_client_redirect_uris:
   - https://{{ nextcloud_service_name }}/*
 #nextcloud_keycloak_client_secret:
 
+nextcloud_apps:
+  - calendar
+  - drawio
+
 # new user_oidc plugin options
 nextcloud_with_user_oidc_app: "{{nextcloud_with_keycloak_client}}"
 nextcloud_user_oidc_allow_multiple_user_backends: false

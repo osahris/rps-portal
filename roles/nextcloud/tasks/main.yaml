@@ -17,3 +17,7 @@
   when: nextcloud_with_user_oidc_app
 # - import_tasks: apps/oidc_login.yaml
 #   when: nextcloud_with_oidc_login_app
+
+- import_tasks: apps/install.yaml
+  vars:
+    nextcloud_install_apps: "{{nextcloud_apps}}"
