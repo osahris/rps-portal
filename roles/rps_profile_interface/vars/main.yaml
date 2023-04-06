@@ -20,6 +20,7 @@ traefik_dynamic_config:
         entrypoints: websecure
         middlewares: 
         - header-redirect
+        - oauth2-auth
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "profile" # <-- Change this to your service name
