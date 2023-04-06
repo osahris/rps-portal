@@ -1,6 +1,3 @@
 ---
-service_name: "profile"
-service_domain_name: "{{service_name}}.{{ inventory_hostname }}"
-
 rps_profile_gitlab_url: https://gitlab.com/idcohorts/rps/rps-profile-app
 rps_profile_gitlab_branch: main
