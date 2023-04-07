@@ -5,8 +5,8 @@ nextcloud_version: 25.0
 
 nextcloud_defaultapp: files
 
-nextcloud_mysql_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_password | default(ansible_local[nextcloud_service_name].nextcloud_db_admin_password) }}"
-nextcloud_mysql_root_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_root_password | default(ansible_local[nextcloud_service_name].nextcloud_db_admin_password) }}"
+nextcloud_mysql_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_password }}"
+nextcloud_mysql_root_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_root_password }}"
 nextcloud_admin_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_password }}"
 nextcloud_keycloak_client_secret: "{{ ansible_local[nextcloud_service_name].nextcloud_keycloak_client_secret }}"
 
