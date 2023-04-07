@@ -22,7 +22,7 @@
     - role: rps_admin_interface
       tags: rps_admin_interface, rps-admin-interface
     - role: rps_header
-      tags: rps_header, rps-header
+      tags: rps_header, rps-header, header
     # - role: static_header_test
     #   tags: static_header_test, static-header-test, core
     - role: budibase
