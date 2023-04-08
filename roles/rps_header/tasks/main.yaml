@@ -26,6 +26,10 @@
     pull: true
     build: true
 
+- name: show allowed origins
+  debug:
+    msg: "{{rps_header_allowed_origins}}"
+
 - name: traefik dynamic config
   copy:
     content: "{{ header_traefik_dynamic_config }}"

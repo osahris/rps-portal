@@ -13,8 +13,8 @@ header_traefik_dynamic_config:
         rule: "Host(`{{rps_header_service_name}}`)"
         entrypoints: websecure
         middlewares:
-        - header-redirect
         - header-root-redirect
+        - header-oauth2-xhr-headers
         tls:
           certresolver: letsencrypt
         service: header
