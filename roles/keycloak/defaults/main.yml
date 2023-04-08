@@ -14,7 +14,58 @@ keycloak_with_proxy_network: true
 keycloak_proxy_network: proxy
 
 keycloak_registration_form_rules: {}
-keycloak_registration_form_pages: {}
+keycloak_registration_form_pages: 
+  - id: page-1
+    heading: Persönliche Angaben
+    form_elements:
+
+    # Formularitems zu den persönlichen Angabe
+    - type: dropdown
+      id: anrede
+      attribute: Anrede
+      title: Anrede
+      required: true
+      default: Wählen Sie eine von Ihnen gewünschte Anrede aus
+      options:
+        - value: Sehr geehrte Frau
+          description: Sehr geehrte Frau
+        - value: Sehr geehrter Herr
+          description: Sehr geehrter Herr
+        - value: Sehr geehrte*
+          description: Sehr geehrte*
+        - value: Guten Tag
+          description: Guten Tag
+    - type: firstName
+      id: first-name
+    - type: lastName
+      id: last-name
+    - type: email
+      id: email
+      description: Bitte verwenden Sie Ihre <strong>dienstliche E-Mailadresse</strong>!
+  - id: page-2
+    heading: Organisation
+    form_elements:
+    - type: text
+      attribute: Organisation
+      title: Organisation
+    - type: text
+      attribute: Abteilung
+      title: Abteilung
+    - type: text
+      attribute: Position
+      title: Position
+    - type: text
+      attribute: ORCID
+      title: ORCID
+      default: 0123-4567-8901-2345
+  - id: page-3
+    heading: Anmeldedaten
+    form_elements:
+    - type: username
+      description: 'Formatvorgabe: vorname.nachname'
+    - type: password
+      description: Mindestens 10 Zeichen, mindestens ein Groß- und Kleinbuchstabe, sowie eine Zahl.
+
 keycloak_registration_form_fields: {}
 
 keycloak_admin_username: admin

@@ -19,6 +19,10 @@ rps_admin_web_interface_db_user: rps_admin_interface
 
 rps_groups_interface_keycloak_client_id: "{{ rps_admin_web_interface_service_name }}"
 
+#TODO: unify with other keycloak configuration:
+# - keycloak registration form
+# - rps people
+# - rps profile
 user_first_name_label: Vorname
 user_last_name_label: Nachname
 user_username_label: Benutzername
@@ -28,14 +32,14 @@ user_attributes:
     label: Anrede
   - key: Titel
     label: Titel
-  - key: Ort
-    label: Ort
-  - key: Institution
-    label: Institution
+  - key: Organisation
+    label: Organisation
   - key: Abteilung
     label: Abteilung
-  - key: Telefon
-    label: Telefon
+  - key: Position
+    label: Position
+  - key: orcid
+    label: ORCID
 user_import_group_membership_label: groups
 user_import_group_owner_label: owner of groups
 

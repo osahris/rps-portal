@@ -8,7 +8,8 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 
 - [ ] budibase
 - [x] collabora
-- [ ] discourse
+- [x] discourse
+- [x] keycloak_themes
 - [x] docker
 - [x] rps_idia
 - [x] keycloak
@@ -24,7 +25,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [ ] rps_cohort_explorer
 - [x] rps_groups_interface
 - [ ] rps_header
-- [ ] rps_style_servers
+- [x] rps_style_servers
 - [ ] rps_sync_services
 - [ ] socat_https_proxy
 - [x] traefik

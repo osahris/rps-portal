@@ -21,6 +21,7 @@
     realm: "{{ item.name }}"
     enabled: true
     state: present
+    registration_allowed: '{{item.is_registration_allowed | default(false)}}'
 - block:
     - name: "create post login flow for {{ item.name }}"
       community.general.keycloak_authentication:

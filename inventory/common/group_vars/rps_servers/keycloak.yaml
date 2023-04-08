@@ -18,7 +18,8 @@ keycloak_realms:
           - realm-management.query-users
           - realm-management.query-groups
           - realm-management.manage-users
-
+    is_registration_allowed: true
+          
   - name: projektportal
     # subrealm is a subrealm. so it doesn't have its own login form but redirects to the parent_realm and imports users from there
     parent_realm:
