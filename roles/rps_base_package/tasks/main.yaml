@@ -36,8 +36,9 @@
     - budibase
 
 - import_role:
-    name: idia
+    name: rps_idia
   tags:
+    - rps_idia
     - idia
 
 - import_role:

@@ -10,7 +10,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] collabora
 - [ ] discourse
 - [x] docker
-- [x] idia
+- [x] rps_idia
 - [x] keycloak
 - [x] keycloak_realms
 - [ ] rps_people
@@ -32,7 +32,6 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [ ] wiki-bookstack
 - [x] wiki-js
 - [ ] wordpress
-
 
 ## Add a new service
 
@@ -111,4 +110,3 @@ myapp_traefik_dynamic_config:
           servers:
             - url: "http://{{myapp_service_name|replace('.','')}}_myapp_1"
 ```
-

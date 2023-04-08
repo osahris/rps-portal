@@ -17,7 +17,7 @@ rps_header_allowed_origins:
   - https://{{ rps_groups_interface_service_name }}
   - https://{{ rps_people_service_name }}
   - https://{{ budibase_service_name }}
-  - https://{{ idia_service_name }}
+  - https://{{ rps_idia_service_name }}
   #- https://{{ discourse_service_name }}
   #- https://{{ nextcloud_service_name }}
   #- https://{{ rocketchat_service_name }}
@@ -57,8 +57,8 @@ typesense_service_name: search.{{ rps_dns_suffix }}
 budibase_service_name: meta.{{ rps_dns_suffix }}
 # Other proposals: meta., info., data., db., dbadmin., admin., forms., input., interface., ui., bb., budibase., 
 
-# IDIA
-idia_service_name: idia.{{ rps_dns_suffix }}
+# rps_idia
+rps_idia_service_name: idia.{{ rps_dns_suffix }}
 
 # RPS Profile Interface
 rps_profile_interface_service_name: profile.{{ rps_dns_suffix }}

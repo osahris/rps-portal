@@ -11,12 +11,12 @@ Currently the service provides a navigation webpage for easy testing of the othe
 
 2. Use the docker network **proxy** to connect with Traefik, use the network **{{project_name}}** for internal communications of docker containers out of scope of Traefik.
 
-3. By default, the service will run under the domain **https://{{idia_service_name}}** as defined in **./vars/main.yaml** by the following code:
-    ```yaml
-    # ./vars/main.yaml
-    traefik_dynamic_config:
-      http:
-        routers:
-          app_name:
-            rule: "Host(`{{idia_service_name}}`)"
-    ```
+3. By default, the service will run under the domain **https://{{rps_idia_service_name}}** as defined in **./vars/main.yaml** by the following code:
+   ```yaml
+   # ./vars/main.yaml
+   traefik_dynamic_config:
+     http:
+       routers:
+         app_name:
+           rule: "Host(`{{rps_idia_service_name}}`)"
+   ```
