@@ -1,6 +1,8 @@
 ---
 rps_header_image: registry.gitlab.com/idcohorts/rps/rps-vue-header:dev
 
+rps_header_js_url: https://{{rps_header_service_name}}/header.js
+rps_header_stylesheet_url: https://{{rps_header_service_name}}/header.css
 rps_header_userinfo_url: https://{{rps_header_service_name}}/oauth2/userinfo
 rps_header_sign_in_url: https://{{rps_header_service_name}}/oauth2/sign_in?rd={{rps_header_sign_in_redirect_url|urlencode}}
 rps_header_sign_in_redirect_url: https://{{rps_header_service_name}}
