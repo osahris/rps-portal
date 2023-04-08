@@ -1,4 +1,11 @@
 ---
+discourse_target_directory: "/app/{{ discourse_service_name }}"
+discourse_base_url: "https://{{ discourse_service_name }}"
+
+discourse_secrets:
+  discourse_postgres_password: "{{ discourse_postgres_password  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  discourse_oidc_sso_client_secret: "{{ discourse_oidc_sso_client_secret  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
 discourse_traefik_dynamic_config:
   http:
     routers:

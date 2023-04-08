@@ -61,7 +61,7 @@
   register: wordpress_installation_status
 
 - name: install wordpress
-  command: ./wp-cli core install --admin_user=admin --admin_email={{ admin_email }} --url=https://{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }} --title=rps --skip-email --admin_password={{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_admin_password') }}
+  command: ./wp-cli core install --admin_user=admin --admin_email={{ rps_admin_email }} --url=https://{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }} --title=rps --skip-email --admin_password={{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_admin_password') }}
   args:
     chdir: "{{remote_path}}"
   when: wordpress_installation_status.rc != 0

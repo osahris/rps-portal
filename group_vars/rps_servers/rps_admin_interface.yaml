@@ -1,2 +1,0 @@
----
-rps_admin_interface_service_name: "admin.{{ inventory_hostname }}"

@@ -1,1 +1,0 @@
-rps_people_service_name: "people.{{ inventory_hostname }}"

@@ -1,0 +1,20 @@
+---
+# common
+rps_dns_suffix: "{{ inventory_hostname }}"
+
+# Nextcloud
+nextcloud_service_name: "cloud.{{ rps_dns_suffix }}"
+
+# Discourse
+discourse_service_name: "dialog.{{ rps_dns_suffix }}"
+
+# RocketChat
+rocketchat_service_name: "chat.{{ rps_dns_suffix }}"
+
+# Gitea
+
+# Collabora
+collabora_service_name: "collabora.{{ rps_dns_suffix }}"
+
+# Bookstack
+wiki_bookstack_service_name: "wiki.{{ rps_dns_suffix }}"

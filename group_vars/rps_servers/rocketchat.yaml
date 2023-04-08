@@ -1,2 +1,0 @@
----
-rocketchat_service_name: "rocketchat.{{ inventory_hostname }}"

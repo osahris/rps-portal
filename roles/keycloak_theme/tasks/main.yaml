@@ -12,6 +12,7 @@
     force: true
   register: theme
   when: keycloak_theme is defined
+
 # - name: keycloak auto account theme directory
 #   file:
 #     path: /var/lib/keycloak/themes/auto/account

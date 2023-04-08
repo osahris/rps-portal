@@ -12,7 +12,7 @@ services:
     networks:
       - proxy
     volumes:
-      - ./header_config.yaml:/opt/header/config.yaml:ro
+      - ./config.dynamic.yaml:/opt/header/config.dynamic.yaml:ro
 {% if rps_header_webserver_env == "dev" %}
       - ./js:/opt/header/js:ro
 {% endif %}
