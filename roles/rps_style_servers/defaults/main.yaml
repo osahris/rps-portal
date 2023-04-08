@@ -1,2 +1,3 @@
 ---
-rps_style_servers_git_url: https://gitlab.com/idcohorts/NUM/num-css-theme
+rps_style_servers_git_url: https://gitlab.com/idcohorts/rps/rps-css-service.git
+rps_style_servers_git_branch: main

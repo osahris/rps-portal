@@ -19,6 +19,12 @@
     - rps_admin_interface
     - admin
 
+- import_role:
+    name: rps_style_servers
+  tags:
+    - rps_style_servers
+    - style
+
 # - import_role:
 #     name: rps_groups_interface
 #   tags:
