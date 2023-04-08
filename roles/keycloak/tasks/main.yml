@@ -31,7 +31,7 @@
   local_action: uri
   become: false
   args:
-    url: "{{ keycloak_frontend_url }}/realms/master/"
+    url: "{{ keycloak_frontend_url }}/realms/master"
     validate_certs: "{{ keycloak_validate_certs }}"
     status_code: 200
   register: result

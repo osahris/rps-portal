@@ -1,2 +1,0 @@
----
-traefik_dashboard_service_name: "traefik.{{inventory_hostname}}"

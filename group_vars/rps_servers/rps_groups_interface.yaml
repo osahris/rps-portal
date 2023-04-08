@@ -1,6 +1,0 @@
----
-rps_groups_interface_service_name: "groups.{{ inventory_hostname }}"
-
-rps_groups_interface_managed_realms:
-  - name: rps
-  - name: projektportal

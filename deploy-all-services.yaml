@@ -11,43 +11,13 @@
               - "{{ inventory_hostname }}"
 
   roles:
-    - role: rps_core_services
+    - role: rps_full_package
 
-    - role: idia
-      tags: idia
-    - role: rps_profile_interface
-      tags: rps_profile_interface, rps-profile-interface, profile
-    - role: rps_groups_interface
-      tags: rps_groups_interface, rps-groups-interface
-    - role: rps_admin_interface
-      tags: rps_admin_interface, rps-admin-interface
-    - role: rps_header
-      tags: rps_header, rps-header, header
     # - role: static_header_test
     #   tags: static_header_test, static-header-test, core
-    - role: budibase
-      tags: budibase
-    - role: collabora
-      tags: collabora
-    - role: discourse
-      tags: discourse
-    - role: rps_people
-      tags: rps_people, rps-people
-    - role: nextcloud
-      tags: nextcloud
-    - role: minimum_viable_product
-      tags: minimum_viable_product, minimum-viable-product, mvp
-    - role: rocketchat
-      tags: rocketchat
-    # - role: typesense
-    #   tags: typesense
-    # - role: wiki-bookstack
-    #   tags: wiki_bookstack, wiki-bookstack
-    # - role: wiki-js
-    #   tags: wiki_js, wiki-js
-    - role: wordpress
-      tags: wordpress
-    - role: webserver
-      tags: webserver
-    - role: redirects
-      tags: redirects
+    # - role: minimum_viable_product
+    #   tags: minimum_viable_product, minimum-viable-product, mvp
+    # - role: wordpress
+    #   tags: wordpress
+    # - role: webserver
+    #   tags: webserver

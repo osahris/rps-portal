@@ -1,2 +1,0 @@
----
-rps_profile_interface_service_name: "profile.{{ inventory_hostname }}"

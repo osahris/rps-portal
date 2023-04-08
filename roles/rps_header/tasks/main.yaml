@@ -4,10 +4,10 @@
     path: "{{remote_path}}"
     state: directory
 
-- name: create config.yaml
+- name: header dynamic config
   copy:
-    content: "{{ rps_header_config }}"
-    dest: "{{ remote_path }}/header_config.yaml"
+    content: "{{ rps_header_dynamic_config }}"
+    dest: "{{ remote_path }}/config.dynamic.yaml"
 
 - name: create docker compose yaml
   template:
