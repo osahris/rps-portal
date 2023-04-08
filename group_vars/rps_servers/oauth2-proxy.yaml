@@ -1,2 +1,3 @@
 ---
 oauth2_proxy_service_name: "oauth2.{{ inventory_hostname }}"
+oauth2_root_redirect_url: "https://{{ wordpress_draft_service_name }}"

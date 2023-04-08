@@ -1,6 +1,8 @@
 ---
 rps_header_image: registry.gitlab.com/idcohorts/rps/rps-vue-header:dev
 
+rps_header_js_url: https://{{rps_header_service_name}}/header.js
+rps_header_stylesheet_url: https://{{rps_header_service_name}}/header.css
 rps_header_userinfo_url: https://{{rps_header_service_name}}/oauth2/userinfo
 rps_header_sign_in_url: https://{{rps_header_service_name}}/oauth2/sign_in?rd={{rps_header_sign_in_redirect_url|urlencode}}
 rps_header_sign_in_redirect_url: https://{{rps_header_service_name}}
@@ -12,82 +14,3 @@ rps_header_root_redirect_url: /test
 rps_header_webserver_env: prod
 
 rps_header_allowed_origins: []
-
-rps_header_config:
-  header_logo_uri: https://{{ inventory_hostname }}/?app=idia
-  header_contact_url: https://{{ inventory_hostname }}/?app=idia
-  header_support_url: https://{{ inventory_hostname }}/?app=idia
-
-  # small style configuration
-  iconStyle: fas
-  hasLogin: true
-  producedBy: IDCohorts
-  header_login_title: Anmelden
-  header_logout_title: Abmelden
-
-  # header configuration
-  header_top_navbar_links:
-    - title: Cloud
-      link: https://nextcloud.{{ inventory_hostname }}
-      icon: cloud
-    - title: Account
-      link: https://keycloak.{{ inventory_hostname }}/realms/rps/account/
-      icon: user
-    - title: Hilfe & Kontakt
-      link: https://support.{{ inventory_hostname }}
-      icon: circle-question
-  header_bottom_navbar_links:
-    - title: Suite
-      icon: tools
-      link: https://{{ inventory_hostname }}/?app=idia
-      requireLogin: false
-      isDisabled: false
-      type: dropdown
-      visibility:
-        - vip
-        - uk-frankfurt
-      children:
-        - title: Chat
-          text: Coming soon...
-          link: https://{{ inventory_hostname }}/?app=rocketchat
-          requireLogin: false
-          visibility:
-            - vip
-            - uk-frankfurt
-        - title: Chat
-          link: https://{{ inventory_hostname }}/?app=rocketchat
-          requireLogin: false
-          visibility:
-            - vip
-            - uk-frankfurt
-        - title: Dokumente
-          requireLogin: false
-          link: https://nextcloud.{{ inventory_hostname }}/apps/files/
-          visibility:
-            - vip
-        - title: Kalendar
-          link: https://nextcloud.{{ inventory_hostname }}/apps/calendar/
-          requireLogin: false
-          visibility:
-            - vip
-        - title: Support
-          link: https://{{ inventory_hostname }}/?app=idia
-          requireLogin: false
-          visibility:
-            - vip
-  footer_configuration:
-    has_first_logo: true
-    alt_first_logo: Logo DZG
-    has_second_logo: true
-    alt_second_logo: Bundesministerium für Bildung und Forschung
-    footer_sitemap: []
-    last_link_row:
-      - name: Impressum
-        link: https://{{ inventory_hostname }}/?app=idia
-        isDisabled: true
-      - name: Datenschutz
-        link: https://{{ inventory_hostname }}/?app=idia
-        isDisabled: true
-      - name: Intranet
-        link: https://{{ inventory_hostname }}/?app=idia
-        isDisabled: true
