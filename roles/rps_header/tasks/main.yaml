@@ -17,7 +17,7 @@
 - name: create env file
   template:
     src: "env.j2"
-    dest: "{{remote_path}}/.env"
+    dest: "{{remote_path}}/env"
 
 - name: deploy docker-compose stack
   docker_compose:
