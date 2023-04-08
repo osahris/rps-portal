@@ -19,11 +19,11 @@
     - rps_admin_interface
     - admin
 
-- import_role:
-    name: rps_groups_interface
-  tags:
-    - rps_groups_interface
-    - groups
+# - import_role:
+#     name: rps_groups_interface
+#   tags:
+#     - rps_groups_interface
+#     - groups
 
 # - import_role:
 #     name: typesense
