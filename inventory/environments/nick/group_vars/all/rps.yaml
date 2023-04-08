@@ -1,0 +1,4 @@
+---
+rps_admin_email: nick.schulze@uk-koeln.de
+
+traefik_log_level: DEBUG
