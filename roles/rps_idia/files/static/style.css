@@ -17,3 +17,7 @@
     .red_button:hover{
         background: rgb(255, 75, 75);
     }
+
+button {
+    cursor: pointer;
+}
