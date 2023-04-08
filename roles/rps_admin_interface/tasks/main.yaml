@@ -9,6 +9,7 @@
 - name: clone rps-admin-tools git repository
   git:
     repo: "{{ rps_admin_web_interface_git_repo }}"
+    version: "{{ rps_admin_web_interface_git_version }}"
     dest: "{{ remote_path }}/rps-admin-tools"
     force: true
 
