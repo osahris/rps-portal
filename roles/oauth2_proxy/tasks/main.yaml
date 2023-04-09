@@ -37,7 +37,15 @@
     pull: true
     remove_orphans: true
 
+- name: remove old traefik dynamic config
+  file:
+    path: "/app/proxy/traefik/conf.d/oauth2_proxy.yaml"
+    state: absent
+  when: oauth2_proxy_traefik_dynamic_config is not defined
+
 - name: traefik dynamic config
   copy:
     content: "{{ oauth2_proxy_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/oauth2_proxy.yaml"
+    dest: "/app/proxy/traefik/conf.d/oauth2-proxy.yaml"
+
+  
