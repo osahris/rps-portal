@@ -1,6 +1,8 @@
 ---
-oauth2_proxy_service_name: "{{ inventory_hostname }}"
 oauth2_proxy_base_url: "https://{{ oauth2_proxy_service_name }}"
+
+oauth2_proxy_client_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_client_secret | default(ansible_local.secrets.oauth2_proxy_client_secret) }}"
+oauth2_proxy_cookie_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_cookie_secret | default(ansible_local.secrets.oauth2_proxy_cookie_secret) }}"
 
 oauth2_root_redirect_url: "{{ oauth2_proxy_base_url }}/oauth2/userinfo"
 
@@ -12,11 +14,13 @@ oauth2_proxy_show_debug_on_error: false
 # if this is set to true we will be presented with a blank white page saying "Found"
 # https://github.com/oauth2-proxy/oauth2-proxy/issues/1322
 oauth2_proxy_skip_provider_button: false
-oauth2_proxy_cookie_name: _oauth2_proxy
-# use our baseurl and NOT oauth2_proxy_service_name so that all services see the cookie!
-oauth2_proxy_cookie_domain: "{{ inventory_hostname }}"
+oauth2_proxy_reverse_proxy: true
+
+oauth2_proxy_cookie_name: _rps_oauth2
+
 # otherwise we will get a stale access token. because default keycloak defaults to 60s
 oauth2_proxy_cookie_refresh: "55s"
+oauth2_proxy_cookie_samesite: "strict"
 
 oauth2_proxy_oidc_issuer_url: "https://{{ keycloak_service_name }}/realms/{{oauth2_proxy_keycloak_client_realm}}"
 oauth2_proxy_client_id: "{{oauth2_proxy_service_name}}"
@@ -24,8 +28,8 @@ oauth2_proxy_client_id: "{{oauth2_proxy_service_name}}"
 oauth2_proxy_scope: "openid email profile roles"
 
 oauth2_proxy_email_domains: "*"
-oauth2_proxy_needs_login_redirect: "/oauth2/sign_in"
-#oauth2_proxy_allowed_groups: icu
+oauth2_proxy_allowed_roles:
+  - approved
 
 oauth2_proxy_redirect_url: "{{oauth2_proxy_base_url}}/oauth2/callback"
 
@@ -33,6 +37,8 @@ oauth2_proxy_set_xauthrequest: true
 oauth2_proxy_pass_access_token: true
 
 oauth2_proxy_request_logging: true
+
+oauth2_proxy_upstreams: static://202
 
 oauth2_proxy_with_keycloak_client: true
 oauth2_proxy_keycloak_client_auth_keycloak_url: "{{oauth2_proxy_keycloak_client_url}}"
@@ -47,11 +53,5 @@ oauth2_proxy_keycloak_client_realm_url: "{{oauth2_proxy_keycloak_client_url}}/re
 oauth2_proxy_keycloak_client_client_id: "{{ oauth2_proxy_client_id }}"
 oauth2_proxy_keycloak_client_realm: "{{ keycloak_realm }}"
 oauth2_proxy_keycloak_client_redirect_uris:
-  - "{{ oauth2_proxy_base_url }}/*"
+  - "{{ oauth2_proxy_base_url }}/oauth2/callback"
 oauth2_proxy_keycloak_client_secret: "{{ oauth2_proxy_client_secret }}"
-
-oauth2_proxy_secrets:
-  oauth2_proxy_client_secret: "{{ oauth2_proxy_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  oauth2_proxy_cookie_secret: "{{ oauth2_proxy_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-oauth2_proxy_client_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_client_secret | default(ansible_local.secrets.oauth2_proxy_client_secret) }}"
-oauth2_proxy_cookie_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_cookie_secret | default(ansible_local.secrets.oauth2_proxy_cookie_secret) }}"

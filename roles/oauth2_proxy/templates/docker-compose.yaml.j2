@@ -8,6 +8,7 @@ networks:
 services:
   oauth2-proxy:
     image: {{ oauth2_proxy_container_image }}:{{ oauth2_proxy_container_version }}
+    container_name: oauth2-proxy
     restart: unless-stopped
     env_file: env
     networks:

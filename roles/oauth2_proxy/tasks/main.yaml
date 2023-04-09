@@ -17,6 +17,19 @@
     src: "env.j2"
     dest: "{{remote_path}}/env"
 
+- name: create custom templates directory
+  file:
+    path: "{{remote_path}}/custom-templates"
+    state: directory
+
+- name: copy custom html templates
+  copy:
+    src: "{{item}}.html"
+    dest: "{{remote_path}}/custom-templates/{{item}}.html"
+  loop:
+    - "error"
+    - "sign_in"
+
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
@@ -24,7 +37,15 @@
     pull: true
     remove_orphans: true
 
+- name: remove old traefik dynamic config
+  file:
+    path: "/app/proxy/traefik/conf.d/oauth2_proxy.yaml"
+    state: absent
+  when: oauth2_proxy_traefik_dynamic_config is not defined
+
 - name: traefik dynamic config
   copy:
     content: "{{ oauth2_proxy_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/oauth2_proxy.yaml"
+    dest: "/app/proxy/traefik/conf.d/oauth2-proxy.yaml"
+
+  

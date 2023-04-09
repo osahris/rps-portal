@@ -14,7 +14,7 @@ header_traefik_dynamic_config:
         entrypoints: websecure
         middlewares:
         - header-root-redirect
-        - header-oauth2-xhr-headers
+        - header-xhr-headers
         tls:
           certresolver: letsencrypt
         service: header
@@ -24,7 +24,7 @@ header_traefik_dynamic_config:
         entrypoints: websecure
         service: oauth2-proxy
         middlewares:
-        - header-oauth2-xhr-headers
+        - header-xhr-headers
         tls:
           certresolver: letsencrypt
 
@@ -33,7 +33,7 @@ header_traefik_dynamic_config:
         entrypoints: websecure
         service: header-always-200-responder
         middlewares:
-        - header-oauth2-xhr-headers
+        - header-xhr-headers
         tls:
           certresolver: letsencrypt
   
@@ -73,7 +73,7 @@ header_traefik_dynamic_config:
           # match / for every URL
           regex: "^https?://[^/]+/$"
           replacement: "{{ rps_header_root_redirect_url }}"
-      header-oauth2-xhr-headers:
+      header-xhr-headers:
         headers:
           accessControlAllowOriginList: "{{ rps_header_allowed_origins }}"
           accessControlAllowMethods:

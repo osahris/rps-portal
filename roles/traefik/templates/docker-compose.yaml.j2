@@ -8,6 +8,7 @@ networks:
 services:
   traefik:
     image: traefik:v2.8
+    container_name: traefik
     restart: unless-stopped #"{{traefik_copy_static_config_task.changed}}"
     logging:
       options:
@@ -22,3 +23,9 @@ services:
       # ||| Please do not change the folder in the line below to an external volume
       # vvv 
       - "/srv/ssl-certs:/ssl-certs/"
+  whoami:
+    image: traefik/whoami:v1.9
+    container_name: whoami
+    restart: unless-stopped
+    networks:
+      - {{ traefik_proxy_network }}

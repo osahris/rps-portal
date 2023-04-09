@@ -1,54 +1,52 @@
 ---
-remote_path: "/app/{{oauth2_proxy_service_name}}"
+oauth2_proxy_secrets:
+  oauth2_proxy_client_secret: "{{ oauth2_proxy_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  oauth2_proxy_cookie_secret: "{{ oauth2_proxy_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+remote_path: /app/proxy/oauth2-proxy
+
 oauth2_proxy_traefik_dynamic_config:
   http:
     routers:
       oauth2-proxy:
-        # traefik will look at the host rule to order a certificate so add a separate rule for our hostname because this is used internally
         rule: "Host(`{{ oauth2_proxy_service_name }}`)"
         entrypoints: websecure
         service: oauth2-proxy
-        middlewares:
-          - oauth2-root-redirect
-        tls:
-          certresolver: letsencrypt
     services:
       oauth2-proxy:
         loadBalancer:
           servers:
-            - url: "http://{{ oauth2_proxy_service_name|replace('.', '') }}_oauth2-proxy_1:4180"
+            - url: "http://oauth2-proxy:4180"
 
     middlewares:
+      oauth2:
+        chain:
+          middlewares:
+            #- oauth2-redirect
+            - oauth2-sign_in-page
+            - oauth2-auth
       oauth2-auth:
-        forwardAuth:
-          address: "{{ oauth2_proxy_base_url }}/oauth2/auth"
+        forwardAuth: &forwardAuth
+          address: "{{ oauth2_proxy_base_url }}}/oauth2/auth"
           authResponseHeaders:
             - X-Auth-Request-Access-Token
             - X-Auth-Request-User
             - X-Auth-Request-Email
             - X-Auth-Request-Preferred-Username
             - X-Auth-Request-Groups
-          # unclear if this is really needed and what it does but it is present everywhere in the docs
           trustForwardHeader: true
-      oauth2-auth-admin-interface:
+      oauth2-auth-admin-role:
         forwardAuth:
-          address: "{{ oauth2_proxy_base_url }}/oauth2/auth?allowed_groups=admin"
-          authResponseHeaders:
-            - X-Auth-Request-Access-Token
-            - X-Auth-Request-User
-            - X-Auth-Request-Email
-            - X-Auth-Request-Preferred-Username
-            - X-Auth-Request-Groups
-          # unclear if this is really needed and what it does but it is present everywhere in the docs
-          trustForwardHeader: true
-      oauth2-errors:
+          <<: *forwardAuth
+          address: "{{ oauth2_proxy_base_url }}/oauth2/auth?allowed_groups=role:admin"
+      oauth2-sign_in-page:
         errors:
           status:
             - "401"
           service: oauth2-proxy
-          query: "{{ oauth2_proxy_needs_login_redirect }}"
-      oauth2-root-redirect:
+          query: /oauth2/sign_in
+      oauth2-redirect:
         redirectRegex:
           # match / for every URL
-          regex: "^https?://[^/]+/$"
-          replacement: "{{ oauth2_root_redirect_url }}"
+          regex: "^https?://[^/]+/oauth2/(.*)$"
+          replacement: "https://{{ oauth2_proxy_service_name }}/oauth2/$1"
