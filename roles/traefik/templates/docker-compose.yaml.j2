@@ -8,6 +8,7 @@ networks:
 services:
   traefik:
     image: traefik:v2.8
+    container_name: traefik
     restart: unless-stopped #"{{traefik_copy_static_config_task.changed}}"
     logging:
       options:

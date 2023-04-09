@@ -16,7 +16,7 @@ oauth2_proxy_traefik_dynamic_config:
       oauth2-proxy:
         loadBalancer:
           servers:
-            - url: "http://{{ oauth2_proxy_service_name|replace('.', '') }}_oauth2-proxy_1:4180"
+            - url: "http://oauth2-proxy:4180"
 
     middlewares:
       oauth2-auth:
