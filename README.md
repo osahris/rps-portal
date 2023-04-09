@@ -111,3 +111,14 @@ myapp_traefik_dynamic_config:
           servers:
             - url: "http://{{myapp_service_name|replace('.','')}}_myapp_1"
 ```
+
+
+Helping scripts:
+Clean VM from all RPS related for a brand new setup:
+```sh
+docker ps -aq | xargs docker stop | xargs docker rm
+docker volume prune
+docker system prune
+rm /app/ -R
+rm /etc/ansible/facts.d/ -R
+```
