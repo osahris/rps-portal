@@ -35,7 +35,7 @@ oauth2_proxy_traefik_dynamic_config:
             - X-Auth-Request-Preferred-Username
             - X-Auth-Request-Groups
           trustForwardHeader: true
-      oauth2-auth-admin-role:
+      oauth2-auth-require-admin-role:
         forwardAuth:
           <<: *forwardAuth
           address: "{{ oauth2_proxy_base_url }}/oauth2/auth?allowed_groups=role:admin"
@@ -45,7 +45,7 @@ oauth2_proxy_traefik_dynamic_config:
             - "401"
           service: oauth2-proxy
           query: /oauth2/sign_in
-      oauth2-redirect:
+      oauth2-endpoints-redirect:
         redirectRegex:
           # match / for every URL
           regex: "^https?://[^/]+/oauth2/(.*)$"
