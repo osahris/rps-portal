@@ -12,3 +12,5 @@ services:
     env_file: env
     networks:
       - proxy
+    volumes:
+      - ./custom-templates:/custom-templates:ro
