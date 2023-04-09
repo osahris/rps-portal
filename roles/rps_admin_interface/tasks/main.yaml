@@ -1,18 +1,7 @@
 ---
 - import_tasks: secrets.yaml
 
-- include_tasks: oauth2_proxy_setup.yaml
-  loop: "{{ rps_admin_interface_managed_realms }}"
-  loop_control:
-    loop_var: realm
-    
-- name: display current host
-  debug:
-    msg:
-      - "{{ ansible_ssh_host }}"
-      - "{{ app_port }}"
-      - "{{ inventory_hostname }}"
-      - "{{ rps_admin_web_interface_git_branch }}"
+- import_tasks: keycloak_client.yaml
 
 - name: create directory - {{remote_path}}
   file: 
@@ -37,11 +26,5 @@
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
-    # add multiple docker-compose.yaml / .yml files below
-    files: "{{item}}"
-    # This option ensures that the images are rebuilt
-    build: true
     pull: true
     remove_orphans: true
-  with_items:
-    - "docker-compose.yml"

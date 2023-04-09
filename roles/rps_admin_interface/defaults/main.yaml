@@ -1,18 +1,10 @@
 ---
-rps_admin_web_interface_git_repo: https://gitlab.com/idcohorts/rps/rps-admin-tools.git
-rps_admin_web_interface_git_branch: dev
-rps_admin_keycloak_realm: rps
-rps_admin_interface_managed_realms:
-  - name: master
-  - name: rps
-
-
-project_id: rps-dev
-
-remote_path: "/app/{{rps_admin_interface_service_name}}"
-rps_admin_web_interface_default_client_secret: "{{ ansible_local.rps_admin_interface_secrets.rps_admin_web_interface_default_client_secret }}"
-rps_admin_interface_managed_realms: []
-
+# rps_admin_interface_service_name
 rps_admin_web_interface_keycloak_service_url: "https://{{ keycloak_service_name }}"
+
+rps_admin_interface_keycloak_realm: "{{ keycloak_realm }}"
+
+rps_admin_interface_keycloak_client_secret: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_keycloak_client_secret }}"
+
 rps_admin_web_interface_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"
 rps_admin_web_interface_keycloak_auth_password: "{{keycloak_admin_password}}"
