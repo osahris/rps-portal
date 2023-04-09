@@ -11,3 +11,6 @@ services:
       - .env
     networks:
       - proxy
+    volumes:
+      - ./config.yaml:/opt/rps-admin-tools/configs/config.yaml:ro
+      - ./config.yaml:/var/www/rps_admin_interface/configs/config.yaml:ro
