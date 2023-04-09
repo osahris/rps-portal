@@ -19,6 +19,7 @@
     name: keycloak
   tags:
     - keycloak
+    - accounts
   when: rps_core_package_with_keycloak
 
 - import_role:
@@ -32,6 +33,8 @@
     name: oauth2_proxy
   tags:
     - oauth2_proxy
+    - oauth2-proxy
+    - oauth2
 
 - import_role:
     name: redirects
