@@ -17,6 +17,19 @@
     src: "env.j2"
     dest: "{{remote_path}}/env"
 
+- name: create custom templates directory
+  file:
+    path: "{{remote_path}}/custom-templates"
+    state: directory
+
+- name: copy custom html templates
+  copy:
+    src: "{{item}}.html"
+    dest: "{{remote_path}}/custom-templates/{{item}}.html"
+  loop:
+    - "error"
+    - "sign_in"
+
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
