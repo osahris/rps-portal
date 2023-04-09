@@ -6,7 +6,7 @@ networks:
 
 services:
   web:
-    build: .
+    image: registry.gitlab.com/idcohorts/rps/rps-admin-tools:dev
     env_file:
       - .env
     networks:

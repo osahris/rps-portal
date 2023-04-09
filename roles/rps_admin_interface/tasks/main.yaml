@@ -20,13 +20,6 @@
     state: directory
     recurse: yes
 
-- name: clone rps-admin-tools git repository
-  git:
-    repo: "{{ rps_admin_web_interface_git_repo }}"
-    version: "{{ rps_admin_web_interface_git_branch }}"
-    dest: "{{ remote_path }}"
-    force: true
-
 - name: copy some templated .j2 files
   template:
     src: "{{item}}" # relative to ./templates on local role path
@@ -35,7 +28,6 @@
     - ".env.j2"
     - "docker-compose.yml.j2"
     - "config.yaml.j2"
-    - "Dockerfile.j2"
 
 - name: copy traefik dynamic config
   copy:
