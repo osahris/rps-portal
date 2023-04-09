@@ -12,6 +12,14 @@ traefik_static_config:
   entryPoints: "{{ traefik_entry_points }}"
   certificatesResolvers: "{{ traefik_certificates_resolvers }}"
 
+traefik_whoami_service_dynamic_config:
+  http:
+    services:
+      whoami:
+        loadBalancer:
+          servers:
+            - url: http://whoami
+
 traefik_dashboard_dynamic_config:
   http:
     routers:
