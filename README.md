@@ -8,9 +8,10 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 
 - [ ] budibase
 - [x] collabora
-- [ ] discourse
+- [x] discourse
+- [x] keycloak_themes
 - [x] docker
-- [x] idia
+- [x] rps_idia
 - [x] keycloak
 - [x] keycloak_realms
 - [ ] rps_people
@@ -24,7 +25,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [ ] rps_cohort_explorer
 - [x] rps_groups_interface
 - [ ] rps_header
-- [ ] rps_style_servers
+- [x] rps_style_servers
 - [ ] rps_sync_services
 - [ ] socat_https_proxy
 - [x] traefik
@@ -32,7 +33,6 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [ ] wiki-bookstack
 - [x] wiki-js
 - [ ] wordpress
-
 
 ## Add a new service
 
@@ -112,3 +112,13 @@ myapp_traefik_dynamic_config:
             - url: "http://{{myapp_service_name|replace('.','')}}_myapp_1"
 ```
 
+
+Helping scripts:
+Clean VM from all RPS related for a brand new setup:
+```sh
+docker ps -aq | xargs docker stop | xargs docker rm
+docker volume prune
+docker system prune
+rm /app/ -R
+rm /etc/ansible/facts.d/ -R
+```

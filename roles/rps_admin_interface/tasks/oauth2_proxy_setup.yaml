@@ -10,7 +10,7 @@
     auth_password: "{{ rps_admin_web_interface_keycloak_auth_password }}"
     client_id: "rps-admin-interface"
     realm: "{{ realm.name }}"
-    redirect_uris: "https://{{ rps_admin_web_interface_service_name }}/realms/{{ realm.name }}/oauth2/callback"
+    redirect_uris: "https://{{ rps_admin_interface_service_name }}/realms/{{ realm.name }}/oauth2/callback"
     client_authenticator_type: client-secret
     secret: "{{ realm.client_secret | default(rps_admin_web_interface_default_client_secret) }}"
     state: present

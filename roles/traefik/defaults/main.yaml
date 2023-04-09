@@ -1,10 +1,11 @@
 ---
 # Default values, can be overwritten by values from vars/main.yaml
 
-traefik_service_name: "traefik.{{inventory_hostname}}"
 traefik_proxy_network: "proxy"
 traefik_certresolver: "letsencrypt"
-letsencrypt_account_email: "{{ admin_email }}"
+letsencrypt_account_email: "{{ rps_admin_email }}"
+
+traefik_log_level: WARN
 
 traefik_entry_points:
   web:

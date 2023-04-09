@@ -1,0 +1,2 @@
+[rps_servers]
+nick.iodatalabs.dev ansible_user=root 

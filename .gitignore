@@ -2,3 +2,5 @@
 inventory-dev
 __pycache__
 *_inventory
+
+*.vault

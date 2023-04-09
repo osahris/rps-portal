@@ -1,69 +1,7 @@
 ---
-- name: current host
-  debug:
-    msg:
-      - "{{ ansible_ssh_host }}"
-      - "{{ inventory_hostname }}"
-
 - import_tasks: secrets.yaml
 
-- name: create directory
-  file: path={{remote_path}} state=directory
-
-- name: create skel directory
-  file: path={{remote_path}}/skel state=directory
-
-- name: copy all static files
-  synchronize:
-    recursive: true
-    src: "./" # relative to ./files on local role path
-    dest: "{{remote_path}}" # relative to ~/ on remote
-
-- name: copy some templated .j2 files
-  template:
-    src: "{{item}}" # relative to ./templates on local role path
-    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
-  with_items:
-    - "docker-compose.yaml.j2"
-    - "env.j2"
-
-- name: copy traefik dynamic config
-  copy:
-    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/app/proxy/traefik/conf.d/nextcloud.yaml"
-
-- import_tasks: custom_theme/setup.yaml
-  when: nextcloud_with_custom_theme
-
-- import_tasks: header_injection.yaml
-  when: nextcloud_with_header_injection
-
-- name: deploy docker-compose stack
-  docker_compose:
-    project_src: "{{remote_path}}/"
-  
-    pull: true
-    remove_orphans: true
-
-- name: wait for docker-compose stack deployment
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command: php occ status --output=json
-  register: _nextcloud_status_task
-  changed_when: false
-  retries: 180
-  delay: 1
-  until: _nextcloud_status_task is not failed
-
-- name: install nextcloud
-  when: not _nextcloud_status.installed
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command: php occ maintenance:install --admin-user="{{MYSQL_USER}}" --admin-pass="{{MYSQL_ROOT_PASSWORD}}" --database="sqlite" --database-name="{{MYSQL_DATABASE}}" --database-host="{{MYSQL_HOST}}" --database-user="{{MYSQL_USER}}" --database-pass="{{MYSQL_PASSWORD}}"
-  register: _nextcloud_status_task
-  # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/occ_command.html
+- import_tasks: deploy.yaml
 
 - import_tasks: config.yaml
   vars:
@@ -79,3 +17,7 @@
   when: nextcloud_with_user_oidc_app
 # - import_tasks: apps/oidc_login.yaml
 #   when: nextcloud_with_oidc_login_app
+
+- import_tasks: apps/install.yaml
+  vars:
+    nextcloud_install_apps: "{{nextcloud_apps}}"

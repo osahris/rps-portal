@@ -2,11 +2,6 @@
 remote_path: "/app/{{rps_people_service_name}}"
 app_port: "80"
 
-keycloak_service_name: "keycloak.{{ inventory_hostname }}"
-keycloak_realm_name: "rps"
-keycloak_client_ID: "rps_people.{{ inventory_hostname }}"
-
-
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
   http:

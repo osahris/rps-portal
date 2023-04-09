@@ -5,9 +5,11 @@ oauth2_proxy_traefik_dynamic_config:
     routers:
       oauth2-proxy:
         # traefik will look at the host rule to order a certificate so add a separate rule for our hostname because this is used internally
-        rule: "Host(`{{ oauth2_proxy_service_name }}`) || (HostRegexp(`{subdomain:[a-z-0-9]+}.{{ inventory_hostname }}`) && PathPrefix(`/oauth2/`))"
+        rule: "Host(`{{ oauth2_proxy_service_name }}`)"
         entrypoints: websecure
         service: oauth2-proxy
+        middlewares:
+          - oauth2-root-redirect
         tls:
           certresolver: letsencrypt
     services:
@@ -15,6 +17,7 @@ oauth2_proxy_traefik_dynamic_config:
         loadBalancer:
           servers:
             - url: "http://{{ oauth2_proxy_service_name|replace('.', '') }}_oauth2-proxy_1:4180"
+
     middlewares:
       oauth2-auth:
         forwardAuth:
@@ -44,3 +47,8 @@ oauth2_proxy_traefik_dynamic_config:
             - "401"
           service: oauth2-proxy
           query: "{{ oauth2_proxy_needs_login_redirect }}"
+      oauth2-root-redirect:
+        redirectRegex:
+          # match / for every URL
+          regex: "^https?://[^/]+/$"
+          replacement: "{{ oauth2_root_redirect_url }}"

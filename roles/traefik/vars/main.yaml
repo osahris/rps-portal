@@ -4,7 +4,7 @@ traefik_static_config:
     dashboard: true
     insecure: false
   log:
-    level: DEBUG
+    level: "{{traefik_log_level}}"
   providers:
     file:
       directory: /etc/traefik/conf.d
@@ -16,7 +16,7 @@ traefik_dashboard_dynamic_config:
   http:
     routers:
       traefik:
-        rule: "Host(`{{traefik_service_name}}`)"
+        rule: "Host(`{{traefik_dashboard_service_name}}`)"
         entrypoints: websecure
         tls:
           certresolver: letsencrypt

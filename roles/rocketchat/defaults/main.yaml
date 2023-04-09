@@ -1,1 +1,2 @@
-rocketchat_server_name: "rocketchat.{{ inventory_hostname }}"
+---
+rocketchat_server_name: "{{ inventory_hostname }}"

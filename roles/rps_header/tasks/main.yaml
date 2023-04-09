@@ -4,10 +4,10 @@
     path: "{{remote_path}}"
     state: directory
 
-- name: create config.yaml
+- name: header dynamic config
   copy:
-    content: "{{ rps_header_config }}"
-    dest: "{{ remote_path }}/header_config.yaml"
+    content: "{{ rps_header_dynamic_config }}"
+    dest: "{{ remote_path }}/config.dynamic.yaml"
 
 - name: create docker compose yaml
   template:
@@ -17,7 +17,7 @@
 - name: create env file
   template:
     src: "env.j2"
-    dest: "{{remote_path}}/.env"
+    dest: "{{remote_path}}/env"
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -25,6 +25,10 @@
     files: "docker-compose.yaml"
     pull: true
     build: true
+
+- name: show allowed origins
+  debug:
+    msg: "{{rps_header_allowed_origins}}"
 
 - name: traefik dynamic config
   copy:

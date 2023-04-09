@@ -1,0 +1,2 @@
+[rps_servers]
+dev.research-project-suite.org ansible_user=root

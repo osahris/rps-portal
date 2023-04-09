@@ -1,0 +1,14 @@
+---
+# common
+rps_dns_suffix: "{{ inventory_hostname }}"
+
+# traefik
+traefik_dashboard_service_name: "traefik.{{ rps_dns_suffix }}"
+
+# keycloak
+rps_core_package_with_keycloak: true
+rps_core_package_with_keycloak_realms: "{{ rps_core_package_with_keycloak }}"
+keycloak_service_name: accounts.{{ rps_dns_suffix }}
+
+# oauth2-proxy
+oauth2_proxy_service_name: "oauth2.{{ rps_dns_suffix }}"

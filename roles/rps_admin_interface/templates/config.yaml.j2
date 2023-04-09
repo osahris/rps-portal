@@ -1,6 +1,6 @@
 project_id: {{project_id|to_json}}
 project_name: rps-admin-interface
-
+rps_header_url: {{rps_header_js_url}}
 services:
   accounts:
     {
@@ -8,7 +8,7 @@ services:
       keycloak_management_realm: "{{keycloak_management_realm|default('master')}}",
       keycloak_management_url: "https://{{keycloak_service_name}}",
       keycloak_management_client_id: "rps-admin-interface",
-      keycloak_realm: "rps",
+      keycloak_realm: "{{rps_admin_keycloak_realm|default('master')}}",
       service_type: keycloak,
       default_required_actions: ['UPDATE_PASSWORD','UPDATE_PROFILE','VERIFY_EMAIL']
     }

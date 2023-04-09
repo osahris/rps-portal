@@ -1,3 +1,0 @@
----
-discourse_service_name: "discourse.{{ inventory_hostname }}"
-

@@ -17,11 +17,6 @@
   with_items:
     - "docker-compose.yaml.j2"
 
-- name: copy traefik dashboard dynamic config
-  copy:
-    content: "{{ traefik_dashboard_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/app/proxy/traefik/conf.d/traefik-dashboard.yaml"
-
 - name: create traefik docker proxy network
   docker_network:
     name: "{{ traefik_proxy_network }}"
@@ -32,3 +27,9 @@
     remove_orphans: true
     restarted: "{{ traefik_copy_static_config_task.changed }}"
     pull: true
+
+- name: copy traefik dashboard dynamic config
+  copy:
+    content: "{{ traefik_dashboard_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/app/proxy/traefik/conf.d/traefik-dashboard.yaml"
+  when: traefik_dashboard_service_name is defined

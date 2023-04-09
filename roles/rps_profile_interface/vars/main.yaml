@@ -1,0 +1,32 @@
+---
+service_name: "profile"
+service_domain_name: "{{ rps_profile_interface_service_name }}"
+
+remote_path: "/app/{{service_domain_name}}"
+
+traefik_certresolver: "letsencrypt"
+app_port: "801"
+
+budibase_api_key: cebfeee24d4d0671becb513c460cf43f-87efe4b6d696ca1ab338a6226bb93e9cb688e9293bf19365c332ab436044f37f3e9e6742291cf4e2
+budibase_app_name: NUM Hub
+budibase_host: https://budibase.dev.numhub.de
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      profile: # <-- Change this to your service name
+        rule: "Host(`{{service_domain_name}}`)"
+        entrypoints: websecure
+        middlewares: 
+        - header-redirect
+        - oauth2-auth
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: "profile" # <-- Change this to your service name
+
+    services:
+      profile: # <-- Change this to your service name
+        loadBalancer:
+          servers:
+            - url: "http://{{service_domain_name|replace('.','')}}_{{service_name}}_1:{{app_port}}" # "http://container_name:container_port"

@@ -5,11 +5,12 @@ nextcloud_version: 25.0
 
 nextcloud_defaultapp: files
 
-nextcloud_secrets:
-  nextcloud_db_admin_password: "{{ nextcloud_db_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  nextcloud_keycloak_client_secret: "{{ nextcloud_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-nextcloud_db_admin_password: "{{ ansible_local[nextcloud_service_name].nextcloud_db_admin_password | default(ansible_local.secrets.nextcloud_db_admin_password) }}"
-nextcloud_keycloak_client_secret: "{{ ansible_local[nextcloud_service_name].nextcloud_keycloak_client_secret | default(ansible_local.secrets.nextcloud_keycloak_client_secret) }}"
+nextcloud_mysql_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_password }}"
+nextcloud_mysql_root_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_root_password }}"
+nextcloud_admin_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_password }}"
+nextcloud_keycloak_client_secret: "{{ ansible_local[nextcloud_service_name].nextcloud_keycloak_client_secret }}"
+
+nextcloud_admin_user: admin
 
 nextcloud_with_keycloak_client: true
 nextcloud_keycloak_client_auth_keycloak_url: "{{nextcloud_keycloak_client_url}}"
@@ -26,6 +27,10 @@ nextcloud_keycloak_client_client_id: "{{ nextcloud_service_name }}"
 nextcloud_keycloak_client_redirect_uris:
   - https://{{ nextcloud_service_name }}/*
 #nextcloud_keycloak_client_secret:
+
+nextcloud_apps:
+  - calendar
+  - drawio
 
 # new user_oidc plugin options
 nextcloud_with_user_oidc_app: "{{nextcloud_with_keycloak_client}}"
@@ -61,7 +66,7 @@ nextcloud_oidc_login_disable_registration: false
 
 nextcloud_with_custom_ca_certificates: false
 
-nextcloud_with_header_injection: false
+nextcloud_with_header_injection: true
 nextcloud_header_injection_repo: https://gitlab.com/idcohorts/rps/rps-nextcloud-header-injection.git
 nextcloud_header_injection_version: "nextcloud/v{{ nextcloud_version }}"
 

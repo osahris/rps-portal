@@ -1,9 +1,8 @@
 ---
 rps_groups_interface_proxy_network: "proxy"
-rps_groups_interface_service_name: "groups.{{ inventory_hostname }}"
 
 rps_groups_interface_container_image: registry.gitlab.com/idcohorts/rps/rps-gruppeninterface
-rps_groups_interface_container_version: main
+rps_groups_interface_container_version: dev
 
 rps_groups_interface_keycloak_service_url: "https://{{ keycloak_service_name }}"
 rps_groups_interface_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"

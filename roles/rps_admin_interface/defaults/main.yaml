@@ -1,14 +1,15 @@
 ---
-service_name: "admin"
-service_domain_name: "{{service_name}}.{{ inventory_hostname }}"
-rps_admin_web_interface_service_name: "{{service_domain_name}}"
-
 rps_admin_web_interface_git_repo: https://gitlab.com/idcohorts/rps/rps-admin-tools.git
 rps_admin_web_interface_git_branch: dev
+rps_admin_keycloak_realm: rps
+rps_admin_interface_managed_realms:
+  - name: master
+  - name: rps
+
 
 project_id: rps-dev
 
-remote_path: "/app/{{service_domain_name}}"
+remote_path: "/app/{{rps_admin_interface_service_name}}"
 rps_admin_web_interface_default_client_secret: "{{ ansible_local.rps_admin_interface_secrets.rps_admin_web_interface_default_client_secret }}"
 rps_admin_interface_managed_realms: []
 

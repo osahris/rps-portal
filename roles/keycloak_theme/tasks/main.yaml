@@ -12,37 +12,44 @@
     force: true
   register: theme
   when: keycloak_theme is defined
+
+#TODO: add theme to Account page
 # - name: keycloak auto account theme directory
 #   file:
 #     path: /var/lib/keycloak/themes/auto/account
 #     state: directory
-
 # - name: keycloak auto theme account properties
 #   template:
 #     src: theme.properties.j2
 #     dest: /var/lib/keycloak/themes/auto/account/theme.properties
 
+#TODO: add theme to email page
 # - name: keycloak auto email theme directory
 #   file:
 #     path: /var/lib/keycloak/themes/auto/email
 #     state: directory
-
 # - name: keycloak auto theme email properties
 #   template:
 #     src: theme.properties.j2
 #     dest: /var/lib/keycloak/themes/auto/email/theme.properties
 
+
 - name: keycloak auto login theme directory
   file:
-    path: /var/lib/keycloak/themes/auto/login
+    path: "{{ remote_path }}/themes/rps/login"
     state: directory
+    recurse: yes
 
 - name: keycloak auto theme login properties
   template:
     src: theme.properties.j2
-    dest: /var/lib/keycloak/themes/auto/login/theme.properties
+    dest: "{{ remote_path }}/themes/rps/login/theme.properties"
 
 - name: keycloak auto theme registration page
   template:
     src: register.ftl.j2
-    dest: /var/lib/keycloak/themes/auto/login/register.ftl
+    dest: "{{ remote_path }}/themes/rps/login/register.ftl"
+
+# activate theme for each realm
+- include_tasks: per_realm.yaml
+  loop: "{{ keycloak_realms }}"

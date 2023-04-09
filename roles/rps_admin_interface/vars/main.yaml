@@ -1,5 +1,4 @@
-service_domain_name: "{{service_name}}.{{ inventory_hostname }}"
-remote_path: "/app/{{service_domain_name}}"
+remote_path: "/app/{{rps_admin_interface_service_name}}"
 
 traefik_certresolver: "letsencrypt"
 app_port: "5000"
@@ -14,16 +13,17 @@ traefik_dynamic_config:
       rps-admin-interface-add-oauth2-redirect-header:
         headers:
           customrequestheaders:
-            X-Auth-Request-Redirect: "https://{{service_domain_name}}"
+            X-Auth-Request-Redirect: "https://{{rps_admin_interface_service_name}}"
 
     routers:
       admin_interface: # <-- Change this to your service name
-        rule: "Host(`{{service_domain_name}}`)"
+        rule: "Host(`{{rps_admin_interface_service_name}}`)"
         entrypoints: websecure
         service: "admin_interface" # <-- Change this to your service name
         tls:
           certresolver: "{{traefik_certresolver}}"
         #TODO: middleware funktioniert nicht
+        # @Markus
         middlewares:
           - rps-admin-interface-add-oauth2-redirect-header
           # - oauth2-auth-admin-interface
@@ -33,4 +33,4 @@ traefik_dynamic_config:
       admin_interface: # <-- Change this to your service name
         loadBalancer:
           servers:
-            - url: "http://{{service_domain_name|replace('.','')}}_web_1:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{rps_admin_interface_service_name|replace('.','')}}_web_1:{{app_port}}" # "http://container_name:container_port"

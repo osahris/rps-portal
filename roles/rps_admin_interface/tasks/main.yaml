@@ -9,10 +9,10 @@
 - name: display current host
   debug:
     msg:
-      - "{{ service_domain_name }}"
       - "{{ ansible_ssh_host }}"
       - "{{ app_port }}"
       - "{{ inventory_hostname }}"
+      - "{{ rps_admin_web_interface_git_branch }}"
 
 - name: create directory - {{remote_path}}
   file: 
@@ -40,7 +40,7 @@
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/app/proxy/traefik/conf.d/{{service_name}}.yaml"
+    dest: "/app/proxy/traefik/conf.d/{{rps_admin_interface_service_name}}.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:
