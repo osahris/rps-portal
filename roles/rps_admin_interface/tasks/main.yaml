@@ -14,7 +14,7 @@
     src: "{{item}}" # relative to ./templates on local role path
     dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
   with_items:
-    - ".env.j2"
+    - "env.j2"
     - "docker-compose.yml.j2"
     - "config.yaml.j2"
 
