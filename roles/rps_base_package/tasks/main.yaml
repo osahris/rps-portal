@@ -8,12 +8,6 @@
     - core
 
 - import_role:
-    name: rps_header
-  tags:
-    - rps_header
-    - header
-
-- import_role:
     name: rps_admin_interface
   tags:
     - rps_admin_interface
@@ -30,11 +24,11 @@
   tags:
     - keycloak_theme
 
-# - import_role:
-#     name: rps_groups_interface
-#   tags:
-#     - rps_groups_interface
-#     - groups
+- import_role:
+    name: rps_groups_interface
+  tags:
+    - rps_groups_interface
+    - groups
 
 # - import_role:
 #     name: typesense
@@ -63,3 +57,9 @@
   tags:
     - rps_people
     - people
+
+- import_role:
+    name: rps_header
+  tags:
+    - rps_header
+    - header
