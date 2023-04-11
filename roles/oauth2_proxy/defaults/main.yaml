@@ -1,4 +1,7 @@
 ---
+oauth2_proxy_service_name: "oauth2.{{ rps_dns_suffix }}"
+oauth2_proxy_cookie_domain: "{{ rps_dns_suffix }}"
+
 oauth2_proxy_base_url: "https://{{ oauth2_proxy_service_name }}"
 
 oauth2_proxy_client_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_client_secret | default(ansible_local.secrets.oauth2_proxy_client_secret) }}"

@@ -1,4 +1,6 @@
 ---
+discourse_service_name: "dialog.{{ rps_dns_suffix }}"
+
 locales:
   lang: de_DE.UTF-8
   language: de

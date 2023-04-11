@@ -1,8 +1,53 @@
 ---
+rps_header_service_name: header.{{ rps_dns_suffix }}
+rps_header_root_redirect_url: https://idia.{{ rps_dns_suffix }}
+
+rps_header_allowed_origins:
+  - https://{{ keycloak_service_name }}
+  - https://{{ rps_profile_interface_service_name }}
+  - https://{{ rps_admin_interface_service_name }}
+  - https://{{ rps_groups_interface_service_name }}  
+  - https://{{ rps_style_service_name }}
+  - https://{{ rps_people_service_name }}
+  - https://{{ budibase_service_name }}
+  - https://{{ rps_idia_service_name }}
+  #- https://{{ discourse_service_name }}
+  #- https://{{ nextcloud_service_name }}
+  #- https://{{ rocketchat_service_name }}
+  #- https://{{ wordpress_draft_service_name }}
+  #- https://{{ wordpress_live_service_name }}
+
+
 rps_header_image: registry.gitlab.com/idcohorts/rps/rps-vue-header:dev
 
 rps_header_logo_link: https://{{rps_header_service_name}}
-rps_header_top_navbar_links: []
+
+rps_header_top_navbar_links:
+  - title: Foyer
+    link: https://{{ wordpress_draft_service_name }}
+    icon: building-columns
+  - title: Personen
+    link: https://{{ rps_people_service_name }}
+    icon: people-group
+  - title: Gruppen
+    link: https://{{ rps_groups_interface_service_name }}
+    icon: user-group
+  # - title: Forum
+  #   link: https://{{ discourse_service_name }}
+  #   icon: message
+  # - title: Dateien
+  #   link: https://{{ nextcloud_service_name }}/apps/files
+  #   icon: folder
+  # - title: Kalender
+  #   link: https://{{ nextcloud_service_name }}/apps/files
+  #   icon: calendar
+  - title: Support
+    link: 'mailto:{{ rps_admin_email }}'
+    icon: circle-question
+  - title: Profile
+    link: https://{{ rps_profile_interface_service_name }}
+    icon: user
+
 rps_header_bottom_navbar_links: []
 
 rps_header_admin_contact_link: mailto:{{rps_admin_email}}
@@ -15,7 +60,6 @@ rps_header_sign_in_redirect_url: https://{{rps_header_service_name}}
 rps_header_sign_out_url: https://{{rps_header_service_name}}/oauth2/sign_out?rd={{rps_header_sign_out_redirect_url|urlencode}}
 rps_header_sign_out_redirect_url: https://{{keycloak_service_name}}/realms/{{keycloak_realm}}/protocol/openid-connect/logout #?redirect_uri={{rps_header_keycloak_logout_redirect_url|urlencode}}
 #rps_header_keycloak_logout_redirect_url: https://{{rps_header_service_name}}
-rps_header_root_redirect_url: /test
 rps_header_dynamic_config_url: https://{{rps_header_service_name}}/config
 
 rps_header_webserver_env: prod

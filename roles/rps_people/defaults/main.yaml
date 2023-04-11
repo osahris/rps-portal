@@ -1,2 +1,2 @@
 ---
-# rps_people_service_name
+rps_people_service_name: people.{{ rps_dns_suffix }}
