@@ -30,7 +30,8 @@
     pull: true
     remove_orphans: true
 
-- name: traefik dynamic config
-  copy:
-    content: "{{ rps_groups_interface_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/rps-groups-interface.yaml"
+# TODO: fix traefik config
+# - name: traefik dynamic config
+#   copy:
+#     content: "{{ rps_groups_interface_traefik_dynamic_config }}"
+#     dest: "/app/proxy/traefik/conf.d/rps-groups-interface.yaml"
