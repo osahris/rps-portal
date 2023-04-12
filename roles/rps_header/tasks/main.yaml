@@ -25,6 +25,8 @@
     files: "docker-compose.yaml"
     pull: true
     build: true
+    recreate: always
+
 
 - name: show allowed origins
   debug:
