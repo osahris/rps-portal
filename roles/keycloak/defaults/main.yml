@@ -4,8 +4,8 @@ keycloak_service_name: accounts.{{ rps_dns_suffix }}
 keycloak_protocol: "https"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_service_name }}"
 
-keycloak_container_image: registry.gitlab.com/idcohorts/rps/keycloak-docker
-keycloak_container_version: main
+keycloak_container_image: quay.io/keycloak/keycloak
+keycloak_container_version: 21.0
 
 # keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587
