@@ -24,7 +24,7 @@ wordpress_traefik_router_profiles:
 wordpress_traefik_service_config:
   loadBalancer:
     servers:
-      - url: "http://{{ wordpress_service_name | replace('.', '') }}"
+      - url: "http://{{ wordpress_service_name | replace('.', '') }}_wordpress_1"
 
 wordpress_traefik_dynamic_config:
   http:
