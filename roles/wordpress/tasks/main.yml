@@ -1,16 +1,59 @@
 ---
 - import_tasks: secrets.yaml
 
-- name: debian requirements
-  apt:
-    pkg:
-      - jq
+- name: create application directory
+  file:
+    path: "{{remote_path}}"
+    state: directory
 
-- include_tasks: per_env.yml
-  vars:
-    remote_path: "/app/{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }}"
-  loop:
-    - draft
-    #- live
-  loop_control:
-    loop_var: env
+- name: create application files
+  template:
+    src: "{{item}}"
+    dest: "{{remote_path}}/{{item | regex_replace('\\.j2$', '') }}"
+  with_items:
+    - "docker-compose.yaml.j2"
+    - "env-mysql.j2"
+    - "env-wordpress.j2"
+    - "wp-extra-config.php.j2"
+
+- name: deploy wp-cli helper
+  copy:
+    src: wp-cli-helper.sh
+    dest: "{{remote_path}}/wp-cli"
+    mode: 0755
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}"
+    pull: true
+    remove_orphans: true
+
+# ansible doesn't support waiting for docker-compose setup
+- name: get infos from wordpress container
+  community.docker.docker_container_info:
+    name: "{{ wordpress_service_name |replace('.', '') }}_wordpress_1"
+  register: result
+
+- name: wait for wordpress is running (either installation mode or normal)
+  ansible.builtin.wait_for:
+    port: 80
+    host: "{{ result.container.NetworkSettings.Networks.proxy.IPAddress }}"
+
+- name: check wordpress installation status
+  command: ./wp-cli core is-installed
+  args:
+    chdir: "{{remote_path}}"
+  changed_when: false
+  failed_when: false
+  register: wordpress_installation_status
+
+- name: install wordpress
+  command: ./wp-cli core install --admin_user=admin --admin_email={{ rps_admin_email }} --url=https://{{ wordpress_service_name }} --title=rps --skip-email --admin_password={{ wordpress_admin_password }}
+  args:
+    chdir: "{{remote_path}}"
+  when: wordpress_installation_status.rc != 0
+
+- name: install traefik dynamic config
+  copy:
+    content: "{{ wordpress_traefik_dynamic_config | to_nice_yaml }}"
+    dest: "/app/proxy/traefik/conf.d/{{ wordpress_service_name }}.yaml"

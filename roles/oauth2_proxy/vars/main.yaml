@@ -22,7 +22,6 @@ oauth2_proxy_traefik_dynamic_config:
       oauth2:
         chain:
           middlewares:
-            #- oauth2-redirect
             - oauth2-sign_in-page
             - oauth2-auth
       oauth2-auth:

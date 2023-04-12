@@ -1,0 +1,14 @@
+---
+- hosts: "{{ wordpress_hosts }}"
+  become: true
+
+  pre_tasks:
+    - block:
+        - name: Display current host
+          debug:
+            msg:
+              - "{{ ansible_ssh_host }}"
+              - "{{ inventory_hostname }}"
+
+  roles:
+    - role: wordpress

@@ -1,0 +1,42 @@
+---
+- import_tasks: secrets.yaml
+
+- name: debian requirements
+  apt:
+    pkg:
+      - jq
+
+- name: deploy env live helper
+  template:
+    src: env-live.j2
+    dest: "/app/{{wordpress_draft_service_name}}/env-live"
+    mode: 0644
+
+- name: deploy update script
+  copy:
+    src: files/deploy-draft-to-live.sh
+    dest: "/app/{{wordpress_draft_service_name}}/deploy-draft-to-live.sh"
+    mode: 0755
+
+# TODO: fix and enable this
+# - include_role:
+#     name: wordpress
+#   vars:
+#     wordpress_service_name: "{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }}"
+#     wordpress_admin_password: "{{ ansible_local[wordpress_service_name].wordpress_draft_admin_password }}"
+#     wordpress_mysql_password: "{{ ansible_local[wordpress_service_name].wordpress_draft_mysql_password }}"
+#     wordpress_mysql_root_password: "{{ ansible_local[wordpress_service_name].wordpress_draft_mysql_root_password }}"
+#   loop:
+#     - draft
+#     - live
+#   loop_control:
+#     loop_var: env
+
+# TODO: test and most likely fix this
+# - name: forbid traffic to wp-admin
+#   ansible.builtin.lineinfile:
+#     path: "/var/lib/docker/volumes/{{ wordpress_live_service_name|replace('.', '') }}_wordpress/_data/.htaccess"
+#     search_string: 'RewriteRule "^wp-admin/" "-" [F]'
+#     insertafter: "RewriteBase /"
+#     line: 'RewriteRule "^wp-admin/" "-" [F]'
+#   when: env == "live"
