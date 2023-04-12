@@ -19,6 +19,8 @@ services:
     volumes:
       - ./themes:/opt/keycloak/themes
       - ./tmp:/opt/keycloak/tmp
+      - ./import:/opt/keycloak/data/import
+      - ./export:/opt/keycloak/data/export
     healthcheck:
       test:
         [
