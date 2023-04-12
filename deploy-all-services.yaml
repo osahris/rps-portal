@@ -1,14 +1,1 @@
----
-- hosts: rps_servers
-  become: true
-
-  pre_tasks:
-    - block:
-        - name: Display current host
-          debug:
-            msg:
-              - "{{ ansible_ssh_host }}"
-              - "{{ inventory_hostname }}"
-
-  roles:
-    - role: rps_full_package
+playbooks/rps_servers.yaml
