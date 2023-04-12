@@ -26,7 +26,7 @@ oauth2_proxy_traefik_dynamic_config:
             - oauth2-auth
       oauth2-auth:
         forwardAuth: &forwardAuth
-          address: "{{ oauth2_proxy_base_url }}}/oauth2/auth"
+          address: "{{ oauth2_proxy_base_url }}/oauth2/auth"
           authResponseHeaders: &authResponseHeaders
             - X-Auth-Request-Access-Token
             - X-Auth-Request-User
