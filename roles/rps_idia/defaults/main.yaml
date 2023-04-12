@@ -1,1 +1,2 @@
 ---
+rps_idia_service_name: idia.{{ rps_dns_suffix }}

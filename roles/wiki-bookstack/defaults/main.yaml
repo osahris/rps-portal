@@ -1,4 +1,6 @@
 ---
+wiki_bookstack_service_name: "wiki.{{ rps_dns_suffix }}"
+
 wiki_bookstack_keycloak_client_auth_client_id: admin-cli
 wiki_bookstack_keycloak_client_auth_keycloak_url: keycloak.{{inventory_hostname}}
 wiki_bookstack_keycloak_client_auth_realm: master

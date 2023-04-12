@@ -1,3 +1,5 @@
 ---
+rps_style_service_name: style.{{ rps_dns_suffix }}
+
 rps_style_servers_git_url: https://gitlab.com/idcohorts/rps/rps-css-service.git
 rps_style_servers_git_branch: main

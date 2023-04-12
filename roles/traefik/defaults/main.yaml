@@ -1,5 +1,5 @@
 ---
-# Default values, can be overwritten by values from vars/main.yaml
+traefik_dashboard_service_name: "traefik.{{ rps_dns_suffix }}"
 
 traefik_proxy_network: "proxy"
 traefik_certresolver: "letsencrypt"

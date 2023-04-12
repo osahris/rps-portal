@@ -1,2 +1,2 @@
 ---
-rocketchat_server_name: "{{ inventory_hostname }}"
+rocketchat_service_name: "chat.{{ rps_dns_suffix }}"

@@ -1,4 +1,6 @@
 ---
+collabora_service_name: "collabora.{{ rps_dns_suffix }}"
+
 collabora_admin_username: admin
 collabora_domain_image: collabora/code
 
