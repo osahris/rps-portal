@@ -22,7 +22,7 @@ wordpress_traefik_router_profiles:
     service: "{{ wordpress_service_name }}"
 
 wordpress_traefik_service_config:
-  loadBalancers:
+  loadBalancer:
     servers:
       - url: "http://{{ wordpress_service_name | replace('.', '') }}"
 
