@@ -1,6 +1,16 @@
 ---
 remote_path: "/app/{{rps_header_service_name}}"
 
+rps_header_allowed_default_origins:
+  - https://{{ keycloak_service_name }}
+  - https://{{ rps_profile_interface_service_name }}
+  - https://{{ rps_admin_interface_service_name }}
+  - https://{{ rps_groups_interface_service_name }}  
+  - https://{{ rps_style_service_name }}
+  - https://{{ rps_people_service_name }}
+  - https://{{ budibase_service_name }}
+  - https://{{ rps_idia_service_name }}
+
 rps_header_dynamic_config:
   header_logo_uri: "{{ rps_header_logo_link }}"
   header_top_navbar_links: "{{ rps_header_top_navbar_links }}"
