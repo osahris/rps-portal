@@ -44,7 +44,7 @@ discourse_keycloak_client_auth_username: admin
 discourse_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 discourse_keycloak_client_validate_certs: true
 
-discourse_keycloak_client_realm: "rps"
+discourse_keycloak_client_realm: "{{ keycloak_realm }}"
 discourse_keycloak_client_realm_url: "{{discourse_keycloak_base_url}}/realms/{{discourse_keycloak_client_realm}}"
 discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
 discourse_keycloak_client_redirect_uris:
