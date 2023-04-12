@@ -31,7 +31,7 @@
     vars:
       discourse_with_web_in_docker_compose: false
 
-  - name: deploy docker-compose stack without databases
+  - name: deploy docker-compose stack without discourse web container
     docker_compose:
       project_src: "{{discourse_target_directory}}/"
 
@@ -67,7 +67,7 @@
     src: "docker-compose.yaml.j2"
     dest: "{{discourse_target_directory}}/docker-compose.yaml"
 
-- name: deploy docker-compose stack
+- name: deploy docker-compose stack with discourse web container
   docker_compose:
     project_src: "{{discourse_target_directory}}/"
 
