@@ -1,5 +1,5 @@
 ---
-budibase_service_name: meta.{{ rps_dns_suffix }}
+budibase_service_name: base.{{ rps_dns_suffix }}
 
 budibase_api_encryption_key: "{{ ansible_local[service_name].budibase_api_encryption_key | default(ansible_local.secrets.budibase_api_encryption_key) }}"
 budibase_jwt_secret: "{{ ansible_local[service_name].budibase_jwt_secret | default(ansible_local.secrets.budibase_jwt_secret) }}"
