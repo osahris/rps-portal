@@ -39,7 +39,7 @@
     name: budibase
   tags:
     - budibase
-
+    - base
 - import_role:
     name: rps_idia
   tags:
