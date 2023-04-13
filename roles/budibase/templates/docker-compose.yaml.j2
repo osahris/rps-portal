@@ -8,6 +8,9 @@ networks:
   proxy:
     external: true
 
+volumes:
+  budibase_data:
+
 services:
 
   "{{service_name}}":
@@ -28,4 +31,4 @@ services:
       COUCHDB_PASSWORD: {{budibase_couch_db_password}}
       INTERNAL_API_KEY: {{budibase_internal_api_key}}
     volumes:
-      - ./data:/data
+      - budibase_data:/data
