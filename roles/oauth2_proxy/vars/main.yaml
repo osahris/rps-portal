@@ -39,6 +39,7 @@ oauth2_proxy_traefik_dynamic_config:
         forwardAuth:
           authResponseHeaders: *authResponseHeaders
           address: "{{ oauth2_proxy_base_url }}/oauth2/auth?allowed_groups=role:admin"
+          trustForwardHeader: true
       oauth2-sign_in-page:
         errors:
           status:
