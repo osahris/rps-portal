@@ -1,0 +1,5 @@
+---
+rps_admin_email: "{{admin_email}}"
+
+traefik_log_level: DEBUG
+dns_suffix: tulsky.iodatalabs.dev

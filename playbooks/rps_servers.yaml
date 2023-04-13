@@ -11,4 +11,4 @@
               - "{{ inventory_hostname }}"
 
   roles:
-    - role: rps_full_package
+    - role: rps_package_full

@@ -1,10 +1,10 @@
 ---
 
 - import_role:
-    name: rps_base_package
+    name: rps_package_base
   tags:
-    - rps_base_package
-    - rps-base-package
+    - rps_package_base
+    - rps-package-base
     - rps-base
 
 # Nextcloud
