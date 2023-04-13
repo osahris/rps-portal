@@ -18,6 +18,11 @@
     - "docker-compose.yml.j2"
     - "config.yaml.j2"
 
+- name: remove obsolete traefik config
+  file:
+    path: /app/proxy/traefik/conf.d/rps-admin-interface.yaml
+    state: absent
+
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
