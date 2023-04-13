@@ -2,6 +2,12 @@
 
 TBD Description
 
+## deploy!
+
+```
+ansible-playbook -i inventory/common/ -i inventory/environments/dev/ deploy-all-services.yaml
+```
+
 # Services
 
 The [x]-marked roles are ready to be deployed within one button click, without further pre-adjustments:
