@@ -20,7 +20,8 @@
     id: "{{ item.name }}"
     realm: "{{ item.name }}"
     registration_allowed: '{{item.is_registration_allowed | default(false)}}'
-    login_theme: rps
+    account_theme: 'ansible-theme'
+    login_theme: ansible-theme
     #TODO:
     # account_theme: 'ansible-theme'
     # email_theme: 'ansible-theme'
