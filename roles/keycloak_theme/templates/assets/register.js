@@ -17,9 +17,6 @@ function apply_rules(question){
   // find all corresponding rules
   let triggered_rules = rules.filter(rule => ('user.attributes.' + rule.triggered_by) == question.id);
 
-  console.log(triggered_rules);
-  console.log(question.id);
-
   // check the rules whether trigger should be triggered
   for(let x in triggered_rules) {
     let rule = triggered_rules[x];
@@ -32,13 +29,9 @@ function apply_rules(question){
       let element = document.getElementById(id);
       let value = element.value;
 
-      console.log(element);
-
       if (element.type == "checkbox") {
         value = element.checked;
       }
-      console.log(value);
-      console.log(trigger_rule.value);
 
       if (value != trigger_rule.value) {
         rule.is_triggered = false;
@@ -91,7 +84,6 @@ function set_other(field, input, html_class) {
       field.attribute + "' name='user.attributes." + 
       field.attribute + "'  placeholder='"+
       field.other + "' />";
-    console.log(outerHTML);
     input.outerHTML = outerHTML;
   }
   else {
@@ -119,8 +111,6 @@ function validateForm() {
     else {
       inputs[i].classList.remove("invalid")
     }
-    console.log(inputs[i].value);
-    console.log(i);
   }
   // If the valid status is true, mark the step as finished and valid:
   if (valid) {

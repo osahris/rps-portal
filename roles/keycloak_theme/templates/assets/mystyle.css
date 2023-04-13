@@ -5,6 +5,34 @@
     opacity: 0;
     transition: max-height 0.5s ease-in, opacity 0.5s ease-in;
 }
+.back-to-login {
+    margin: 20px auto 0 auto;
+    text-align: center;
+}
+
+.back-to-login a {
+    color: var(--global--color-light-gray,#dee2e6) !important;
+}
+
+.pf-c-button.pf-m-primary {
+    color: var(--pf-c-button--m-primary--Color);
+    background-color: var(--pf-c-button--m-primary--BackgroundColor);
+    
+    background: var(--global--color-background, --pf-c-button--m-primary--BackgroundColor) !important;
+    color: var(--global--color-dark-gray, --pf-c-button--m-primary--Color) !important;
+    border-style: solid;
+    border-width: 2px;
+    font-weight: 700;
+    border-color: var(--global--color-dark-gray, --pf-c-button--m-primary--Color) !important;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px 0px rgb(255 255 255 / 50%);
+    text-decoration: none;
+  }
+
+.pf-c-button.pf-m-primary:hover {
+    background: var(--global--color-dark-gray, --pf-c-button--m-primary--BackgroundColor) !important;
+    color: var(--global--color-background, --pf-c-button--m-primary--Color) !important;
+}
 
 .visible {
     visibility: visible;
@@ -75,13 +103,13 @@ ul.form-stepper > li:not(:last-of-type) {
     flex: 1;
     height: 1px;
     content: "";
-    top: 32%;
+    top: 49%; /* => fixes rendering bug */
 }
 .form-stepper-horizontal li:after {
     background-color: #dee2e6;
 }
 .form-stepper-horizontal li.form-stepper-completed:after {
-    background-color: #4da3ff;
+    background-color: var(--global--color-primary, #4361ee) !important;
 }
 .form-stepper-horizontal li:last-child {
     flex: unset;
@@ -97,28 +125,28 @@ ul.form-stepper li a .form-stepper-circle {
     border-radius: 50%;
 }
 .form-stepper .form-stepper-active .form-stepper-circle {
-    background-color: #4361ee !important;
+    background-color: var(--global--color-primary, #4361ee) !important;
     color: #fff;
 }
 .form-stepper .form-stepper-active .label {
-    color: #4361ee !important;
+    color: var(--global--color-primary, #4361ee) !important;
 }
 .form-stepper .form-stepper-active .form-stepper-circle:hover {
-    background-color: #4361ee !important;
+    background-color: var(--global--color-primary, #4361ee) !important;
     color: #fff !important;
 }
 .form-stepper .form-stepper-unfinished .form-stepper-circle {
     background-color: #f8f7ff;
 }
 .form-stepper .form-stepper-completed .form-stepper-circle {
-    background-color: #0e9594 !important;
+    background-color: var(--global--color-secondary, #0e9594) !important;
     color: #fff;
 }
 .form-stepper .form-stepper-completed .label {
-    color: #0e9594 !important;
+    color: var(--global--color-secondary, #0e9594) !important;
 }
 .form-stepper .form-stepper-completed .form-stepper-circle:hover {
-    background-color: #0e9594 !important;
+    background-color: var(--global--color-secondary, #0e9594) !important;
     color: #fff !important;
 }
 .form-stepper .form-stepper-active span.text-muted {

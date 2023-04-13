@@ -2,7 +2,7 @@
 <@layout.registrationLayout; section>
 
   <style>{% include 'assets/mystyle.css' %}</style>
-
+  <script src="https://kit.fontawesome.com/165ccc5fcd.js" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <#if section = "header">
     ${msg("registerTitle")}
@@ -28,21 +28,20 @@
               {% include 'field_types/'+field.type+'.ftl.j2' %}
           {% endfor %}        
           <div class="mt-3">
-              {% if not loop.first %} 
-              <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!} btn-navigate-form-step" type="button" onclick="navigateToFormStep(-1)">Prev</button>
+              
+              <div id="kc-form-buttons" class="col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                {% if not loop.first %} style="display:visible" {% else %} style="display:none" {% endif %}>
+                <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} col-lg-6 btn-navigate-form-step" type="button" onclick="navigateToFormStep(-1)"><i class="fa-solid fa-left"></i>Zurück</button>
               </div>
-              {% endif %}
               {% if loop.last %}                
-                <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" type="submit" value="${msg("doRegister")}"/>
+                <div id="kc-form-buttons" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} col-lg-6" type="submit" value="${msg("doRegister")}"/>
                 </div>
               {% else %}              
-                <div id="kc-form-buttons" class="${properties.kcFormButtonsClass!}">
-                  <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!} btn-navigate-form-step" type="button" onclick="navigateToFormStep(1)">Next</button>
+                <div id="kc-form-buttons" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                  <button class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} col-lg-6 btn-navigate-form-step" type="button" onclick="navigateToFormStep(1)">Weiter <i class="fa-solid fa-right"></i></button>
                 </div>                
               {% endif %}
-
 
           </div>
         </section>
@@ -57,7 +56,7 @@
 
             <div class="${properties.kcFormGroupClass!}">
                 <div id="kc-form-options" class="${properties.kcFormOptionsClass!}">
-                    <div class="${properties.kcFormOptionsWrapperClass!}">
+                    <div class="back-to-login ${properties.kcFormOptionsWrapperClass!}">
                         <span><a href="${url.loginUrl}">${kcSanitize(msg("backToLogin"))?no_esc}</a></span>
                     </div>
                 </div>
