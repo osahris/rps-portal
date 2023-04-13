@@ -36,6 +36,7 @@
     files: "docker-compose.yaml"
     pull: true
     remove_orphans: true
+    recreate: always
 
 - name: remove old traefik dynamic config
   file:

@@ -1,11 +1,16 @@
+{% raw %}
 {{define "sign_in.html"}}
 <!DOCTYPE html>
 <html lang="en" charset="utf-8">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Sign In</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <title>Sign In Now!</title>
+  
+  {% endraw %}
+  <link rel="stylesheet" href="{{rps_style_server_name}}/css-variables.css">
+  {% raw %}
+  
 
     <style>
       body {
@@ -48,19 +53,32 @@
   <body class="has-background-light">
   <section class="section">
     <div class="box block sign-in-box has-text-centered">
-      {{ if .LogoData }}
       <div class="block logo-box">
-        {{.LogoData}}
+      {% endraw %}
+        <img src="{{rps_style_server_name}}/image/full_logo.svg">
+      {% raw %}
       </div>
-      {{ end }}
-
-      <form method="GET" action="{{.ProxyPrefix}}/start">
+      <h1 class="title">Sie werden nun automatisch weitergeleitet.</h1>
+      <p>Wenn Sie nicht automatisch weitergeleitet werden, klicken Sie bitte auf den Button.</p>
+      <form method="GET" action="{{.ProxyPrefix}}/start" >
         <input type="hidden" name="rd" value="{{.Redirect}}">
-          {{ if .SignInMessage }}
-          <p class="block">{{.SignInMessage}}</p>
-          {{ end}}
-          <button type="submit" class="button block is-primary">Sign in with {{.ProviderName}}</button>
+          <button id="submit" type="submit" class="button block is-primary">Weiterleiten</button>
       </form>
+
+      {{ if eq .StatusCode 200 }}    
+      <style>
+        form {
+          display: none;
+        }
+      </style>  
+      <script>
+        // when page is loaded click on the button
+        document.addEventListener('DOMContentLoaded', function() {
+          // click submit button
+          document.getElementById("submit").click();
+        });
+      </script>
+      {{ end }}
 
       {{ if .CustomLogin }}
       <hr>
@@ -93,7 +111,7 @@
         {{ else }}
         {{.StatusCode}}: Invalid Username or Password
         {{ end }}
-      </div>
+      </div> 
       {{ end }}
 
     </div>
@@ -118,15 +136,16 @@
 
   <!--<footer class="footer has-text-grey has-background-light is-size-7">
     <div class="content has-text-centered">
-        {{ if eq .Footer "-" }}
-        {{ else if eq .Footer ""}}
-        <p>Secured with <a href="https://github.com/oauth2-proxy/oauth2-proxy#oauth2_proxy" class="has-text-grey">OAuth2 Proxy</a> version {{.Version}}</p>
-        {{ else }}
-        <p>{{.Footer}}</p>
-        {{ end }}
+    	{{ if eq .Footer "-" }}
+    	{{ else if eq .Footer ""}}
+    	<p>Secured with <a href="https://github.com/oauth2-proxy/oauth2-proxy#oauth2_proxy" class="has-text-grey">OAuth2 Proxy</a> version {{.Version}}</p>
+    	{{ else }}
+    	<p>{{.Footer}}</p>
+    	{{ end }}
     </div>
-        </footer>-->
+	</footer>-->
 
   </body>
 </html>
 {{end}}
+{% endraw %}
