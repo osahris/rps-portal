@@ -30,6 +30,11 @@
     pull: true
     remove_orphans: true
 
+- name: delete obsolete traefik dynamic config
+  file:
+    path: "/app/proxy/traefik/conf.d/rps-groups-interface.yaml"
+    state: absent
+
 # TODO: fix traefik config
 # - name: traefik dynamic config
 #   copy:
