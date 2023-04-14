@@ -1,0 +1,17 @@
+---
+- name: Import -- Copy all static files from the import folder
+  synchronize:
+    recursive: true
+    src: "./import" # relative to ./files on local role path
+    dest: "{{remote_path}}/import" # relative to ~/ on remote
+
+- name: Import -- Copy some templated .j2 files
+  template:
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+    mode: "0505"
+  with_items:
+    - "import.sh.j2"
+
+- name: Import -- Run a command using a templated variable
+  shell: "{{remote_path}}/import.sh"

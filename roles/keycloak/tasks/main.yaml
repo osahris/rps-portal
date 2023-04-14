@@ -27,7 +27,7 @@
     content: "{{ keycloak_traefik_dynamic_config }}"
     dest: "/app/proxy/traefik/conf.d/keycloak.yaml"
 
-- name: Wait for keycloak
+- name: wait for keycloak
   local_action: uri
   become: false
   args:
@@ -38,3 +38,9 @@
   until: result.status == 200
   retries: 180
   delay: 1
+
+# Import the data from given files tot he fresh deployed keycloak.
+# --- Warning! --------------------------------------------------
+# --- Existing data with same names will be deleted before import
+- import_tasks: import.yaml
+  when: keycloak_with_imported_data

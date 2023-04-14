@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Copy the data to be imported to the given folder which is the import volume of the keycloak container
+cp -r {{ keycloak_import_path }}/import/* /app/{{ keycloak_import_service_name }}/
+
+# # Copy the data into the container. Comment this out if the volume exists and is properly connected
+# docker cp /app/{{ keycloak_import_service_name }}/import/ {{keycloak_import_docker_container}}:/opt/keycloak/data/import/
+
+# Import data from all .json files to the keycloak service
+docker exec -u keycloak -e PGPASSWORD={{keycloak_import_postgres_password}} {{keycloak_import_docker_container}} /opt/keycloak/bin/kc.sh --verbose import --dir /opt/keycloak/data/import/

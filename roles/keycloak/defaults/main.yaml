@@ -11,6 +11,8 @@ keycloak_container_version: 21.0
 keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
 
+keycloak_with_imported_data: true
+
 keycloak_validate_certs: true
 keycloak_with_proxy_network: true
 keycloak_proxy_network: proxy
