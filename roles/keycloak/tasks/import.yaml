@@ -5,6 +5,8 @@
     recursive: true
     src: "{{keycloak_import_local_folder}}"
     dest: "{{keycloak_import_directory}}"
+    # delete all files in the destination that are not in the source
+    delete: true
   when: keycloak_import == "local_folder"
 
 - name: Import -- Copy import script
