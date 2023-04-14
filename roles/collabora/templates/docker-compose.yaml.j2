@@ -7,7 +7,7 @@ networks:
 
 services:
   app:
-    image: "{{collabora_domain_image}}"
+    image: collabora/code:{{collabora_version}}
     restart: unless-stopped
     logging:
       options:
