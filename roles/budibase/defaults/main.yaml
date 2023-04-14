@@ -1,6 +1,9 @@
 ---
 budibase_service_name: base.{{ rps_dns_suffix }}
 
+# see https://hub.docker.com/r/budibase/apps for latest version
+budibase_version: latest # v2.5.4
+
 budibase_api_encryption_key: "{{ ansible_local[service_name].budibase_api_encryption_key | default(ansible_local.secrets.budibase_api_encryption_key) }}"
 budibase_jwt_secret: "{{ ansible_local[service_name].budibase_jwt_secret | default(ansible_local.secrets.budibase_jwt_secret) }}"
 budibase_minio_access_key: "{{ ansible_local[service_name].budibase_minio_access_key | default(ansible_local.secrets.budibase_minio_access_key) }}"
