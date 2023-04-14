@@ -8,7 +8,7 @@ TODO: Automate most of those steps
 
 - [x] Create a new branch from `dev` named `release/v$version`, e.g. `release/v2.0.0`
 - [x] Merge `main` into the release branch
-- [ ] Add an entry in `CHANGELOG.md` with all important changes since the last release
+- [x] Add an entry in `CHANGELOG.md` with all important changes since the last release
 
 ## Pin upstream artifact versions
 
