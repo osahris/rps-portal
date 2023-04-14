@@ -1,10 +1,10 @@
 ---
 
 - import_role:
-    name: rps_core_package
+    name: rps_package_core
   tags:
-    - rps_core_package
-    - rps-core-package
+    - rps_package_core
+    - rps-package-core
     - core
 
 - import_role:
@@ -40,6 +40,7 @@
   tags:
     - budibase
     - base
+
 - import_role:
     name: rps_idia
   tags:
