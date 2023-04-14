@@ -1,7 +1,6 @@
 # RPS Relase Checklist
 
-Reminder: You don't need to blindly follow this checklist. It's just a guide to help you remember the steps that need to be taken. Feel free to modify the list as you see fit. But please make sure you add or modify any steps that will be required in future releases.
-
+Reminder: You don't need to rigidly follow this checklist. It's just a guide to help you remember the steps that need to be taken. Feel free to modify the list as you see fit. But please make sure you add or modify any steps that will be required in future releases.
 
 TODO: Automate most of those steps
 
