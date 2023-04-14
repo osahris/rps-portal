@@ -14,7 +14,7 @@ volumes:
 services:
 
   "{{service_name}}":
-    image: budibase/budibase:latest
+    image: budibase/budibase:{{budibase_version}}
     restart: unless-stopped
     logging:
       options:

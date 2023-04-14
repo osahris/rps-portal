@@ -7,6 +7,9 @@
     {% if (field.required | default(false) ) and not (field.hidden | default(false)) %}
       <sub>*</sub>
     {% endif %}
+    {% if (field.info | default(false) ) and not (field.hidden | default(false)) %}
+      <sub title="{{field.info}}"><em>i</em></sub>
+    {% endif %}
     <select  {% if field.required | default(false)  %}required{% endif %} 
         class="${properties.kcInputClass!}" id="user.attributes.{{field.attribute}}" 
         name="user.attributes.{{field.attribute}}" 

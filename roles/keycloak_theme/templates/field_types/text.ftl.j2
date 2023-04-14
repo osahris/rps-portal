@@ -1,6 +1,15 @@
 <div class="form-group">
-   <div class="${properties.kcInputWrapperClass!}">{{field.title}}{% if field.required | default(false) %} <sub>*</sub>{% endif %}
+   <div class="${properties.kcInputWrapperClass!}">
+    {{field.title}}{% if field.required | default(false) %} <sub>*</sub>{% endif %}
+    {% if (field.info | default(false)) and not (field.hidden | default(false)) %}
+      <sub title="{{field.info}}"><em>i</em></sub>
+    {% endif %}
       {%if 'description' in field %}<p>{{field.description}}</p>{% endif %}
-       <input type="text" {% if field.required | default(false) %}required{% endif %} class="${properties.kcInputClass!}" id="user.attributes.{{field.attribute}}" name="user.attributes.{{field.attribute}}" value="${(register.formData['user.attributes.{{field.attribute}}']!'')}"  {% if 'default' in field %}placeholder="{{field.default}}"{% endif %}/>
+       <input type="text" {% if field.required | default(false) %}required{% endif %} 
+        class="${properties.kcInputClass!}" 
+        id="user.attributes.{{field.attribute}}" 
+        name="user.attributes.{{field.attribute}}" 
+        value="${(register.formData['user.attributes.{{field.attribute}}']!'')}"  
+        {% if 'default' in field %}placeholder="{{field.default}}"{% endif %}/>
    </div>
 </div>

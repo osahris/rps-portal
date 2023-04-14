@@ -1,20 +1,10 @@
 ---
 rps_groups_interface_service_name: groups.{{ rps_dns_suffix }}
 
-rps_groups_interface_proxy_network: "proxy"
-
 rps_groups_interface_container_image: registry.gitlab.com/idcohorts/rps/rps-gruppeninterface
 rps_groups_interface_container_version: dev
 
 rps_groups_interface_keycloak_service_url: "https://{{ keycloak_service_name }}"
 rps_groups_interface_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"
 rps_groups_interface_keycloak_auth_password: "{{keycloak_admin_password}}"
-
-rps_groups_interface_managed_realms: []
-
-rps_groups_interface_oauth2_proxy_container_version: v7.4.0
-rps_groups_interface_oauth2_proxy_container_image: quay.io/oauth2-proxy/oauth2-proxy
-rps_groups_interface_oauth2_proxy_request_logging: false
-
-rps_groups_interface_default_client_secret: "{{ ansible_local.rps_groups_interface_secrets.rps_groups_interface_default_client_secret }}"
-rps_groups_interface_default_cookie_secret: "{{ ansible_local.rps_groups_interface_secrets.rps_groups_interface_default_cookie_secret }}"
+rps_groups_interface_keycloak_client_id: "{{rps_groups_interface_service_name}}"
