@@ -18,8 +18,8 @@ TODO: Add other roles
 
 ## Review all changes since the last release
 
-- [ ] Review all changes since the last release with `git diff main..release/v$version`
 - [ ] Create a merge request from the release branch into `main` called `Release v$version`
+- [ ] Review all changes since the last release and invite the team to review the merge request
 
 ## Do the release
 
