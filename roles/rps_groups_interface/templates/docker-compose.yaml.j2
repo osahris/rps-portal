@@ -9,6 +9,6 @@ services:
     web:
         image: {{rps_groups_interface_container_image}}:{{rps_groups_interface_container_version}}
         volumes:
-            - ./suite.config.json:/opt/rps-groups-interface/dist/config.json
+            - ./suite.config.json:/usr/share/nginx/html/config.json
         networks:
             - proxy
