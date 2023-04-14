@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {{title}}
+        </title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <!-- RPS Header integration -->
+        <script type="text/javascript" src="/header.js"></script>
+    </head>
+
+    <body>
+        <nav id="rps-header" class="rps-header"></nav>
+        <div class="pseudo-body">
+            {% block body %}
+            {% endblock %}
+        </div>
+        <!-- <nav id="rps-footer" class="rps-footer"></nav> -->
+    </body>
+<!-- Tulsky V.A. 2023 -->
+</html>

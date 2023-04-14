@@ -1,0 +1,76 @@
+---
+nextcloud_service_name: "cloud.{{inventory_hostname}}"
+
+nextcloud_version: 25.0
+
+nextcloud_defaultapp: files
+
+nextcloud_mysql_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_password }}"
+nextcloud_mysql_root_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_root_password }}"
+nextcloud_admin_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_password }}"
+nextcloud_keycloak_client_secret: "{{ ansible_local[nextcloud_service_name].nextcloud_keycloak_client_secret }}"
+
+nextcloud_admin_user: admin
+
+nextcloud_with_keycloak_client: true
+nextcloud_keycloak_client_auth_keycloak_url: "{{nextcloud_keycloak_client_url}}"
+nextcloud_keycloak_client_auth_client_id: admin-cli
+nextcloud_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+nextcloud_keycloak_client_auth_username: admin
+nextcloud_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+nextcloud_keycloak_client_validate_certs: true
+
+nextcloud_keycloak_client_url: "https://{{ keycloak_service_name }}"
+nextcloud_keycloak_client_realm: "{{ keycloak_realm }}"
+nextcloud_keycloak_client_realm_url: "{{nextcloud_keycloak_client_url}}/realms/{{nextcloud_keycloak_client_realm}}"
+nextcloud_keycloak_client_client_id: "{{ nextcloud_service_name }}"
+nextcloud_keycloak_client_redirect_uris:
+  - https://{{ nextcloud_service_name }}/*
+#nextcloud_keycloak_client_secret:
+
+nextcloud_apps:
+  - calendar
+  - drawio
+
+# new user_oidc plugin options
+nextcloud_with_user_oidc_app: "{{nextcloud_with_keycloak_client}}"
+nextcloud_user_oidc_allow_multiple_user_backends: false
+nextcloud_user_oidc_userinfo_bearer_validation: true
+nextcloud_user_oidc_identifier: keycloak
+nextcloud_user_oidc_clientid: "{{nextcloud_keycloak_client_client_id}}"
+nextcloud_user_oidc_client_secret: "{{nextcloud_keycloak_client_secret}}"
+nextcloud_user_oidc_discoveryuri: "{{nextcloud_keycloak_client_realm_url}}/.well-known/openid-configuration"
+nextcloud_user_oidc_scope: openid email profile
+nextcloud_user_oidc_unique_uid: false
+nextcloud_user_oidc_check_bearer: true
+nextcloud_user_oidc_send_id_token: true
+nextcloud_user_oidc_mapping_display_name: preferred_username
+nextcloud_user_oidc_mapping_email: email
+nextcloud_user_oidc_mapping_quota: ""
+nextcloud_user_oidc_mapping_uid: preferred_username
+nextcloud_user_oidc_extra_claims: ""
+
+# legacy oidc_login plugin options
+nextcloud_with_oidc_login_app: false
+nextcloud_oidc_login_client_id: "{{nextcloud_keycloak_client_client_id}}"
+nextcloud_oidc_login_provider_url: "{{nextcloud_keycloak_client_realm_url}}"
+#nextcloud_oidc_login_logout_url: "https://{{ keycloak_service_name }}/realms/{{keycloak_realm}}/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_service_name }}%2F/logout"
+nextcloud_oidc_login_auto_redirect: true
+nextcloud_oidc_login_redir_fallback: true
+nextcloud_oidc_login_attributes:
+  id: "preferred_username"
+  mail: "email"
+  groups: "groups"
+nextcloud_oidc_login_tls_verify: true
+nextcloud_oidc_login_disable_registration: false
+
+nextcloud_with_custom_ca_certificates: false
+
+nextcloud_with_header_injection: true
+nextcloud_header_injection_repo: https://gitlab.com/idcohorts/rps/rps-nextcloud-header-injection.git
+nextcloud_header_injection_version: "nextcloud/v{{ nextcloud_version }}"
+
+nextcloud_with_custom_theme: false
+nextcloud_custom_theme_name: rps
+nextcloud_theme_repo: https://gitlab.com/idcohorts/rps/nextcloud-theme.git
+nextcloud_theme_version: main

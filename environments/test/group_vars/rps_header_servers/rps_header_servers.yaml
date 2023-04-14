@@ -1,2 +1,0 @@
----
-rps_header_server_name: header.{{dns_suffix}}

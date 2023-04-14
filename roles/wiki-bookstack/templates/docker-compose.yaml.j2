@@ -1,0 +1,41 @@
+---
+version: "3"
+
+networks:
+  wiki-internal:
+  proxy:
+    external: true
+
+
+services:
+
+  wiki-bookstack:
+    image: lscr.io/linuxserver/bookstack
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - proxy
+      - wiki-internal
+    env_file: 
+      - "./env-bookstack"
+    volumes:
+      - ./db-data:/config
+    depends_on:
+      - db
+
+
+  db:
+    image: lscr.io/linuxserver/mariadb
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - wiki-internal
+    env_file: 
+      - "./env-db"
+    # hae? seems wrong
+    volumes:
+      - ./db-data:/config

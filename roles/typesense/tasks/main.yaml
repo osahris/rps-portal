@@ -1,0 +1,35 @@
+---
+
+
+- name: typesense project directory
+  file:
+    path: "{{ typesense_project_directory }}"
+    state: directory
+
+- name: typesense oauth proxy collection configuration directory
+  file:
+    path: "{{ typesense_project_directory }}/typesense-oauth-proxy-data"
+    state: directory
+
+- name: typesense oauth proxy collection configuration
+  copy:
+    content: "{{typesense_oauth_proxy_collection_configuration}}"
+    dest: "{{ typesense_project_directory }}/typesense-oauth-proxy-data/proxy_collections.yaml"
+
+- name: typesense docker-compose file
+  copy:
+    content: "{{ typesense_docker_compose }}"
+    dest: "{{ typesense_project_directory }}/docker-compose.yml"
+
+- name: typesense docker-compose
+  community.docker.docker_compose:
+    project_name: "{{ typesense_project_name }}"
+    project_src: "{{ typesense_project_directory }}"
+    pull: true
+    remove_orphans: true
+  register: _typesense_docker_compose
+
+- name: typesense traefik dynamic config
+  copy:
+    content: "{{ typesense_traefik_dynamic_config }}"
+    dest: "{{traefik_config_directory}}/conf.d/typesense.yaml"  

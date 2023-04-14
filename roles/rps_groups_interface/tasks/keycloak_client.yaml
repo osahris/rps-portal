@@ -1,0 +1,47 @@
+---
+# NOTE: make sure to ensure parity with the local dev environment of the rps-groups-interface repo!
+- name: keycloak client
+  local_action: keycloak_client
+  become: false
+  args:
+    auth_client_id: "admin-cli"
+    auth_keycloak_url: "{{ rps_groups_interface_keycloak_service_url }}"
+    auth_realm: "master"
+    auth_username: "{{ rps_groups_interface_keycloak_auth_username }}"
+    auth_password: "{{ rps_groups_interface_keycloak_auth_password }}"
+    client_id: "{{ rps_groups_interface_keycloak_client_id }}"
+    realm: "{{ keycloak_realm }}"
+    redirect_uris: "https://{{ rps_groups_interface_service_name }}/realms/{{ keycloak_realm }}/oauth2/callback"
+    web_origins: "https://{{ rps_groups_interface_service_name }}"
+    validate_certs: true
+    public_client: true
+    full_scope_allowed: true
+    service_accounts_enabled: false
+    direct_access_grants_enabled: false
+    standard_flow_enabled: true
+    implicit_flow_enabled: false
+    frontchannel_logout: true
+    bearer_only: false
+    consent_required: false
+    root_url: ""
+    base_url: ""
+    admin_url: ""
+    protocol_mappers:
+      - name: audience
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience: "rps-groups-interface"
+          id.token.claim: "true"
+          access.token.claim: "true"
+      - name: groups
+        config:
+          access.token.claim: "false"
+          claim.name: groups
+          full.path: "false"
+          id.token.claim: "true"
+          userinfo.token.claim: "true"
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-group-membership-mapper

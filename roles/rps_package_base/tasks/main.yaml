@@ -1,0 +1,66 @@
+---
+
+- import_role:
+    name: rps_package_core
+  tags:
+    - rps_package_core
+    - rps-package-core
+    - core
+
+- import_role:
+    name: rps_admin_interface
+  tags:
+    - rps_admin_interface
+    - admin
+
+- import_role:
+    name: rps_style_servers
+  tags:
+    - rps_style_servers
+    - style
+
+- import_role:
+    name: keycloak_theme
+  tags:
+    - keycloak_theme
+
+- import_role:
+    name: rps_groups_interface
+  tags:
+    - rps_groups_interface
+    - groups
+
+# - import_role:
+#     name: typesense
+#   tags:
+#     - typesense
+
+- import_role:
+    name: budibase
+  tags:
+    - budibase
+    - base
+
+- import_role:
+    name: rps_idia
+  tags:
+    - rps_idia
+    - idia
+
+- import_role:
+    name: rps_profile_interface
+  tags:
+    - rps_profile_interface
+    - profile
+
+- import_role:
+    name: rps_people
+  tags:
+    - rps_people
+    - people
+
+- import_role:
+    name: rps_header
+  tags:
+    - rps_header
+    - header

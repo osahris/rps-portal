@@ -1,0 +1,63 @@
+/* @import '../../../num-css-theme/css-variables.css'; */
+
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+}
+  
+  .ais-Hits ul {
+    list-style: none;
+  }
+  
+  .hits {
+    width: 100%;
+  }
+  
+  #main-search {  
+      display: flex;
+  }
+  
+  .top-row-title {
+    margin: auto;
+  }
+  .ais-Hits {
+    width: 80%;
+    padding: 1em;
+    margin: auto 1em;
+  }
+  
+  .refinements {
+    width: 20%;
+    padding: 1em;
+  }
+  li {
+    list-style: none;
+  }
+  
+  .d-none {
+    display: none !important;
+  }
+
+  .hero {
+    padding: 1em;
+  }
+
+  .flex {
+    display:flex;
+  }
+
+  .input.longer {
+    width: 500px;
+  }
+
+.ais-RefinementList-item {
+    margin-bottom: 3px;
+}
+
+
+.ais-Highlight {
+    margin: 5px;
+}

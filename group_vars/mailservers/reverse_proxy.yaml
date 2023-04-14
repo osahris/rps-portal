@@ -1,8 +1,0 @@
-reverse_proxy_server_name: "{{sympa_main_domain}}"
-reverse_proxy_nginx_vhost_custom: |
-  location / {
-    proxy_set_header X-Forwarded-Proto https;
-    proxy_pass https://{{mailname}};
-    proxy_set_header Host {{sympa_main_domain}};
-  }
-  {{header_nginx_inclusion}}

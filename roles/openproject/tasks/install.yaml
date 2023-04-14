@@ -1,0 +1,7 @@
+---
+- name: openproject installer config
+  template:
+    src: installer.dat.j2
+    dest: /etc/openproject/installer.dat
+    force: false
+  notify: configure openproject

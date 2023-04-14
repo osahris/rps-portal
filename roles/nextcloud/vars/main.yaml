@@ -1,0 +1,96 @@
+---
+# Ansible variables
+remote_path: "/app/{{nextcloud_service_name}}"
+app_port: "80"
+
+
+nextcloud_secrets:
+  nextcloud_mysql_password: "{{ nextcloud_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  nextcloud_mysql_root_password: "{{ nextcloud_mysql_root_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  nextcloud_keycloak_client_secret: "{{ nextcloud_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  nextcloud_admin_password: "{{ nextcloud_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+# # ------------------------------------------ #
+_nextcloud_status: "{{_nextcloud_status_task.stdout | from_json}}"
+_nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
+
+# # ------------------------------------------ #
+nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
+nextcloud_db_container_name:  "{{nextcloud_service_name|replace('.','')}}_db_1"
+# # ------------------------------------------ #
+
+nextcloud_mysql_user: nextcloud
+nextcloud_mysql_database: nextcloud
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      nextcloud:
+        rule: "Host(`{{ nextcloud_service_name }}`)"
+        entrypoints: websecure
+        middlewares: 
+        - header-redirect
+        - nextcloud-headers
+        tls:
+          certresolver: letsencrypt
+        service: nextcloud
+
+    services:
+      nextcloud:
+        loadBalancer:
+          servers:
+            - url: "http://{{nextcloud_app_container_name}}:{{app_port}}" # "http://container_name:container_port"
+
+    middlewares:
+      nextcloud-headers:
+        headers:
+          contentSecurityPolicy: "{{ nextcloud_content_security_policy }}"
+
+
+nextcloud_content_security_policy: >
+  default-src 'none';
+  base-uri 'none';
+  manifest-src 'self';
+  script-src 'self';
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: blob:;
+  font-src 'self' data:;
+  connect-src 'self';
+  media-src 'self';
+  frame-src 'self';
+  frame-ancestors 'self';
+  form-action 'self'
+
+_nextcloud_apps_enabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Enabled|[]|map(&keys(@), @)|[]') }}"
+_nextcloud_apps_disabled: "{{ _nextcloud_occ_app_list.stdout | from_yaml | json_query('Disabled|[]') }}"
+_nextcloud_apps_present: "{{ _nextcloud_apps_enabled | union(_nextcloud_apps_disabled) }}"
+
+nextcloud_default_config:
+  system:
+    defaultapp: "{{nextcloud_defaultapp}}"
+    skeletondirectory: /srv/nextcloud/skel
+    trusted_domains:
+      - "{{ nextcloud_service_name }}"
+
+nextcloud_user_oidc_config:
+  apps:
+    user_oidc:
+      allow_multiple_user_backends: "{{nextcloud_user_oidc_allow_multiple_user_backends|bool|lower}}"
+      userinfo_bearer_validation: "{{nextcloud_user_oidc_userinfo_bearer_validation|bool|lower}}"
+
+nextcloud_oidc_login_config: # legacy plugin
+  system:
+    oidc_login_client_id: "{{ nextcloud_oidc_login_client_id }}"
+    oidc_login_client_secret: "{{ nextcloud_oidc_login_client_secret }}"
+    oidc_login_provider_url: "{{ nextcloud_oidc_login_provider_url }}"
+    # oidc_login_logout_url: "{{ nextcloud_oidc_login_logout_url }}"
+    oidc_login_auto_redirect: "{{ nextcloud_oidc_login_auto_redirect|bool }}"
+    oidc_login_redir_fallback: "{{ nextcloud_oidc_login_redir_fallback|bool }}"
+    oidc_login_attributes: "{{ nextcloud_oidc_login_attributes }}"
+    oidc_login_tls_verify: "{{ nextcloud_oidc_login_tls_verify|bool }}"
+    oidc_login_disable_registration: "{{ nextcloud_oidc_login_disable_registration|bool }}"
+
+nextcloud_custom_theme_config:
+  system:
+    theme: "{{nextcloud_custom_theme_name}}"

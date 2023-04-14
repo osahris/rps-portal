@@ -1,0 +1,13 @@
+stages:
+  - build-docker
+
+build-docker:
+  services:
+    - docker:20.10.6-dind
+  stage: build-docker
+  image: docker:20.10.6
+  script: |
+    docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    docker build --cache-from $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG --pull .
+    docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG

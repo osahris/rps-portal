@@ -1,0 +1,19 @@
+@charset "utf-8";
+@import "../../../../num-css-theme/css-variables.scss";
+
+// Set your brand colors
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $color-primary;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+@import "../../../node_modules/bulma/bulma.sass";

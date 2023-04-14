@@ -1,0 +1,26 @@
+# ansible role discourse
+
+A role for setting up discource using the discource docker installer
+
+## Warum wird hier kein docker-compose benutzt?
+
+Hier ist das Rabbit Hole, falls da jemand rein möchte... 
+https://meta.discourse.org/t/community-supported-official-docker-image/83768
+
+TLDR: Die Discourse Entwickler weigern sich seit mehr als 5 Jahren ein normales Docker Image von Discourse bereit zu stellen und bestehen darauf, dass man ihren installer benutzt. Alle Kooperationsangebote werden abgelehnt und der Chefentwickler fühlt sich von der Diskussion persönlich angegriffen und sagt das haben wir schon immer so gemacht.
+
+Mögliche Lösungen:
+- Es gibt wohl eine Methode wo Leute herausgefunden haben wie man mit dem offiziellen Discourse-Installer ein Docker Image erstellen kann, dass man dann in eine Registry pushen kann. Wenn wir das hinbekommen, das über die gitlab-ci laufen zu lassen, hätten wir einen Buildprozess mit dem offiziellen Installer. Wir benutzten aktuell den Discourse-Installer so, aber vielleicht bekommen wir das ja hin
+- https://hub.docker.com/r/bitnami/discourse/ benutzen
+
+## SUPPORT: Edit user's email in Discourse or change primary email
+ssh root@dialog.napkon.de
+docker container exec -ti web rails c
+
+1. Delete secondary email (if exists!):
+User.find_by_email('secondary@gmail.com').delete()
+2. Find the user by current primary email:
+user = User.find_by_email('primary@gmail.com')
+3. Change email
+user.email = "secondary@gmail.com"
+user.save!

@@ -1,0 +1,95 @@
+---
+remote_path: "/app/{{rps_header_service_name}}"
+
+rps_header_allowed_default_origins:
+  - https://{{ keycloak_service_name }}
+  - https://{{ rps_profile_interface_service_name }}
+  - https://{{ rps_admin_interface_service_name }}
+  - https://{{ rps_groups_interface_service_name }}  
+  - https://{{ rps_style_service_name }}
+  - https://{{ rps_people_service_name }}
+  - https://{{ budibase_service_name }}
+  - https://{{ rps_idia_service_name }}
+
+rps_header_dynamic_config:
+  header_logo_uri: "{{ rps_header_logo_link }}"
+  header_top_navbar_links: "{{ rps_header_top_navbar_links }}"
+  header_bottom_navbar_links: "{{ rps_header_bottom_navbar_links }}"
+
+header_traefik_dynamic_config:
+  http:
+    routers:
+      header:
+        rule: "Host(`{{rps_header_service_name}}`)"
+        entrypoints: websecure
+        middlewares:
+        - header-root-redirect
+        - header-xhr-headers
+        tls:
+          certresolver: letsencrypt
+        service: header
+
+      header-oauth2-endpoints:
+        rule: "Host(`{{ rps_header_service_name }}`) && PathPrefix(`/oauth2/`)"
+        entrypoints: websecure
+        service: oauth2-proxy
+        middlewares:
+        - header-xhr-headers
+        tls:
+          certresolver: letsencrypt
+
+      header-oauth2-userinfo-options-for-xhr:
+        rule: "Host(`{{ rps_header_service_name }}`) && PathPrefix(`/oauth2/userinfo`) && Method(`OPTIONS`)"
+        entrypoints: websecure
+        service: header-always-200-responder
+        middlewares:
+        - header-xhr-headers
+        tls:
+          certresolver: letsencrypt
+  
+    services:
+      header:
+        loadBalancer:
+          servers:
+            - url: http://{{rps_header_service_name|replace('.', '')}}_header_1:4080
+
+      header-always-200-responder:
+        loadBalancer:
+          servers:
+            - url: http://{{rps_header_service_name|replace('.', '')}}_always-200-responder_1
+
+    # This 'header-redirect' middleware redirects every subdomain SERVICENAME.domain/header.js to header.domain/header.js
+    # If this SERVICENAME has this middleware included like this --|
+    #                                                              |
+    # traefik_dynamic_config:                                      |
+    #   http:                                                      |
+    #     routers:                                                 |
+    #       SERVICENAME:                                           |
+    #         rule: "Host(`SERVICENAME.domain`)"                   |
+    #         entrypoints: websecure                               |
+    #         middlewares:                                         |
+    #         - header-redirect # <<< ------ here ------ <<< ------|
+    #         tls:
+    #           certresolver: letsencrypt
+    #         service: SERVICENAME
+    middlewares:
+      header-redirect:
+        redirectRegex:
+          # match /header.js for every URL
+          regex: "^https?://[^/]+/header.js$"
+          replacement: "https://{{rps_header_service_name}}/header.js"
+      header-root-redirect:
+        redirectRegex:
+          # match / for every URL
+          regex: "^https?://[^/]+/$"
+          replacement: "{{ rps_header_root_redirect_url }}"
+      header-xhr-headers:
+        headers:
+          accessControlAllowOriginList: "{{ rps_header_allowed_origins }}"
+          accessControlAllowMethods:
+            - GET
+            - OPTIONS
+          accessControlAllowCredentials: true
+          accessControlAllowHeaders:
+            - Authorization
+          addVaryHeader: true

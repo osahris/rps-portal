@@ -1,0 +1,5 @@
+---
+rps_dns_suffix: "{{ inventory_hostname }}"
+
+rps_core_package_with_keycloak: true
+rps_core_package_with_keycloak_realms: "{{ rps_core_package_with_keycloak }}"

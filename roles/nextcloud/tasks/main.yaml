@@ -1,0 +1,23 @@
+---
+- import_tasks: secrets.yaml
+
+- import_tasks: deploy.yaml
+
+- import_tasks: config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_default_config}}"
+
+- import_tasks: custom_theme/config.yaml
+  when: nextcloud_with_custom_theme
+
+- import_tasks: keycloak_client.yaml
+  when: nextcloud_with_keycloak_client
+
+- import_tasks: apps/user_oidc.yaml
+  when: nextcloud_with_user_oidc_app
+# - import_tasks: apps/oidc_login.yaml
+#   when: nextcloud_with_oidc_login_app
+
+- import_tasks: apps/install.yaml
+  vars:
+    nextcloud_install_apps: "{{nextcloud_apps}}"

@@ -1,3 +1,0 @@
-loomio_auth_method: saml
-loomio_saml_idp_metadata_url: "{{keycloak_saml_endpoint_url}}"
-loomio_saml_issuer: "{{inventory_hostname}}"

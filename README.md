@@ -1,98 +1,130 @@
-# Installation 
+# Research Project Suite
 
-## Ansible Installation
-Install by pip3
+TBD Description
 
+## deploy!
+
+```
+ansible-playbook -i inventory/common/ -i inventory/environments/dev/ deploy-all-services.yaml
+```
+
+# Services
+
+The [x]-marked roles are ready to be deployed within one button click, without further pre-adjustments:
+
+- [ ] budibase
+- [x] collabora
+- [x] discourse
+- [x] keycloak_themes
+- [x] docker
+- [x] rps_idia
+- [x] keycloak
+- [x] keycloak_realms
+- [ ] rps_people
+- [x] minimum_viable_product
+- [ ] nextcloud
+- [x] oauth2_proxy
+- [ ] openproject
+- [ ] proskive
+- [ ] rocketchat
+- [x] rps_admin_interface
+- [ ] rps_cohort_explorer
+- [x] rps_groups_interface
+- [ ] rps_header
+- [x] rps_style_servers
+- [ ] rps_sync_services
+- [ ] socat_https_proxy
+- [x] traefik
+- [ ] typesense
+- [ ] wiki-bookstack
+- [x] wiki-js
+- [ ] wordpress
+
+## Add a new service
+
+The quick way to add a new service is to copy the `minimum_viable_product` folder and follow the instructions in the `README.md` inside. Do not forget to include it in the services list above and mark with [ ] when in progress or with [x] when fully ready to be deployed.
+
+## Secrets management
+
+Secrets are stored on the remote machine in `/etc/ansible/facts.d/secrets.fact`. Most things like database passwords etc. just need to be generated once per machine but we don't really care about the exact password.
+
+However for some externally defined secrets like the shared gitlab deploy token password the user will be asked to provide it via an interactive prompt. Should you make a typo or has it been changed externally it is possible to specify the new password via ansible extra vars:
+
+```
+ansible-playbook -i inventory-dev deploy-all-services.yaml  --tags=gitlab_credentials --extra-vars "gitlab_deploy_token_password=hurz"
+```
+
+## docker-compose deployments
+
+Whenever possible try to deploy applications using `docker-compose`.
+
+All application configs should reside below `/app/`.
+
+By convention please create a variable `($project_name)_service_name` (using `defaults`) and a variable `remote_path: "/app/{{($project_name)_service_name}}"` (using `vars`) for the server name the application is reachable under.
+
+Then in the tasks of your role ensure that the directory is being created and deploy all application configs including the `docker-compose.yaml` file in there.
+Make sure that the application uses the well-known `proxy` network. This is the network that Traefik expects services to reside in.
+
+Example config excerpt:
+
+```yaml
+    [...]
+networks:
+  proxy:
+    external: true
+
+services:
+    myapp:
+        image: ...
+        networks:
+            - proxy
+
+```
+
+Then in your tasks when deploying the docker-compose stack make sure to set `remove_orphans` and `pull` to true and make sure that you eventually restart the docker-compose stack if you deployed config files that are being mounted into the container that are not automatically picked up by the application.
+
+Example:
+
+```yaml
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}"
+    remove_orphans: true
+    restarted: "{{ myapp_copy_static_config_task.changed }}"
+    pull: true
+```
+
+Changes in the docker-compose file will automatically trigger a restart (please do not change the default ansible `recreate` setting).
+
+To make your application known to Traefik create a traefik configuration in `/app/proxy/traefik/conf.d/$project_name.yaml` using a variable defined in `$role/vars/main.yaml`.
+
+Example config:
+
+```yaml
+myapp_traefik_dynamic_config:
+  http:
+    routers:
+      myapp:
+        rule: "Host(`{{myapp_service_name}}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: letsencrypt
+        service: myapp
+
+    services:
+      myapp:
+        loadBalancer:
+          servers:
+            - url: "http://{{myapp_service_name|replace('.','')}}_myapp_1"
+```
+
+
+Helping scripts:
+Clean VM from all RPS related for a brand new setup:
 ```sh
-python3 -m pip install --user ansible
+docker ps -aq | xargs docker stop | xargs docker rm
+docker volume prune
+docker system prune
+rm /app/ -R
+rm /etc/ansible/facts.d/ -R
 ```
-
-Copy the folowing into /etc/ansible/ansible.cfg
-
-```
-[defaults]
-nocows = 1
-stdout_callback = yaml
-interpreter_python = auto_silent
-retry_files_enabled = False
-force_handlers = True
-
-library = /usr/share/ansible/library
-```
-
-The following python packages must be installed:
-
-* pip3 install netaddr
-* pip3 install jmespath
-
-```sh
-git clone -b development --recursive git@gitlab.com:idcohorts/rps/research-project-suite.git rps-dev
-cd rps-dev
-ansible-playbook -i environments/local/ all.yaml
-```
-
-work with git submodules:
-```sh
-git submodule init
-git submodule update
-git submodule foreach git checkout master
-```
-
-execute ansible playbooks:
-```sh
-ansible-playbook -i environments/test/ all.yaml
-```
-
-
-Please note, you have to add the connection_plugins for LXC Reverse Proxy to work.
-
-
-```sh
-mkdir -p /usr/share/ansible/library/connection_plugins
-cd /usr/share/ansible/library/connection_plugins
-git clone https://github.com/chifflier/ansible-lxc-ssh.git
-```
-
-Very import to have a vault key for all the sweet secrets. Put the Key file {{somewhere_nice}}. ;)
-
-```sh
-export ANSIBLE_VAULT_PASSWORD_FILE={{somewhere_nice}}
-```
-
-# Usage
-
-## Initialize connection
-Befor start with a new project, please execute the following to initialize the connection to the reverse proxy:
-```sh
-ansible-playbook -i rps-{{project_name}}/inventory/ rps-dev/rps_header_servers.yaml --limit rps_header_servers
-```
-
-# Deploy the header
-Hints:
-- you can change the git branch by setting the header_version in the group_var
-
-```sh
-ansible-playbook -i rps-{{project_name}}/inventory/ rps-dev/containers.yaml
-```
-
-
-# Deploy Cohort Explorer
-
-Variables for Cohort Explorer in group_vars
-- rps_cohort_explorer_server_name: cohort-explorer.{{dns_suffix}}
-- rps_cohort_explorer_git_version: main
-- rps_cohort_explorer_repo: https://{{ rps_cohort_explorer_deploy_token }}@gitlab.com/idcohorts/cohortexplorer.git
-- rps_cohort_explorer_deploy_token: in **secrets**
-- reverse_proxy_server_name: container name for **containers.yaml** role
-- reverse_proxy_nginx_vhost_custom: nginx config for **containers.yaml** role
-
-
-```sh
-ansible-playbook -i environments/test/ rps_cohort_explorer.yaml 
-ansible-playbook -i environments/test/ rps_cohort_explorer.yaml  --limit rps_cohort_explorer
-```
-
-Further Cohort-Explorer Deployment-Todos:
-
-- [ ] deploy cohort explorer theme repo
-- [ ] deploy cohort explorer structure repo

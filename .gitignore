@@ -1,5 +1,6 @@
-environments/local_NAPKON
-/header
-/configs
-/connection_plugins/__pycache__
 *.auto.json
+inventory-dev
+__pycache__
+*_inventory
+
+*.vault

@@ -1,0 +1,20 @@
+project_id: {{rps_admin_interface_keycloak_realm}}
+project_name: rps-admin-interface
+rps_header_url: {{rps_header_js_url}}
+services:
+  accounts:
+    keycloak_management_client_secret: "{{rps_admin_interface_keycloak_client_secret}}"
+    keycloak_management_realm: "{{rps_admin_interface_keycloak_realm}}"
+    keycloak_management_url: "https://{{keycloak_service_name}}"
+    keycloak_management_client_id: "rps-admin-interface"
+    keycloak_realm: "{{keycloak_realm}}"
+    service_type: keycloak
+    default_required_actions: ['UPDATE_PASSWORD','UPDATE_PROFILE','VERIFY_EMAIL']
+
+user_attributes: {{user_attributes}}
+user_email_label: {{user_email_label }}
+user_first_name_label: {{user_first_name_label}}
+user_import_group_membership_label: {{user_import_group_membership_label}}
+user_import_group_owner_label: {{user_import_group_owner_label}}
+user_last_name_label: {{user_last_name_label}}
+user_username_label: {{user_username_label}}

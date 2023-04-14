@@ -1,0 +1,36 @@
+---
+remote_path: "/app/{{rps_admin_interface_service_name}}"
+
+traefik_certresolver: "letsencrypt"
+app_port: "5000"
+
+rps_admin_interface_secrets:
+  rps_admin_interface_keycloak_client_secret: "{{ rps_admin_interface_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    middlewares:
+      rps-admin-interface-add-oauth2-redirect-header:
+        headers:
+          customrequestheaders:
+            X-Auth-Request-Redirect: "https://{{rps_admin_interface_service_name}}"
+
+    routers:
+      admin_interface: # <-- Change this to your service name
+        rule: "Host(`{{rps_admin_interface_service_name}}`)"
+        entrypoints: websecure
+        service: "admin_interface" # <-- Change this to your service name
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        middlewares:
+          - rps-admin-interface-add-oauth2-redirect-header
+          - oauth2-endpoints-redirect
+          - oauth2-sign_in-page
+          - oauth2-auth-require-admin-role
+          - header-redirect
+    services:
+      admin_interface: # <-- Change this to your service name
+        loadBalancer:
+          servers:
+            - url: "http://{{rps_admin_interface_service_name|replace('.','')}}_web_1:{{app_port}}" # "http://container_name:container_port"

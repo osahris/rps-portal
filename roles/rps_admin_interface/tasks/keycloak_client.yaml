@@ -1,0 +1,20 @@
+---
+- name: keycloak client for rps admin interface
+  local_action: keycloak_client
+  become: false
+  args:
+    auth_client_id: "admin-cli"
+    auth_keycloak_url: "{{ rps_admin_web_interface_keycloak_service_url }}"
+    auth_realm: "master"
+    auth_username: "{{ rps_admin_web_interface_keycloak_auth_username }}"
+    auth_password: "{{ rps_admin_web_interface_keycloak_auth_password }}"
+    client_id: "rps-admin-interface"
+    realm: "{{ rps_admin_interface_keycloak_realm }}"
+    redirect_uris: []
+    client_authenticator_type: client-secret
+    secret: "{{ rps_admin_interface_keycloak_client_secret }}"
+    state: present
+    direct_access_grants_enabled: true
+    service_accounts_enabled: true
+    standard_flow_enabled: false
+    validate_certs: true

@@ -1,0 +1,24 @@
+---
+
+- name: ensure discourse keycloak client
+  local_action: keycloak_client
+  become: false
+  args:
+    auth_client_id: "{{ discourse_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ discourse_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ discourse_keycloak_client_auth_realm }}"
+    auth_username: "{{ discourse_keycloak_client_auth_username }}"
+    auth_password: "{{ discourse_keycloak_client_auth_password }}"
+    validate_certs: "{{ discourse_keycloak_client_validate_certs }}"
+    client_id: "{{ discourse_keycloak_client_client_id }}"
+    realm: "{{ discourse_keycloak_client_realm }}"
+    redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
+    client_authenticator_type: client-secret
+    secret: "{{ discourse_keycloak_client_secret }}"
+  when: discourse_with_keycloak_client
+
+- name: traefik dynamic config
+  copy:
+    content: "{{ discourse_traefik_dynamic_config }}"
+    dest: "/app/proxy/traefik/conf.d/{{discourse_service_name}}.yaml"
+  when: discourse_with_traefik

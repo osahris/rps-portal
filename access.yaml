@@ -1,9 +1,0 @@
----
-
-- hosts: all:!containers:!web_vhosts
-  remote_user: root
-  tasks:
-    - name: ssh authorized keys
-      ansible.posix.authorized_key:
-        user: root
-        key: "{{ssh_authorized_keys}}"

@@ -1,84 +1,102 @@
 ---
-rps_groups_interface_directory: /opt/rps-groups-interface
+remote_path: "/app/{{rps_groups_interface_service_name}}"
 
-rps_groups_interface_image_tag: "{{ rps_groups_interface_git_task.after }}"
-
-rps_groups_interface_suite_config_file: "{{rps_groups_interface_config_directory}}/suite-{{rps_groups_interface_instance}}.json"
 rps_groups_interface_suite_config:
-  project_id: numhub-main
-  project_name: "{{ rps_groups_interface_interface_heading }}"
-  interface_heading: "{{ rps_groups_interface_interface_heading }}"
-  interface_title: "{{ rps_groups_interface_interface_title }}"
-  keycloak_realm_url: https://{{keycloak_server_name}}/admin/realms/{{rps_groups_interface_keycloak_realm}}/
-  keycloak_url: https://{{keycloak_server_name}}/realms/{{rps_groups_interface_keycloak_realm}}/
-  keycloak_client_id: "{{rps_groups_interface_keycloak_client_id}}"
-  language: "{{rps_groups_interface_suite_config_language}}"
-  user_attributes: "{{keycloak_user_attributes}}"
+  project_id: "rps"
+  project_name: "Test Suite"
+  project_logo: "@/assets/logos/num-hub.svg"
+  interface_title: "RPS Gruppeninterface"
+  interface_heading: "RPS Gruppeninterface"
+  language: "de"
+  keycloak_url: "https://{{keycloak_service_name}}/"
+  keycloak_realm: "{{keycloak_realm}}"
+  keycloak_api_url: "https://{{keycloak_service_name}}/admin/realms/{{keycloak_realm}}"
+  keycloak_client_id: "{{ rps_groups_interface_keycloak_client_id }}"
+  user_attributes: "{{user_attributes}}"
+  user_email_label: "{{user_email_label }}"
+  user_first_name_label: "{{user_first_name_label}}"
+  user_import_group_membership_label: "{{user_import_group_membership_label}}"
+  user_import_group_owner_label: "{{user_import_group_owner_label}}"
+  user_last_name_label: "{{user_last_name_label}}"
+  user_username_label: "{{user_username_label}}"
   group_attributes:
-  - key: name
-    type: textfield
-    readonly: true
-    label: Name
-  - key: title
-    type: textfield
-    label: Titel
-  - key: description
-    type: textfield
-    label: Beschreibung
-  - key: icon
-    type: autocomplete-icon
-    label: Icon
-  - key: "membership_source"
-    type: "autocomplete-membership-source"
-    label: "Membership source"
-
+    - key: name
+      type: textfield
+      readonly: false
+      label: Groupname
+      rules:
+        - required
+      maxLength: 20
+    - key: title
+      type: textfield
+      label: Titel
+      readonly: false
+      rules:
+        - required
+      maxLength: 20
+    - key: description
+      type: textfield
+      label: Beschreibung
+      readonly: false
+      rules: []
+      maxLength: 90
+    - key: icon
+      type: autocomplete-icon
+      label: Icon
+      readonly: false
+      rules: []
+      maxLength: 0
+    - key: membership_source
+      type: autocomplete-membership-source
+      label: Membership source
+      readonly: false
+      rules:
+        - required
+    - key: group_hierachy_type
+      type: autocomplete-group-hierachy-type
+      label: Hierachy Types
+      readonly: false
+      rules: []
+    - key: group_hierachy_children
+      type: autocomplete-group-hierachy-children
+      label: Hierachy Child
+      readonly: false
+      rules: []
   membership_sources:
-  - name : accounts
-    description: Manually add and delete users
-    type: keycloak
-    membership_source_settings: false
-    membership_editable: true
-  - name: accounts/profile
-    description: Group users by account profile fields
-    type: keycloak_profile
-    membership_source_settings: true
-    membership_editable: false
-  - name: group_hierachy
-    description: Group users by group hierachy
-    type: group_hierachy
-    membership_source_settings: true
-    membership_editable: false
+    - name: accounts
+      description: Manually add and delete users
+      type: keycloak
+      membership_editable: true
+    - name: accounts/profile
+      description: Group users by account profile fields
+      type: keycloak_profile
+      membership_editable: false
+    - name: group_hierachy
+      description: Group users by group hierachy
+      type: group_hierachy
+      membership_editable: false+
+  membership_sources_hierachy: 
+    - name: union
+      description: Manually add and delete users
+      type: group_hierachy_type
+      membership_editable: false
+    - name: intersection
+      description: Group users by account profile fields
+      type: group_hierachy_type
+      membership_editable: false
 
-  membership_sources_hierachy:
-  - name: "union"
-    description: "Manually add and delete users"
-    type: "group_hierachy_type"
-    membership_editable: false
-  - name: "intersection"
-    description: "Group users by account profile fields"
-    type: "group_hierachy_type"
-    membership_editable: false
- 
-# proxy_config_directory: "{{numhub_config_directory}}/proxy"
-# traefik_router_config:
-#   rule: "Host(`{{rps_groups_interface_server_name}}`)"
-#   tls:
-#     certresolver: letsencrypt
-#   entrypoints: https
-#   service: "rps-groups-interface-{{rps_groups_interface_instance}}"
-#   middlewares:
-#     - rps-groups-interface-header-redirect-{{rps_groups_interface_instance}}
-# traefik_service_config:
-#   loadBalancer:
-#     servers:
-#       - url: "http://rps-groups-interface-{{rps_groups_interface_instance}}:3000"
-# traefik_header_redirect_middleware_config:
-#   redirectRegex:
-#     regex: '^.*/header\.js$'
-#     replacement: https://{{rps_header_server_name}}/header.js
+rps_groups_interface_traefik_router:
+  rule: "Host(`{{rps_groups_interface_service_name}}`)"
+  entrypoints: websecure
+  service: "{{rps_groups_interface_service_name}}"
+  # middlewares:
+  #   - oauth2
 
-# traefik_config:
-#   http:
-#     routers: "{{ {'rps-groups-interface-'+rps_groups_interface_instance: traefik_router_config } }}"
-#     services: "{{ {'rps-groups-interface-'+rps_groups_interface_instance: traefik_service_config } }}" 
-#     middlewares: "{{ {'rps-groups-interface-header-redirect-'+rps_groups_interface_instance: traefik_header_redirect_middleware_config } }}"
+rps_groups_interface_traefik_service:
+  loadBalancer:
+    servers:
+      - url: http://{{rps_groups_interface_service_name|replace('.', '')}}_web_1
+rps_groups_interface_traefik_dynamic_config:
+  http:
+    routers: "{{ { rps_groups_interface_service_name : rps_groups_interface_traefik_router  } }}"
+    services: "{{ { rps_groups_interface_service_name : rps_groups_interface_traefik_service } }}"

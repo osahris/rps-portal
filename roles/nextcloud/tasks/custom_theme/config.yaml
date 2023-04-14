@@ -1,0 +1,5 @@
+---
+
+- import_tasks: config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_custom_theme_config}}"

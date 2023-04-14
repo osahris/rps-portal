@@ -1,6 +1,0 @@
----
-
-oauth2_proxy_setup: systemd
-oauth2_proxy_instance: header
-oauth2_proxy_server_name: "{{rps_header_server_name}}"
-oauth2_proxy_cookie_domain: "{{header_cookie_domain}}"

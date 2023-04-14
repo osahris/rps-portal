@@ -1,7 +1,0 @@
----
-- import_role:
-    name: restic_server
-    tasks_from: htpasswd
-  delegate_to: "{{backupserver}}"
-  delegate_facts: true
-

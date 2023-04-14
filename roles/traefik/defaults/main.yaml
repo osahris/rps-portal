@@ -1,0 +1,58 @@
+---
+traefik_dashboard_service_name: "traefik.{{ rps_dns_suffix }}"
+
+traefik_proxy_network: "proxy"
+traefik_certresolver: "letsencrypt"
+letsencrypt_account_email: "{{ rps_admin_email }}"
+
+traefik_log_level: WARN
+
+traefik_entry_points:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: "letsencrypt"
+
+traefik_with_whomai_service: true
+
+traefik_certificates_resolvers:
+  letsencrypt:
+    acme:
+      email: "{{ letsencrypt_account_email }}"
+      storage: "/ssl-certs/acme-letsencrypt.json"
+      tlsChallenge: true
+      caServer: "https://acme-v02.api.letsencrypt.org/directory"
+  letsencrypt-staging:
+    acme:
+      email: "{{ letsencrypt_account_email }}"
+      storage: "/ssl-certs/acme-letsencrypt-staging.json"
+      tlsChallenge: true
+      caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"
+  # step-ca:
+  #   acme:
+  #     email: '{{ stepca_email }}'
+  #     storage: "/ssl-certs/acme-step-ca.json"
+  #     tlsChallenge: true
+  #     caServer: '{{ stepca_server_url }}'
+  # letsencrypt-http:
+  #   acme:
+  #     email: '{{ letsencrypt_account_email }}'
+  #     storage: "/ssl-certs/acme-letsencrypt.json"
+  #     httpChallenge:
+  #       entryPoint: web
+  #     caServer: "https://acme-v02.api.letsencrypt.org/directory"
+  # letsencrypt-staging-http:
+  #   acme:
+  #     email: '{{ letsencrypt_account_email }}'
+  #     storage: "/ssl-certs/acme-letsencrypt-staging.json"
+  #     httpChallenge:
+  #       entryPoint: web
+  #     caServer: "https://acme-staging-v02.api.letsencrypt.org/directory"

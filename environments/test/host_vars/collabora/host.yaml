@@ -1,2 +1,0 @@
-ansible_host: 2a01:4f8:c010:910b::1
-collabora_backend_host: "[2a01:4f8:c010:910b::1]"

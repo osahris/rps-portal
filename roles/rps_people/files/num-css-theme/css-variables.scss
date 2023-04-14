@@ -1,0 +1,55 @@
+/* Font Family */
+$font-primary: "Raleway", "Roboto Bold", Helvetica, sans-serif;
+$font-secondary: "Raleway", "Roboto Light", Helvetica, sans-serif;
+
+/* Font Size */
+$font-size-base: 20px;
+$font-size-xs: 1rem;
+$font-size-sm: 1.125rem;
+$font-size-md: 1.25rem;
+$font-size-lg: 1.5rem;
+$font-size-xl: 2.25rem;
+$font-size-xxl: 4rem;
+$font-size-xxxl: 5rem;
+$font-size-page-title: $font-size-xxl;
+$letter-spacing: normal;
+
+/* Line Height */
+$line-height-body: 1.7;
+$line-height-heading: 1.3;
+$line-height-page-title: 1.1;
+
+/* Colors */
+$color-black: #000;
+$color-dark-gray: #44546a;
+$color-gray: #8497b0;
+$color-light-gray: rgba(132, 151, 176, 0.2);
+$color-green: #8497B0;
+$color-blue: #d1dfe4;
+$color-red: #eb576a;
+$color-orange: #e4dad1;
+$color-yellow: #eeeadd;
+$color-white: #fff;
+
+$color-highlight: $color-red;
+$color-primary: $color-dark-gray;
+$color-secondary: $color-light-gray;
+
+/* global--Headings */
+$heading--font-family: $font-primary;
+$heading--font-size-h6: $font-size-xs;
+$heading--font-size-h5: $font-size-sm;
+$heading--font-size-h4: $font-size-lg;
+$heading--font-size-h3: calc(1.25 * $font-size-lg);
+$heading--font-size-h2: $font-size-xl;
+$heading--font-size-h1: $font-size-page-title;
+$heading--letter-spacing-h6: 0.05em;
+$heading--letter-spacing-h5: 0.05em;
+$heading--letter-spacing-h4: $letter-spacing;
+$heading--letter-spacing-h3: $letter-spacing;
+$heading--letter-spacing-h2: $letter-spacing;
+$heading--letter-spacing-h1: $letter-spacing;
+$heading--line-height-h1: $line-height-page-title;
+$heading--font-weight: normal;
+$heading--font-weight-page-title: 300;
+$heading--font-weight-strong: 600;

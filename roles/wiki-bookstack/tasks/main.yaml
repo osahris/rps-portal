@@ -1,18 +1,44 @@
 ---
+- name: current host
+  debug:
+    msg:
+      - "{{ ansible_ssh_host }}"
+      - "{{ inventory_hostname }}"
 
-- name: Create the directories
-  file:
-    path: "/opt/wiki-bookstack"
-    state: directory
+- import_tasks: secrets.yaml
 
-# docker run -d -p 8080:3000 --name wiki --restart unless-stopped 
-# -e "DB_TYPE=postgres" -e "DB_HOST=db" -e "DB_PORT=5432" -e "DB_USER=wikijs" -e "DB_PASS=wikijsrocks" -e "DB_NAME=wiki" ghcr.io/requarks/wiki:2
+- name: create directory
+  file: path={{remote_path}} state=directory
 
-- name: docker-compose custom override
+- name: copy all static files
+  synchronize:
+    recursive: true
+    src: "./" # relative to ./files on local role path
+    dest: "{{remote_path}}" # relative to ~/ on remote
+
+- name: copy some templated .j2 files
+  template:
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "docker-compose.yaml.j2"
+    - "env-bookstack.j2"
+    - "env-db.j2"
+
+- name: copy traefik dynamic config
   copy:
-    content: "{{wiki_bookstack_docker_compose_override}}"
-    dest: /opt/wiki-bookstack/docker-compose.yml
+    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/app/proxy/traefik/conf.d/wiki-bookstack.yaml"
 
-- name: docker-compose
+- name: deploy docker-compose stack
   docker_compose:
-    project_src: /opt/wiki-bookstack
+    project_src: "{{remote_path}}/"
+    # add multiple docker-compose.yaml / .yml files below
+    files: "{{item}}"
+    # This option ensures that the images are rebuilt
+    build: true
+    pull: true
+    remove_orphans: true
+  with_items:
+    - "docker-compose.yaml"
+# - import_tasks: keycloak_client.yaml

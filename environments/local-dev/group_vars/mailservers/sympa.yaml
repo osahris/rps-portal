@@ -1,7 +1,0 @@
----
-sympa_title: testlists
-sympa_main_domain: lists.{{dns_suffix}}
-sympa_domains:
-  - vlists.{{dns_suffix}}
-sympa_listmaster_emails:
-  - "{{admin_email}}"

@@ -1,0 +1,17 @@
+<div class="form-group">
+  <div id="user.attributes.{{field.attribute}}.div"  
+       class="${properties.kcInputWrapperClass!} {% if field.hidden | default(false) %} visible invisible {% endif %}">
+      {{field.title}}
+        {%if 'description' in field %}<p>{{field.description}}</p>{% endif %}
+  {% for box in field.options %}
+    <div class="${properties.kcInputWrapperClass!}">
+      <input type="checkbox" id="user.attributes.{{box.value}}" 
+            name="user.attributes.{{box.value}}" 
+            id="user.attributes.{{box.value}}" 
+            onchange="apply_rules(this);"/>
+      <label for="user.attributes.{{box.value}}">{{box.description}}</label>
+    </div>
+  {% endfor %}
+    </div>
+</div>
+

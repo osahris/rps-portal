@@ -1,0 +1,14 @@
+---
+version: "3"
+networks:
+  proxy:
+    external: true
+
+services:
+  web:
+    image: registry.gitlab.com/idcohorts/rps/rps-admin-tools:dev
+    env_file: env
+    networks:
+      - proxy
+    volumes:
+      - ./config.yaml:/opt/rps-admin-tools/configs/config.yaml:ro

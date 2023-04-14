@@ -1,0 +1,2 @@
+---
+rocketchat_service_name: "chat.{{ rps_dns_suffix }}"

@@ -1,0 +1,42 @@
+---
+- import_role:
+    name: docker
+  tags:
+    - docker
+
+- import_role:
+    name: gitlab_credentials
+  tags:
+    - gitlab_credentials
+    - gitlab-credentials
+
+- import_role:
+    name: traefik
+  tags:
+    - traefik
+
+- import_role:
+    name: keycloak
+  tags:
+    - keycloak
+    - accounts
+  when: rps_core_package_with_keycloak
+
+- import_role:
+    name: keycloak_realms
+  tags:
+    - keycloak_realms
+    - keycloak-realms
+  when: rps_core_package_with_keycloak_realms
+
+- import_role:  
+    name: oauth2_proxy
+  tags:
+    - oauth2_proxy
+    - oauth2-proxy
+    - oauth2
+
+- import_role:
+    name: redirects
+  tags:
+    - redirects

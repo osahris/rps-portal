@@ -1,0 +1,49 @@
+---
+
+- name: create nextcloud config list
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ config:list
+  register: _nextcloud_config_cmd
+  changed_when: false
+
+- debug:
+    msg: "{{_nextcloud_config}}"
+
+- name: set nextcloud system config
+  loop: "{{ (nextcloud_config.system|default({})).keys() }}"
+  when: "item not in _nextcloud_config.system or _nextcloud_config.system[item] != nextcloud_config.system[item]"
+  community.docker.docker_container_exec: 
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: sh
+    stdin: |
+      {% if nextcloud_config.system[item] is mapping %}
+      php occ config:system:delete {{item}}
+      {% for i in nextcloud_config.system[item]|dict2items %}
+      php occ config:system:set {{item}} {{ i.key }} --value={{ i.value |quote }}
+      {% endfor %}
+      {% elif nextcloud_config.system[item] is iterable and nextcloud_config.system[item] is not string %}
+      php occ config:system:delete {{item}}
+      {% for entry in nextcloud_config.system[item] %}
+      php occ config:system:set {{item}} {{ loop.index0 }} --value={{ entry |quote }}
+      {% endfor %}
+      {% elif nextcloud_config.system[item] is boolean %}
+      php occ config:system:set {{item}} --type=boolean --value={{ nextcloud_config.system[item]}}
+      {% else %}
+      php occ config:system:set {{item}} --value={{ nextcloud_config.system[item]|quote}}
+      {% endif %}
+
+- name: set nextcloud app config
+  loop: "[{% for app in (nextcloud_config.apps|default({})).keys() %}
+        {% for entry in nextcloud_config.apps[app].keys() %}
+          [{{app|to_json}},{{entry|to_json}}],
+        {% endfor %}
+      {% endfor %}]"
+  when: "item.0 not in _nextcloud_config.apps or item.1 not in _nextcloud_config.apps[item.0] or _nextcloud_config.apps[item.0][item.1] != nextcloud_config.apps[item.0][item.1]"
+  community.docker.docker_container_exec: 
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: sh
+    stdin: php occ config:app:set {{item.0}} {{item.1}} --value={{ nextcloud_config.apps[item.0][item.1]|quote}}

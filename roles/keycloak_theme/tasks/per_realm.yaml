@@ -1,0 +1,27 @@
+---
+- name: "Create access_token for keycloak for user {{ keycloak_admin_username }}"
+  local_action: uri
+  become: false
+  args:
+    url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body_format: form-urlencoded
+    body:
+      username: "{{ keycloak_admin_username }}"
+      password: "{{ keycloak_admin_password | mandatory }}"
+      grant_type: "password"
+      client_id: "admin-cli"
+  register: keycloak_token
+- name: set themes for each realm
+  community.general.keycloak_realm:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    id: "{{ item.name }}"
+    realm: "{{ item.name }}"
+    registration_allowed: '{{item.is_registration_allowed | default(false)}}'
+    account_theme: 'ansible-theme'
+    login_theme: rps
+    #TODO:
+    # account_theme: 'ansible-theme'
+    # email_theme: 'ansible-theme'

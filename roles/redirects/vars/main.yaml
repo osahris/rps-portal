@@ -1,0 +1,26 @@
+---
+redirects_traefik_dynamic_config:
+  http:
+    routers: >
+      {
+        {% for redirect in redirects %}
+          "{{ 'redirect-' + redirect.host + '-' + redirect.path | replace('/', '-') }}": {
+            "rule": "Host(`{{ redirect.host }}`) && Path(`{{ redirect.path }}`)",
+            "middlewares": ["{{ 'redirect-' + redirect.host + '-' + redirect.path | replace('/', '-') }}"],
+            "entrypoints": "websecure",
+            "tls": {
+              "certresolver": "letsencrypt"
+            }
+            {% if not loop.last %},{% endif %}
+        {% endfor %}
+      }
+    middlewares: >
+      {
+      {% for redirect in redirects %}
+        "{{ 'redirect-' + redirect.host + '-' + redirect.path | replace('/', '-') }}":
+          "redirectRegex":
+            "regex": ".*"
+            "replacement": "{{ redirect.target }}"
+        {% if not loop.last %},{% endif %}
+      {% endfor %}
+      }

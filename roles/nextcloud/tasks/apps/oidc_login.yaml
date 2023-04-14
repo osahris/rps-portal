@@ -1,0 +1,10 @@
+---
+
+- import_tasks: install.yaml
+  vars:
+    nextcloud_install_apps:
+      - oidc_login
+
+- import_tasks: ../config.yaml
+  vars:
+    nextcloud_config: "{{nextcloud_oidc_login_config}}"

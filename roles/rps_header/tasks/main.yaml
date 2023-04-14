@@ -1,0 +1,38 @@
+---
+- name: create application directory
+  file:
+    path: "{{remote_path}}"
+    state: directory
+
+- name: header dynamic config
+  copy:
+    content: "{{ rps_header_dynamic_config }}"
+    dest: "{{ remote_path }}/config.dynamic.yaml"
+
+- name: create docker compose yaml
+  template:
+    src: "docker-compose.yaml.j2"
+    dest: "{{remote_path}}/docker-compose.yaml"
+
+- name: create env file
+  template:
+    src: "env.j2"
+    dest: "{{remote_path}}/env"
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    files: "docker-compose.yaml"
+    pull: true
+    build: true
+    recreate: always
+
+
+- name: show allowed origins
+  debug:
+    msg: "{{rps_header_allowed_origins}}"
+
+- name: traefik dynamic config
+  copy:
+    content: "{{ header_traefik_dynamic_config }}"
+    dest: "/app/proxy/traefik/conf.d/header.yaml"

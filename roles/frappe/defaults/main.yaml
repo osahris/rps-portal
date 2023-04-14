@@ -1,0 +1,2 @@
+---
+frappe_service_name: workflows.{{ rps_dns_suffix }}

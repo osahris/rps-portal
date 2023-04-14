@@ -1,1 +1,0 @@
-keycloak_theme: https://{{gitlab_deploy_token}}@gitlab.com/idcohorts/rps/keycloak-theme.git

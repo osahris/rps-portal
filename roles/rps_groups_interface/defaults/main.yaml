@@ -1,19 +1,10 @@
 ---
+rps_groups_interface_service_name: groups.{{ rps_dns_suffix }}
 
-rps_groups_interface_interface_heading: "{{ inventory_hostname }}"
-rps_groups_interface_interface_title: "{{ inventory_hostname }}"
+rps_groups_interface_container_image: registry.gitlab.com/idcohorts/rps/rps-gruppeninterface
+rps_groups_interface_container_version: dev
 
-rps_groups_interface_keycloak_client_id: "{{rps_groups_interface_server_name}}"
-rps_groups_interface_keycloak_realm: "{{ keycloak_default_realm }}"
-
-rps_groups_interface_config_directory: /etc/rps-groups-interface
-
-keycloak_management_url: "https://{{ keycloak_server_name }}/auth"
-keycloak_management_username: admin
-keycloak_management_realm: master
-keycloak_management_client_id: admin-cli
-
-rps_groups_interface_instance: default
-
-rps_groups_interface_git_repo: https://gitlab+deploy-token-1197195:y9R3vvU_d7SsoZx_oMx2@gitlab.com/idcohorts/rps/rps-gruppeninterface.git
-rps_groups_interface_git_version: main
+rps_groups_interface_keycloak_service_url: "https://{{ keycloak_service_name }}"
+rps_groups_interface_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"
+rps_groups_interface_keycloak_auth_password: "{{keycloak_admin_password}}"
+rps_groups_interface_keycloak_client_id: "{{rps_groups_interface_service_name}}"

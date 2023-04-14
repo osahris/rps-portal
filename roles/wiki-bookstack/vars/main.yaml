@@ -1,113 +1,32 @@
 ---
+# Ansible variables
+remote_path: "/app/{{wiki_bookstack_service_name}}"
 
-wiki_bookstack_docker_compose_override:
-  version: "2"
-  services:
-    bookstack:
-      image: lscr.io/linuxserver/bookstack
-      container_name: bookstack
-      environment:
-        - PUID=1000
-        - PGID=1000
-        - APP_URL=https://wiki-bookstack.rps.idcohorts.net
-        - DB_HOST=bookstack_db
-        - DB_PORT=3306
-        - DB_USER=bookstack
-        - DB_PASS=admin321test
-        - DB_DATABASE=bookstackapp
+# # ------------------------------------------ #
+wiki_DB_DATABASE: "bookstackapp"
+wiki_DB_USER: "bookstack"
+wiki_DB_PASS: "{{wiki_bookstack_db_admin_password}}"
 
-        # Dump out the details fetched from the identity provider.
-        # Only set this option to true if debugging since it will block logins
-        # and potentially show private details.
-        - OIDC_DUMP_USER_DETAILS=false
+keycloak_host: "keycloak.{{inventory_hostname}}" # "accounts.idcohorts.net"
+keycloak_realm: "rps"
 
-        # Set OIDC to be the authentication method
-        - AUTH_METHOD=oidc
+app_port: "80"
 
-        # Control if BookStack automatically initiates login via your OIDC system 
-        # if it's the only authentication method. Prevents the need for the
-        # user to click the "Login with x" button on the login page.
-        # Setting this to true enables auto-initiation.
-        - AUTH_AUTO_INITIATE=false
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      wiki-bookstack:
+        rule: "Host(`{{wiki_bookstack_service_name}}`)"
+        entrypoints: websecure
+        middlewares:
+        - header-redirect
+        tls:
+          certresolver: letsencrypt
+        service: wiki-bookstack
 
-        # Set the display name to be shown on the login button.
-        # (Login with <name>)
-        - OIDC_NAME=SSO
-
-        # Name of the claims(s) to use for the user's display name.
-        # Can have multiple attributes listed, separated with a '|' in which 
-        # case those values will be joined with a space.
-        # Example: OIDC_DISPLAY_NAME_CLAIMS=given_name|family_name
-        - OIDC_DISPLAY_NAME_CLAIMS=name
-
-        # OAuth Client ID to access the identity provider
-        - OIDC_CLIENT_ID=wiki-bookstack
-
-        # OAuth Client Secret to access the identity provider
-        - OIDC_CLIENT_SECRET=5DhtUo3mTSavLMIMDh364gGCOTkIyx1D
-
-        # Issuer URL
-        # Must start with 'https://'
-        - OIDC_ISSUER=https://accounts.idcohorts.net/realms/users
-
-        # Enable auto-discovery of endpoints and token keys.
-        # As per the standard, expects the service to serve a 
-        # `<issuer>/.well-known/openid-configuration` endpoint.
-        - OIDC_ISSUER_DISCOVER=true
-
-         	
-
-        # Enable OIDC group sync.
-        - OIDC_USER_TO_GROUPS=true
-
-        # Set the attribute from which BookStack will read groups names from.
-        - OIDC_GROUPS_CLAIM=groups
-
-        # Additional scopes to send with the authentication request.
-        # By default BookStack only sends the 'openid', 'profile' & 'email' scopes.
-        # Many platforms require specific scopes to be requested for group data.
-        # Multiple scopes can be added via comma separation.
-        - OIDC_ADDITIONAL_SCOPES=groups
-
-        # Remove the user from roles that don't match OIDC groups upon login.
-        # Note: While this is enabled the "Default Registration Role", editable within the 
-        # BookStack settings view, will be considered a matched role and assigned to the user.
-        #- OIDC_REMOVE_FROM_GROUPS=true
-
-
-        ############################################################
-        ## NOTE: The below are only needed if not using the above ##
-        ##       auto-discovery option.                           ##
-        ############################################################
-
-        # Path to identity provider token signing public RSA key
-        # OIDC_PUBLIC_KEY=file:///keys/idp-public-key.pem
-
-        # Full URL to the OIDC authorize endpoint
-        #- OIDC_AUTH_ENDPOINT=https://accounts.idcohorts.net/realms/users/protocol/openid-connect/auth
-
-        # Full URL to the OIDC token endpoint
-        #- OIDC_TOKEN_ENDPOINT=https://accounts.idcohorts.net/realms/users/protocol/openid-connect/token
-
-      volumes:
-        - /path/to/data:/config
-      ports:
-        - 6875:80
-      restart: unless-stopped
-      depends_on:
-        - bookstack_db
-    bookstack_db:
-      image: lscr.io/linuxserver/mariadb
-      container_name: bookstack_db
-      environment:
-        - PUID=1000
-        - PGID=1000
-        - MYSQL_ROOT_PASSWORD=admin321test
-        - TZ=Europe/London
-        - MYSQL_DATABASE=bookstackapp
-        - MYSQL_USER=bookstack
-        - MYSQL_PASSWORD=admin321test
-      volumes:
-        - /path/to/data:/config
-      restart: unless-stopped
-
+    services:
+      wiki-bookstack:
+        loadBalancer:
+          servers:
+            - url: "http://{{wiki_bookstack_service_name | replace('.','')}}_wiki-bookstack_1:{{app_port}}" # "http://container_name:container_port"

@@ -1,0 +1,74 @@
+---
+
+## this is the incoming mail receiver container template
+##
+## After making changes to this file, you MUST rebuild
+## /var/discourse/launcher rebuild mail-receiver
+##
+## BE *VERY* CAREFUL WHEN EDITING!
+## YAML FILES ARE SUPER SUPER SENSITIVE TO MISTAKES IN WHITESPACE OR ALIGNMENT!
+## visit http://www.yamllint.com/ to validate this file as needed
+
+base_image: discourse/mail-receiver:1.1.2
+update_pups: false
+
+docker_args:
+  - '--network {{discourse_service_name|replace('.', '')}}_internal'
+
+expose:
+  - "25:25"   # SMTP
+{% if discourse_mail_reveiver_tls_enabled %}
+  - "465:465"   # SMTPs
+{% endif %}
+
+
+env:
+  LANG: en_US.UTF-8
+
+  ## Where e-mail to your forum should be sent.  In general, it's perfectly fine
+  ## to use the same domain as the forum itself here.
+  MAIL_DOMAIN: "{{discourse_mail_domain}}"
+
+  ## The URL of the mail processing endpoint of your Discourse forum.
+  ## This is simply your forum's base URL, with `/admin/email/handle_mail`
+  ## appended.  Be careful if you're running a subfolder setup -- in that case,
+  ## the URL needs to have the subfolder included!
+  DISCOURSE_MAIL_ENDPOINT: "https://{{ discourse_service_name }}/admin/email/handle_mail"
+
+  ## The master API key of your Discourse forum.  You can get this from
+  ## the "API" tab of your admin panel.
+  DISCOURSE_API_KEY: "{{discourse_api_key|default('')}}"
+
+  ## The username to use for processing incoming e-mail.  Unless you have
+  ## renamed the `system` user, you should leave this as-is.
+  DISCOURSE_API_USERNAME: "{{discourse_api_username}}"
+
+{% if discourse_mail_reveiver_tls_enabled %}
+  # rebuild every time {{ansible_date_time.epoch}} TODO
+  # enable tls https://review.discourse.org/t/add-commented-sections-to-enable-incoming-tls/5353
+  POSTCONF_smtpd_tls_key_file:  /letsencrypt/{{ inventory_hostname }}/{{ inventory_hostname }}.key
+  POSTCONF_smtpd_tls_cert_file:  /letsencrypt/{{ inventory_hostname }}/fullchain.cer
+  POSTCONF_smtpd_tls_security_level: may
+{% endif %}
+  POSTCONF_message_size_limit: 52428800
+
+
+
+volumes:
+  - volume:
+      host: /var/discourse/shared/mail-receiver/postfix-spool
+      guest: /var/spool/postfix
+{% if discourse_mail_reveiver_tls_enabled %}
+  # enable tls https://review.discourse.org/t/add-commented-sections-to-enable-incoming-tls/5353
+  - volume:
+      host: {{discourse_target_directory}}/shared/web
+      guest: /letsencrypt
+{% endif %}
+
+{% if discourse_mail_reveiver_tls_enabled %}
+run:
+  - exec: echo "enable tls for mail-receiver"
+  - exec: bash -c "echo 'smtps     inet  n       -       n       -       -       smtpd'  >> /etc/postfix/master.cf"
+  - exec: bash -c "echo '  -o syslog_name=postfix/smtps' >> /etc/postfix/master.cf"
+  - exec: bash -c "echo '  -o smtpd_tls_wrappermode=yes' >> /etc/postfix/master.cf"
+{% endif %}

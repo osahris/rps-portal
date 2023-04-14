@@ -1,0 +1,34 @@
+---
+#TODO: A more sophisticated example of a Budibase deployment using Docker Compose.
+# Can be found here: https://docs.budibase.com/docs/docker-compose
+
+version: "3"
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  budibase_data:
+
+services:
+
+  "{{service_name}}":
+    image: budibase/budibase:{{budibase_version}}
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - proxy
+    environment:
+      CUSTOM_DOMAIN: {{budibase_custom_domain}}
+      JWT_SECRET: {{budibase_jwt_secret}}
+      MINIO_ACCESS_KEY: {{budibase_minio_access_key}}
+      MINIO_SECRET_KEY: {{budibase_minio_secret_key}}
+      REDIS_PASSWORD: {{budibase_redis_password}}
+      COUCHDB_USER: {{budibase_couch_db_user}}
+      COUCHDB_PASSWORD: {{budibase_couch_db_password}}
+      INTERNAL_API_KEY: {{budibase_internal_api_key}}
+    volumes:
+      - budibase_data:/data

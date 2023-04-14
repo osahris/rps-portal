@@ -1,36 +1,26 @@
 ---
+remote_path: "/app/{{wiki_js_service_name}}"
 
-wiki_js_docker_compose_override:
-  version: "3"
-  services:
+# # ------------------------------------------ #
+wiki_js_DB_NAME: "wiki"
+wiki_js_DB_USER: "wikijs"
+app_port: "3000"
 
-    db:
-      image: postgres:11-alpine
-      environment:
-        POSTGRES_DB: wiki
-        POSTGRES_PASSWORD: wikijsrocks
-        POSTGRES_USER: wikijs
-      logging:
-        driver: "none"
-      restart: unless-stopped
-      volumes:
-        - db-data:/var/lib/postgresql/data
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      wiki-js:
+        rule: "Host(`{{wiki_js_service_name}}`)"
+        entrypoints: websecure
+        middlewares:
+        - header-redirect
+        tls:
+          certresolver: letsencrypt
+        service: wiki-js
 
-    wiki:
-      image: ghcr.io/requarks/wiki:2
-      depends_on:
-        - db
-      environment:
-        DB_TYPE: postgres
-        DB_HOST: db
-        DB_PORT: 5432
-        DB_USER: wikijs
-        DB_PASS: wikijsrocks
-        DB_NAME: wiki
-      restart: unless-stopped
-      ports:
-        - "80:3000"
-
-  volumes:
-    db-data:
-
+    services:
+      wiki-js:
+        loadBalancer:
+          servers:
+            - url: "http://{{wiki_js_service_name|replace('.','')}}_wiki_1:{{app_port}}" # "http://container_name:container_port"

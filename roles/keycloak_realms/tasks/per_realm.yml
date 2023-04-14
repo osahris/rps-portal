@@ -1,0 +1,171 @@
+---
+- name: "Create access_token for keycloak for user {{ keycloak_admin_username }}"
+  local_action: uri
+  become: false
+  args:
+    url: "{{ keycloak_frontend_url }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body_format: form-urlencoded
+    body:
+      username: "{{ keycloak_admin_username }}"
+      password: "{{ keycloak_admin_password | mandatory }}"
+      grant_type: "password"
+      client_id: "admin-cli"
+  register: keycloak_token
+- name: "create realm {{ item.name }}"
+  community.general.keycloak_realm:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    id: "{{ item.name }}"
+    realm: "{{ item.name }}"
+    enabled: true
+    state: present
+    registration_allowed: '{{item.is_registration_allowed | default(false)}}'
+    default_groups: '{{ item.default_groups | default([]) }}'
+    default_roles: '{{ item.default_roles | default([]) }}'
+- block:
+    - name: "create post login flow for {{ item.name }}"
+      community.general.keycloak_authentication:
+        auth_keycloak_url: "{{ keycloak_frontend_url }}"
+        token: "{{ keycloak_token.json.access_token }}"
+        realm: "{{ item.name }}"
+        alias: "post-idp-login"
+        providerId: "basic-flow"
+        authenticationExecutions:
+          - providerId: "require-group-membership"
+            requirement: "REQUIRED"
+            authenticationConfig:
+              alias: "group-membership-check"
+              config:
+                groups: '{{ item.parent_realm.required_groups | default([]) | join(",") }}'
+          - providerId: "require-role-membership"
+            requirement: "REQUIRED"
+            authenticationConfig:
+              alias: "role-membership-check"
+              config:
+                roles: '{{ item.parent_realm.required_roles | default([]) | join(",") }}'
+    - name: "create immediate redirect authentication flow for {{ item.name }}"
+      community.general.keycloak_authentication:
+        auth_keycloak_url: "{{ keycloak_frontend_url }}"
+        token: "{{ keycloak_token.json.access_token }}"
+        realm: "{{ item.name }}"
+        alias: "idp-redirect"
+        providerId: "basic-flow"
+        authenticationExecutions:
+          - providerId: "identity-provider-redirector"
+            requirement: "REQUIRED"
+            authenticationConfig:
+              alias: "idp"
+              config:
+                defaultProvider: "{{ item.parent_realm.name }}-idp"
+        state: present
+    - name: "Set browser flow to idp redirect"
+      local_action: uri
+      become: false
+      args:
+        url: "{{ keycloak_frontend_url }}/admin/realms/{{ item.name }}"
+        method: PUT
+        validate_certs: "{{ keycloak_validate_certs }}"
+        body: '{"browserFlow": "idp-redirect"}'
+        body_format: "json"
+        remote_src: "no"
+        status_code:
+          - 204
+        headers:
+          Content-type: "application/json"
+          Accept: "application/json"
+          Authorization: "Bearer {{ keycloak_token.json.access_token }}"
+    - name: "create client for {{ item.name }} in {{ item.parent_realm.name }}"
+      community.general.keycloak_client:
+        auth_keycloak_url: "{{ keycloak_frontend_url }}"
+        token: "{{ keycloak_token.json.access_token }}"
+        realm: "{{ item.parent_realm.name }}"
+        client_id: "{{ item.name }}-idp"
+        secret: "{{ item.parent_realm.client_secret | default(keycloak_subrealm_client_default_secret) }}"
+        client_authenticator_type: client-secret
+        redirect_uris:
+          - "{{ keycloak_frontend_url }}/realms/{{ item.name }}/broker/{{ item.parent_realm.name }}-idp/endpoint"
+        protocol_mappers: "{{ item.parent_realm.import|default([])|to_client_mappers }}"
+        state: present
+    - name: "create idp for {{ item.name }}"
+      community.general.keycloak_identity_provider:
+        auth_keycloak_url: "{{ keycloak_frontend_url }}"
+        token: "{{ keycloak_token.json.access_token }}"
+        realm: "{{ item.name }}"
+        alias: "{{ item.parent_realm.name }}-idp"
+        display_name: "{{ item.parent_realm.name }}-idp"
+        enabled: true
+        provider_id: "oidc"
+        trust_email: true
+        postBrokerLoginFlowAlias: "post-idp-login"
+        mappers: "{{ item.parent_realm.import|default([])|to_idp_mappers }}"
+        config:
+          issuer: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}"
+          authorizationUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}/protocol/openid-connect/auth"
+          tokenUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}/protocol/openid-connect/token"
+          userInfoUrl: "{{ keycloak_frontend_url }}/realms/{{ item.parent_realm.name }}/protocol/openid-connect/userinfo"
+          clientAuthMethod: client_secret_post
+          clientId: "{{ item.name }}-idp"
+          clientSecret: "{{ item.parent_realm.client_secret | default(keycloak_subrealm_client_default_secret) }}"
+          syncMode: FORCE
+        state: present
+  when: item.parent_realm is defined
+- name: "realm {{ item.name }} should have groups"
+  community.general.keycloak_group:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    name: "{{ group }}"
+    attributes:
+      managed: "true"
+    state: present
+  loop: "{{ item.groups|default([]) }}"
+  loop_control:
+    loop_var: group
+- name: "realm {{ item.name }} should have roles"
+  community.general.keycloak_role:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    name: "{{ role.name }}"
+    attributes:
+      managed: "true"
+    state: present
+  loop: "{{ item.roles|default([]) }}"
+  loop_control:
+    loop_var: role
+
+- name: "add associated roles"
+  keycloak_associated_client_roles:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    role_name: "{{ role.name }}"
+    associated_roles: "{{ role.associated_roles}}"
+  when: role.associated_roles is defined and role.associated_roles|length
+  loop: "{{ item.roles|default([]) }}"
+  loop_control:
+    loop_var: role
+
+- name: "create external identity providers"
+  community.general.keycloak_identity_provider:
+    auth_keycloak_url: "{{ keycloak_frontend_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    realm: "{{ item.name }}"
+    alias: "{{ idp.alias }}"
+    display_name: "{{ idp.display_name|default(item.alias) }}"
+    provider_id: "oidc"
+    mappers: "{{ idp.import|default([])|to_idp_mappers }}"
+    config:
+      clientId: "{{ idp.client_id }}"
+      clientSecret: "{{ idp.client_secret }}"
+      authorizationUrl: "{{ idp.authorization_url }}"
+      tokenUrl: "{{ idp.token_url }}"
+      userInfoUrl: "{{ idp.userinfo_url }}"
+      issuer: "{{ idp.issuer }}"
+      validateSignature: false
+    state: present
+  loop: "{{ item.external_idps|default([]) }}"
+  loop_control:
+    loop_var: idp

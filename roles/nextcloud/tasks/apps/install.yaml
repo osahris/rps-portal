@@ -1,0 +1,17 @@
+---
+
+- name: create occ app list
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ app:list
+  register: _nextcloud_occ_app_list
+  changed_when: false
+
+- name: install nextcloud user_oidc app
+  when: not (item in _nextcloud_apps_enabled)
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ app:install {{item}}
+  loop: "{{nextcloud_install_apps}}"

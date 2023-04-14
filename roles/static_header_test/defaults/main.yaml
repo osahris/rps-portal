@@ -1,0 +1,2 @@
+---
+static_header_test_service_name: "static-header-test.{{ inventory_hostname }}"
