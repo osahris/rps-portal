@@ -6,8 +6,8 @@ TODO: Automate most of those steps
 
 ## Prepare the release branch
 
-- [ ] Create a new branch from `dev` named `release/v$version`, e.g. `release/v2.0.0`
-- [ ] Merge `main` into the release branch
+- [x] Create a new branch from `dev` named `release/v$version`, e.g. `release/v2.0.0`
+- [x] Merge `main` into the release branch
 - [ ] Add an entry in `CHANGELOG.md` with all important changes since the last release
 
 ## Pin upstream artifact versions
@@ -30,6 +30,7 @@ TODO: Add other roles
 
 - [ ] Merge `main` into `dev`
 - [ ] Add a new entry in `CHANGELOG.md` for the next release called `Unreleased`
+- [ ] Uncheck all items in this release checklist in `release.SOP.md`
 
 ## Change artifact versions back to track latest and development versions
 
