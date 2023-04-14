@@ -1,17 +1,21 @@
 ---
+
 - name: Import -- Copy all static files from the import folder
   synchronize:
     recursive: true
-    src: "./import" # relative to ./files on local role path
-    dest: "{{remote_path}}/import" # relative to ~/ on remote
+    src: "{{keycloak_import_local_folder}}"
+    dest: "{{keycloak_import_directory}}"
+  when: keycloak_import == "local_folder"
 
-- name: Import -- Copy some templated .j2 files
+- name: Import -- Copy import script
   template:
-    src: "{{item}}" # relative to ./templates on local role path
-    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
-    mode: "0505"
-  with_items:
-    - "import.sh.j2"
+    src: import.sh.j2
+    dest: "{{remote_path}}/import.sh"
+    mode: "0755"
+  when: keycloak_import
 
-- name: Import -- Run a command using a templated variable
-  shell: "{{remote_path}}/import.sh"
+- name: Import -- Execute import script
+  command: "{{remote_path}}/import.sh"
+  args:
+    chdir: "{{remote_path}}"
+  when: keycloak_import

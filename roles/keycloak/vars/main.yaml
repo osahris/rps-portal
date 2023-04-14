@@ -24,11 +24,5 @@ keycloak_traefik_dynamic_config:
 
 
 ## Parameters for the data import
-keycloak_import_realm_name:        "numhub"
-keycloak_import_path:              "{{ remote_path }}"
-keycloak_import_service_name:      "{{ keycloak_service_name }}"
-keycloak_import_docker_container:  "{{ keycloak_import_service_name|replace('.','') }}_keycloak_1"
-keycloak_import_postgres_password: "{{ ansible_local[keycloak_import_service_name].keycloak_postgres_password }}"
-
-# ToDo
-# A flag to import/not import should be added
+keycloak_import_directory:              "{{ remote_path }}/import"
+keycloak_import_docker_container:  "{{ keycloak_service_name|replace('.','') }}_keycloak_1"
