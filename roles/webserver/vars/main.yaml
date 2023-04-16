@@ -1,7 +1,7 @@
 ---
 # Ansible variables
 service_name: "webserver"
-remote_path: "/app/{{webserver_service_name}}"
+remote_path: "/srv/{{webserver_service_name}}"
 app_port: "80"
 
 # For each new running service add below a traefik router and a traefik service

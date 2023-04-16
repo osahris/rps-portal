@@ -1,6 +1,6 @@
 ---
 # Ansible variables
-remote_path: "/app/{{nextcloud_service_name}}"
+remote_path: "/srv/{{nextcloud_service_name}}"
 app_port: "80"
 
 

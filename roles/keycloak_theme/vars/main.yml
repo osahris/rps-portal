@@ -1,2 +1,2 @@
-remote_path: "/app/{{keycloak_service_name}}"
+remote_path: "/srv/{{keycloak_service_name}}"
 theme_name: rps

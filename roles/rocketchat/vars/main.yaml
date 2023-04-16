@@ -1,5 +1,5 @@
 project_name: "rocketchat"
-remote_path: "/app/{{project_name}}.{{inventory_hostname}}"
+remote_path: "/srv/{{project_name}}.{{inventory_hostname}}"
 
 rocketchat_traefik_dynamic_config:
   http:

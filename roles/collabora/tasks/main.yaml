@@ -27,12 +27,12 @@
     state: directory
 
 - name: create traefik config directory
-  file: path=/app/proxy/traefik/conf.d state=directory
+  file: path=/opt/traefik/conf.d state=directory
 
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/app/proxy/traefik/conf.d/collabora.yaml"
+    dest: "/opt/traefik/conf.d/collabora.yaml"
 
 # Creation of networks, images, containers
 - name: create docker networks
