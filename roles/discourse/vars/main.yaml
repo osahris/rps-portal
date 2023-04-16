@@ -1,5 +1,5 @@
 ---
-discourse_target_directory: "/app/{{ discourse_service_name }}"
+discourse_target_directory: "/srv/{{ discourse_service_name }}"
 discourse_base_url: "https://{{ discourse_service_name }}"
 
 discourse_secrets:

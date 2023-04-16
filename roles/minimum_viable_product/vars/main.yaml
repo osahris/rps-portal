@@ -1,5 +1,5 @@
 ---
-remote_path: "/app/{{service_domain_name}}"
+remote_path: "/srv/{{service_domain_name}}"
 
 traefik_certresolver: "letsencrypt"
 app_port: "801"

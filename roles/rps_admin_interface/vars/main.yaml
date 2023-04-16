@@ -1,5 +1,5 @@
 ---
-remote_path: "/app/{{rps_admin_interface_service_name}}"
+remote_path: "/srv/{{rps_admin_interface_service_name}}"
 
 traefik_certresolver: "letsencrypt"
 app_port: "5000"

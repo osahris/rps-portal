@@ -1,5 +1,5 @@
 ---
-remote_path: /app/{{ wordpress_service_name }}
+remote_path: /srv/{{ wordpress_service_name }}
 
 wordpress_secrets:
   wordpress_admin_password: "{{ wordpress_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"

@@ -1,5 +1,5 @@
 ---
-remote_path: "/app/{{wiki_js_service_name}}"
+remote_path: "/srv/{{wiki_js_service_name}}"
 
 # # ------------------------------------------ #
 wiki_js_DB_NAME: "wiki"

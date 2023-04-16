@@ -15,7 +15,7 @@ budibase_custom_domain: "https://{{service_domain_name}}"
 service_domain_name: "{{budibase_service_name}}"
 service_name: "budibase"
 
-remote_path: "/app/{{service_domain_name}}"
+remote_path: "/srv/{{service_domain_name}}"
 
 traefik_certresolver: "letsencrypt"
 app_port: "80"

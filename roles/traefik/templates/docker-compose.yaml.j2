@@ -19,7 +19,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - "/app/proxy/traefik:/etc/traefik:ro"
+      - "/opt/traefik:/etc/traefik:ro"
       # ||| Please do not change the folder in the line below to an external volume
       # vvv 
       - "/srv/ssl-certs:/ssl-certs/"
