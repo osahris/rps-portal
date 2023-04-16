@@ -1,5 +1,4 @@
 ---
-- import_tasks: secrets.yaml
 
 - name: create application directory
   file:
@@ -27,7 +26,7 @@
     content: "{{ keycloak_traefik_dynamic_config }}"
     dest: "/app/proxy/traefik/conf.d/keycloak.yaml"
 
-- name: Wait for keycloak
+- name: wait for keycloak
   local_action: uri
   become: false
   args:

@@ -1,0 +1,23 @@
+---
+
+- name: Import -- Copy all static files from the import folder
+  synchronize:
+    recursive: true
+    src: "{{keycloak_import_local_folder}}"
+    dest: "{{keycloak_import_directory}}"
+    # delete all files in the destination that are not in the source
+    delete: true
+  when: keycloak_import == "local_folder"
+
+- name: Import -- Copy import script
+  template:
+    src: import.sh.j2
+    dest: "{{remote_path}}/import.sh"
+    mode: "0755"
+  when: keycloak_import
+
+- name: Import -- Execute import script
+  command: "{{remote_path}}/import.sh"
+  args:
+    chdir: "{{remote_path}}"
+  when: keycloak_import

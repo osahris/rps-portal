@@ -6,3 +6,5 @@ __pycache__
 *.vault
 
 .vscode
+
+numhub-users-*.json
