@@ -19,10 +19,10 @@
     - rps_style_servers
     - style
 
-- import_role:
-    name: keycloak_theme
-  tags:
-    - keycloak_theme
+# - import_role:
+#     name: keycloak_theme
+#   tags:
+#     - keycloak_theme
 
 - import_role:
     name: rps_groups_interface
