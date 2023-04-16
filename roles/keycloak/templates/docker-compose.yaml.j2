@@ -21,16 +21,16 @@ services:
       - ./tmp:/opt/keycloak/tmp
       - ./import:/opt/keycloak/data/import:ro
       - ./export:/opt/keycloak/data/export
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl --fail http://127.0.0.1:8080/realms/master  || exit 1",
-        ]
-      interval: 5s
-      timeout: 10s
-      retries: 3
-      start_period: 1m
+    # healthcheck:
+    #   test:
+    #     [
+    #       "CMD-SHELL",
+    #       "curl --fail http://127.0.0.1:8080/health/live || exit 1",
+    #     ]
+    #   interval: 5s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 1m
     networks:
       - proxy
       - keycloak-internal

@@ -4,5 +4,7 @@ __pycache__
 *_inventory
 
 *.vault
-numhub-user*
+
 .vscode
+
+numhub-users-*.json
