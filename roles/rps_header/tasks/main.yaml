@@ -35,4 +35,4 @@
 - name: traefik dynamic config
   copy:
     content: "{{ header_traefik_dynamic_config }}"
-    dest: "/opt/traefik/conf.d/header.yaml"
+    dest: "/srv/traefik/conf.d/header.yaml"

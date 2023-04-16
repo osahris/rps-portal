@@ -1,19 +1,19 @@
 ---
 - name: create traefik config directory
   file:
-    path: "/opt/traefik/conf.d"
+    path: "/srv/traefik/conf.d"
     state: directory
 
 - name: copy traefik static config
   copy:
     content: "{{ traefik_static_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/opt/traefik/traefik.yaml"
+    dest: "/srv/traefik/traefik.yaml"
   register: traefik_copy_static_config_task
 
 - name: copy some templated .j2 files
   template:
     src: "{{item}}" # relative to ./templates on local role path
-    dest: "/opt/traefik/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+    dest: "/srv/traefik/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
   with_items:
     - "docker-compose.yaml.j2"
 
@@ -31,23 +31,23 @@
 - name: copy traefik whoami service dynamic config
   copy:
     content: "{{ traefik_whoami_service_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/opt/traefik/conf.d/whoami.yaml"
+    dest: "/srv/traefik/conf.d/whoami.yaml"
   when: traefik_with_whomai_service
 
 - name: make sure traefik whoami service is absent if it is not enabled
   file:
-    path: "/opt/traefik/conf.d/whoami.yaml"
+    path: "/srv/traefik/conf.d/whoami.yaml"
     state: absent
   when: not traefik_with_whomai_service
 
 - name: copy traefik dashboard dynamic config
   copy:
     content: "{{ traefik_dashboard_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/opt/traefik/conf.d/traefik-dashboard.yaml"
+    dest: "/srv/traefik/conf.d/traefik-dashboard.yaml"
   when: traefik_dashboard_service_name is defined
 
 - name: make sure traefik dashboard service is absent if it is not defined
   file:
-    path: "/opt/traefik/conf.d/traefik-dashboard.yaml"
+    path: "/srv/traefik/conf.d/traefik-dashboard.yaml"
     state: absent
   when: traefik_dashboard_service_name is not defined

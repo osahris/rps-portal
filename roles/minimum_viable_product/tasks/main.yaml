@@ -25,7 +25,7 @@
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/opt/traefik/conf.d/{{service_name}}.yaml"
+    dest: "/srv/traefik/conf.d/{{service_name}}.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:

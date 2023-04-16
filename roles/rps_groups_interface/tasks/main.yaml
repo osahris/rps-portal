@@ -26,10 +26,10 @@
 
 - name: delete obsolete traefik dynamic config
   file:
-    path: "/opt/traefik/conf.d/rps-groups-interface.yaml"
+    path: "/srv/traefik/conf.d/rps-groups-interface.yaml"
     state: absent
 
 - name: traefik dynamic config
   copy:
     content: "{{ rps_groups_interface_traefik_dynamic_config }}"
-    dest: "/opt/traefik/conf.d/rps-groups-interface.yaml"
+    dest: "/srv/traefik/conf.d/rps-groups-interface.yaml"
