@@ -49,6 +49,8 @@
   template:
     src: register.ftl.j2
     dest: "{{ remote_path }}/themes/rps/login/register.ftl"
+  notify:
+  - Restart Keycloak
 
 # activate theme for each realm
 - include_tasks: per_realm.yaml
