@@ -6,7 +6,7 @@ rps_header_allowed_additional_origins:
 rps_header_bottom_navbar_links:
   - title: Suite
     icon: tools
-    link: https://{{ idia_service_name }}
+    link: https://{{ rps_admin_navigator }}
     requireLogin: false
     isDisabled: false
     type: dropdown
@@ -32,7 +32,7 @@ rps_header_bottom_navbar_links:
         visibility:
           - vip
       - title: Support
-        link: https://{{ idia_service_name }}
+        link: https://{{ rps_admin_navigator }}
         requireLogin: false
         visibility:
           - vip

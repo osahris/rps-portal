@@ -10,7 +10,7 @@ volumes:
 
 services:
 
-  idia: # Service name
+  navigator: # Service name
     build:
       context: ./
       dockerfile: Dockerfile
@@ -23,4 +23,4 @@ services:
     env_file: 
       - "./env"
     volumes:
-      - db:/app/idia/db
+      - db:/app/navigator/db

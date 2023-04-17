@@ -1,6 +1,6 @@
 ---
 rps_header_service_name: header.{{ rps_dns_suffix }}
-rps_header_root_redirect_url: https://idia.{{ rps_dns_suffix }}
+rps_header_root_redirect_url: https://navigator.{{ rps_dns_suffix }}
 
 rps_header_allowed_origins: "{{ rps_header_allowed_default_origins + rps_header_allowed_additional_origins }}"
 rps_header_allowed_additional_origins: []
