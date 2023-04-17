@@ -1,2 +1,2 @@
 ---
-static_header_test_service_name: "static-header-test.{{ inventory_hostname }}"
+static_header_test_service_name: "static-header-test.{{ rps_dns_suffix }}"

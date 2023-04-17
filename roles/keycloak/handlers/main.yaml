@@ -1,0 +1,6 @@
+---
+- name: Restart Keycloak
+  community.docker.docker_container:
+    name: "{{keycloak_docker_container}}"
+    restart: true
+    state: started

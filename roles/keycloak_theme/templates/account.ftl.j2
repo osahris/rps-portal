@@ -1,0 +1,195 @@
+<#import "template.ftl" as layout>
+<@layout.mainLayout active='account' bodyClass='user'; section>
+    <style>{% include 'assets/mystyle.css' %}</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script> 
+        const rules = {{keycloak_registration_form_rules | tojson }};      
+    </script>
+    <script>{% include 'assets/register.js' %}</script>
+
+    <div class="row">
+        <div class="col-md-10">
+            <h2>${msg("editAccountHtmlTitle")}</h2>
+        </div>
+        <div class="col-md-2 subtitle">
+            <span class="subtitle"><span class="required">*</span> ${msg("requiredFields")}</span>
+        </div>
+    </div>
+    <div class="custom-notification-box">
+        Bitte beachten Sie, dass Aktualisierungen Ihres Profils aktuell bis zu 24h benötigen können, um über alle Bereiche des NUM-Hubs synchronisiert zu werden. Weitern können Sie Ihr Profil bereits vor der Aktivierung durch die Koordinierungsstelle einsehen. Sobald Ihr Account aktiviert wurde, können Sie den <a href="https://support.netzwerk-universitaetsmedizin.de/Antragsprozess.html">NUM-Hub betreten</a>.
+    </div>
+    <form action="${url.accountUrl}" class="form-horizontal" method="post">
+     {% for page in keycloak_registration_form_pages %}
+     
+          <h2>{{page.heading}}</h2>
+          <p><sub>*</sub> = Pflichtfeld</p>
+          {% for field in page.form_elements %}
+              {% include 'field_types_account/'+field.type+'.ftl.j2' %}
+          {% endfor %}  
+          
+      {% endfor %}
+
+        <input type="hidden" id="stateChecker" name="stateChecker" value="${stateChecker}">
+
+
+
+
+        <div class="form-group">
+           <div class="col-sm-2 col-md-2">
+               <label for="user.attributes.Anrede" class="control-label">Anrede</label>
+           </div>
+
+           <div class="col-sm-10 col-md-10">
+               ${(account.attributes.Anrede!'')}
+               <select class="form-control" id="user.attributes.Anrede" name="user.attributes.Anrede">
+                                   <option selected disabled hidden style='display: none' value=''></option>
+                                   <option value="Frau">Frau</option>
+                                   <option value="Herr">Herr</option>
+                                   <option value="Sonstige">Sonstige</option>
+                 </select>
+           </div>
+        </div>
+
+
+        <div class="form-group">
+           <div class="col-sm-2 col-md-2">
+               <label for="user.attributes.Standort" class="control-label">Standort</label>
+           </div>
+
+           <div class="col-sm-10 col-md-10">
+               ${(account.attributes.Standort!'')}
+               <select class="form-control" id="user.attributes.Standort" name="user.attributes.Standort" value="${(account.attributes.Standort!'')}">
+                       <option selected disabled hidden style='display: none' value=''></option>
+                       <option value="Universitätsklinikum Aachen">Universitätsklinikum Aachen</option>
+                       <option value="Universitätsklinikum Augsburg">Universitätsklinikum Augsburg</option>
+                       <option value="Charité – Universitätsmedizin Berlin">Charité – Universitätsmedizin Berlin</option>
+                       <option value="Universitätsklinikum der Ruhr-Universität Bochum">Universitätsklinikum der Ruhr-Universität Bochum</option>
+                       <option value="Universitätsklinikum Bonn">Universitätsklinikum Bonn</option>
+                       <option value="Universitätsklinikum Carl Gustav Carus Dresden">Universitätsklinikum Carl Gustav Carus Dresden</option>
+                       <option value="Universitätsklinikum Düsseldorf">Universitätsklinikum Düsseldorf</option>
+                       <option value="Universitätsklinikum Erlangen">Universitätsklinikum Erlangen</option>
+                       <option value="Universitätsklinikum Essen">Universitätsklinikum Essen</option>
+                       <option value="Universitätsklinikum Frankfurt">Universitätsklinikum Frankfurt</option>
+                       <option value="Universitätsklinikum Freiburg">Universitätsklinikum Freiburg</option>
+                       <option value="Universitätsklinikum Gießen und Marburg">Universitätsklinikum Gießen und Marburg</option>
+                       <option value="Universitätsmedizin Göttingen">Universitätsmedizin Göttingen</option>
+                       <option value="Universitätsmedizin Greifswald">Universitätsmedizin Greifswald</option>
+                       <option value="Universitätsklinikum Halle (Saale)">Universitätsklinikum Halle (Saale)</option>
+                       <option value="Universitätsklinikum Hamburg-Eppendorf (UKE)">Universitätsklinikum Hamburg-Eppendorf (UKE)</option>
+                       <option value="Medizinische Hochschule Hannover">Medizinische Hochschule Hannover</option>
+                       <option value="Universitätsklinikum Heidelberg">Universitätsklinikum Heidelberg</option>
+                       <option value="Universitätsklinikum Jena">Universitätsklinikum Jena</option>
+                       <option value="Uniklinik Köln">Uniklinik Köln</option>
+                       <option value="Universitätsklinikum Leipzig">Universitätsklinikum Leipzig</option>
+                       <option value="Universitätsklinikum Magdeburg">Universitätsklinikum Magdeburg</option>
+                       <option value="Universitätsmedizin Mainz">Universitätsmedizin Mainz</option>
+                       <option value="Universitätsmedizin Mannheim">Universitätsmedizin Mannheim</option>
+                       <option value="Klinikum der Universität München (LMU Klinikum)">Klinikum der Universität München (LMU Klinikum)</option>
+                       <option value="Klinikum rechts der Isar TU München">Klinikum rechts der Isar TU München</option>
+                       <option value="Universitätsklinikum Münster">Universitätsklinikum Münster</option>
+                       <option value="Universitätsklinikum Regensburg">Universitätsklinikum Regensburg</option>
+                       <option value="Universitätsmedizin Rostock">Universitätsmedizin Rostock</option>
+                       <option value="Universitätsklinikum des Saarlandes">Universitätsklinikum des Saarlandes</option>
+                       <option value="Universitätsklinikum Schleswig-Holstein">Universitätsklinikum Schleswig-Holstein</option>
+                       <option value="Klinikum Oldenburg">Klinikum Oldenburg</option>
+                       <option value="Universitätsklinikum Tübingen">Universitätsklinikum Tübingen</option>
+                       <option value="Universitätsklinikum Ulm">Universitätsklinikum Ulm</option>
+                       <option value="Universitätsklinikum Würzburg">Universitätsklinikum Würzburg</option>
+                       <option value="Universitätsklinikum OWL (Bielefeld)">Universitätsklinikum OWL (Bielefeld)</option>
+                  </select>
+           </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-sm-2 col-md-2">
+               <label for="user.attributes.Abteilung" class="control-label">Abteilung</label>
+           </div>
+
+           <div class="col-sm-10 col-md-10">
+               <input type="text" class="form-control" id="user.attributes.Abteilung" name="user.attributes.Abteilung" value="${(account.attributes.Abteilung!'')}"/>
+           </div>
+        </div>
+
+
+        <div class="form-group">
+           <div class="col-sm-2 col-md-2">
+               <label for="user.attributes.Telefon" class="control-label">Telefon</label>
+           </div>
+
+           <div class="col-sm-10 col-md-10">
+                <input type="text" class="form-control" id="user.attributes.Telefon" name="user.attributes.Telefon" value="${(account.attributes.Telefon!'')}"/>
+           </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-sm-2 col-md-2">
+               <label for="user.attributes.Funktion" class="control-label">Funktion</label>
+           </div>
+
+           <div class="col-sm-10 col-md-10">
+                    ${(account.attributes.Funktion!'')}
+                                 <select class="form-control" id="user.attributes.Funktion" name="user.attributes.Funktion">
+                                      <option selected disabled hidden style='display: none' value=''></option>
+                                      <option value="none">Keine Funktion</option>
+                                      <option value="Lokale Task Force - Leitung">Lokale Task Force - Leitung</option>
+                                      <option value="Lokale Task Force - Stellvertretende Leitung">Lokale Task Force - Stellvertretende Leitung</option>
+                                      <option value="Lokale Task Force">Lokale Task Force</option>
+                                      <option value="Projektidee - Leitung">Projektidee - Leitung</option>
+                                      <option value="Projektidee">Projektidee</option>
+                                      <option value="Uniklinik - Leitung">Uniklinik - Leitung</option>
+                                      <option value="Uniklinik">Uniklinik</option>
+                                  </select>
+           </div>
+        </div>
+        <div class="form-group">
+           <div class="col-sm-2 col-md-2">
+               <label for="user.attributes.NUMProject2020" class="control-label">NUM Projekt Beteiligung 1. Förderphase</label>
+           </div>
+
+           <div class="col-sm-10 col-md-10">
+               ${(account.attributes.NUMProject2020!'')}
+               <select class="form-control" id="user.attributes.NUMProject2020" name="user.attributes.NUMProject2020">
+                      <option selected disabled hidden style='display: none' value=''></option>
+                      <option value="Übergreifend">Übergreifend</option>
+                      <option value="AKTIN">AKTIN</option>
+                      <option value="B-FAST">B-FAST</option>
+                      <option value="CEO-sys">CEO-sys</option>
+                      <option value="CODEX ">CODEX </option>
+                      <option value="COMPASS">COMPASS</option>
+                      <option value="COVIM ">COVIM </option>
+                      <option value="DEFEAT PANDEMIcs">DEFEAT PANDEMIcs</option>
+                      <option value="egePan Unimed ">egePan Unimed </option>
+                      <option value="MethodCOV">MethodCOV</option>
+                      <option value="NAPKON">NAPKON</option>
+                      <option value="Organo-Strat">Organo-Strat</option>
+                      <option value="PallPan">PallPan</option>
+                      <option value="RACOON">RACOON</option>
+                      <option value="None">Keine Zuordnung (Standard</option>
+                    </select>
+           </div>
+        </div>
+
+        <div class="form-group">
+                   <div class="col-sm-2 col-md-2">
+                       <label class="control-label">Profilbild</label>
+                   </div>
+
+                   <div class="col-sm-10 col-md-10">
+                       Ihr Profilbild für die Themenräume und das Ideenforum können sie <a href="https://dialog.netzwerk-universitaetsmedizin.de/profile">hier</a> aktualisieren.
+                   </div>
+                </div>
+
+
+
+        <div class="form-group">
+            <div id="kc-form-buttons" class="col-md-offset-2 col-md-10 submit">
+                <div class="">
+                    <#if url.referrerURI??><a href="${url.referrerURI}">${kcSanitize(msg("backToApplication")?no_esc)}</a></#if>
+                    <button type="submit" class="btn-rps-primary ${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonLargeClass!}" name="submitAction" value="Save">${msg("doSave")}</button>
+                    <button type="submit" class="btn-rps-secondary ${properties.kcButtonClass!} ${properties.kcButtonDefaultClass!} ${properties.kcButtonLargeClass!}" name="submitAction" value="Cancel">${msg("doCancel")}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</@layout.mainLayout>

@@ -1,1 +1,2 @@
 ---
+webserver_service_name: "www.{{ rps_dns_suffix }}"

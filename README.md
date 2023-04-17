@@ -2,7 +2,7 @@
 
 TBD Description
 
-## deploy!
+## Deploy!
 
 ```
 ansible-playbook -i inventory/common/ -i inventory/environments/dev/ deploy-all-services.yaml
@@ -17,7 +17,6 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] discourse
 - [x] keycloak_themes
 - [x] docker
-- [x] rps_idia
 - [x] keycloak
 - [x] keycloak_realms
 - [ ] rps_people
@@ -28,6 +27,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [ ] proskive
 - [ ] rocketchat
 - [x] rps_admin_interface
+- [x] rps_admin_navigator
 - [ ] rps_cohort_explorer
 - [x] rps_groups_interface
 - [ ] rps_header
@@ -58,9 +58,9 @@ ansible-playbook -i inventory-dev deploy-all-services.yaml  --tags=gitlab_creden
 
 Whenever possible try to deploy applications using `docker-compose`.
 
-All application configs should reside below `/app/`.
+All application configs should reside below `/srv/`.
 
-By convention please create a variable `($project_name)_service_name` (using `defaults`) and a variable `remote_path: "/app/{{($project_name)_service_name}}"` (using `vars`) for the server name the application is reachable under.
+By convention please create a variable `($project_name)_service_name` (using `defaults`) and a variable `remote_path: "/srv/{{($project_name)_service_name}}"` (using `vars`) for the server name the application is reachable under.
 
 Then in the tasks of your role ensure that the directory is being created and deploy all application configs including the `docker-compose.yaml` file in there.
 Make sure that the application uses the well-known `proxy` network. This is the network that Traefik expects services to reside in.
@@ -96,7 +96,7 @@ Example:
 
 Changes in the docker-compose file will automatically trigger a restart (please do not change the default ansible `recreate` setting).
 
-To make your application known to Traefik create a traefik configuration in `/app/proxy/traefik/conf.d/$project_name.yaml` using a variable defined in `$role/vars/main.yaml`.
+To make your application known to Traefik create a traefik configuration in `/srv/traefik/conf.d/$project_name.yaml` using a variable defined in `$role/vars/main.yaml`.
 
 Example config:
 
@@ -118,13 +118,15 @@ myapp_traefik_dynamic_config:
             - url: "http://{{myapp_service_name|replace('.','')}}_myapp_1"
 ```
 
+## Undeploy!
 
-Helping scripts:
 Clean VM from all RPS related for a brand new setup:
+
 ```sh
-docker ps -aq | xargs docker stop | xargs docker rm
+docker ps -a --format "{{.Names}}" | grep -v '^traefik$' | xargs docker stop | xargs docker rm
 docker volume prune
 docker system prune
-rm /app/ -R
+docker rm traefik
+rm -r /srv
 rm /etc/ansible/facts.d/ -R
 ```

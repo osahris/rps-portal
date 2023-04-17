@@ -1,5 +1,5 @@
 ---
-remote_path: "/app/{{static_website_service_name}}"
+remote_path: "/srv/{{static_website_service_name}}"
 static_website_traefik_dynamic_config:
   http:
     routers:

@@ -56,4 +56,4 @@
 - name: install traefik dynamic config
   copy:
     content: "{{ wordpress_traefik_dynamic_config | to_nice_yaml }}"
-    dest: "/app/proxy/traefik/conf.d/{{ wordpress_service_name }}.yaml"
+    dest: "/srv/traefik/conf.d/{{ wordpress_service_name }}.yaml"

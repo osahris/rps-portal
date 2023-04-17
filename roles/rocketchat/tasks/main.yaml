@@ -17,7 +17,7 @@
 - name: traefik dynamic config
   copy:
     content: "{{ rocketchat_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/rocketchat.yaml"
+    dest: "/srv/traefik/conf.d/rocketchat.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:

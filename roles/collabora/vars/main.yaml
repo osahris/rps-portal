@@ -1,6 +1,6 @@
 ---
 # Ansible variables
-remote_path: "/app/{{ collabora_service_name }}"
+remote_path: "/srv/{{ collabora_service_name }}"
 app_port: "9980"
 
 # For each new running service add below a traefik router and a traefik service

@@ -2,7 +2,7 @@
 service_name: "profile"
 service_domain_name: "{{ rps_profile_interface_service_name }}"
 
-remote_path: "/app/{{service_domain_name}}"
+remote_path: "/srv/{{service_domain_name}}"
 
 traefik_certresolver: "letsencrypt"
 app_port: "801"

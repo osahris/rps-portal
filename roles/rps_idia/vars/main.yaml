@@ -1,6 +1,6 @@
 ---
 # Ansible variables
-remote_path: "/app/{{rps_idia_service_name}}"
+remote_path: "/srv/{{rps_idia_service_name}}"
 app_port: "80"
 
 # For each new running service add below a traefik router and a traefik service

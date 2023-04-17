@@ -1,5 +1,7 @@
 ---
-remote_path: "/app/{{service_domain_name}}"
+service_name: "mvp"
+service_domain_name: "{{ mvp_service_name }}"
+remote_path: "/srv/{{mvp_service_name}}"
 
 traefik_certresolver: "letsencrypt"
 app_port: "801"
