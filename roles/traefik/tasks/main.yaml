@@ -23,7 +23,7 @@
 
 - name: deploy docker-compose stack
   docker_compose:
-    project_src: "/opt/traefik"
+    project_src: "/srv/traefik"
     remove_orphans: true
     restarted: "{{ traefik_copy_static_config_task.changed }}"
     pull: true

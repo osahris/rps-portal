@@ -2,7 +2,7 @@
 
 TBD Description
 
-## deploy!
+## Deploy!
 
 ```
 ansible-playbook -i inventory/common/ -i inventory/environments/dev/ deploy-all-services.yaml
@@ -17,7 +17,6 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] discourse
 - [x] keycloak_themes
 - [x] docker
-- [x] rps_idia
 - [x] keycloak
 - [x] keycloak_realms
 - [ ] rps_people
@@ -28,6 +27,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [ ] proskive
 - [ ] rocketchat
 - [x] rps_admin_interface
+- [x] rps_admin_navigator
 - [ ] rps_cohort_explorer
 - [x] rps_groups_interface
 - [ ] rps_header
@@ -118,11 +118,12 @@ myapp_traefik_dynamic_config:
             - url: "http://{{myapp_service_name|replace('.','')}}_myapp_1"
 ```
 
-Helping scripts:
+## Undeploy!
+
 Clean VM from all RPS related for a brand new setup:
 
 ```sh
-docker ps --format "{{.Names}}" | grep -v '^traefik$' | xargs docker stop | xargs docker rm
+docker ps -a --format "{{.Names}}" | grep -v '^traefik$' | xargs docker stop | xargs docker rm
 docker volume prune
 docker system prune
 docker rm traefik
