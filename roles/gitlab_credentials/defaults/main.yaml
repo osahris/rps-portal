@@ -1,10 +1,6 @@
 ---
-gitlab_deploy_token_username: rps-dev
-
-gitlab_credentials:
-  gitlab_deploy_token_password: "{{ gitlab_deploy_token_password | default(False) or lookup('prompt', 'Please enter the password of the gitlab rps group deploy token: ') }}"
-
 # whatever is put into default() will execute immediately which means if we but the lookup stuff in there the prompt will be shown ALWAYS
 # so take a short umweg default it to false so that or logic will only be executed if the password has not yet been set
 # this also means btw. that the lines above create new passwords on every execution (performance). but they will be discarded right away
-gitlab_deploy_token_password: "{{ ansible_local.gitlab_credentials.gitlab_deploy_token_password | default(ansible_local.secrets.gitlab_deploy_token_password)  }}"
+gitlab_deploy_token_username: "{{ ansible_local.gitlab_credentials.gitlab_deploy_token_username | default(False) or lookup('prompt', 'Please enter the username of the gitlab deploy token: ') }}"
+gitlab_deploy_token_password: "{{ ansible_local.gitlab_credentials.gitlab_deploy_token_password | default(False) or lookup('prompt', 'Please enter the password of the gitlab deploy token: ') }}"
