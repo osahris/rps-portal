@@ -1,13 +1,6 @@
 ---
 
-- name: install nextcloud
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command: php occ maintenance:install --admin-user="{{nextcloud_admin_user}}" --admin-pass="{{nextcloud_admin_password}}" --database="mysql" --database-name="{{nextcloud_mysql_database}}" --database-host="{{nextcloud_db_container_name}}" --database-user="{{nextcloud_mysql_user}}" --database-pass="{{nextcloud_mysql_password}}"
-  when: not _nextcloud_status.installed
-
-- name: get nextcloud status
+- name: query nextcloud status
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
@@ -15,10 +8,25 @@
   register: _nextcloud_status_task
   changed_when: false
 
-- name: assert that nextcloud is installed
-  assert: 
+- name: initialize nextcloud
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ maintenance:install --admin-user="{{nextcloud_admin_user}}" --admin-pass="{{nextcloud_admin_password}}" --database="mysql" --database-name="{{nextcloud_mysql_database}}" --database-host="{{nextcloud_db_container_name}}" --database-user="{{nextcloud_mysql_user}}" --database-pass="{{nextcloud_mysql_password}}"
+  when: not _nextcloud_status.installed
+
+- name: query nextcloud status again
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_status_task
+  changed_when: false
+
+- name: assert that nextcloud is initialized
+  assert:
     that: _nextcloud_status.installed
-    msg: | 
-      Nextcloud is not installed! 
-      Ansible somehow skipped the install step of the nextcloud role. 
-      There might be something wrong with the docker-compose stack deployment. Please check the logs. 
+    msg: |
+      Nextcloud is not initialized!
+      Ansible somehow skipped the initialize step of the nextcloud role.
+      There might be something wrong with the docker-compose stack deployment. Please check the logs.
