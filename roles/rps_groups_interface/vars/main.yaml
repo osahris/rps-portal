@@ -100,3 +100,5 @@ rps_groups_interface_traefik_dynamic_config:
   http:
     routers: "{{ { rps_groups_interface_service_name : rps_groups_interface_traefik_router  } }}"
     services: "{{ { rps_groups_interface_service_name : rps_groups_interface_traefik_service } }}"
+    middlewares:
+    - header-redirect
