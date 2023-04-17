@@ -9,7 +9,7 @@
             name="user.attributes.{{box.value}}" 
             id="user.attributes.{{box.value}}" 
             onchange="apply_rules(this);"
-            <#if account.attributes["{{field.attribute}}"]??>
+            <#if account.attributes["{{box.value}}"]??>
             <#if account.attributes["{{box.value}}"] == "on" > checked </#if></#if> />
       <label for="user.attributes.{{box.value}}">{{box.description}}</label>
     </div>
