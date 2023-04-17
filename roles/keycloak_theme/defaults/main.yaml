@@ -24,11 +24,14 @@ keycloak_registration_form_pages:
         - value: Guten Tag
           description: Guten Tag
     - type: firstName
-      id: first-name
+      id: firstName
+      title: Vorname
     - type: lastName
-      id: last-name
+      id: lastName
+      title: Nachname
     - type: email
       id: email
+      title: Email
       description: Bitte verwenden Sie Ihre <strong>dienstliche E-Mailadresse</strong>!
   - id: page-2
     heading: Organisation
