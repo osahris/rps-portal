@@ -89,8 +89,8 @@ rps_groups_interface_traefik_router:
   rule: "Host(`{{rps_groups_interface_service_name}}`)"
   entrypoints: websecure
   service: "{{rps_groups_interface_service_name}}"
-  # middlewares:
-  #   - oauth2
+  middlewares:
+    - header-redirect
 
 rps_groups_interface_traefik_service:
   loadBalancer:
@@ -100,5 +100,3 @@ rps_groups_interface_traefik_dynamic_config:
   http:
     routers: "{{ { rps_groups_interface_service_name : rps_groups_interface_traefik_router  } }}"
     services: "{{ { rps_groups_interface_service_name : rps_groups_interface_traefik_service } }}"
-    middlewares:
-    - header-redirect
