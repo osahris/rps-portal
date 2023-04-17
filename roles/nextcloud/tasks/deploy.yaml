@@ -19,6 +19,10 @@
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
 
+# Import the data from given SQL dump to the freshly deployed postgres
+- import_tasks: import.yaml
+  when: nextcloud_import
+
 - name: deploy database initialization script
   template:
     src: "create-nextcloud-role.sh.j2"
