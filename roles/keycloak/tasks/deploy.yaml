@@ -1,5 +1,4 @@
 ---
-- import_tasks: secrets.yaml
 
 - name: create application directory
   file:
@@ -25,13 +24,13 @@
 - name: traefik dynamic config
   copy:
     content: "{{ keycloak_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/keycloak.yaml"
+    dest: "/srv/traefik/conf.d/keycloak.yaml"
 
-- name: Wait for keycloak
+- name: wait for keycloak
   local_action: uri
   become: false
   args:
-    url: "{{ keycloak_frontend_url }}/realms/master"
+    url: "{{ keycloak_frontend_url }}/health/ready"
     validate_certs: "{{ keycloak_validate_certs }}"
     status_code: 200
   register: result

@@ -11,7 +11,7 @@
     auth_password: "{{ rps_groups_interface_keycloak_auth_password }}"
     client_id: "{{ rps_groups_interface_keycloak_client_id }}"
     realm: "{{ keycloak_realm }}"
-    redirect_uris: "https://{{ rps_groups_interface_service_name }}/realms/{{ keycloak_realm }}/oauth2/callback"
+    redirect_uris: https://{{ rps_groups_interface_service_name }}/*
     web_origins: "https://{{ rps_groups_interface_service_name }}"
     validate_certs: true
     public_client: true

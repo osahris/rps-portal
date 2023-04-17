@@ -9,13 +9,13 @@
 - name: deploy env live helper
   template:
     src: env-live.j2
-    dest: "/app/{{wordpress_draft_service_name}}/env-live"
+    dest: "/srv/{{wordpress_draft_service_name}}/env-live"
     mode: 0644
 
 - name: deploy update script
   copy:
     src: files/deploy-draft-to-live.sh
-    dest: "/app/{{wordpress_draft_service_name}}/deploy-draft-to-live.sh"
+    dest: "/srv/{{wordpress_draft_service_name}}/deploy-draft-to-live.sh"
     mode: 0755
 
 # TODO: fix and enable this

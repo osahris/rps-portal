@@ -32,4 +32,4 @@
 - name: traefik dynamic config
   copy:
     content: "{{ static_header_test_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/static-header-test.yaml"
+    dest: "/srv/traefik/conf.d/static-header-test.yaml"

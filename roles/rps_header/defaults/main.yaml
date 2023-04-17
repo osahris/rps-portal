@@ -10,24 +10,21 @@ rps_header_image: registry.gitlab.com/idcohorts/rps/rps-vue-header:dev
 rps_header_logo_link: https://{{rps_header_service_name}}
 
 rps_header_top_navbar_links:
-  - title: Foyer
-    link: https://{{ wordpress_draft_service_name }}
-    icon: building-columns
-  - title: Personen
+  - title: Persons
     link: https://{{ rps_people_service_name }}
     icon: people-group
-  - title: Gruppen
+  - title: Groups
     link: https://{{ rps_groups_interface_service_name }}
     icon: user-group
-  # - title: Forum
-  #   link: https://{{ discourse_service_name }}
-  #   icon: message
-  # - title: Dateien
-  #   link: https://{{ nextcloud_service_name }}/apps/files
-  #   icon: folder
-  # - title: Kalender
-  #   link: https://{{ nextcloud_service_name }}/apps/files
-  #   icon: calendar
+  - title: Forum
+    link: https://{{ discourse_service_name }}
+    icon: message
+  - title: Files
+    link: https://{{ nextcloud_service_name }}/apps/files
+    icon: folder
+  - title: Calendar
+    link: https://{{ nextcloud_service_name }}/apps/files
+    icon: calendar
   - title: Support
     link: 'mailto:{{ rps_admin_email }}'
     icon: circle-question

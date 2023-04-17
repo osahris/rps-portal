@@ -5,8 +5,7 @@ nextcloud_version: 25.0
 
 nextcloud_defaultapp: files
 
-nextcloud_mysql_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_password }}"
-nextcloud_mysql_root_password: "{{ ansible_local[nextcloud_service_name].nextcloud_mysql_root_password }}"
+nextcloud_postgres_password: "{{ ansible_local[nextcloud_service_name].nextcloud_postgres_password }}"
 nextcloud_admin_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_password }}"
 nextcloud_keycloak_client_secret: "{{ ansible_local[nextcloud_service_name].nextcloud_keycloak_client_secret }}"
 
@@ -66,7 +65,7 @@ nextcloud_oidc_login_disable_registration: false
 
 nextcloud_with_custom_ca_certificates: false
 
-nextcloud_with_header_injection: true
+nextcloud_with_header_injection: false
 nextcloud_header_injection_repo: https://gitlab.com/idcohorts/rps/rps-nextcloud-header-injection.git
 nextcloud_header_injection_version: "nextcloud/v{{ nextcloud_version }}"
 

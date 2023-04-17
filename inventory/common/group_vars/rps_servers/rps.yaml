@@ -1,0 +1,13 @@
+user_attributes: 
+- key: title
+  label: Title
+- key: location
+  label: Location
+- key: institution
+  label: Institution
+user_email_label: E-Mail
+user_first_name_label: First Name
+user_import_group_membership_label: Gruppen
+user_import_group_owner_label: Groups Owner
+user_last_name_label: Last Name
+user_username_label: Username

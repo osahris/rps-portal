@@ -25,7 +25,7 @@
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/app/proxy/traefik/conf.d/rps-style.yaml"
+    dest: "/srv/traefik/conf.d/rps-style.yaml"
 
 - name: style_server container
   docker_compose:

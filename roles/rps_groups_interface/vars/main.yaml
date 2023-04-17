@@ -1,5 +1,5 @@
 ---
-remote_path: "/app/{{rps_groups_interface_service_name}}"
+remote_path: "/srv/{{rps_groups_interface_service_name}}"
 
 rps_groups_interface_suite_config:
   project_id: "rps"
@@ -89,8 +89,8 @@ rps_groups_interface_traefik_router:
   rule: "Host(`{{rps_groups_interface_service_name}}`)"
   entrypoints: websecure
   service: "{{rps_groups_interface_service_name}}"
-  # middlewares:
-  #   - oauth2
+  middlewares:
+    - header-redirect
 
 rps_groups_interface_traefik_service:
   loadBalancer:
