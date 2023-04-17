@@ -1,6 +1,7 @@
 ---
 remote_path: "/srv/{{keycloak_service_name}}"
 
+keycloak_docker_container:  "{{ keycloak_service_name|replace('.','') }}_keycloak_1"
 
 keycloak_secrets:
   keycloak_admin_password: "{{ keycloak_admin_password  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
@@ -25,4 +26,3 @@ keycloak_traefik_dynamic_config:
 
 ## Parameters for the data import
 keycloak_import_directory:              "{{ remote_path }}/import"
-keycloak_import_docker_container:  "{{ keycloak_service_name|replace('.','') }}_keycloak_1"
