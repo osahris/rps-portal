@@ -22,7 +22,7 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - "/opt/traefik:/etc/traefik:ro"
+      - "/srv/traefik:/etc/traefik:ro"
       - ssl-certs:/ssl-certs
   whoami:
     image: traefik/whoami:v1.9
