@@ -6,30 +6,18 @@
 - name: create skel directory
   file: path={{remote_path}}/skel state=directory
 
-- name: check if docker-compose.yaml is present
-  stat:
-    path: "{{remote_path}}/docker-compose.yaml"
-  register: nextcloud_stat_docker_compose_task
+- name: create skel directory
+  file: path={{remote_path}}/theme state=directory
 
 - name: copy env
   template:
     src: "env.j2"
     dest: "{{remote_path}}/env"
 
-- import_tasks: install.yaml
-  when: not nextcloud_stat_docker_compose_task.stat.exists
-
 - name: copy docker-compose.yaml
   template:
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
-  register: nextcloud_copy_docker_compose_task
-
-- import_tasks: custom_theme/setup.yaml
-  when: nextcloud_with_custom_theme
-
-- import_tasks: header_injection.yaml
-  when: nextcloud_with_header_injection
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -48,14 +36,9 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
-- name: assert that nextcloud is installed
-  assert: 
-    that: _nextcloud_status.installed
-    msg: | 
-      Nextcloud is not installed! 
-      Ansible somehow skipped the install step of the nextcloud role. 
-      There might be something wrong with the docker-compose stack deployment. Please check the logs. 
-      The nextcloud role runs the install step only if the docker-compose.yaml file is not present.
-      So you might want to delete the docker-compose.yaml file and run the playbook again.
+- import_tasks: install.yaml
+
+- import_tasks: custom_theme/setup.yaml
+  when: nextcloud_with_custom_theme
 
 - import_tasks: traefik.yaml
