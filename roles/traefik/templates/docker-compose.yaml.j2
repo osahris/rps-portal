@@ -5,6 +5,9 @@ networks:
   {{ traefik_proxy_network }}:
     external: true
 
+volumes:
+  ssl-certs:
+
 services:
   traefik:
     image: traefik:v2.8
@@ -20,9 +23,7 @@ services:
       - 443:443
     volumes:
       - "/opt/traefik:/etc/traefik:ro"
-      # ||| Please do not change the folder in the line below to an external volume
-      # vvv 
-      - "/srv/traefik/ssl-certs:/ssl-certs/"
+      - ssl-certs:/ssl-certs
   whoami:
     image: traefik/whoami:v1.9
     container_name: whoami
