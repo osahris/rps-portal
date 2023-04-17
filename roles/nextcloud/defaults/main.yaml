@@ -1,5 +1,5 @@
 ---
-nextcloud_service_name: "cloud.{{inventory_hostname}}"
+nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 
 nextcloud_version: 25.0
 

@@ -3,6 +3,6 @@ proskive_release_git_username: proskive-extern
 proskive_release_git_password: SWMzZ6XfmTUkAPZm
 proskive_directory: /opt/proskive
 proskive_release_directory: "{{proskive_directory}}/release"
-proskive_server_name: "{{inventory_hostname}}"
+proskive_server_name: "proskive.{{rps_dns_suffix}}"
 proskive_postgres_user: admin
 proskive_keycloak_realm_admin_username: proskive-configclient

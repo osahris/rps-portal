@@ -9,6 +9,7 @@
             msg:
               - "{{ ansible_ssh_host }}"
               - "{{ inventory_hostname }}"
+              - "{{ rps_dns_suffix }}"
 
   roles:
     - role: rps_package_full

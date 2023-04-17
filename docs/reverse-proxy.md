@@ -9,7 +9,7 @@
         {
             "servicename": 
             {
-                "rule": "Host(`servicename.{{inventory_hostname}}`)", 
+                "rule": "Host(`servicename.{{rps_dns_suffix}}`)", 
                 "entrypoints": "websecure", 
                 "service": "servicename"
                 
