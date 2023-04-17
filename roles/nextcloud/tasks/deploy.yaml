@@ -36,7 +36,7 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
-- import_tasks: install.yaml
+- import_tasks: initialize.yaml
 
 - import_tasks: custom_theme/setup.yaml
   when: nextcloud_with_custom_theme

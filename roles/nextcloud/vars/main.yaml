@@ -5,8 +5,7 @@ app_port: "80"
 
 
 nextcloud_secrets:
-  nextcloud_mysql_password: "{{ nextcloud_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  nextcloud_mysql_root_password: "{{ nextcloud_mysql_root_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  nextcloud_postgres_password: "{{ nextcloud_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   nextcloud_keycloak_client_secret: "{{ nextcloud_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   nextcloud_admin_password: "{{ nextcloud_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
@@ -17,10 +16,11 @@ _nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
 # # ------------------------------------------ #
 nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
 nextcloud_db_container_name:  "{{nextcloud_service_name|replace('.','')}}_db_1"
+nextcloud_db_hostname:        "postgres"
 # # ------------------------------------------ #
 
-nextcloud_mysql_user: nextcloud
-nextcloud_mysql_database: nextcloud
+nextcloud_postgres_user: nextcloud
+nextcloud_postgres_database: nextcloud
 
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
