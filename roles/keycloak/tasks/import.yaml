@@ -3,7 +3,7 @@
 - name: Import -- Copy all static files from the import folder
   synchronize:
     recursive: true
-    src: "{{keycloak_import_local_folder}}"
+    src: "{{keycloak_import_local_folder}}/"
     dest: "{{keycloak_import_directory}}"
     # delete all files in the destination that are not in the source
     delete: true

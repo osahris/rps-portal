@@ -7,7 +7,7 @@ networks:
   nextcloud-internal:
 
 volumes:
-  db:
+  postgres:
   nextcloud:
 
 services:
@@ -25,7 +25,7 @@ services:
       - proxy
       - nextcloud-internal
     depends_on:
-      - db
+      - postgres
     volumes:
       - nextcloud:/var/www/html
       - ./nextcloud/themes:/var/www/html/themes
@@ -35,9 +35,8 @@ services:
     env_file:
       - "./env"
 
-
-  db:
-    image: mariadb:10.5
+  postgres:
+    image: postgres:15.1
     restart: unless-stopped
     logging:
       options:
@@ -45,7 +44,6 @@ services:
     networks:
       - nextcloud-internal
     volumes:
-      - db:/var/lib/mysql
+      - postgres:/var/lib/postgresql/data
     env_file:
       - "./env"
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
