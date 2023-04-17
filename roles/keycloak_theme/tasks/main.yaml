@@ -4,7 +4,7 @@
     name: git
     state: present
 
-- name: fetch keycloak theme
+- name: fetch keycloak theme - {{keycloak_theme}}
   git:
     repo: "{{ keycloak_theme }}"
     dest: "{{ remote_path }}/themes/ansible-theme"
@@ -14,14 +14,18 @@
   when: keycloak_theme is defined
 
 #TODO: add theme to Account page
-# - name: keycloak auto account theme directory
-#   file:
-#     path: /var/lib/keycloak/themes/auto/account
-#     state: directory
-# - name: keycloak auto theme account properties
-#   template:
-#     src: theme.properties.j2
-#     dest: /var/lib/keycloak/themes/auto/account/theme.properties
+- name: keycloak auto account theme directory -- {{remote_path}}
+  file:
+    path: "{{ remote_path }}/themes/rps/account"
+    state: directory
+- name: keycloak auto theme account properties
+  template:
+    src: theme.properties.j2
+    dest: "{{ remote_path }}/themes/rps/account/theme.properties"
+- name: keycloak auto theme registration page
+  template:
+    src: account.ftl.j2
+    dest: "{{ remote_path }}/themes/rps/account/account.ftl"
 
 #TODO: add theme to email page
 # - name: keycloak auto email theme directory

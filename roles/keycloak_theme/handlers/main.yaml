@@ -3,3 +3,4 @@
   community.docker.docker_container:
     name: "{{keycloak_import_docker_container}}"
     restart: true
+    state: started
