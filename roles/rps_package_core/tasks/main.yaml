@@ -20,6 +20,7 @@
   tags:
     - gitlab_credentials
     - gitlab-credentials
+  when: rps_with_gitlab_credentials
 
 - import_role:
     name: traefik
