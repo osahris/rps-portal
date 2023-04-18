@@ -6,7 +6,7 @@ rps_header_allowed_additional_origins:
 rps_header_bottom_navbar_links:
   - title: Suite
     icon: tools
-    link: https://{{ rps_admin_navigator }}
+    link: https://{{ rps_admin_navigator_service_name }}
     requireLogin: false
     isDisabled: false
     type: dropdown
@@ -14,13 +14,13 @@ rps_header_bottom_navbar_links:
       - vip
       - uk-frankfurt
     children:
-      - title: Chat
-        text: Coming soon...
-        link: https://{{ rocketchat_service_name }}
-        requireLogin: false
-        visibility:
-          - vip
-          - uk-frankfurt
+      # - title: Chat
+      #   text: Coming soon...
+      #   link: https://{{ rocketchat_service_name }}
+      #   requireLogin: false
+      #   visibility:
+      #     - vip
+      #     - uk-frankfurt
       - title: Documents
         requireLogin: false
         link: https://{{ nextcloud_service_name }}/apps/files/
@@ -32,7 +32,7 @@ rps_header_bottom_navbar_links:
         visibility:
           - vip
       - title: Support
-        link: https://{{ rps_admin_navigator }}
+        link: https://{{ rps_admin_navigator_service_name }}
         requireLogin: false
         visibility:
           - vip
