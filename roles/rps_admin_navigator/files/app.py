@@ -6,23 +6,21 @@ import os
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=["POST", "GET"])
 def home():
-    servicename = request.args.get('app')
-    if servicename=='' or servicename==None:
-        servicename = 'idia'
+    title = "RPS Services Navigator"
     domain = os.environ.get("HOST_DOMAIN")
     services = [{'name': 'Budibase',                'subdomain': 'budibase'},
                 {'name': 'Header',                  'subdomain': 'header'},
                 {'name': 'Header (static)',         'subdomain': 'static-header-test'},
-                {'name': 'IDIA',                    'subdomain': 'idia'}, 
                 {'name': 'Keycloak',                'subdomain': 'keycloak'},
-                {'name': 'rps_people',             'subdomain': 'rps_people'},
+                {'name': 'rps_people',              'subdomain': 'people'},
                 {'name': 'MVP',                     'subdomain': 'mvp'},
                 {'name': 'Nextcloud',               'subdomain': 'nextcloud'},
                 {'name': 'OpenProject',             'subdomain': 'openproject'},
                 {'name': 'RocketChat',              'subdomain': 'rocketchat'},
                 {'name': 'rps_admin_interface',     'subdomain': 'admin'},
+                {'name': 'rps_admin_navigator',     'subdomain': 'navigator'}, 
                 {'name': 'rps_groups_interface',    'subdomain': 'groups',       'path': 'realms/rps'},
                 {'name': 'Traefik',                 'subdomain': 'traefik'},
                 {'name': 'Wiki Bookstack',          'subdomain': 'wiki-bookstack'},
@@ -30,18 +28,10 @@ def home():
                 {'name': 'Wordpress (Dev)',         'subdomain': 'www-staging'},
                 {'name': 'Wordpress (Prod)',        'subdomain': 'www'},
                 ]
-    success = False
-    for element in services:
-        if servicename == element['subdomain']:
-            success = True
-            service = element
-            title = "{} | NUM Hub".format(service['name'])
-            return render_template('index.html',title = title,
-                                    domain = domain,
-                                    service=service)
-    if success == False:
-        title = servicename
-        return render_template('errors/service_not_found.html', servicename=servicename)
+    return  render_template('index.html', 
+                            title = title,
+                            domain = domain,
+                            services = services)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -55,10 +45,7 @@ def internal_server_error(e):
     return render_template('errors/500.html', 
                             title = title), 500
 
-def service_not_found(servicename):
-    title = "Service Not Found"
-    return render_template('errors/service_not_found.html', 
-                            title = title)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))

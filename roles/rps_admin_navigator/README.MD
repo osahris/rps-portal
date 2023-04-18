@@ -1,9 +1,7 @@
-# What is IDIA
+# What is this Ansible Role:
 
-This is an IDIA (I did it already) application. Description will be added later.
+The service provides a navigation webpage for easy testing of the other services in the RPS stack.
 The service is running in a docker container under the reverse proxy from a Traefik container.
-
-Currently the service provides a navigation webpage for easy testing of the other services in the RPS stack.
 
 ## How to use:
 
@@ -11,12 +9,12 @@ Currently the service provides a navigation webpage for easy testing of the othe
 
 2. Use the docker network **proxy** to connect with Traefik, use the network **{{project_name}}** for internal communications of docker containers out of scope of Traefik.
 
-3. By default, the service will run under the domain **https://{{rps_idia_service_name}}** as defined in **./vars/main.yaml** by the following code:
+3. By default, the service will run under the domain **https://{{rps_admin_navigator_service_name}}** as defined in **./vars/main.yaml** by the following code:
    ```yaml
    # ./vars/main.yaml
    traefik_dynamic_config:
      http:
        routers:
-         app_name:
-           rule: "Host(`{{rps_idia_service_name}}`)"
+         rps_admin_navigator:
+           rule: "Host(`{{rps_admin_navigator_service_name}}`)"
    ```

@@ -43,10 +43,10 @@
     - base
 
 - import_role:
-    name: rps_idia
+    name: rps_admin_navigator
   tags:
-    - rps_idia
-    - idia
+    - rps_admin_navigator
+    - admin_navigator
 
 - import_role:
     name: rps_profile_interface
