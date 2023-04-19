@@ -1,5 +1,7 @@
 ---
 remote_path: /srv/{{ wordpress_service_name }}
+import_path: "{{ remote_path }}/import"
+export_path: "{{ remote_path }}/export"
 
 wordpress_secrets:
   wordpress_admin_password: "{{ wordpress_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"

@@ -1,6 +1,10 @@
 ---
 wordpress_service_name: wordpress.{{ rps_dns_suffix}}
 
+wordpress_install: true
+wordpress_import: false
+wordpress_export: false
+
 wordpress_traefik_profile: oauth2
 
 wordpress_container_image: wordpress:{{ wordpress_version }}

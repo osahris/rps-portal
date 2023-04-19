@@ -4,7 +4,10 @@
 - import_tasks: deploy.yaml
 
 - import_tasks: import.yaml
+  when: wordpress_import
+  
 - import_tasks: install.yaml
+  when: wordpress_install
 
 # ansible doesn't support waiting for docker-compose setup
 - name: get infos from wordpress container
@@ -23,3 +26,4 @@
     dest: "/srv/traefik/conf.d/{{ wordpress_service_name }}.yaml"
 
 - import_tasks: export.yaml
+  when: wordpress_export
