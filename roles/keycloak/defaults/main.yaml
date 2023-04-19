@@ -19,5 +19,5 @@ keycloak_proxy_network: proxy
 
 keycloak_admin_username: admin
 
-keycloak_admin_password: "{{ ansible_local[keycloak_service_name].keycloak_admin_password | default(ansible_local.secrets.keycloak_admin_password) }}"
-keycloak_postgres_password: "{{ ansible_local[keycloak_service_name].keycloak_postgres_password | default(ansible_local.secrets.keycloak_postgres_password) }}"
+keycloak_admin_password: "{{ ansible_local[keycloak_service_name].keycloak_admin_password  }}"
+keycloak_postgres_password: "{{ ansible_local[keycloak_service_name].keycloak_postgres_password }}"
