@@ -19,6 +19,11 @@
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
 
+- name: deploy database initialization script
+  template:
+    src: "create-nextcloud-role.sh.j2"
+    dest: "{{remote_path}}/create-nextcloud-role.sh"
+
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"

@@ -45,5 +45,10 @@ services:
       - nextcloud-internal
     volumes:
       - postgres:/var/lib/postgresql/data
-    env_file:
-      - "./env"
+      - ./create-nextcloud-role.sh:/docker-entrypoint-initdb.d/create-nextcloud-role.sh
+    environment:
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_NEXTCLOUD_USER=nextcloud
+      - POSTGRES_NEXTCLOUD_PASSWORD={{ nextcloud_postgres_password }}
+
