@@ -1,6 +1,9 @@
 #!/bin/bash
 
-# read credentials from env file
+# Fail on errors
+set -e
+
+# Read credentials from env file
 source env-keycloak
 
 # Import data from all .json files to the keycloak service
