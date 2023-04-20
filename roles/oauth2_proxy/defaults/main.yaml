@@ -58,3 +58,5 @@ oauth2_proxy_keycloak_client_realm: "{{ keycloak_realm }}"
 oauth2_proxy_keycloak_client_redirect_uris:
   - "{{ oauth2_proxy_base_url }}/oauth2/callback"
 oauth2_proxy_keycloak_client_secret: "{{ oauth2_proxy_client_secret }}"
+
+oauth2_proxy_with_custom_templates: false

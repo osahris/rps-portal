@@ -5,12 +5,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Sign In Now!</title>
-  
-  {% endraw %}
-  <link rel="stylesheet" href="{{rps_style_server_name}}/css-variables.css">
-  {% raw %}
-  
+    <title>Sign In</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 
     <style>
       body {
@@ -53,32 +49,19 @@
   <body class="has-background-light">
   <section class="section">
     <div class="box block sign-in-box has-text-centered">
+      {{ if .LogoData }}
       <div class="block logo-box">
-      {% endraw %}
-        <img src="{{rps_style_server_name}}/image/full_logo.svg">
-      {% raw %}
+        {{.LogoData}}
       </div>
-      <h1 class="title">Sie werden nun automatisch weitergeleitet.</h1>
-      <p>Wenn Sie nicht automatisch weitergeleitet werden, klicken Sie bitte auf den Button.</p>
-      <form method="GET" action="{{.ProxyPrefix}}/start" >
-        <input type="hidden" name="rd" value="{{.Redirect}}">
-          <button id="submit" type="submit" class="button block is-primary">Weiterleiten</button>
-      </form>
-
-      {{ if eq .StatusCode 200 }}    
-      <style>
-        form {
-          display: none;
-        }
-      </style>  
-      <script>
-        // when page is loaded click on the button
-        document.addEventListener('DOMContentLoaded', function() {
-          // click submit button
-          document.getElementById("submit").click();
-        });
-      </script>
       {{ end }}
+
+      <form method="GET" action="{{.ProxyPrefix}}/start">
+        <input type="hidden" name="rd" value="{{.Redirect}}">
+          {{ if .SignInMessage }}
+          <p class="block">{{.SignInMessage}}</p>
+          {{ end}}
+          <button type="submit" class="button block is-primary">Sign in with {{.ProviderName}}</button>
+      </form>
 
       {{ if .CustomLogin }}
       <hr>
@@ -148,4 +131,4 @@
   </body>
 </html>
 {{end}}
-{% endraw %}
+  {% endraw %}

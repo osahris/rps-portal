@@ -23,12 +23,13 @@
     state: directory
 
 - name: copy custom html templates
-  copy:
-    src: "{{item}}.html"
+  template:
+    src: "{{item}}.html.j2"
     dest: "{{remote_path}}/custom-templates/{{item}}.html"
   loop:
     - "error"
     - "sign_in"
+  when: oauth2_proxy_with_custom_templates
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -48,5 +49,3 @@
   copy:
     content: "{{ oauth2_proxy_traefik_dynamic_config }}"
     dest: "/srv/traefik/conf.d/oauth2-proxy.yaml"
-
-  
