@@ -8,7 +8,7 @@
     auth_realm: "master"
     auth_username: "{{ rps_admin_web_interface_keycloak_auth_username }}"
     auth_password: "{{ rps_admin_web_interface_keycloak_auth_password }}"
-    client_id: "rps-admin-interface"
+    client_id: "{{ rps_admin_interface_keycloak_client_id }}"
     realm: "{{ rps_admin_interface_keycloak_realm }}"
     redirect_uris: []
     client_authenticator_type: client-secret
