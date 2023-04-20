@@ -16,3 +16,10 @@
   ansible.builtin.command: "{{ remote_path }}/export.sh"
   args:
     chdir: "{{ remote_path }}"
+
+- name: Export – Download export files from the controller
+  synchronize:
+    src: "{{ remote_path }}/export/"
+    dest: "{{ wordpress_export_local_folder }}"
+    mode: pull
+  when: wordpress_export == "local_folder"

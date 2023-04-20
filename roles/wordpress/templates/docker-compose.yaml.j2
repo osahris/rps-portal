@@ -36,8 +36,6 @@ services:
     volumes:
       - wordpress:/var/www/html
       - ./wp-extra-config.php:/wp-extra-config.php
-      - ./import:/import
-      - ./export:/export
     networks:
       - wordpress-internal
     depends_on:

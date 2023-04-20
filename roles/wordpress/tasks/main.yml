@@ -3,12 +3,12 @@
 
 - import_tasks: deploy.yaml
 
+- import_tasks: install.yaml
+  when: wordpress_install and not wordpress_import
+
 - import_tasks: import.yaml
   when: wordpress_import
   
-- import_tasks: install.yaml
-  when: wordpress_install
-
 # ansible doesn't support waiting for docker-compose setup
 - name: get infos from wordpress container
   community.docker.docker_container_info:
