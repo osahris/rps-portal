@@ -10,4 +10,4 @@
 - name: Configure sub realms
   include_tasks: per_realm.yml
   # get all realms that are sub realms (keycloak_realm is not equal to realm name)
-  loop: "{{ keycloak_realms | selectattr('name', 'notequalto', keycloak_realm) | list }}"
+  loop: "{{ keycloak_realms | rejectattr('name', 'equalto', keycloak_realm) | list }}"
