@@ -1,0 +1,8 @@
+---
+- name: 'Import user files into "nextcloud-data/" directory'
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: >
+        /usr/bin/rsync -avrzP --sparse /srv/nextcloud-data-import/. "{{nextcloud_container_datadir}}/."
+    user: www-data
+

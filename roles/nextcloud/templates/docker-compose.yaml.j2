@@ -8,7 +8,8 @@ networks:
 
 volumes:
   postgres:
-  nextcloud:
+  nextcloud-data:
+  #nextcloud:
 
 services:
 
@@ -27,8 +28,13 @@ services:
     depends_on:
       - postgres
     volumes:
-      - nextcloud:/var/www/html
-      - ./skel:/srv/nextcloud/skel:ro
+      # try to make the nextcloud installation "stateless"
+      #- nextcloud:/var/www/html
+      - nextcloud-data:{{ nextcloud_container_datadir }}
+      - ./skel:{{ nextcloud_container_skeldir }}:ro
+{% if nextcloud_import %}
+      - ./migration-data/nextcloud-data:/srv/nextcloud-data-import:ro
+{% endif %}
     env_file:
       - "./env"
 
