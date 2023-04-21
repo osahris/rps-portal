@@ -1,4 +1,7 @@
 ---
+# These tasks are used to make idempotent changes to the nextcloud config.
+# You give it 
+
 
 - name: create nextcloud config list
   community.docker.docker_container_exec:
