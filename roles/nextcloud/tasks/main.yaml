@@ -4,7 +4,8 @@
 - import_tasks: deploy.yaml
 
 # If we are in import mode, after the SQL database came up cleanly,
-# enter the nextcloud container and sync the files/ dir into the storage volume.
+# enter the nextcloud container and sync the import/nextcloud-data/ dir
+# into the storage volume.
 - import_tasks: import2.yaml
   when: nextcloud_import
 

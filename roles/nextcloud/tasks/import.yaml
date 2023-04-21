@@ -2,25 +2,25 @@
 
 - name: Import – create import directory
   ansible.builtin.file:
-    path: "{{ remote_path }}/migration-data"
+    path: "{{ remote_path }}/import"
     state: directory
     # TODO: figure out minimal permission set here
     mode: 0755
 
 # If nextcloud_import=="local_folder", place a "nextclouddb.sql" in this folder: {{nextcloud_import_local_folder}}
 # If nextcloud_import==true, place the "nextclouddb.sql" into "{{remote_path}}/migration-data" !
-- name: "Import -- Sync migration-data from controller to managed host"
+- name: "Import -- Sync migration data from controller to managed host for import"
   synchronize:
     recursive: true
     src: "./migration-data/"
-    dest: "{{ remote_path }}/migration-data"
+    dest: "{{ remote_path }}/import"
     # delete all files in the destination that are not in the source
     delete: true
   when: nextcloud_import is defined and nextcloud_import == "local_folder"
 
 - name: 'Import - stat the "nextcloud-data" directory'
   ansible.builtin.stat:
-    path: "{{ remote_path }}/migration-data/nextcloud-data"
+    path: "{{ remote_path }}/import/nextcloud-data"
   register: nextcloud_import_datadir_r
 
 - name: 'Import - assert that the "nextcloud-data/" directory is present in the migration data'
