@@ -1,0 +1,1 @@
+- make nextcloud install apps per role only in an extra container and mount the nextcloud program files only read-only
