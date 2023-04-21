@@ -59,6 +59,8 @@ oauth2_proxy_keycloak_client_redirect_uris:
   - "{{ oauth2_proxy_base_url }}/oauth2/callback"
 oauth2_proxy_keycloak_client_secret: "{{ oauth2_proxy_client_secret }}"
 
-oauth2_proxy_with_custom_templates: false
+oauth2_proxy_with_custom_templates: true
 
+oauth2_proxy_icon_src: "{{ rps_style_icon_src }}"
 oauth2_proxy_logo_src: "{{ rps_style_logo_src }}"
+oauth2_proxy_css_src:  "{{ rps_style_css_src }}"
