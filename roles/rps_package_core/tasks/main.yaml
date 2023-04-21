@@ -41,6 +41,12 @@
     - keycloak-realms
   when: rps_core_package_with_keycloak_realms
 
+- import_role:
+    name: rps_style_servers
+  tags:
+    - rps_style_servers
+    - style
+
 - import_role:  
     name: oauth2_proxy
   tags:
