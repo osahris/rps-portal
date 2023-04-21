@@ -21,7 +21,7 @@
   synchronize:
     recursive: true
     src:  "{{ keycloak_export_path }}"
-    dest: "{{ keycloak_export_controler_path }}"
+    dest: "{{ export_controller_path }}/keycloak/"
     mode: pull # In pull mode the remote host in context is the source.
     delete: false # If true, delete all files in the destination that are not in the source
   when: keycloak_export and keycloak_export_to_controler
