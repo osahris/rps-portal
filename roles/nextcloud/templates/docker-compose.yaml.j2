@@ -28,10 +28,7 @@ services:
       - postgres
     volumes:
       - nextcloud:/var/www/html
-      - ./nextcloud/themes:/var/www/html/themes
-{% if nextcloud_with_header_injection %}
-      - ./rps-nextcloud-header-injection/core/templates/layout.user.php:/var/www/html/core/templates/layout.user.php
-{% endif %}
+      - ./skel:/srv/nextcloud/skel:ro
     env_file:
       - "./env"
 
