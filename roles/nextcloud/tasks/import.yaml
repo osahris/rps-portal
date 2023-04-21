@@ -12,7 +12,7 @@
 - name: "Import -- Sync migration data from controller to managed host for import"
   synchronize:
     recursive: true
-    src: "./migration-data/"
+    src: "../migration-data/"
     dest: "{{ remote_path }}/import"
     # delete all files in the destination that are not in the source
     delete: true
