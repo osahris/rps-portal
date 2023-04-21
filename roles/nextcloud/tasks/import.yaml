@@ -32,5 +32,5 @@
 
 - name: 'Import - assert that the "nextcloud-data/" directory is present in the migration data'
   ansible.builtin.assert:
-    that: nextcloud_import_datadir_r.stat.isdir is defined and nextcloud_import_filesdir_r.stat.isdir
+    that: nextcloud_import_datadir_r.stat.isdir is defined and nextcloud_import_datadir_r.stat.isdir
 
