@@ -1,0 +1,34 @@
+---
+
+- name: Import – create import directory
+  ansible.builtin.file:
+    path: "{{ remote_path }}/migration-data"
+    state: directory
+    # TODO: figure out minimal permission set here
+    mode: 0755
+
+# If nextcloud_import=="local_folder", place a "nextclouddb.sql" in this folder: {{nextcloud_import_local_folder}}
+# If nextcloud_import==true, place the "nextclouddb.sql" into "{{remote_path}}/migration-data" !
+- name: Import -- Copy all static files from the import folder
+  synchronize:
+    recursive: true
+    src: "./migration-data/"
+    dest: "{{ remote_path }}/migration-data"
+    # delete all files in the destination that are not in the source
+    delete: true
+  when: nextcloud_import is defined and nextcloud_import == "local_folder"
+
+#- name: Import -- Copy import script
+#  template:
+#    src: import.sh.j2
+#    dest: "{{remote_path}}/import.sh"
+#    mode: "0755"
+#  when: nextcloud_import
+#
+#- name: Import -- Execute import script
+#  command: "{{remote_path}}/import.sh"
+#  args:
+#    chdir: "{{remote_path}}"
+#  when: nextcloud_import
+
+

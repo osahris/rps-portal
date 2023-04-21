@@ -46,6 +46,9 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./create-nextcloud-role.sh:/docker-entrypoint-initdb.d/create-nextcloud-role.sh
+{% if nextcloud_import %}
+      - ./migration-data/nextclouddb.sql:/docker-entrypoint-initdb.d/nextclouddb.sql
+{% endif %}
     environment:
       - POSTGRES_PASSWORD=example
       - POSTGRES_DB=nextcloud
