@@ -3,7 +3,7 @@
 - name: Import -- Copy all static files from the controler to the import folder on the host
   synchronize:
     recursive: true
-    src:  "{{ keycloak_import_controler_path }}"
+    src:  "{{ import_controller_path }}/keycloak/"
     dest: "{{ keycloak_import_path}}"
     delete: false # If true, delete all files in the destination that are not in the source
   when: keycloak_import and keycloak_import_from_controler

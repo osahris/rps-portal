@@ -9,11 +9,18 @@
 
 # If nextcloud_import=="local_folder", place a "nextclouddb.sql" in this folder: {{nextcloud_import_local_folder}}
 # If nextcloud_import==true, place the "nextclouddb.sql" into "{{remote_path}}/migration-data" !
-- name: "Import -- Sync migration data from controller to managed host for import"
+- name: "Import -- Sync SQL data from controller to managed host for import"
   synchronize:
     recursive: true
-    src: "../migration-data/"
-    dest: "{{ remote_path }}/import"
+    src: "{{ import_controller_path }}/nextclouddb.sql"
+    dest: "{{ remote_path }}/import/nextclouddb.sql"
+  when: nextcloud_import is defined and nextcloud_import == "local_folder"
+
+- name: "Import -- Sync user files from controller to managed host for import"
+  synchronize:
+    recursive: true
+    src: "{{ import_controller_path }}/nextcloud-data/"
+    dest: "{{ remote_path }}/import/nextcloud-data/"
     # delete all files in the destination that are not in the source
     delete: true
   when: nextcloud_import is defined and nextcloud_import == "local_folder"
