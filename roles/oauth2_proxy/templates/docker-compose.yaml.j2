@@ -18,7 +18,11 @@ services:
       - proxy
     volumes:
       - ./custom-templates:/custom-templates:ro
-  
+
+{% if oauth2_proxy_session_store_type == 'redis' %}
+    depends_on:
+      - cache
+
   cache:
     image: redis:6.2-alpine
     restart: always
@@ -29,6 +33,8 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass {{oauth2_proxy_redis_pass}}
     volumes: 
       - cache:/data
+
+{% endif %}
 
 volumes:
   cache: 
