@@ -22,10 +22,15 @@
         text-decoration: underline;
       }
     </style>
+{% endraw %}
+
+    <script type="text/javascript" src="https://{{ rps_header_service_name }}/header.js"></script>
   </head>
 
   <body class="has-background-light">
+    <nav id="rps-header" class="rps-header"></nav>
 
+{% raw %}
       <section class="section">
         <div class="box block sign-in-box has-text-centered">
           {{ if .LogoData }}
