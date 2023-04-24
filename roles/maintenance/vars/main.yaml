@@ -1,0 +1,22 @@
+---
+remote_path: "/srv/{{maintenance_service_name}}"
+
+traefik_certresolver: "letsencrypt"
+app_port: "80"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      maintenance:
+        rule: "Host(`{{maintenance_service_name}}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: "maintenance"
+
+    services:
+      maintenance:
+        loadBalancer:
+          servers:
+            - url: "http://{{maintenance_service_name|replace('.','')}}_nginx_1:{{app_port}}" # "http://container_name:container_port"
