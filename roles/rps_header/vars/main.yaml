@@ -10,6 +10,7 @@ rps_header_allowed_default_origins:
   - https://{{ rps_people_service_name }}
   - https://{{ rps_admin_navigator_service_name }}
   - https://{{ budibase_service_name }}
+  - https://{{ oauth2_proxy_service_name }}
 
 rps_header_dynamic_config:
   logo_uri: "{{ rps_header_logo_link }}"
