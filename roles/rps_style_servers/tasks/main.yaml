@@ -6,16 +6,14 @@
   git:
     repo: "{{ rps_style_servers_git_url }}"
     version: "{{ rps_style_servers_git_branch }}"
-    dest: "{{remote_path}}/"
+    dest: "{{remote_path}}/style_server"
     force: yes
 
-- name: copy some templated .j2 files
+- name: copy docker-compose file
   template:
-    src: "{{item}}" # relative to ./templates on local role path
-    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
-  with_items:
-    - "docker-compose.yml.j2"
-    
+    src: docker-compose.yml.j2
+    dest: "{{remote_path}}/docker-compose.yml"
+
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
@@ -24,12 +22,9 @@
 - name: style_server container
   docker_compose:
     project_src: "{{remote_path}}/"
-    files: "{{item}}"
     build: true
     pull: true
     remove_orphans: true
-  with_items:
-    - "docker-compose.yml"
 
 # - name: build style image
 #   community.docker.docker_image:
