@@ -10,6 +10,7 @@ app = Flask(__name__)
 def home():
     title = "RPS Services Navigator"
     domain = os.environ.get("HOST_DOMAIN")
+    upperdomain = '.'.join(domain.split('.')[1:])
     services = [{'name': 'Budibase',                'subdomain': 'budibase'},
                 {'name': 'Header',                  'subdomain': 'header'},
                 {'name': 'Header (static)',         'subdomain': 'static-header-test'},
@@ -25,12 +26,12 @@ def home():
                 {'name': 'Traefik',                 'subdomain': 'traefik'},
                 {'name': 'Wiki Bookstack',          'subdomain': 'wiki-bookstack'},
                 {'name': 'Wiki.js',                 'subdomain': 'wiki-js'},
-                {'name': 'Wordpress (Dev)',         'subdomain': 'www-staging'},
-                {'name': 'Wordpress (Prod)',        'subdomain': 'www'},
+                {'name': 'Wordpress (Draft)',       'subdomain': 'www-draft'},
+                {'name': 'Wordpress (Live)',        'subdomain': 'www'},
                 ]
     return  render_template('index.html', 
                             title = title,
-                            domain = domain,
+                            domain = upperdomain,
                             services = services)
 
 @app.errorhandler(404)
