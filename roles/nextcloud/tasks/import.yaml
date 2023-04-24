@@ -11,7 +11,6 @@
 # If nextcloud_import==true, place the "nextclouddb.sql" into "{{remote_path}}/migration-data" !
 - name: "Import -- Sync SQL data from controller to managed host for import"
   synchronize:
-    recursive: true
     src: "{{ import_controller_path }}/nextclouddb.sql"
     dest: "{{ remote_path }}/import/nextclouddb.sql"
   when: nextcloud_import is defined and nextcloud_import == "local_folder"
@@ -33,4 +32,3 @@
 - name: 'Import - assert that the "nextcloud-data/" directory is present in the migration data'
   ansible.builtin.assert:
     that: nextcloud_import_datadir_r.stat.isdir is defined and nextcloud_import_datadir_r.stat.isdir
-
