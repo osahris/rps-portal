@@ -13,6 +13,8 @@ oauth2_root_redirect_url: "{{ oauth2_proxy_base_url }}/oauth2/userinfo"
 oauth2_proxy_container_version: v7.4.0
 oauth2_proxy_container_image: quay.io/oauth2-proxy/oauth2-proxy
 
+oauth2_proxy_sign_in_title: "Sign in on {{ rps_dns_suffix }}"
+
 oauth2_proxy_session_store_type: redis
 
 oauth2_proxy_http_address: ":4180"
