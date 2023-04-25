@@ -5,6 +5,6 @@
     dest: "{{remote_path}}/docker-compose.yaml"
 
 - name: upgrade nextcloud to version {{ nextcloud_version }}
-  command: docker-compose run --rm -u www-data --pull nextcloud /bin/true
+  command: docker-compose run --rm -u www-data -e NEXTCLOUD_UPDATE=1 nextcloud /bin/true
   args:
     chdir: "{{remote_path}}"
