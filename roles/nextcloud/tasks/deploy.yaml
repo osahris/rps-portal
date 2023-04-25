@@ -44,7 +44,6 @@
   retries: 180
   delay: 1
   until: _nextcloud_status_task is not failed
-  when: nextcloud_wait_for_stack_on_deploy
 
 - import_tasks: initialize.yaml
   when: nextcloud_install
@@ -56,6 +55,7 @@
     command: php occ status --output=json
   register: _nextcloud_status_task
   changed_when: false
+  when: nextcloud_assert_initialized
 
 - name: assert that nextcloud is initialized
   assert:
@@ -64,6 +64,7 @@
       Nextcloud is not initialized!
       Ansible somehow skipped the initialize step of the nextcloud role.
       There might be something wrong with the docker-compose stack deployment. Please check the logs.
+  when: nextcloud_assert_initialized
 
 - import_tasks: custom_theme.yaml
   when: nextcloud_with_custom_theme
