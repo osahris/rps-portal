@@ -32,3 +32,20 @@
 - name: 'Import - assert that the "nextcloud-data/" directory is present in the migration data'
   ansible.builtin.assert:
     that: nextcloud_import_datadir_r.stat.isdir is defined and nextcloud_import_datadir_r.stat.isdir
+
+- name: Import – copy import script
+  ansible.builtin.copy:
+    src: import.sh
+    dest: "{{ remote_path }}/import.sh"
+    mode: 0755
+
+- name: Import - copy update-config script
+  ansible.builtin.template:
+    src: update-config.php.j2
+    dest: "{{ remote_path }}/update-config.php"
+    mode: 0755
+
+- name: Import – run import script
+  ansible.builtin.command: "{{ remote_path }}/import.sh"
+  args:
+    chdir: "{{ remote_path }}"
