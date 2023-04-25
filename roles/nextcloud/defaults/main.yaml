@@ -1,6 +1,9 @@
 ---
 nextcloud_import: false
 nextcloud_install: "{{ not nextcloud_import }}"
+nextcloud_upgrade: false
+
+nextcloud_wait_for_stack_on_deploy: true
 
 nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 
