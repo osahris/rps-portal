@@ -1,16 +1,16 @@
 ---
 
-# - name: 'Prepare the "nextcloud-data/" directory within the container'
-#   community.docker.docker_container_exec:
-#     container: "{{ nextcloud_app_container_name }}"
-#     command: >
-#         chown -R www-data: -R /srv/nextcloud/data
+- name: 'Prepare the "nextcloud-data/" directory within the container'
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: >
+        chown -R www-data: -R /srv/nextcloud/data
 
-# - name: 'Prepare the "nextcloud-data/" directory within the container (II)'
-#   community.docker.docker_container_exec:
-#     container: "{{ nextcloud_app_container_name }}"
-#     command: >
-#         touch /srv/nextcloud/data/.ocdata
+- name: 'Prepare the "nextcloud-data/" directory within the container (II)'
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: >
+        touch /srv/nextcloud/data/.ocdata
 
 - name: query nextcloud status
   community.docker.docker_container_exec:
