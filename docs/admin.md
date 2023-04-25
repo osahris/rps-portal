@@ -2,6 +2,18 @@
 layout: docs
 title: "Docs for Admins"
 ---
+
+## Budibase
+**Low-code database framework.**  
+More info: [official docs](https://URL)
+
+
+## Discourse
+**Discussion forum platform.**  
+TBD _A bit more detailed description and maybe reasoning to add it to RPS._  
+More info: [official docs](https://docs.discourse.org/)
+
+
 ## Keycloak
 **Identity and access management.**  
 Used to manage users and their access to the other tools in the suite.
