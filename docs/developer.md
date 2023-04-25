@@ -11,9 +11,16 @@ Primary info on whom whis page is addressed to.
 
 ## Traefik
 **Reverse proxy service**  
-A bit more detailed description and maybe reasoning to add it to RPS. This text in smaller size
+A bit more detailed description and maybe reasoning to add it to RPS. This text in smaller size  
 Comments on additional features and configurations that are added when this service is integrated to the RPS.  
-More info: [official docs](https://URL)
+More info: [official docs](https://doc.traefik.io/traefik/)
+
+
+## OAuth2 proxy
+**Short and very general description**  
+A bit more detailed description and maybe reasoning to add it to RPS. This text in smaller size  
+Comments on additional features and configurations that are added when this service is integrated to the RPS.  
+More info: [official docs](https://oauth2-proxy.github.io/oauth2-proxy/docs/)
 
 
 ## Servicename
