@@ -4,7 +4,7 @@ title: "Documentation"
 ---
 # Documentation
 
-RPS is disigned to not only provide pleasant experience on multiple layers of interaction. Keeping this in mind, we split our manual in the following levels:
+RPS is disigned to provide pleasant experience on multiple layers of interaction. Keeping this in mind, we split our manual in the following levels:
 
 [**Users**](./user) -- before you finally decide to get RPS at your service, it is convenient to put yourself on the regular user's place. This manual is designed to provide a trip to the user experience hiding all the backstage stuff info away.
 
