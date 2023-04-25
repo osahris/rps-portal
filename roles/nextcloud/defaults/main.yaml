@@ -59,6 +59,7 @@ nextcloud_user_oidc_extra_claims: ""
 # legacy oidc_login plugin options
 nextcloud_with_oidc_login_app: false
 nextcloud_oidc_login_client_id: "{{nextcloud_keycloak_client_client_id}}"
+nextcloud_oidc_login_client_secret: "{{nextcloud_keycloak_client_secret}}"
 nextcloud_oidc_login_provider_url: "{{nextcloud_keycloak_client_realm_url}}"
 #nextcloud_oidc_login_logout_url: "https://{{ keycloak_service_name }}/realms/{{keycloak_realm}}/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_service_name }}%2F/logout"
 nextcloud_oidc_login_auto_redirect: true
