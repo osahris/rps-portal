@@ -45,9 +45,6 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
-- import_tasks: upgrade.yaml
-  when: nextcloud_upgrade
-
 - import_tasks: initialize.yaml
   when: nextcloud_install
 

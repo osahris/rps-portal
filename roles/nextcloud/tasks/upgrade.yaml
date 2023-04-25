@@ -1,15 +1,31 @@
 ---
-# - name: query nextcloud status to check if it needs an upgrade
-#   community.docker.docker_container_exec:
-#     container: "{{nextcloud_app_container_name}}"
-#     user: www-data
-#     command: php occ status --output=json
-#   register: _nextcloud_status_task
-#   changed_when: false
 
-- name: install nextcloud
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command: php occ upgrade
-  # when: not _nextcloud_status.installed
+- name: Shutdown docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+    state: absent
+
+- name: Bring Nextcloud database up
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+    services:
+      - postgres
+
+- name: Display the Nextcloud upgrade path
+  debug:
+    var: nextcloud_upgrade_path_via_versions
+
+- include_tasks: upgrade_loop.yaml
+  vars:
+    nextcloud_version: "{{ item }}"
+  loop: "{{ nextcloud_upgrade_path_via_versions }}"
+
+- name: Deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
