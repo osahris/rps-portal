@@ -8,6 +8,9 @@ nextcloud_wait_for_stack_on_deploy: true
 nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 
 nextcloud_version: "25.0"
+# when nextcloud_upgrade is true, nextcloud_version must be the same as nextcloud_current_version, TODO this is weird so we need to improve this 
+# nextcloud_current_version TODO: this variable should read the version of the current nextcloud installation for nextcloud_upgrade
+# nextcloud_target_version: "{{ nextcloud_version }}" # this variable is used for nextcloud_upgrade to set the version that is targeted
 
 nextcloud_defaultapp: files
 
