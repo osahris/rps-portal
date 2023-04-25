@@ -67,7 +67,7 @@
       Ansible somehow skipped the initialize step of the nextcloud role.
       There might be something wrong with the docker-compose stack deployment. Please check the logs.
 
-- import_tasks: custom_theme/setup.yaml
+- import_tasks: custom_theme.yaml
   when: nextcloud_with_custom_theme
 
 - import_tasks: traefik.yaml
