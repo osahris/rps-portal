@@ -19,10 +19,10 @@
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
 
-- name: deploy database initialization script
-  template:
-    src: "create-nextcloud-role.sh.j2"
-    dest: "{{remote_path}}/create-nextcloud-role.sh"
+# - name: deploy database initialization script
+#   template:
+#     src: "create-nextcloud-role.sh.j2"
+#     dest: "{{remote_path}}/initdb/create-nextcloud-role.sh"
 
 # Import the data from given SQL dump to the freshly deployed postgres
 - import_tasks: import.yaml
@@ -45,7 +45,24 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
-- import_tasks: initialize.yaml
+- import_tasks: install.yaml
+  when: nextcloud_install
+
+- name: query nextcloud status again
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_status_task
+  changed_when: false
+
+- name: assert that nextcloud is initialized
+  assert:
+    that: _nextcloud_status.installed
+    msg: |
+      Nextcloud is not initialized!
+      Ansible somehow skipped the initialize step of the nextcloud role.
+      There might be something wrong with the docker-compose stack deployment. Please check the logs.
 
 - import_tasks: custom_theme/setup.yaml
   when: nextcloud_with_custom_theme

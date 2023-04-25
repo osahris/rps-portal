@@ -15,13 +15,9 @@ _nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
 
 # # ------------------------------------------ #
 nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
-nextcloud_db_container_name:  "{{nextcloud_service_name|replace('.','')}}_db_1"
 nextcloud_db_hostname:        "postgres"
 # # ------------------------------------------ #
-nextcloud_container_datadir: /srv/nextcloud-data
-nextcloud_container_skeldir: /srv/nextcloud-skel
-# # ------------------------------------------ #
-
+nextcloud_postgres_table_prefix: "oc_"
 nextcloud_postgres_user: nextcloud
 nextcloud_postgres_database: nextcloud
 
@@ -72,8 +68,8 @@ _nextcloud_apps_present: "{{ _nextcloud_apps_enabled | union(_nextcloud_apps_dis
 nextcloud_default_config:
   system:
     defaultapp: "{{nextcloud_defaultapp}}"
-    skeletondirectory: "{{ nextcloud_container_skeldir }}"
-    datadirectory: "{{ nextcloud_container_datadir }}"
+    skeletondirectory: /srv/nextcloud/skel
+    datadirectory: /srv/nextcloud/data
     trusted_domains:
       - "{{ nextcloud_service_name }}"
 

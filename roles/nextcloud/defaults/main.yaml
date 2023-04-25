@@ -1,4 +1,7 @@
 ---
+nextcloud_import: false
+nextcloud_install: "{{ not nextcloud_import }}"
+
 nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 
 nextcloud_version: 25.0
@@ -73,5 +76,3 @@ nextcloud_with_custom_theme: false
 nextcloud_custom_theme_name: rps
 nextcloud_theme_repo: https://gitlab.com/idcohorts/rps/nextcloud-theme.git
 nextcloud_theme_version: main
-
-nextcloud_import: false

@@ -8,8 +8,8 @@ networks:
 
 volumes:
   postgres:
+  nextcloud:
   nextcloud-data:
-  #nextcloud:
 
 services:
 
@@ -28,13 +28,9 @@ services:
     depends_on:
       - postgres
     volumes:
-      # try to make the nextcloud installation "stateless"
-      #- nextcloud:/var/www/html
-      - nextcloud-data:{{ nextcloud_container_datadir }}
-      - ./skel:{{ nextcloud_container_skeldir }}:ro
-{% if nextcloud_import %}
-      - ./import/nextcloud-data:/srv/nextcloud-data-import:ro
-{% endif %}
+      - nextcloud:/var/www/html
+      - nextcloud-data:/srv/nextcloud/data
+      - ./skel:/srv/nextcloud/skel:ro
     env_file:
       - "./env"
 
@@ -48,13 +44,8 @@ services:
       - nextcloud-internal
     volumes:
       - postgres:/var/lib/postgresql/data
-      - ./create-nextcloud-role.sh:/docker-entrypoint-initdb.d/create-nextcloud-role.sh
-{% if nextcloud_import %}
-      - ./import/nextclouddb.sql:/docker-entrypoint-initdb.d/nextclouddb.sql
-{% endif %}
+      - ./initdb:/docker-entrypoint-initdb.d:ro
     environment:
-      - POSTGRES_PASSWORD=example
-      - POSTGRES_DB=nextcloud
-      - POSTGRES_NEXTCLOUD_USER=nextcloud
-      - POSTGRES_NEXTCLOUD_PASSWORD={{ nextcloud_postgres_password }}
-
+      - POSTGRES_DB={{nextcloud_postgres_database}}
+      - POSTGRES_USER={{nextcloud_postgres_user}}
+      - POSTGRES_PASSWORD={{nextcloud_postgres_password}}
