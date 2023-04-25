@@ -2,6 +2,12 @@
 layout: docs
 title: "Docs for Devs"
 ---
+# Manual for developers
+
+_This page is currently under construction, sorry._
+
+Primary info on whom whis page is addressed to.
+
 
 ## Traefik
 **Reverse proxy service**  

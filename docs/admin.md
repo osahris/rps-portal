@@ -2,6 +2,12 @@
 layout: docs
 title: "Docs for Admins"
 ---
+# Manual for admins
+
+_This page is currently under construction, sorry._
+
+Primary info on whom whis page is addressed to.
+
 
 ## Budibase
 **Low-code database framework.**  

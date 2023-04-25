@@ -47,7 +47,7 @@ More info: [official docs](https://www.bookstackapp.com/docs/)
 **Low-code database framework.**  
 For building forms quickly and pleasant working structured data. 
 
-A simple example of its application could be a construction of a form to collect participants data for some event or project. With Budibase this can be done in a few minutes! (All right, first time it will take you longer...)
+A simple example of its application could be a construction of a form to collect participants data for some event or project. With Budibase this can be done in a few minutes! (All right, first time it will take you longer...)  
 More info: [official promo in YouTube](https://www.youtube.com/watch?v=xoljVpty_Kw)
 
 
