@@ -20,7 +20,7 @@
   register: _nextcloud_status_task
   changed_when: false
 
-- name: initialize nextcloud
+- name: install nextcloud
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
