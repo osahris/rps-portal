@@ -47,6 +47,22 @@
 
 - import_tasks: initialize.yaml
 
+- name: query nextcloud status again to assert if it is initialized
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_status_task
+  changed_when: false
+
+- name: assert that nextcloud is initialized
+  assert:
+    that: _nextcloud_status.installed
+    msg: |
+      Nextcloud is not initialized!
+      Ansible somehow skipped the initialize step of the nextcloud role.
+      There might be something wrong with the docker-compose stack deployment. Please check the logs.
+
 - import_tasks: custom_theme/setup.yaml
   when: nextcloud_with_custom_theme
 
