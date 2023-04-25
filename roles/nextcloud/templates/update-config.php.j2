@@ -1,0 +1,26 @@
+<?php
+
+// include the original config file
+include '/var/www/html/config/config.php';
+
+// modify the values of the variables
+$newConfig = array(
+    'dbtype' => 'pgsql',
+    'dbhost' => '{{nextcloud_db_hostname}}',
+    'dbname' => '{{nextcloud_postgres_database}}',
+    'dbuser' => '{{nextcloud_postgres_user}}',
+    'dbpassword' => '{{nextcloud_postgres_password}}',
+    'dbtableprefix' => '{{nextcloud_postgres_table_prefix}}',
+    'datadirectory' => '/srv/nextcloud/data',
+);
+
+// merge the new values with the original config
+$CONFIG = array_merge($CONFIG, $newConfig);
+
+// print the new CONFIG
+print_r($CONFIG);
+
+// write the modified values to a new file
+$file = fopen('/var/www/html/config/config.php', 'w');
+fwrite($file, "<?php\n\$CONFIG = " . var_export($CONFIG, true) . ";\n");
+fclose($file);

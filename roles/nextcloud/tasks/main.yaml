@@ -3,17 +3,13 @@
 
 - import_tasks: deploy.yaml
 
-# If we are in import mode, after the SQL database came up cleanly,
-# enter the nextcloud container and sync the import/nextcloud-data/ dir
-# into the storage volume.
-- import_tasks: import2.yaml
-  when: nextcloud_import
-
 - import_tasks: config.yaml
   vars:
     nextcloud_config: "{{nextcloud_default_config}}"
 
-- import_tasks: custom_theme/config.yaml
+- import_tasks: traefik.yaml
+
+- import_tasks: custom_theme.yaml
   when: nextcloud_with_custom_theme
 
 - import_tasks: keycloak_client.yaml
