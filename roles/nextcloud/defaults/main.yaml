@@ -3,8 +3,6 @@ nextcloud_import: false
 nextcloud_install: "{{ not nextcloud_import }}"
 nextcloud_upgrade: false
 
-nextcloud_assert_initialized: true
-
 nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 
 nextcloud_version: "25.0"

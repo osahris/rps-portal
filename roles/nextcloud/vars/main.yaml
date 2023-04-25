@@ -84,6 +84,9 @@ nextcloud_default_config:
     datadirectory: /srv/nextcloud/data
     trusted_domains:
       - "{{ nextcloud_service_name }}"
+    overwritehost: "{{ nextcloud_service_name }}"
+    overwriteprotocol: https
+    overwrite.cli.url: https://{{ nextcloud_service_name }}
 
 nextcloud_user_oidc_config:
   apps:

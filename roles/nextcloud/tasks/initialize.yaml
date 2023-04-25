@@ -26,4 +26,3 @@
     user: www-data
     command: php occ maintenance:install --data-dir=/srv/nextcloud/data --admin-user="{{nextcloud_admin_user}}" --admin-pass="{{nextcloud_admin_password}}" --database="pgsql" --database-name="{{nextcloud_postgres_database}}" --database-host="{{nextcloud_db_hostname}}" --database-user="{{nextcloud_postgres_user}}" --database-pass="{{nextcloud_postgres_password}}"
   when: not _nextcloud_status.installed
-

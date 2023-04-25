@@ -45,6 +45,9 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
+- import_tasks: upgrade.yaml
+  when: nextcloud_upgrade
+
 - import_tasks: initialize.yaml
   when: nextcloud_install
 
@@ -64,13 +67,9 @@
       Nextcloud is not initialized!
       Ansible somehow skipped the initialize step of the nextcloud role.
       There might be something wrong with the docker-compose stack deployment. Please check the logs.
-  when: nextcloud_assert_initialized
 
-- import_tasks: custom_theme.yaml
-  when: nextcloud_with_custom_theme
-
-- import_tasks: traefik.yaml
-
-- import_tasks: upgrade.yaml
-  when: nextcloud_upgrade
-
+- name: Update htaccess
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ maintenance:update:htaccess
