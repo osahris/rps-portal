@@ -17,3 +17,5 @@
       tags: wordpress
     - role: maintenance
       tags: never, maintenance # A 'never' tag means that the role ONLY executes if the other tag ('maintenance') is given
+    - role: website
+      tags: website
