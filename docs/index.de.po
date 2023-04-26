@@ -4,7 +4,7 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2016-10-21 17:02+0200\n"
+"POT-Creation-Date: 2023-04-26 15:02+0200\n"
 "PO-Revision-Date: 2016-10-21 17:20+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
@@ -14,21 +14,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#. type: Plain text
-msgid "Welcome to Ghostroute Consulting's Knowledge Base."
-msgstr "Willkommen in der Wissensbasis von Ghostroute Consulting"
+#. type: Title =
+#, no-wrap
+msgid "Welcome to the Documentation for Research Project Suite"
+msgstr ""
 
 #. type: Plain text
 msgid ""
-"Here we collect information about different aspects of daily IT life, and "
-"share it with select customers."
+"Here we try to document different aspects of this software stack.  It is "
+"structured for three different target audiences:"
 msgstr ""
-"Hier sammeln wir Informationen zum täglichen IT-Leben und teilen diese mit "
-"ausgewählten Kunden."
-
-#. type: Plain text
-msgid "The knowledge base is structured as follows:"
-msgstr "Die Wissensdatenbank ist folgendermaßen gegliedert:"
 
 #. type: Bullet: ' * '
 msgid "[end-user help](enduser)"
@@ -38,13 +33,26 @@ msgstr "[Dokumente für Endbenutzer](enduser)"
 msgid "[administrator documentation](admin)"
 msgstr "[Dokumentation für Administratoren](admin)"
 
+#. type: Bullet: ' * '
+#, fuzzy
+#| msgid "[administrator documentation](admin)"
+msgid "[developer documentation](developer)"
+msgstr "[Dokumentation für Administratoren](admin)"
+
 #. type: Plain text
+#, fuzzy
+#| msgid ""
+#| "As this is a [wiki](enduser/wiki), feel free to add any information you "
+#| "feel is missing. All texts here are licensed under the GNU Lesser General "
+#| "Public License, either version 3 of that license, or, at your option, any "
+#| "later version. By adding something to this wiki, you agree to license "
+#| "your further contributions also under that license."
 msgid ""
-"As this is a [wiki](enduser/wiki), feel free to add any information you feel "
-"is missing. All texts here are licensed under the GNU Lesser General Public "
-"License, either version 3 of that license, or, at your option, any later "
-"version. By adding something to this wiki, you agree to license your further "
-"contributions also under that license."
+"As this documentation is a [wiki](enduser/wiki), feel free to add any "
+"information you feel is missing. All texts here are licensed under the GNU "
+"Lesser General Public License, either version 3 of that license, or, at your "
+"option, any later version. By adding something to this wiki, you agree to "
+"license your further contributions also under that license."
 msgstr ""
 "Da diese Seite ein [Wiki](enduser/wiki) ist, können Sie gerne fehlende "
 "Informationen jeglicher Art hinzufügen. Alle Texte hier werden unter der GNU "
@@ -52,3 +60,16 @@ msgstr ""
 "oder (nach Ihrer Option) jeder späteren Version. Indem Sie etwas diesem Wiki "
 "hinzufügen, stimmen Sie zu, Ihre Änderungen auch unter dieser Lizenz "
 "freizugeben."
+
+#~ msgid "Welcome to Ghostroute Consulting's Knowledge Base."
+#~ msgstr "Willkommen in der Wissensbasis von Ghostroute Consulting"
+
+#~ msgid ""
+#~ "Here we collect information about different aspects of daily IT life, and "
+#~ "share it with select customers."
+#~ msgstr ""
+#~ "Hier sammeln wir Informationen zum täglichen IT-Leben und teilen diese "
+#~ "mit ausgewählten Kunden."
+
+#~ msgid "The knowledge base is structured as follows:"
+#~ msgstr "Die Wissensdatenbank ist folgendermaßen gegliedert:"
