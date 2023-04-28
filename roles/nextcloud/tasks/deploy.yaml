@@ -58,7 +58,6 @@
     command: php occ status --output=json
   register: _nextcloud_status_task
   changed_when: false
-  when: nextcloud_assert_initialized
 
 - name: assert that nextcloud is initialized
   assert:
