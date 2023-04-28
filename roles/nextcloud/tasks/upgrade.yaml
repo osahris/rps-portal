@@ -40,4 +40,3 @@
   retries: 180
   delay: 1
   until: _nextcloud_status_task is not failed
-  when: nextcloud_wait_for_stack_on_deploy
