@@ -4,5 +4,9 @@
 
   pre_tasks:
   roles:
+    - role: docker
+      tags: docker
+    - role: traefik
+      tags: traefik
     - role: website
       tags: website
