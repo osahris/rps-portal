@@ -44,7 +44,7 @@ More info: [official docs](https://nextcloud.com/support/)
 
 ## Wiki-Bookstack
 **Information systematization tool.**  
-For a bigger working group sooner or later comes the question of centralizing and structurizing the core internal information. Having your own encyclopedia is a reasonable choice, especially if it is such a light-weight and easy-to-use one as Wiki-Bookstack in the RPS.  
+For a bigger working group sooner or later comes the question of centralizing and structuring the core internal information. Having your own encyclopedia is a reasonable choice, especially if it is such a light-weight and easy-to-use one as Wiki-Bookstack in the RPS.  
 More info: [official docs](https://www.bookstackapp.com/docs/)
 
 

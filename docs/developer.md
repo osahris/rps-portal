@@ -6,7 +6,7 @@ title: "Docs for Devs"
 
 _This page is currently under construction, sorry._
 
-Primary info on whom whis page is addressed to.
+Primary info on whom this page is addressed to.
 
 
 ## Traefik
