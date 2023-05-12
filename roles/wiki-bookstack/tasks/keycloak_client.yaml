@@ -22,10 +22,8 @@
           access.token.claim: 'false'
           claim.name: groups
           full.path: 'false'
-          id.token.claim: 'false'
+          id.token.claim: 'true'
           userinfo.token.claim: 'true'
         consentRequired: false
         protocol: openid-connect
         protocolMapper: oidc-group-membership-mapper
-  # environment:
-  #   REQUESTS_CA_BUNDLE: /home/mkb/abrechnungspipeline/files/certs/nukleus_prod_2022_root_ca.crt

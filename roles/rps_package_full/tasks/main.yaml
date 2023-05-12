@@ -49,9 +49,9 @@
 
 # Bookstack
 
-# - import_role:
-#     name: wiki-bookstack
-#   tags:
-#     - bookstack
-#     - book
-#     - wiki
+- import_role:
+    name: wiki-bookstack
+  tags:
+    - bookstack
+    - book
+    - wiki

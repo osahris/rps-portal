@@ -1,7 +1,6 @@
 PUID=1000
 PGID=1000
 APP_URL=https://{{wiki_bookstack_service_name}}
-# APP_URL=http://{{ansible_ssh_host}}
 DB_HOST=db
 DB_PORT=3306
 DB_USER={{wiki_DB_USER}}
@@ -33,10 +32,10 @@ OIDC_NAME="Keycloak SSO"
 OIDC_DISPLAY_NAME_CLAIMS=name
 
 # OAuth Client ID to access the identity provider
-OIDC_CLIENT_ID="wiki-bookstack"
+OIDC_CLIENT_ID="{{wiki_bookstack_keycloak_client_client_id}}"
 
 # OAuth Client Secret to access the identity provider
-OIDC_CLIENT_SECRET="iF6xy6IG6yukX3xRMKQR8PEkFGhriYQ3"
+OIDC_CLIENT_SECRET="{{wiki_bookstack_keycloak_client_secret}}"
 
 # Issuer URL
 # Must start with 'https://'
@@ -50,10 +49,10 @@ OIDC_ISSUER_DISCOVER=true
 
 
 # # Enable OIDC group sync.
-# OIDC_USER_TO_GROUPS=true
+OIDC_USER_TO_GROUPS=true
 
 # # Set the attribute from which BookStack will read groups names from.
-# OIDC_GROUPS_CLAIM=groups
+OIDC_GROUPS_CLAIM=groups
 
 # # Additional scopes to send with the authentication request.
 # # By default BookStack only sends the 'openid', 'profile' & 'email' scopes.
