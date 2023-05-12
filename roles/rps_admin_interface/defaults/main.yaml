@@ -4,8 +4,33 @@ rps_admin_interface_service_name: admin.{{ rps_dns_suffix }}
 rps_admin_web_interface_keycloak_service_url: "https://{{ keycloak_service_name }}"
 
 rps_admin_interface_keycloak_realm: "{{ keycloak_realm }}"
-rps_admin_interface_keycloak_client_id: "{{ rps_admin_interface_service_name }}"
-rps_admin_interface_keycloak_client_secret: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_keycloak_client_secret }}"
 
 rps_admin_web_interface_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"
 rps_admin_web_interface_keycloak_auth_password: "{{keycloak_admin_password}}"
+
+# secrets
+rps_admin_interface_keycloak_client_secret: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_keycloak_client_secret }}"
+rps_admin_interface_oauth2_proxy_redis_pass: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_oauth2_proxy_redis_pass }}"
+rps_admin_interface_oauth2_proxy_cookie_secret: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_oauth2_proxy_cookie_secret }}"
+
+
+# oauth2-proxy
+rps_admin_interface_oauth2_proxy_email_domains: "*"
+rps_admin_interface_oauth2_proxy_allowed_roles:
+  - admin
+rps_admin_interface_oauth2_proxy_request_logging: true
+
+# keycloak
+rps_admin_interface_keycloak_client_id: "{{ rps_admin_interface_service_name }}"
+
+rps_admin_interface_keycloak_client_auth_keycloak_url: "{{rps_admin_interface_keycloak_client_url}}"
+rps_admin_interface_keycloak_client_auth_client_id: admin-cli
+rps_admin_interface_keycloak_client_auth_realm: master
+rps_admin_interface_keycloak_client_auth_username: "{{keycloak_admin_username|default('admin')}}"
+rps_admin_interface_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+rps_admin_interface_keycloak_client_validate_certs: true
+
+rps_admin_interface_keycloak_client_url: "https://{{ keycloak_service_name }}"
+rps_admin_interface_keycloak_client_realm_url: "{{rps_admin_interface_keycloak_client_url}}/realms/{{rps_admin_interface_keycloak_client_realm}}"
+rps_admin_interface_keycloak_client_realm: "{{ keycloak_realm }}"
+rps_admin_interface_keycloak_client_redirect_uris: "https://{{ rps_admin_interface_service_name }}/oauth2/callback"

@@ -1,20 +1,41 @@
 ---
-- name: keycloak client for rps admin interface
+
+- name: keycloak client
   local_action: keycloak_client
   become: false
   args:
-    auth_client_id: "admin-cli"
-    auth_keycloak_url: "{{ rps_admin_web_interface_keycloak_service_url }}"
-    auth_realm: "master"
-    auth_username: "{{ rps_admin_web_interface_keycloak_auth_username }}"
-    auth_password: "{{ rps_admin_web_interface_keycloak_auth_password }}"
+    auth_client_id: "{{ rps_admin_interface_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ rps_admin_interface_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ rps_admin_interface_keycloak_client_auth_realm }}"
+    auth_username: "{{ rps_admin_interface_keycloak_client_auth_username }}"
+    auth_password: "{{ rps_admin_interface_keycloak_client_auth_password }}"
     client_id: "{{ rps_admin_interface_keycloak_client_id }}"
-    realm: "{{ rps_admin_interface_keycloak_realm }}"
-    redirect_uris: []
+    realm: "{{ rps_admin_interface_keycloak_client_realm }}"
+    redirect_uris: "{{ rps_admin_interface_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
     secret: "{{ rps_admin_interface_keycloak_client_secret }}"
     state: present
-    direct_access_grants_enabled: true
-    service_accounts_enabled: true
-    standard_flow_enabled: false
-    validate_certs: true
+    validate_certs: "{{ rps_admin_interface_keycloak_client_validate_certs | default(true) }}"
+    # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
+    standard_flow_enabled: true
+    implicit_flow_enabled: false
+    direct_access_grants_enabled: false
+    protocol_mappers:
+      - name:	audience
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience:	"{{ rps_admin_interface_keycloak_client_id }}"
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+      - name: groups
+        config:
+          access.token.claim: 'false'
+          claim.name: groups
+          full.path: 'true'
+          id.token.claim: 'true'
+          userinfo.token.claim: 'true'
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-group-membership-mapper
