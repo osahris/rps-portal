@@ -11,6 +11,8 @@ $newConfig = array(
     'dbuser' => '{{nextcloud_postgres_user}}',
     'dbpassword' => '{{nextcloud_postgres_password}}',
     'dbtableprefix' => '{{nextcloud_postgres_table_prefix}}',
+    'datadirectory' => '/srv/nextcloud/data',
+    'overwrite.cli.url' => 'https://{{nextcloud_service_name}}',
 );
 
 // merge the new values with the original config
