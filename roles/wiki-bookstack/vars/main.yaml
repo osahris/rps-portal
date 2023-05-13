@@ -1,14 +1,13 @@
 ---
 # Ansible variables
-remote_path: "/app/{{wiki_bookstack_service_name}}"
+remote_path: "/srv/{{wiki_bookstack_service_name}}"
 
 # # ------------------------------------------ #
 wiki_DB_DATABASE: "bookstackapp"
 wiki_DB_USER: "bookstack"
 wiki_DB_PASS: "{{wiki_bookstack_db_admin_password}}"
 
-keycloak_host: "keycloak.{{inventory_hostname}}" # "accounts.idcohorts.net"
-keycloak_realm: "rps"
+keycloak_host: "{{keycloak_service_name}}"
 
 app_port: "80"
 

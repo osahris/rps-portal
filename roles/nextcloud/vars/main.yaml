@@ -1,7 +1,25 @@
 ---
 # Ansible variables
-remote_path: "/app/{{nextcloud_service_name}}"
+remote_path: "/srv/{{nextcloud_service_name}}"
 app_port: "80"
+
+nextcloud_upgrade_path:
+  - "20.0"
+  - "21.0"
+  - "22.0"
+  - "22.1"
+  - "22.2"
+  - "23.0"
+  - "24.0"
+  - "25.0"
+  - "26.0"
+
+nextcloud_upgrade_path_via_versions: "{{ nextcloud_upgrade_path | select('gt', nextcloud_current_version) | select('le', nextcloud_target_version) }}"
+
+nextcloud_secrets:
+  nextcloud_postgres_password: "{{ nextcloud_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  nextcloud_keycloak_client_secret: "{{ nextcloud_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  nextcloud_admin_password: "{{ nextcloud_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 # # ------------------------------------------ #
 _nextcloud_status: "{{_nextcloud_status_task.stdout | from_json}}"
@@ -9,13 +27,11 @@ _nextcloud_config: "{{ _nextcloud_config_cmd.stdout | from_json }}"
 
 # # ------------------------------------------ #
 nextcloud_app_container_name: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
-nextcloud_db_container_name:  "{{nextcloud_service_name|replace('.','')}}_db_1"
+nextcloud_db_hostname:        "postgres"
 # # ------------------------------------------ #
-MYSQL_HOST: "{{nextcloud_db_container_name}}"
-MYSQL_DATABASE: "nextcloud"
-MYSQL_USER: "admin"
-MYSQL_PASSWORD: "{{nextcloud_db_admin_password}}"
-MYSQL_ROOT_PASSWORD: "{{nextcloud_db_admin_password}}"
+nextcloud_postgres_table_prefix: "oc_"
+nextcloud_postgres_user: nextcloud
+nextcloud_postgres_database: nextcloud
 
 # For each new running service add below a traefik router and a traefik service
 traefik_dynamic_config:
@@ -65,8 +81,12 @@ nextcloud_default_config:
   system:
     defaultapp: "{{nextcloud_defaultapp}}"
     skeletondirectory: /srv/nextcloud/skel
+    datadirectory: /srv/nextcloud/data
     trusted_domains:
       - "{{ nextcloud_service_name }}"
+    overwritehost: "{{ nextcloud_service_name }}"
+    overwriteprotocol: https
+    overwrite.cli.url: https://{{ nextcloud_service_name }}
 
 nextcloud_user_oidc_config:
   apps:

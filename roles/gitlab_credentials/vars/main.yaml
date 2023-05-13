@@ -1,0 +1,3 @@
+gitlab_credentials:
+  gitlab_deploy_token_username: "{{ gitlab_deploy_token_username }}"
+  gitlab_deploy_token_password: "{{ gitlab_deploy_token_password }}"

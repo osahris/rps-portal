@@ -1,0 +1,60 @@
+---
+- name: assert that the systems distribution is Debian
+  assert:
+    that: ansible_distribution == "Debian"
+    msg: "The RPS is only supported on Debian!"
+
+# old Debian releases don't support docker with IPv6
+- name: assert that the debian release is bookworm
+  assert:
+    that: ansible_distribution_release == "bookworm"
+    msg: "The RPS is targeted for Debian bookworm!"
+
+- import_role:
+    name: docker
+  tags:
+    - docker
+
+- import_role:
+    name: gitlab_credentials
+  tags:
+    - gitlab_credentials
+    - gitlab-credentials
+  when: rps_with_gitlab_credentials
+
+- import_role:
+    name: traefik
+  tags:
+    - traefik
+
+- import_role:
+    name: keycloak
+  tags:
+    - keycloak
+    - accounts
+  when: rps_core_package_with_keycloak
+
+- import_role:
+    name: keycloak_realms
+  tags:
+    - keycloak_realms
+    - keycloak-realms
+  when: rps_core_package_with_keycloak_realms
+
+- import_role:
+    name: rps_style_servers
+  tags:
+    - rps_style_servers
+    - style
+
+- import_role:  
+    name: oauth2_proxy
+  tags:
+    - oauth2_proxy
+    - oauth2-proxy
+    - oauth2
+
+- import_role:
+    name: redirects
+  tags:
+    - redirects

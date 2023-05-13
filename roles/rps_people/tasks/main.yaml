@@ -1,10 +1,4 @@
 ---
-- name: current host
-  debug:
-    msg:
-      - "{{ ansible_ssh_host }}"
-      - "{{ inventory_hostname }}"
-
 - name: create directory
   file: path={{remote_path}} state=directory
 
@@ -26,7 +20,7 @@
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/app/proxy/traefik/conf.d/rps_people.yaml"
+    dest: "/srv/traefik/conf.d/rps_people.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:

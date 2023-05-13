@@ -1,19 +1,11 @@
 ---
-discourse_service_name: "{{ inventory_hostname }}"
-
-discourse_target_directory: "/app/{{ discourse_service_name }}"
-
-discourse_base_url: "https://{{ discourse_service_name }}"
+discourse_service_name: "dialog.{{ rps_dns_suffix }}"
 
 locales:
   lang: de_DE.UTF-8
   language: de
 
 discourse_version: stable
-
-discourse_secrets:
-  discourse_postgres_password: "{{ discourse_postgres_password  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  discourse_oidc_sso_client_secret: "{{ discourse_oidc_sso_client_secret  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 discourse_postgres_password: "{{ ansible_local[discourse_service_name].discourse_postgres_password }}"
 discourse_postgres_db_default_text_search_config: pg_catalog.german
@@ -52,7 +44,7 @@ discourse_keycloak_client_auth_username: admin
 discourse_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 discourse_keycloak_client_validate_certs: true
 
-discourse_keycloak_client_realm: "rps"
+discourse_keycloak_client_realm: "{{ keycloak_realm }}"
 discourse_keycloak_client_realm_url: "{{discourse_keycloak_base_url}}/realms/{{discourse_keycloak_client_realm}}"
 discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
 discourse_keycloak_client_redirect_uris:

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {{title}}
+        </title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <script type="text/javascript" src="/header.js"></script>
+    </head>
+
+    <body>
+        <nav id="rps-header" class="rps-header"></nav>
+        <div class="pseudo-body">
+            {% block body %}
+            {% endblock %}
+            <br>---------------------------<br>
+            <button class="red_button" onclick="history.go(-1)">Back</button>
+            <button class="red_button" onclick="location.href='/'">Main</button>
+        </div>
+    </body>
+<!-- Tulsky V.A. 2023 -->
+</html>

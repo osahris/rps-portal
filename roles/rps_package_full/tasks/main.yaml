@@ -1,0 +1,57 @@
+---
+
+- import_role:
+    name: rps_package_base
+  tags:
+    - rps_package_base
+    - rps-package-base
+    - rps-base
+
+# Nextcloud
+
+- import_role:
+    name: nextcloud
+  tags:
+    - nextcloud
+    - cloud
+
+# Discourse
+
+- import_role:
+    name: discourse
+  tags:
+    - discourse
+    - dialog
+
+# RocketChat
+
+# - import_role:
+#     name: rocketchat
+#   tags:
+#     - rocketchat
+#     - chat
+
+# Gitea
+
+# - import_role:
+#     name: gitea
+#   tags:
+#     - gitea
+#     - git
+
+# Collabora
+
+# - import_role:
+#     name: collabora
+#   tags:
+#     - collabora
+#     - office
+
+# Bookstack
+
+- import_role:
+    name: wiki-bookstack
+  tags:
+    - bookstack
+    - book
+    - wiki

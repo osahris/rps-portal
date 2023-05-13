@@ -1,6 +1,8 @@
 ---
-budibase_service_name: "{{ inventory_hostname }}"
-service_name: "budibase"
+budibase_service_name: base.{{ rps_dns_suffix }}
+
+# see https://hub.docker.com/r/budibase/apps for latest version
+budibase_version: latest # v2.5.4
 
 budibase_api_encryption_key: "{{ ansible_local[service_name].budibase_api_encryption_key | default(ansible_local.secrets.budibase_api_encryption_key) }}"
 budibase_jwt_secret: "{{ ansible_local[service_name].budibase_jwt_secret | default(ansible_local.secrets.budibase_jwt_secret) }}"

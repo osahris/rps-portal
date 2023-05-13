@@ -1,0 +1,25 @@
+---
+
+- name: Export – create export directory
+  ansible.builtin.file:
+    path: "{{ export_path }}"
+    state: directory
+    mode: 0755
+
+- name: Export – copy export script
+  ansible.builtin.copy:
+    src: export.sh
+    dest: "{{ remote_path }}/export.sh"
+    mode: 0755
+
+- name: Export – run export script
+  ansible.builtin.command: "{{ remote_path }}/export.sh"
+  args:
+    chdir: "{{ remote_path }}"
+
+- name: Export – Download export files from the controller
+  synchronize:
+    src: "{{ remote_path }}/export/"
+    dest: "{{ wordpress_export_local_folder }}"
+    mode: pull
+  when: wordpress_export == "local_folder"

@@ -1,0 +1,12 @@
+---
+- name: traefik dynamic config
+  template:
+    src: traefik-redirects.yaml.j2
+    dest: "/srv/traefik/conf.d/redirects.yaml"
+  when: redirects | length > 0
+
+- name: delete traefik dynamic config when no redirects are defined
+  file:
+    path: "/srv/traefik/conf.d/redirects.yaml"
+    state: absent
+  when: redirects | length == 0

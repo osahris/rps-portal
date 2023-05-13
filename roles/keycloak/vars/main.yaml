@@ -1,0 +1,27 @@
+---
+remote_path: "/srv/{{keycloak_service_name}}"
+
+keycloak_export_path: "{{ remote_path }}/export"
+keycloak_import_path: "{{ remote_path }}/import"
+keycloak_docker_container: "{{ keycloak_service_name|replace('.', '') }}_keycloak_1"
+
+keycloak_secrets:
+  keycloak_admin_password: "{{ keycloak_admin_password  | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  keycloak_postgres_password: "{{ keycloak_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+
+keycloak_traefik_dynamic_config:
+  http:
+    routers:
+      keycloak:
+        rule: "Host(`{{keycloak_service_name}}`)"
+        entrypoints: websecure
+        service: keycloak
+        tls:
+          certresolver: letsencrypt
+    services:
+      keycloak:
+        loadBalancer:
+          servers:
+            - url: "http://{{ keycloak_service_name|replace('.', '') }}_keycloak_1:8080"
+

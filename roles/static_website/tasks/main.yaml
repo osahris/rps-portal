@@ -1,0 +1,35 @@
+---
+- name: create application directory
+  file:
+    path: "{{remote_path}}"
+    state: directory
+
+- name: create html directory
+  file:
+    path: "{{remote_path}}/html"
+    state: directory
+
+- name: static website config
+  git:
+    repo: "{{ static_website_git_repo }}"
+    dest: "{{remote_path}}/html"
+    version: "{{ static_website_git_version }}"
+    force: yes
+
+- name: create docker compose yaml
+  template:
+    src: "docker-compose.yaml.j2"
+    dest: "{{remote_path}}/docker-compose.yaml"
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    files: "docker-compose.yaml"
+    pull: true
+    build: true
+    remove_orphans: true
+
+- name: traefik dynamic config
+  copy:
+    content: "{{ static_header_test_traefik_dynamic_config }}"
+    dest: "/srv/traefik/conf.d/static-header-test.yaml"

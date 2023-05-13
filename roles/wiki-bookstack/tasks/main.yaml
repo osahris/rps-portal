@@ -1,11 +1,7 @@
 ---
-- name: current host
-  debug:
-    msg:
-      - "{{ ansible_ssh_host }}"
-      - "{{ inventory_hostname }}"
-
 - import_tasks: secrets.yaml
+
+- import_tasks: keycloak_client.yaml
 
 - name: create directory
   file: path={{remote_path}} state=directory
@@ -28,7 +24,7 @@
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/app/proxy/traefik/conf.d/wiki-bookstack.yaml"
+    dest: "/srv/traefik/conf.d/wiki-bookstack.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -41,4 +37,3 @@
     remove_orphans: true
   with_items:
     - "docker-compose.yaml"
-# - import_tasks: keycloak_client.yaml

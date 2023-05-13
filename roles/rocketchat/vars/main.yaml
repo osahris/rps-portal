@@ -1,5 +1,5 @@
 project_name: "rocketchat"
-remote_path: "/app/{{project_name}}.{{inventory_hostname}}"
+remote_path: "/srv/{{rocketchat_service_name}}"
 
 rocketchat_traefik_dynamic_config:
   http:
@@ -7,10 +7,10 @@ rocketchat_traefik_dynamic_config:
       rocketchat-add-oauth2-redirect-header:
         headers:
           customrequestheaders:
-            X-Auth-Request-Redirect: "https://{{rocketchat_server_name}}"
+            X-Auth-Request-Redirect: "https://{{rocketchat_service_name}}"
     routers:
       rocketchat:
-        rule: "Host(`{{rocketchat_server_name}}`)"
+        rule: "Host(`{{rocketchat_service_name}}`)"
         entrypoints: websecure
         service: rocketchat
         tls:
@@ -22,4 +22,4 @@ rocketchat_traefik_dynamic_config:
       rocketchat:
         loadBalancer:
           servers:
-            - url: "http://{{ rocketchat_server_name|replace('.', '') }}_rocketchat_1:3000"
+            - url: "http://{{ rocketchat_service_name|replace('.', '') }}_rocketchat_1:3000"

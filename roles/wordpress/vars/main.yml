@@ -1,30 +1,41 @@
 ---
-wordpress_prod_traefik_dynamic_config:
-  http:
-    routers:
-      wordpress_prod:
-        rule: "Host(`{{wordpress_prod_service_name}}`)"
-        entrypoints: websecure
-        service: wordpress_prod
-        tls:
-          certresolver: letsencrypt
-    services:
-      wordpress_prod:
-        loadBalancer:
-          servers:
-            - url: "http://{{wordpress_prod_service_name|replace('.', '')}}_wordpress_1"
+remote_path: /srv/{{ wordpress_service_name }}
+import_path: "{{ remote_path }}/import"
+export_path: "{{ remote_path }}/export"
 
-wordpress_staging_traefik_dynamic_config:
+wordpress_secrets:
+  wordpress_admin_password: "{{ wordpress_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_mysql_password: "{{ wordpress_mysql_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wordpress_mysql_root_password: "{{ wordpress_mysql_root_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+wordpress_traefik_router_profiles:
+  oauth2:
+    rule: "Host(`{{wordpress_service_name}}`)"
+    entrypoints: websecure
+    middlewares: 
+      - header-redirect
+      - "{{ wordpress_service_name }}-add-oauth2-redirect"
+      - oauth2
+    service: "{{ wordpress_service_name }}"
+  public:
+    rule: "Host(`{{wordpress_service_name}}`)"
+    entrypoints: websecure
+    middlewares: 
+      - header-redirect
+    service: "{{ wordpress_service_name }}"
+
+wordpress_traefik_service_config:
+  loadBalancer:
+    servers:
+      - url: "http://{{ wordpress_service_name | replace('.', '') }}_wordpress_1"
+
+wordpress_traefik_add_oauth2_redirect_middleware:
+  headers:
+    customrequestheaders:
+      X-Auth-Request-Redirect: "https://{{ wordpress_service_name }}"
+
+wordpress_traefik_dynamic_config:
   http:
-    routers:
-      wordpress_staging:
-        rule: "Host(`{{wordpress_staging_service_name}}`)"
-        entrypoints: websecure
-        service: wordpress_staging
-        tls:
-          certresolver: letsencrypt
-    services:
-      wordpress_staging:
-        loadBalancer:
-          servers:
-            - url: "http://{{wordpress_staging_service_name|replace('.', '')}}_wordpress_1"
+    routers: "{{ { wordpress_service_name : wordpress_traefik_router_profiles[wordpress_traefik_profile] } }}"
+    services: "{{ { wordpress_service_name : wordpress_traefik_service_config } }}"
+    middlewares: "{{ { wordpress_service_name + '-add-oauth2-redirect' : wordpress_traefik_add_oauth2_redirect_middleware } }}"

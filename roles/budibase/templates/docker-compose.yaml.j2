@@ -8,10 +8,13 @@ networks:
   proxy:
     external: true
 
+volumes:
+  budibase_data:
+
 services:
 
   "{{service_name}}":
-    image: budibase/budibase:latest
+    image: budibase/budibase:{{budibase_version}}
     restart: unless-stopped
     logging:
       options:
@@ -19,6 +22,7 @@ services:
     networks:
       - proxy
     environment:
+      CUSTOM_DOMAIN: {{budibase_custom_domain}}
       JWT_SECRET: {{budibase_jwt_secret}}
       MINIO_ACCESS_KEY: {{budibase_minio_access_key}}
       MINIO_SECRET_KEY: {{budibase_minio_secret_key}}
@@ -27,4 +31,4 @@ services:
       COUCHDB_PASSWORD: {{budibase_couch_db_password}}
       INTERNAL_API_KEY: {{budibase_internal_api_key}}
     volumes:
-      - ./data:/dat
+      - budibase_data:/data

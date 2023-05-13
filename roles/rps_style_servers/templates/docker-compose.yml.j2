@@ -1,0 +1,17 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  style:
+    build: style_server
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - proxy
+

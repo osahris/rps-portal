@@ -1,2 +1,2 @@
 ---
-rps_people_service_name: "{{ inventory_hostname }}"
+rps_people_service_name: people.{{ rps_dns_suffix }}

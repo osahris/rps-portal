@@ -1,5 +1,5 @@
 WORDPRESS_DB_HOST=db
 WORDPRESS_DB_USER=wordpress
-WORDPRESS_DB_PASSWORD={{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_mysql_password') }}
+WORDPRESS_DB_PASSWORD={{ wordpress_mysql_password }}
 WORDPRESS_DB_NAME=wordpress
 WORDPRESS_CONFIG_EXTRA_FILE=/wp-extra-config.php

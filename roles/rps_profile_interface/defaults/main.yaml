@@ -1,0 +1,5 @@
+---
+rps_profile_interface_service_name: profile.{{ rps_dns_suffix }}
+
+rps_profile_gitlab_url: https://gitlab.com/idcohorts/rps/rps-profile-app
+rps_profile_gitlab_branch: main

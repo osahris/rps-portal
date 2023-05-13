@@ -8,7 +8,7 @@ networks:
 
 services:
   wordpress:
-    image: {{ wordpress_container_image }}:{{ wordpress_container_version }}
+    image: {{ wordpress_container_image }}
     restart: unless-stopped
     env_file: env-wordpress
     volumes:
@@ -30,16 +30,30 @@ services:
       retries: 3
       start_period: 5s
 
+  wordpress-cli:
+    image: wordpress:cli
+    env_file: env-wordpress
+    volumes:
+      - wordpress:/var/www/html
+      - ./wp-extra-config.php:/wp-extra-config.php
+    networks:
+      - wordpress-internal
+    depends_on:
+      - db
+    # keep container running
+    command: tail -f /dev/null
+
   db:
     image: mysql:5.7
     restart: unless-stopped
     env_file: env-mysql
     volumes:
       - db:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d
     networks:
       - wordpress-internal
+
 
 volumes:
   wordpress:
   db:
-

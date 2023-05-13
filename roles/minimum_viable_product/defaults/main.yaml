@@ -1,3 +1,2 @@
 ---
-service_name: "mvp"
-service_domain_name: "{{service_name}}.{{ inventory_hostname }}"
+mvp_service_name: "mvp.{{ rps_dns_suffix }}"

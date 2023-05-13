@@ -1,0 +1,38 @@
+---
+rps_header_allowed_additional_origins:
+  - https://{{ discourse_service_name }}
+  - https://{{ nextcloud_service_name }}
+
+rps_header_bottom_navbar_links:
+  - title: Suite
+    icon: tools
+    link: https://{{ rps_admin_navigator_service_name }}
+    requireLogin: false
+    isDisabled: false
+    type: dropdown
+    visibility:
+      - vip
+      - uk-frankfurt
+    children:
+      # - title: Chat
+      #   text: Coming soon...
+      #   link: https://{{ rocketchat_service_name }}
+      #   requireLogin: false
+      #   visibility:
+      #     - vip
+      #     - uk-frankfurt
+      - title: Documents
+        requireLogin: false
+        link: https://{{ nextcloud_service_name }}/apps/files/
+        visibility:
+          - vip
+      - title: Calendar
+        link: https://{{ nextcloud_service_name }}/apps/calendar/
+        requireLogin: false
+        visibility:
+          - vip
+      - title: Support
+        link: https://{{ rps_admin_navigator_service_name }}
+        requireLogin: false
+        visibility:
+          - vip

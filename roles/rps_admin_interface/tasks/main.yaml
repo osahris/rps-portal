@@ -1,41 +1,40 @@
 ---
 - import_tasks: secrets.yaml
 
-- name: install git
-  apt:
-    name: git
-    state: present
+- import_tasks: keycloak_client.yaml
 
-- name: clone rps-admin-tools git repository
-  git:
-    repo: "{{ rps_admin_web_interface_git_repo }}"
-    dest: "{{ remote_path }}/rps-admin-tools"
-    force: true
+- name: create directory - {{remote_path}}
+  file: 
+    path: "{{remote_path}}" 
+    state: directory
+    recurse: yes
 
-- name: copy rps admin web interface docker-compose.yaml
+- name: copy some templated .j2 files
   template:
-    src: docker-compose.yaml.j2
-    dest: "{{ remote_path }}/docker-compose.yaml"
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "env.j2"
+    - "docker-compose.yml.j2"
+    - "config.yaml.j2"
 
-- name: traefik dynamic config
-  copy:
-    content: "{{ rps_admin_interface_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/rps-admin-interface.yaml"
-
-- name: rps admin web interface config
-  copy:
-    content: "{{rps_tools_config|to_json}}"
-    dest: "{{ remote_path }}/rps-admin-tools.json"
-
-- name: rps admin web interface local settings
+- name: template oauth2-proxy env file
   template:
-    src: settings_local.py.j2
-    dest: "{{ remote_path }}/settings_local.py"
+    src: oauth2-proxy.env.j2
+    dest: "{{ remote_path }}/oauth2-proxy.env"
+
+- name: remove obsolete traefik config
+  file:
+    path: /srv/traefik/conf.d/rps-admin-interface.yaml
+    state: absent
+
+- name: copy traefik dynamic config
+  copy:
+    content: "{{ rps_admin_interface_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/srv/traefik/conf.d/{{rps_admin_interface_service_name}}.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
-    files: "docker-compose.yaml"
     pull: true
-    build: true
     remove_orphans: true

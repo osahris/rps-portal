@@ -1,6 +1,4 @@
 ---
-wiki_js_service_name: "wiki-js.{{ inventory_hostname}}"
-
 wiki_js_secrets:
   wiki_js_database_password: "{{ wiki_js_database_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   wiki_js_db_admin_password: "{{ wiki_js_db_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"

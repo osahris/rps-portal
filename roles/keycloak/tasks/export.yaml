@@ -1,0 +1,27 @@
+---
+# The export command is executed in a container, so the files should go to the docker volume
+- name: Export -- Create export directory
+  file:
+    path: "{{ keycloak_export_path }}"
+    state: directory
+    mode: 0755
+
+- name: Export -- Copy export script
+  copy:
+    src: export.sh
+    dest: "{{remote_path}}/export.sh"
+    mode: 0755
+
+- name: Export -- Run export script
+  command: "{{ remote_path }}/export.sh"
+  args:
+    chdir: "{{ remote_path }}"
+
+- name: Export -- Copy all static files from the export folder on the host to the the controler
+  synchronize:
+    recursive: true
+    src:  "{{ keycloak_export_path }}"
+    dest: "{{ export_controller_path }}/keycloak/"
+    mode: pull # In pull mode the remote host in context is the source.
+    delete: false # If true, delete all files in the destination that are not in the source
+  when: keycloak_export and keycloak_export_to_controler

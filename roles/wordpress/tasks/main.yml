@@ -1,16 +1,29 @@
 ---
 - import_tasks: secrets.yaml
 
-- name: debian requirements
-  apt:
-    pkg:
-      - jq
+- import_tasks: deploy.yaml
 
-- include_tasks: per_env.yml
-  vars:
-    remote_path: "/app/{{ lookup('ansible.builtin.vars', 'wordpress_' + env + '_service_name') }}"
-  loop:
-    - prod
-    - staging
-  loop_control:
-    loop_var: env
+- import_tasks: install.yaml
+  when: wordpress_install and not wordpress_import
+
+- import_tasks: import.yaml
+  when: wordpress_import
+  
+# ansible doesn't support waiting for docker-compose setup
+- name: get infos from wordpress container
+  community.docker.docker_container_info:
+    name: "{{ wordpress_service_name |replace('.', '') }}_wordpress_1"
+  register: result
+
+- name: wait for wordpress is running (either installation mode or normal)
+  ansible.builtin.wait_for:
+    port: 80
+    host: "{{ result.container.NetworkSettings.Networks.proxy.IPAddress }}"
+
+- name: install traefik dynamic config
+  copy:
+    content: "{{ wordpress_traefik_dynamic_config | to_nice_yaml }}"
+    dest: "/srv/traefik/conf.d/{{ wordpress_service_name }}.yaml"
+
+- import_tasks: export.yaml
+  when: wordpress_export

@@ -1,0 +1,59 @@
+# German translation of GhostrouteKB index page.
+# Copyright © 2013 Philipp Kaluza
+# This file is distributed under the same terms as GhostrouteKB itself.
+# Philipp Kaluza <consult@ghostroute.eu>, 2013-2014
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2016-10-21 17:02+0200\n"
+"PO-Revision-Date: 2016-10-21 17:20+0200\n"
+"Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
+"Language-Team: None\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. type: Plain text
+msgid "Dear users,"
+msgstr "Sehr geehrte Benutzer,"
+
+#. type: Plain text
+msgid ""
+"in this area you will find information that hopefully will ease your working "
+"with our infrastructure.  Please study the page concerning your use case "
+"carefully. If you happen to find any information lacking or missing "
+"completely, we would appreciate a quick feedback. (Should you feel that a "
+"point falls into your area of expertise, you are of course invited to extend "
+"the page yourself.)"
+msgstr ""
+"in diesem Bereich finden Sie Informationen, die Ihnen das Arbeiten mit "
+"unserer Infrastruktur erleichtern sollen. Bitte lesen Sie die für Sie "
+"relevante Seite aufmerksam durch. Wenn Informationen unvollständig sein oder "
+"fehlen sollten, würden wir uns über eine kurze Rückmeldung freuen. (Falls "
+"Sie sich in dem entsprechenden Bereich selber auskennen, sind Sie auch "
+"herzlich eingeladen, die entsprechende Seite selbständig zu erweitern.)"
+
+#. type: Plain text
+msgid "Available topics:"
+msgstr "Vorhandene Informationsseiten:"
+
+#. type: Bullet: ' * '
+msgid "[Router](router) for internet access"
+msgstr "Internet-Zugangs-[Router](router)"
+
+#. type: Bullet: ' * '
+msgid "[Using the email system](email)"
+msgstr "[Umgang mit dem Email-System](email)"
+
+#. type: Bullet: ' * '
+msgid "[Usage of the mailing lists](mailinglists)"
+msgstr "[Verwendung der Mailing-Listen](mailinglists)"
+
+#. type: Bullet: ' * '
+msgid "[The main wiki](wiki)"
+msgstr "[zentrales Wiki](wiki)"
+
+#. type: Bullet: ' * '
+msgid "[Remote access](remote_access)"
+msgstr "[Fernzugriff](remote_access)"

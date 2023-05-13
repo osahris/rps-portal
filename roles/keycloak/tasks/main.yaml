@@ -1,0 +1,23 @@
+---
+- import_tasks: secrets.yaml
+
+- import_tasks: deploy.yaml
+  when: keycloak_deploy
+
+- import_tasks: export.yaml
+  when: keycloak_export
+
+- name: Export -- Move the exported files to the import folder
+  copy:
+    src:  "{{ keycloak_export_path }}/"
+    dest: "{{ keycloak_import_path }}/"
+    remote_src: true
+    mode: preserve
+    # delete: true # If true, files will be erased in the src after sync
+  when: keycloak_export and keycloak_import
+
+# Import the data from given files to the freshly deployed keycloak.
+# --- Warning! -----------------------------------------------------
+# --- Existing data with same names will be deleted before import
+- import_tasks: import.yaml
+  when: keycloak_import

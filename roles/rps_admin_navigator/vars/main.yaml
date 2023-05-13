@@ -1,0 +1,36 @@
+---
+# Ansible variables
+remote_path: "/srv/{{rps_admin_navigator_service_name}}"
+app_port: "80"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      rps_admin_navigator:
+        rule: "Host(`{{rps_admin_navigator_service_name}}`)"
+        entrypoints: websecure
+        middlewares:
+        - header-redirect
+        tls:
+          certresolver: letsencrypt
+          domains:
+            - main: "{{rps_admin_navigator_service_name}}"
+        service: rps_admin_navigator
+
+    services:
+      rps_admin_navigator:
+        loadBalancer:
+          servers:
+            - url: "http://{{rps_admin_navigator_service_name|replace('.', '')}}_navigator_1:{{app_port}}" # "http://container_name:container_port"
+
+
+    # middlewares:
+    #   oauth2-proxy-auth-redirect:
+    #     forwardAuth:
+    #       address: http://oauth2-proxy:4180/
+    #       trustForwardHeader: true
+    #       authResponseHeaders:
+    #         - X-Auth-Request-Access-Token
+    #         - Authorization
+    #         - X-Auth-Request-Groups

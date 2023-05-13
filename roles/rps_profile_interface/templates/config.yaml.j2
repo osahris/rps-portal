@@ -1,0 +1,110 @@
+budibase_api_key: {{budibase_api_key}}
+budibase_app_name: {{budibase_app_name}}
+
+budibase_host: {{budibase_host}}
+profile_host: 0.0.0.0
+profile_port: {{app_port}}
+profile_is_debug: True
+order:
+  # name:
+  #   - name:uuid
+  #   - read_only:true
+  #   - length:255
+  - name: username
+    display_name: Username
+    type: text
+    readonly: true
+
+  - name: first_name
+    display_name: Vorname
+    type: text
+    readonly: false
+
+  - name: last_name
+    display_name: Name
+    type: text
+    readonly: false
+
+  - name: email
+    display_name: email
+    type: text
+    readonly: true
+
+  - name: form_of_address
+    display_name: Anrede
+    type: text
+    readonly: false
+
+  - name: uuid
+    display_name: uuid
+    type: text
+    readonly: true
+
+  - name: title
+    display_name: Title
+    type: text
+    readonly: false
+  
+  - name: phone
+    display_name: phone number
+    type: text
+    readonly: false
+
+  - name: organisation_function
+    display_name: Function
+    type: text
+    readonly: false
+
+  - name: orcid
+    display_name: orcid ID
+    type: text
+    readonly: true
+
+  - name: projects
+    db_name: projects
+    display_name: Projects
+    type: list
+    readonly: false
+
+  - name: organisations
+    db_name: organisations
+    display_name: Organisations
+    type: list
+    readonly: false
+
+
+  - name: department
+    display_name: Department
+    type: text
+    readonly: false
+  
+  - name: organisation_job
+    display_name: Job title
+    type: text
+    readonly: false
+  
+  - name: fosa
+    db_name: fosa
+    display_name: FOSA member
+    type: list
+    readonly: false
+  
+
+  # 'username': 'James.Maddox',
+  # 'last_name': 'Maddox',
+  # 'first_name': 'James',
+  # 'form_of_address': 'Guten Tag',
+  # 'uuid': 'bc74008f-10da-489d-90f6-a4007cbedb18',
+  # 'title': 'Dr.med, DESA',
+  # 'email': 'millerrobert@example.com',
+  # 'phone': '+1-934-777-1461x3928',
+  # 'organisation_function': 'Technischer Koordinator Bilddatenmanagement DZHK',
+  # 'orcid': '0000-0003-1627-8456',
+  # 'tableId': 'ta_3c1ce645d78342bfb43c05a3ad35edfb',
+  # 'type': 'row',
+  # 'Auto ID': 306,
+  # 'Created At': '2023-03-26T17:01:38.417Z',
+  # 'Updated At': '2023-03-26T17:01:38.417Z',
+  # 'createdAt': '2023-03-26T17:01:39.102Z',
+  # 'updatedAt': '2023-03-26T17:01:39.102Z',
+  # 'department': 'Nuklearmedizin',

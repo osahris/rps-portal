@@ -1,8 +1,0 @@
-[Unit]
-Description=RPS sync scripts
-
-[Service]
-Type=simple
-ExecStart=rps-admin --config-file /etc/rps-admin-tools.json sync
-User=rps-sync-scripts
-Group=rps-sync-scripts

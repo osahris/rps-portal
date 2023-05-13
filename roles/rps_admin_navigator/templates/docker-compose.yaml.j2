@@ -1,0 +1,26 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+    
+volumes:
+  db:
+
+services:
+
+  navigator: # Service name
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    logging:
+      options:
+        max-size: 5m
+    restart: unless-stopped
+    networks:
+      - proxy
+    env_file: 
+      - "./env"
+    volumes:
+      - db:/app/navigator/db

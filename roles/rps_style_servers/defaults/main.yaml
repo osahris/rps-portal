@@ -1,1 +1,9 @@
-rps_style_servers_git_url: https://gitlab.com/idcohorts/NUM/num-css-theme
+---
+rps_style_service_name: style.{{ rps_dns_suffix }}
+
+rps_style_servers_git_url: https://gitlab.com/idcohorts/rps/rps-css-service.git
+rps_style_servers_git_branch: main
+
+rps_style_icon_src: https://{{rps_style_service_name}}/images/rps_icon.ico
+rps_style_logo_src: https://{{rps_style_service_name}}/images/rps_logo.svg
+rps_style_css_src:  https://{{rps_style_service_name}}/css-variables.css

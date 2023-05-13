@@ -1,5 +1,13 @@
 ---
 - import_tasks: secrets.yaml
 
-- include_tasks: per_realm.yml
-  loop: "{{ keycloak_realms }}"
+- name: Configure login realm
+  import_tasks: per_realm.yml
+  vars:
+    # get the realm that is configured as login realm (keycloak_realm)
+    item: "{{ keycloak_realms | selectattr('name', 'equalto', keycloak_realm) | first }}"
+
+- name: Configure sub realms
+  include_tasks: per_realm.yml
+  # get all realms that are sub realms (keycloak_realm is not equal to realm name)
+  loop: "{{ keycloak_realms | rejectattr('name', 'equalto', keycloak_realm) | list }}"

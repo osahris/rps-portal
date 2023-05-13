@@ -1,3 +1,10 @@
 *.auto.json
 inventory-dev
 __pycache__
+*_inventory
+
+*.vault
+
+.vscode
+
+numhub-users-*.json

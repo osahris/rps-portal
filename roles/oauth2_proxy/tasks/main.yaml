@@ -7,15 +7,33 @@
     path: "{{remote_path}}"
     state: directory
 
-- name: create docker compose yaml
-  template:
-    src: "docker-compose.yaml.j2"
-    dest: "{{remote_path}}/docker-compose.yaml"
+- name: copy all static files
+  synchronize:
+    recursive: true
+    src: "./" # relative to ./files on local role path
+    dest: "{{remote_path}}" # relative to ~/ on remote
 
-- name: create docker compose env file
+- name: copy some templated .j2 files
   template:
-    src: "env.j2"
-    dest: "{{remote_path}}/env"
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "docker-compose.yaml.j2"
+    - "env.j2"
+
+- name: create custom templates directory
+  file:
+    path: "{{remote_path}}/custom-templates"
+    state: directory
+
+- name: copy custom html templates
+  template:
+    src: "{{item}}.html.j2"
+    dest: "{{remote_path}}/custom-templates/{{item}}.html"
+  loop:
+    - "error"
+    - "sign_in"
+  when: oauth2_proxy_with_custom_templates
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -23,8 +41,15 @@
     files: "docker-compose.yaml"
     pull: true
     remove_orphans: true
+    recreate: always
+
+- name: remove old traefik dynamic config
+  file:
+    path: "/srv/traefik/conf.d/oauth2_proxy.yaml"
+    state: absent
+  when: oauth2_proxy_traefik_dynamic_config is not defined
 
 - name: traefik dynamic config
   copy:
     content: "{{ oauth2_proxy_traefik_dynamic_config }}"
-    dest: "/app/proxy/traefik/conf.d/oauth2_proxy.yaml"
+    dest: "/srv/traefik/conf.d/oauth2-proxy.yaml"
