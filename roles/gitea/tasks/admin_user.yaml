@@ -1,6 +1,5 @@
 ---
-
-- name: create nextcloud config list
+- name: create gitea admin user
   community.docker.docker_container_exec:
     container: "{{gitea_service_name|replace('.', '')+'_gitea_1'}}"
     user: git
@@ -8,4 +7,3 @@
   register: _gitea_create_admin_user
   failed_when: _gitea_create_admin_user.rc == 1 and 'user already exists' not in _gitea_create_admin_user.stdout
   changed_when: _gitea_create_admin_user.rc == 0
-
