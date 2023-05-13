@@ -4,6 +4,11 @@ networks:
   proxy:
     external: true
   db:
+    internal: true
+  service:
+    internal: true
+  oauth2-proxy:
+    internal: true
 
 volumes:
   db:
@@ -29,5 +34,18 @@ services:
     env_file:
       - gitea.env
     networks:
-      - proxy
+      - service
       - db
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
+    restart: unless-stopped
+    networks:
+      - proxy
+      - service
+      - oauth2-proxy
+    env_file: oauth2-proxy.env
+  oauth2-proxy-redis:
+    image: redis:7.0
+    restart: always
+    networks:
+      - oauth2-proxy

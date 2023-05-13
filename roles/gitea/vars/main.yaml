@@ -3,6 +3,9 @@ gitea_secrets:
   gitea_db_pass: "{{ gitea_db_pass | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   gitea_security_secret_key: "{{ gitea_security_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   gitea_admin_password: "{{ gitea_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_keycloak_client_secret: "{{ gitea_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_oauth2_proxy_redis_pass: "{{ gitea_oauth2_proxy_redis_pass | default(lookup('ansible.builtin.password', '/dev/null length=64 chars=ascii_letters,digits')) }}"
+  gitea_oauth2_proxy_cookie_secret: "{{ gitea_oauth2_proxy_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 gitea_app_name: "{{gitea_service_name}}"
 
@@ -24,26 +27,41 @@ gitea_config_tree:
   server:
     ROOT_URL: "https://{{gitea_service_name}}"
     HTTP_PORT: "{{gitea_http_port}}"
+  service:
+    ALLOW_ONLY_EXTERNAL_REGISTRATION: false
+    ENABLE_REVERSE_PROXY_AUTHENTICATION: true
+    ENABLE_REVERSE_PROXY_AUTO_REGISTRATION: true
   security:
     SECRET_KEY: "{{ gitea_security_secret_key }}"
     INSTALL_LOCK: true
+    REVERSE_PROXY_AUTHENTICATION_USER: X-Forwarded-Preferred-Username
+    REVERSE_PROXY_AUTHENTICATION_EMAIL: X-Forwarded-Email
+    REVERSE_PROXY_TRUSTED_PROXIES: '*'
   openid:
     ENABLE_OPENID_SIGNIN: false # this is OpenID not OpenID Connect!
   oauth2_client:
     REGISTER_EMAIL_CONFIRM: false
     ENABLE_OPENID_SIGNUP: true
-  service:
-    ALLOW_ONLY_EXTERNAL_REGISTRATION: false
+
+gitea_traefik_router:
+  rule: "Host(`{{gitea_service_name}}`)"
+  entrypoints: websecure
+  middlewares:
+    - header-redirect
+  service: "{{gitea_service_name}}"
+
+gitea_traefik_service:
+  loadBalancer:
+    servers:
+      - url: "http://{{gitea_service_name | replace('.', '')}}_oauth2-proxy_1:4180"
 
 gitea_traefik_dynamic_config:
   http:
-    routers:
-      gitea:
-        rule: "Host(`{{gitea_service_name}}`)"
-        service: gitea
-        entrypoints: websecure
-    services:
-      gitea:
-        loadBalancer:
-          servers:
-            - url: "http://{{gitea_service_name|replace('.', '')}}_gitea_1:{{gitea_http_port}}"
+    routers: |
+      {{ { 
+        gitea_service_name : gitea_traefik_router
+      } }}
+    services: |
+      {{ { 
+        gitea_service_name : gitea_traefik_service
+      } }}
