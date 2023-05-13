@@ -1,12 +1,5 @@
 ---
 gitea_service_name: "repos.{{inventory_hostname}}"
-gitea_app_name: "{{gitea_service_name}}"
-gitea_oci_image: docker.io/gitea/gitea:1
-
-gitea_db_name: gitea
-gitea_db_user: gitea
-
-gitea_http_port: 3000
 
 gitea_admin_username: administrator
 gitea_admin_email: admin@{{gitea_service_name}}
