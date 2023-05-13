@@ -1,2 +1,0 @@
----
-gitea_service_name: "gitea.{{inventory_hostname}}"
