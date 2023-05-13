@@ -1,5 +1,5 @@
 ---
-gitea_service_name: "gitea.{{inventory_hostname}}"
+gitea_service_name: "repos.{{inventory_hostname}}"
 gitea_app_name: "{{gitea_service_name}}"
 gitea_oci_image: docker.io/gitea/gitea:1
 
