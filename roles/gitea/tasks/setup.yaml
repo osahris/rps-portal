@@ -2,37 +2,38 @@
 
 - name: app folder for service
   file:
-    path: /app/{{gitea_service_name}}
+    path: /srv/{{gitea_service_name}}
     state: directory
 
 - name: db env file
   template:
     src: db.env.j2
-    dest: /app/{{gitea_service_name}}/db.env
+    dest: /srv/{{gitea_service_name}}/db.env
 
 - name: gitea env file
   template:
     src: gitea.env.j2
-    dest: /app/{{gitea_service_name}}/gitea.env
+    dest: /srv/{{gitea_service_name}}/gitea.env
 
-- name: docker-compose file
+- name: copy docker-compose file
   copy:
     src: docker-compose.yaml
-    dest: /app/{{gitea_service_name}}/docker-compose.yaml
+    dest: /srv/{{gitea_service_name}}/docker-compose.yaml
+
 
 - name: template oauth2-proxy env file
   template:
     src: oauth2-proxy.env.j2
-    dest: /app/{{ gitea_service_name }}/oauth2-proxy.env
+    dest: /srv/{{ gitea_service_name }}/oauth2-proxy.env
 
 - name: template oauth2-proxy-redis env file
   template:
     src: oauth2-proxy-redis.env.j2
-    dest: /app/{{ gitea_service_name }}/oauth2-proxy-redis.env
+    dest: /srv/{{ gitea_service_name }}/oauth2-proxy-redis.env
 
 - name: deploy docker-compose stack
   docker_compose:
-    project_src: /app/{{ gitea_service_name }}
+    project_src: /srv/{{ gitea_service_name }}
   register: gitea_docker_compose_task
 
 - name: wait for gitea http port to be open
