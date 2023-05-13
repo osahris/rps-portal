@@ -20,7 +20,7 @@ services:
     networks:
       - db
   gitea: 
-    image: gitea/gitea:1
+    image: gitea/gitea:1.19
     restart: unless-stopped
     volumes:
       - data:/data
