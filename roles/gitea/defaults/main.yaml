@@ -18,6 +18,16 @@ gitea_oauth2_proxy_allowed_roles:
   - admin
 gitea_oauth2_proxy_request_logging: true
 
+# SSH
+gitea_with_ssh_features: true
+gitea_ssh_port: 222
+# gitea_with_builtin_ssh_server: false
+gitea_expose_ssh_port: true
+
+# actions
+gitea_with_actions: true
+gitea_actions_default_url: https://gitea.com/actions/checkout
+
 # keycloak
 gitea_keycloak_client_id: "{{ gitea_service_name }}"
 

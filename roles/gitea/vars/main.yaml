@@ -27,22 +27,29 @@ gitea_config_tree:
   server:
     ROOT_URL: "https://{{gitea_service_name}}"
     HTTP_PORT: "{{gitea_http_port}}"
+    DOMAIN: "{{gitea_service_name}}"
+    DISABLE_SSH: "{{not gitea_with_ssh_features|bool|lower}}"
+    SSH_DOMAIN: "{{gitea_service_name}}"
+    SSH_PORT: "{{gitea_ssh_port}}"
+    #START_SSH_SERVER: "{{gitea_with_builtin_ssh_server|bool|lower}}"
+    #SSH_LISTEN_PORT: "{{gitea_ssh_port}}"
   service:
     ALLOW_ONLY_EXTERNAL_REGISTRATION: false
     ENABLE_REVERSE_PROXY_AUTHENTICATION: true
     ENABLE_REVERSE_PROXY_AUTO_REGISTRATION: true
+    ENABLE_REVERSE_PROXY_EMAIL: true
+    ENABLE_BASIC_AUTHENTICATION: false
   security:
     SECRET_KEY: "{{ gitea_security_secret_key }}"
     INSTALL_LOCK: true
     REVERSE_PROXY_AUTHENTICATION_USER: X-Forwarded-Preferred-Username
     REVERSE_PROXY_AUTHENTICATION_EMAIL: X-Forwarded-Email
     REVERSE_PROXY_TRUSTED_PROXIES: '*'
-  openid:
-    ENABLE_OPENID_SIGNIN: false # this is OpenID not OpenID Connect!
-  oauth2_client:
-    REGISTER_EMAIL_CONFIRM: false
-    ENABLE_OPENID_SIGNUP: true
-
+  oauth2:
+    ENABLE: false
+  actions:
+    ENABLED: "{{ gitea_with_actions|bool|lower }}"
+    DEFAULT_ACTIONS_URL: "{{ gitea_actions_default_url }}"
 gitea_traefik_router:
   rule: "Host(`{{gitea_service_name}}`)"
   entrypoints: websecure

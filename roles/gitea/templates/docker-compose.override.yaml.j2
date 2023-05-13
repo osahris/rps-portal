@@ -1,0 +1,9 @@
+---
+version: "3"
+
+services:
+  gitea:
+{% if gitea_expose_ssh_port %}
+    ports:
+      - {{gitea_ssh_port}}:22
+{% endif %}

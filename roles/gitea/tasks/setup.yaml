@@ -20,6 +20,10 @@
     src: docker-compose.yaml
     dest: /srv/{{gitea_service_name}}/docker-compose.yaml
 
+- name: template docker-compose override file
+  template:
+    src: docker-compose.override.yaml.j2
+    dest: /srv/{{gitea_service_name}}/docker-compose.override.yaml
 
 - name: template oauth2-proxy env file
   template:
