@@ -34,11 +34,10 @@
 # Gitea
 
 - import_role:
-    name: gitea
+    name: forgejo
   tags:
     - repos
-    - gitea
-    - git
+    - forgejo
 
 # Collabora
 

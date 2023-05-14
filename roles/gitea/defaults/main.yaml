@@ -1,6 +1,9 @@
 ---
 gitea_service_name: "repos.{{inventory_hostname}}"
 
+gitea_project_name: gitea
+gitea_override_image: false
+
 gitea_admin_username: administrator
 gitea_admin_email: admin@{{gitea_service_name}}
 
