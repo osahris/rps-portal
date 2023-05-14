@@ -23,7 +23,6 @@ services:
       - data:/data
       #- /etc/timezone:/etc/timezone:ro
       #- /etc/localtime:/etc/localtime:ro
-      - ./templates:/data/gitea/templates/custom:ro
     env_file:
       - gitea.env
     networks:

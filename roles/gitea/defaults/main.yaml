@@ -7,6 +7,8 @@ gitea_override_image: false
 gitea_admin_username: administrator
 gitea_admin_email: admin@{{gitea_service_name}}
 
+gitea_with_header_integration: false
+
 # secrets
 gitea_db_pass: "{{ ansible_local[gitea_service_name].gitea_db_pass }}"
 gitea_security_secret_key: "{{ ansible_local[gitea_service_name].gitea_security_secret_key }}"

@@ -10,3 +10,7 @@ services:
     ports:
       - "{{gitea_ssh_port}}:22"
 {% endif %}
+{% if gitea_with_header_integration %}
+    volumes:
+      - ./templates:/data/gitea/templates/custom:ro
+{% endif %}

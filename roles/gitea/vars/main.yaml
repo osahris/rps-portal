@@ -16,7 +16,7 @@ gitea_http_port: 3000
 
 gitea_config_tree:
   DEFAULT:
-    APP_NAME: "{{gitea_app_name}}"
+    #APP_NAME: "{{gitea_app_name}}"
     RUN_MODE: prod
   database:
     DB_TYPE: postgres
@@ -51,6 +51,7 @@ gitea_config_tree:
   actions:
     ENABLED: "{{ gitea_with_actions|bool|lower }}"
     DEFAULT_ACTIONS_URL: "{{ gitea_actions_default_url }}"
+
 gitea_traefik_router:
   rule: "Host(`{{gitea_service_name}}`)"
   entrypoints: websecure
