@@ -1,5 +1,5 @@
 ---
-gitea_service_name: "repos.{{inventory_hostname}}"
+gitea_service_name: "code.{{inventory_hostname}}"
 
 gitea_project_name: gitea
 gitea_override_image: false

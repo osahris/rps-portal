@@ -36,8 +36,8 @@
 - import_role:
     name: forgejo
   tags:
-    - repos
     - forgejo
+    - code
 
 # Collabora
 
