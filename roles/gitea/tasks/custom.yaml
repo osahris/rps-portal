@@ -1,0 +1,22 @@
+---
+
+- name: templates directory
+  file:
+    path: "/srv/{{gitea_service_name}}/templates"
+    state: directory
+    mode: 0755
+
+- name: template home template
+  template:
+    src: home.tmpl.j2
+    dest: "/srv/{{gitea_service_name}}/templates/home.tmpl"
+
+- name: template header template
+  template:
+    src: header.tmpl.j2
+    dest: "/srv/{{gitea_service_name}}/templates/header.tmpl"
+
+- name: template body_outer_pre template
+  template:
+    src: body_outer_pre.tmpl.j2
+    dest: "/srv/{{gitea_service_name}}/templates/body_outer_pre.tmpl"

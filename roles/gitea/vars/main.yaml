@@ -54,8 +54,6 @@ gitea_config_tree:
 gitea_traefik_router:
   rule: "Host(`{{gitea_service_name}}`)"
   entrypoints: websecure
-  middlewares:
-    - header-redirect
   service: "{{gitea_service_name}}"
 
 gitea_traefik_service:

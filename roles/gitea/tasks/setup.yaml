@@ -45,6 +45,8 @@
     src: traefik.yaml.j2
     dest: /srv/{{ gitea_service_name }}/traefik/gitea.yaml
 
+- import_tasks: custom.yaml
+
 - name: deploy docker-compose stack
   docker_compose:
     project_src: /srv/{{ gitea_service_name }}
