@@ -16,7 +16,7 @@ gitea_http_port: 3000
 
 gitea_config_tree:
   DEFAULT:
-    #APP_NAME: "{{gitea_app_name}}"
+    APP_NAME: "{{gitea_app_name}}"
     RUN_MODE: prod
   database:
     DB_TYPE: postgres
