@@ -39,6 +39,7 @@ gitea_config_tree:
     ENABLE_REVERSE_PROXY_AUTO_REGISTRATION: true
     ENABLE_REVERSE_PROXY_EMAIL: true
     ENABLE_BASIC_AUTHENTICATION: false
+    DISABLE_REGISTRATION: true
   security:
     SECRET_KEY: "{{ gitea_security_secret_key }}"
     INSTALL_LOCK: true
@@ -60,7 +61,7 @@ gitea_traefik_router:
 gitea_traefik_service:
   loadBalancer:
     servers:
-      - url: "http://{{gitea_service_name | replace('.', '')}}_oauth2-proxy_1:4180"
+      - url: "http://{{gitea_service_name | replace('.', '')}}_traefik_1:80"
 
 gitea_traefik_dynamic_config:
   http:

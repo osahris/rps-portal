@@ -28,6 +28,8 @@ services:
     networks:
       - service
       - db
+    ports:
+      - "2222:22"
   db:
     image: postgres:15
     restart: unless-stopped
@@ -37,7 +39,18 @@ services:
       - db.env
     networks:
       - db
-  oauth2-proxy:
+  traefik:
+    image: traefik:v2.10
+    restart: unless-stopped
+    volumes:
+      - ./traefik/:/etc/traefik/:ro
+    environment:
+      TRAEFIK_PROVIDERS_FILE_FILENAME: /etc/traefik/gitea.yaml
+      #TRAEFIK_ENTRYPOINTS_proxy_ADDRESS: ":80"
+    networks:
+      - proxy
+      - service
+  gitea-oauth2-proxy:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
     restart: unless-stopped
     networks:

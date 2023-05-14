@@ -20,10 +20,10 @@
     src: docker-compose.yaml
     dest: /srv/{{gitea_service_name}}/docker-compose.yaml
 
-- name: template docker-compose override file
-  template:
-    src: docker-compose.override.yaml.j2
-    dest: /srv/{{gitea_service_name}}/docker-compose.override.yaml
+# - name: template docker-compose override file
+#   template:
+#     src: docker-compose.override.yaml.j2
+#     dest: /srv/{{gitea_service_name}}/docker-compose.override.yaml
 
 - name: template oauth2-proxy env file
   template:
@@ -34,6 +34,16 @@
   template:
     src: oauth2-proxy-redis.env.j2
     dest: /srv/{{ gitea_service_name }}/oauth2-proxy-redis.env
+
+- name: traefik config directory
+  file:
+    path: /srv/{{ gitea_service_name }}/traefik
+    state: directory
+
+- name: template local traefik dynamic config
+  template:
+    src: traefik.yaml.j2
+    dest: /srv/{{ gitea_service_name }}/traefik/gitea.yaml
 
 - name: deploy docker-compose stack
   docker_compose:
