@@ -1,58 +1,45 @@
 ---
 
-- name: app folder for service
-  file:
-    path: /srv/{{gitea_service_name}}
-    state: directory
+- name: Create app directory for service
+  file: path={{remote_path}} state=directory
 
-- name: db env file
-  template:
-    src: db.env.j2
-    dest: /srv/{{gitea_service_name}}/db.env
-
-- name: gitea env file
-  template:
-    src: gitea.env.j2
-    dest: /srv/{{gitea_service_name}}/gitea.env
-
-- name: copy docker-compose file
+- name: Copy docker-compose.yaml file
   copy:
     src: docker-compose.yaml
-    dest: /srv/{{gitea_service_name}}/docker-compose.yaml
+    dest: "{{remote_path}}/docker-compose.yaml"
 
-- name: template docker-compose override file
+- name: Copy some templated .j2 files
   template:
-    src: docker-compose.override.yaml.j2
-    dest: /srv/{{gitea_service_name}}/docker-compose.override.yaml
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "db.env.j2"
+    - "gitea.env.j2"
+    - "docker-compose.override.yaml.j2"
+    - "oauth2-proxy.env.j2"
+    - "oauth2-proxy-redis.env.j2"
 
-- name: template oauth2-proxy env file
-  template:
-    src: oauth2-proxy.env.j2
-    dest: /srv/{{ gitea_service_name }}/oauth2-proxy.env
-
-- name: template oauth2-proxy-redis env file
-  template:
-    src: oauth2-proxy-redis.env.j2
-    dest: /srv/{{ gitea_service_name }}/oauth2-proxy-redis.env
-
-- name: traefik config directory
+- name: Create Traefik config directory
   file:
-    path: /srv/{{ gitea_service_name }}/traefik
+    path: "{{remote_path}}/traefik"
     state: directory
 
-- name: template local traefik dynamic config
+- name: Template Traefik dynamic config
   template:
     src: traefik.yaml.j2
-    dest: /srv/{{ gitea_service_name }}/traefik/gitea.yaml
+    dest: "{{remote_path}}/traefik/gitea.yaml"
 
 - import_tasks: custom.yaml
 
-- name: deploy docker-compose stack
+- name: Deploy docker-compose stack
   docker_compose:
-    project_src: /srv/{{ gitea_service_name }}
+    project_src: "{{remote_path}}"
+    build: true
+    pull: true
+    remove_orphans: true
   register: gitea_docker_compose_task
 
-- name: wait for gitea http port to be open
+- name: Wait for gitea http port to be open
   wait_for:
-      port: "{{ gitea_http_port }}"
-      host: "{{ gitea_docker_compose_task.services.gitea[gitea_service_name|replace('.', '')+'_gitea_1'].networks[gitea_service_name|replace('.', '')+'_service'].IPAddress }}"
+    port: "{{ gitea_http_port }}"
+    host: "{{ gitea_docker_compose_task.services.gitea[gitea_service_name|replace('.', '')+'_gitea_1'].networks[gitea_service_name|replace('.', '')+'_service'].IPAddress }}"

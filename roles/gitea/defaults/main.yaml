@@ -10,11 +10,11 @@ gitea_admin_email: admin@{{gitea_service_name}}
 gitea_with_header_integration: true
 
 # secrets
-gitea_db_pass: "{{ ansible_local[gitea_service_name].gitea_db_pass }}"
-gitea_security_secret_key: "{{ ansible_local[gitea_service_name].gitea_security_secret_key }}"
-gitea_admin_password: "{{ ansible_local[gitea_service_name].gitea_admin_password }}"
-gitea_keycloak_client_secret: "{{ ansible_local[gitea_service_name].gitea_keycloak_client_secret }}"
-gitea_oauth2_proxy_redis_pass: "{{ ansible_local[gitea_service_name].gitea_oauth2_proxy_redis_pass }}"
+gitea_db_pass:                    "{{ ansible_local[gitea_service_name].gitea_db_pass }}"
+gitea_admin_password:             "{{ ansible_local[gitea_service_name].gitea_admin_password }}"
+gitea_security_secret_key:        "{{ ansible_local[gitea_service_name].gitea_security_secret_key }}"
+gitea_keycloak_client_secret:     "{{ ansible_local[gitea_service_name].gitea_keycloak_client_secret }}"
+gitea_oauth2_proxy_redis_pass:    "{{ ansible_local[gitea_service_name].gitea_oauth2_proxy_redis_pass }}"
 gitea_oauth2_proxy_cookie_secret: "{{ ansible_local[gitea_service_name].gitea_oauth2_proxy_cookie_secret }}"
 
 # oauth2-proxy

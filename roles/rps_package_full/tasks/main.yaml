@@ -55,3 +55,8 @@
     - bookstack
     - book
     - wiki
+
+- import_role:
+    name: gitea
+  tags:
+    - gitea

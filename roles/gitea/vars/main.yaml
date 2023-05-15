@@ -1,4 +1,6 @@
 ---
+remote_path: "/srv/{{gitea_service_name}}"
+
 gitea_secrets:
   gitea_db_pass: "{{ gitea_db_pass | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   gitea_security_secret_key: "{{ gitea_security_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
@@ -7,16 +9,13 @@ gitea_secrets:
   gitea_oauth2_proxy_redis_pass: "{{ gitea_oauth2_proxy_redis_pass | default(lookup('ansible.builtin.password', '/dev/null length=64 chars=ascii_letters,digits')) }}"
   gitea_oauth2_proxy_cookie_secret: "{{ gitea_oauth2_proxy_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
-gitea_app_name: "{{gitea_service_name}}"
-
-gitea_db_name: gitea
-gitea_db_user: gitea
-
+gitea_db_name: "gitea"
+gitea_db_user: "gitea"
 gitea_http_port: 3000
 
 gitea_config_tree:
   DEFAULT:
-    APP_NAME: "{{gitea_app_name}}"
+    APP_NAME: "Gitea"
     RUN_MODE: prod
   database:
     DB_TYPE: postgres

@@ -2,21 +2,15 @@
 
 - name: templates directory
   file:
-    path: "/srv/{{gitea_service_name}}/templates"
+    path: "{{remote_path}}/templates"
     state: directory
     mode: 0755
 
-# - name: template home template
-#   template:
-#     src: home.tmpl.j2
-#     dest: "/srv/{{gitea_service_name}}/templates/home.tmpl"
-
-- name: template header template
+- name: Copy some templated .j2 files
   template:
-    src: header.tmpl.j2
-    dest: "/srv/{{gitea_service_name}}/templates/header.tmpl"
-
-- name: template body_outer_pre template
-  template:
-    src: body_outer_pre.tmpl.j2
-    dest: "/srv/{{gitea_service_name}}/templates/body_outer_pre.tmpl"
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/templates/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "home.tmpl.j2"
+    - "header.tmpl.j2"
+    - "body_outer_pre.tmpl.j2"
