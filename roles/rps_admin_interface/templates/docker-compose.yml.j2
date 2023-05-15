@@ -15,7 +15,7 @@ services:
       - service
     volumes:
       - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
-  oauth2-proxy:
+  oauth2-proxy-admin-interface:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
     restart: unless-stopped
     networks:
