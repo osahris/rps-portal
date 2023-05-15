@@ -1,4 +1,9 @@
 ---
+- name: install git
+  apt:
+    pkg:
+      - git
+
 - name: create directory
   file: path={{remote_path}} state=directory
   
