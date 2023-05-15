@@ -16,7 +16,7 @@ rps_admin_interface_traefik_router:
 rps_admin_interface_traefik_service:
   loadBalancer:
     servers:
-      - url: "http://{{rps_admin_interface_service_name | replace('.', '')}}_oauth2-proxy-admin-interface_1:4180"
+      - url: "http://{{rps_admin_interface_service_name | replace('.', '')}}_oauth2-proxy-admin_1:4180"
 
 rps_admin_interface_traefik_dynamic_config:
   http:
