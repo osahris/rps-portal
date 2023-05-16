@@ -1,0 +1,1 @@
+# docker-compose run --rm -v $(pwd)/export:/mnt/export postgres pg_dump -h postgres -U nextcloud -f /mnt/export/nextclouddb.sql nextcloud
