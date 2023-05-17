@@ -5,7 +5,7 @@
     recursive: true
     src:  "{{ import_controller_path }}/keycloak/"
     dest: "{{ keycloak_import_path}}"
-    delete: false # If true, delete all files in the destination that are not in the source
+    delete: true # If true, delete all files in the destination that are not in the source
   when: keycloak_import and keycloak_import_from_controler
 
 # # Copy from managed node to the same managed node
