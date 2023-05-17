@@ -1,8 +1,8 @@
 ---
 remote_path: "/srv/{{keycloak_service_name}}"
 
-keycloak_export_path: "{{ remote_path }}/export"
-keycloak_import_path: "{{ remote_path }}/import"
+keycloak_export_path: "{{ remote_path }}/export/"
+keycloak_import_path: "{{ remote_path }}/import/"
 keycloak_docker_container: "{{ keycloak_service_name|replace('.', '') }}_keycloak_1"
 
 keycloak_secrets:
