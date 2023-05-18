@@ -6,11 +6,17 @@
     state: directory
     mode: 0755
 
+- name: Copy all static files from ./public/
+  synchronize:
+    recursive: true
+    src: "./public" # relative to ./files on local role path
+    dest: "{{remote_path}}/" # relative to ~/ on remote
+
 - name: Copy some templated .j2 files
   template:
     src: "{{item}}" # relative to ./templates on local role path
     dest: "{{remote_path}}/templates/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
   with_items:
     - "home.tmpl.j2"
-    - "header.tmpl.j2"
-    - "body_outer_pre.tmpl.j2"
+#     - "header.tmpl.j2"
+#     - "body_outer_pre.tmpl.j2"

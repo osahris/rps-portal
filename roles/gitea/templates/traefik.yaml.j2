@@ -29,7 +29,7 @@ http:
     gitea-headers:
       headers:
         customRequestHeaders:
-          # remove reverse proxy auth headers
+          # Keep empty to remove reverse proxy auth headers
           X-Forwarded-User: ""
           X-Forwarded-Preferred-Username: ""
           X-Forwarded-Email: ""
