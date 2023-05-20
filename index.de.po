@@ -4,7 +4,7 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2013
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2016-10-21 17:02+0200\n"
+"POT-Creation-Date: 2023-05-20 23:26+0200\n"
 "PO-Revision-Date: 2016-10-21 17:20+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
@@ -14,8 +14,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#. type: Plain text
-msgid "Welcome to Ghostroute Consulting's Knowledge Base."
+#. type: Title =
+#, fuzzy, no-wrap
+#| msgid "Welcome to Ghostroute Consulting's Knowledge Base."
+msgid "Welcome to Ghostroute Consulting's Knowledge Base"
 msgstr "Willkommen in der Wissensbasis von Ghostroute Consulting"
 
 #. type: Plain text
@@ -36,6 +38,12 @@ msgstr "[Dokumente für Endbenutzer](enduser)"
 
 #. type: Bullet: ' * '
 msgid "[administrator documentation](admin)"
+msgstr "[Dokumentation für Administratoren](admin)"
+
+#. type: Bullet: ' * '
+#, fuzzy
+#| msgid "[administrator documentation](admin)"
+msgid "[developer documentation](developer)"
 msgstr "[Dokumentation für Administratoren](admin)"
 
 #. type: Plain text
