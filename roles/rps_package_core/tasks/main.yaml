@@ -23,6 +23,11 @@
   when: rps_with_gitlab_credentials
 
 - import_role:
+    name: watchtower
+  tags:
+    - watchtower
+
+- import_role:
     name: traefik
   tags:
     - traefik

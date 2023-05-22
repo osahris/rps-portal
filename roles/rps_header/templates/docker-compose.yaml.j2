@@ -7,7 +7,7 @@ networks:
 
 services:
   header:
-    image: {{ rps_header_image }}
+    image: {{ rps_header_container_image }}:{{ rps_header_container_image_version }}
     restart: unless-stopped
     networks:
       - proxy
@@ -17,6 +17,10 @@ services:
       - ./js:/opt/header/js:ro
 {% endif %}
     env_file: env
+{% if rps_header_with_watchtower %}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+{% endif %}
 
   always-200-responder:
     image: nginx:1
