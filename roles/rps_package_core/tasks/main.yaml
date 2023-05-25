@@ -51,7 +51,6 @@
   tags:
     - keycloak_groups
     - keycloak-groups
-    - groups
   when: keycloak_groups is defined
 
 - import_role:
