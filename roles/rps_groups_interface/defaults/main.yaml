@@ -10,3 +10,116 @@ rps_groups_interface_keycloak_service_url: "https://{{ keycloak_service_name }}"
 rps_groups_interface_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"
 rps_groups_interface_keycloak_auth_password: "{{keycloak_admin_password}}"
 rps_groups_interface_keycloak_client_id: "{{rps_groups_interface_service_name}}"
+
+rps_groups_interface_suite_config:
+  project_id: "rps"
+  project_name: "Test Suite"
+  project_logo: "@/assets/logos/num-hub.svg"
+  interface_title: "RPS Gruppeninterface"
+  interface_heading: "RPS Gruppeninterface"
+  language: "de"
+  keycloak_url: "https://{{keycloak_service_name}}/"
+  keycloak_realm: "{{keycloak_realm}}"
+  keycloak_api_url: "https://{{keycloak_service_name}}/admin/realms/{{keycloak_realm}}"
+  keycloak_client_id: "{{ rps_groups_interface_keycloak_client_id }}"
+  user_attributes: "{{user_attributes}}"
+  group_attributes:
+    group_forms:
+    - key: name
+      type: textfield
+      readonly: true
+      label: Groupname
+      rules:
+      - required
+      - limitedSymbols
+      - minLength
+      - maxLength
+    - key: title
+      type: textfield
+      label: Titel
+      readonly: false
+      rules:
+      - required
+      - attributesMaxLength
+    - key: description
+      type: textfield
+      label: Beschreibung
+      readonly: false
+      rules:
+      - attributesMaxLength
+    - key: icon
+      type: autocomplete-icon
+      label: Icon
+      readonly: false
+      rules: []
+    additional_group_forms:
+      napkon:
+      - key: numhub_2020
+        type: textfield
+        label: NUMHub 2020
+        readonly: false
+        rules: []
+        maxLength: 20
+    membership_source_forms:
+    - key: membership_source
+      type: autocomplete-membership-source
+      label: Membership source
+      readonly: false
+      rules:
+      - required
+      choices:
+      - name: accounts
+        description: Manually add and delete users
+        type: keycloak
+        membership_editable: true
+      - name: accounts/profile
+        description: Group users by account profile fields
+        type: keycloak_profile
+        membership_editable: false
+      - name: group_hierachy
+        description: Group users by group hierachy
+        type: group_hierachy
+        membership_editable: false
+    - key: group_hierachy_type
+      type: autocomplete-membership-source
+      label: Hierachy Types
+      readonly: false
+      showonly:
+        key: membership_source
+        value: group_hierachy
+      rules: []
+      choices:
+      - name: union
+        description: Manually add and delete users
+        type: group_hierachy_type
+        membership_editable: false
+      - name: intersection
+        description: Group users by account profile fields
+        type: group_hierachy_type
+        membership_editable: false
+    - key: group_hierachy_children
+      type: autocomplete-group-hierachy-children
+      multiple: true
+      label: Hierachy Children
+      readonly: false
+      showonly:
+        key: membership_source
+        value: group_hierachy
+      rules: []
+    permissions:
+    - key: manage_roles
+      label: Management
+      input_type: role_names
+      multiple: true
+    - key: member_roles
+      label: Member
+      input_type: role_names
+      multiple: true
+    - key: guest_roles
+      label: Gäste
+      input_type: role_names
+      multiple: true
+    - key: managed_by
+      label: Gruppen/Portal verwalten
+      input_type: group_name
+      multiple: false
