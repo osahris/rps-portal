@@ -21,3 +21,6 @@
 # --- Existing data with same names will be deleted before import
 - import_tasks: import.yaml
   when: keycloak_import
+
+- import_tasks: keycloak_client.yaml
+  when: keycloak_with_permission_sync_keycloak_client

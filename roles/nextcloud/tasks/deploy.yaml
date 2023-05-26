@@ -14,6 +14,11 @@
     src: "env.j2"
     dest: "{{remote_path}}/env"
 
+- name: copy config.yaml
+  template:
+    src: "config.yaml.j2"
+    dest: "{{remote_path}}/config.yaml"
+
 - name: copy docker-compose.yaml
   template:
     src: "docker-compose.yaml.j2"
@@ -38,6 +43,7 @@
 
 - name: deploy docker-compose stack
   docker_compose:
+    profiles: "{{ nextcloud_docker_compose_profile }}"
     project_src: "{{remote_path}}/"
     pull: true
     remove_orphans: true
