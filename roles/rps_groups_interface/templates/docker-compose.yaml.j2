@@ -9,7 +9,7 @@ services:
   web:
     image: {{rps_groups_interface_container_image}}:{{rps_groups_interface_container_version}}
     volumes:
-      - ./suite.config.json:/usr/share/nginx/html/config/config.json:ro
+      - ./config/config.json:/usr/share/nginx/html/config/config.json:ro
     networks:
       - proxy
 {% if rps_groups_interface_with_watchtower %}
