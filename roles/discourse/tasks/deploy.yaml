@@ -10,6 +10,11 @@
     src: "postgres.env.j2"
     dest: "{{discourse_target_directory}}/postgres.env"
 
+- name: config yaml for sync
+  template:
+    src: "config.yaml.j2"
+    dest: "{{discourse_target_directory}}/config.yaml"
+
 - name: discourse docker repo
   git:
     repo: https://github.com/discourse/discourse_docker.git

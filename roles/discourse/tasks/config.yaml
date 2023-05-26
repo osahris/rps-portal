@@ -22,3 +22,6 @@
     content: "{{ discourse_traefik_dynamic_config }}"
     dest: "/srv/traefik/conf.d/{{discourse_service_name}}.yaml"
   when: discourse_with_traefik
+
+#discourse_sync_api_key ist der ansible fact
+- name: create admin api key
