@@ -24,4 +24,5 @@
   when: discourse_with_traefik
 
 #discourse_sync_api_key ist der ansible fact
-- name: create admin api key
+#TODO: discourse_sync_api_key in ansible_local speichern
+# - name: create admin api key
