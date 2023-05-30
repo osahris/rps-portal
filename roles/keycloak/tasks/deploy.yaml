@@ -14,6 +14,7 @@
     - "env-keycloak.j2"
     - "env-postgres.j2"
     - "config.yaml.j2"
+    - "config-registration.yaml.j2"
 
 - name: deploy docker-compose stack
   docker_compose:
