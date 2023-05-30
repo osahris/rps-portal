@@ -33,7 +33,7 @@ services:
     networks:
       - proxy
     volumes:
-      - ./config_registration.yaml:/opt/rps-admin-tools/config.yaml:ro
+      - ./config-registration.yaml:/opt/rps-admin-tools/config.yaml:ro
     entrypoint: ''
     environment:
       - SLEEP_MINUTES=5
