@@ -15,3 +15,7 @@ services:
         volumes:
             - ./repo:/var/www/html"
 {% endif %}
+{% if website_with_watchtower %}
+        labels:
+            - "com.centurylinklabs.watchtower.enable=true"  
+{% endif %}
