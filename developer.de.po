@@ -4,7 +4,7 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2023
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2023-06-01 11:30+0200\n"
+"POT-Creation-Date: 2023-06-01 11:54+0200\n"
 "PO-Revision-Date: 2023-06-01 11:33+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
@@ -33,12 +33,16 @@ msgid "Auto-generated API documentation"
 msgstr "Automatisch generierte API-Dokumentation"
 
 #. type: Plain text
+#, fuzzy
+#| msgid ""
+#| "The API documentation, as far as it exists, can be found at [API doc "
+#| "endpoint](developer/API/)."
 msgid ""
 "The API documentation, as far as it exists, can be found at [API doc "
-"endpoint](developer/API/)."
+"endpoint](../developer/API/)."
 msgstr ""
-"Die Dokumentation für die API, sofern vorhanden, kann am "
-"[API-Dokumentationsendpunkt](developer/API/) gefunden werden."
+"Die Dokumentation für die API, sofern vorhanden, kann am [API-"
+"Dokumentationsendpunkt](developer/API/) gefunden werden."
 
 #. type: Plain text
 msgid "Documentation workflow"
@@ -55,11 +59,10 @@ msgid ""
 msgstr ""
 "Die Dokumentation, welche Sie gerade lesen, wird in deinem projekt- oder "
 "installationsspezifischen git Repository (normalerweise das Monorepository "
-"oder primäre Repository des Projekts) als eine Reihe Dateien im "
-"Markdown-Format gepflegt. Dies erlaubt es, dass die Dokumentation dem Code "
-"über Abspaltungen und Merges hinweg \"folgt\", sie häufiger up-to-date "
-"ist, und der Dokumentationsstand zum Release-Zeitpunkt automatisch "
-"belegt ist."
+"oder primäre Repository des Projekts) als eine Reihe Dateien im Markdown-"
+"Format gepflegt. Dies erlaubt es, dass die Dokumentation dem Code über "
+"Abspaltungen und Merges hinweg \"folgt\", sie häufiger up-to-date ist, und "
+"der Dokumentationsstand zum Release-Zeitpunkt automatisch belegt ist."
 
 #. type: Plain text
 msgid ""
@@ -75,5 +78,7 @@ msgid "Additional resources"
 msgstr "Weitere Ressourcen"
 
 #. type: Bullet: ' * '
-msgid "[administrator documentation](admin)"
+#, fuzzy
+#| msgid "[administrator documentation](admin)"
+msgid "[administrator documentation](../admin)"
 msgstr "[Dokumentation für Administratoren](admin)"
