@@ -4,7 +4,7 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2013, 2023
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2023-06-01 11:54+0200\n"
+"POT-Creation-Date: 2023-06-01 13:52+0200\n"
 "PO-Revision-Date: 2023-06-01 10:43+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
@@ -30,8 +30,13 @@ msgstr ""
 "neudeutsch auch als das \"Ops team\" bekannt."
 
 #. type: Plain text
+#, fuzzy
+#| msgid ""
+#| "This document is mostly a skeleton for now - please feel free to at site-"
+#| "specific notes to whereever the doc is hosted at your site (ususally a "
+#| "site-specific or project-specific git branch)."
 msgid ""
-"This document is mostly a skeleton for now - please feel free to at site-"
+"This document is mostly a skeleton for now - please feel free to add site-"
 "specific notes to whereever the doc is hosted at your site (ususally a site-"
 "specific or project-specific git branch)."
 msgstr ""
