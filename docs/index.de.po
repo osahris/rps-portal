@@ -34,8 +34,8 @@ msgid ""
 "Here we try to document different aspects of this software stack.  It is "
 "structured for three different target audiences:"
 msgstr ""
-"Hier dokumentieren wir die verschiedenen Facetten dieses Software Stacks.Die "
-"Dokumentation richtet sich in Ihrer Struktur an drei verschiedene "
+"Hier dokumentieren wir die verschiedenen Facetten dieses Software Stacks. "
+"Die Dokumentation richtet sich in Ihrer Struktur an drei verschiedene "
 "Zielgruppen:"
 
 #. type: Bullet: ' * '
