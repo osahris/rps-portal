@@ -41,16 +41,12 @@ msgstr ""
 "installations- oder projektspezifischen git branch)."
 
 #. type: Plain text
-#, fuzzy
-#| msgid ""
-#| "Administrators that perform further system integration work might "
-#| "additionally need to refer to the [developer documentation](developer)."
 msgid ""
 "Administrators that perform further system integration work might "
 "additionally need to refer to the [developer documentation](../developer)."
 msgstr ""
 "Administratoren, die weitere Systemintegrationsarbeiten vornehmen, sollten "
-"auch die [entwicklerspezifische Dokumentation](developer) konsultieren."
+"auch die [entwicklerspezifische Dokumentation](../developer) konsultieren."
 
 #. type: Plain text
 msgid "Administrative tasks to be performed regularly:"

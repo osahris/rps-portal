@@ -33,16 +33,12 @@ msgid "Auto-generated API documentation"
 msgstr "Automatisch generierte API-Dokumentation"
 
 #. type: Plain text
-#, fuzzy
-#| msgid ""
-#| "The API documentation, as far as it exists, can be found at [API doc "
-#| "endpoint](developer/API/)."
 msgid ""
 "The API documentation, as far as it exists, can be found at [API doc "
 "endpoint](../developer/API/)."
 msgstr ""
 "Die Dokumentation für die API, sofern vorhanden, kann am [API-"
-"Dokumentationsendpunkt](developer/API/) gefunden werden."
+"Dokumentationsendpunkt](../developer/API/) gefunden werden."
 
 #. type: Plain text
 msgid "Documentation workflow"
@@ -78,7 +74,5 @@ msgid "Additional resources"
 msgstr "Weitere Ressourcen"
 
 #. type: Bullet: ' * '
-#, fuzzy
-#| msgid "[administrator documentation](admin)"
 msgid "[administrator documentation](../admin)"
-msgstr "[Dokumentation für Administratoren](admin)"
+msgstr "[Dokumentation für Administratoren](../admin)"
