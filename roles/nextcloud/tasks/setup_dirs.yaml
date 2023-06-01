@@ -1,0 +1,11 @@
+---
+
+- name: create directory
+  file: path={{remote_path}} state=directory
+
+- name: create skel directory
+  file: path={{remote_path}}/skel state=directory
+
+- name: create skel directory
+  file: path={{remote_path}}/theme state=directory
+

@@ -1,6 +1,8 @@
 ---
 - import_tasks: secrets.yaml
 
+- import_tasks: setup_dirs.yaml
+
 - import_tasks: deploy.yaml
 
 - import_tasks: config.yaml
