@@ -1,11 +1,11 @@
 # German translation of GhostrouteKB page.
-# Copyright © 2013 Philipp Kaluza
+# Copyright © 2013, 2023 Philipp Kaluza
 # This file is distributed under the same terms as GhostrouteKB itself.
-# Philipp Kaluza <consult@ghostroute.eu>, 2013
+# Philipp Kaluza <consult@ghostroute.eu>, 2013, 2023
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2016-10-21 18:03+0200\n"
-"PO-Revision-Date: 2016-10-21 18:05+0200\n"
+"POT-Creation-Date: 2023-06-01 16:45+0200\n"
+"PO-Revision-Date: 2023-06-01 16:45+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
 "Language: \n"
@@ -14,9 +14,135 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#. type: Plain text
+#. type: Yaml Front Matter Hash Value: layout
+#, no-wrap
+msgid "docs"
+msgstr ""
+
+#. type: Yaml Front Matter Hash Value: title
+#, no-wrap
+msgid "Docs for Admins"
+msgstr ""
+
+#. type: Title =
+#, no-wrap
 msgid "Notes about systems administration"
 msgstr "Informationssammung zur Administration"
+
+#. type: Plain text
+msgid ""
+"This part of the documentation is targeted specifically at the system "
+"administrators that keep everything running - also sometimes called the "
+"\"Ops team\"."
+msgstr ""
+"Dieser Teil der Dokumentation richtet sich spezifisch an die "
+"Systemadministratoren, welche die Software am Laufen haten sollen - "
+"neudeutsch auch als das \"Ops team\" bekannt."
+
+#. type: Plain text
+msgid ""
+"This document is mostly a skeleton for now - please feel free to at site-"
+"specific notes to whereever the doc is hosted at your site (ususally a site-"
+"specific or project-specific git branch)."
+msgstr ""
+"Dieses Dokument ist momentan größtenteils eine Vorlage - fügen Sie doch "
+"gerne Notizen, welche die konkrete Situation Ihrer Installation beschreiben, "
+"in die lokale Version dieses Dokumentes ein (normalerweise in einem "
+"installations- oder projektspezifischen git branch)."
+
+#. type: Plain text
+msgid ""
+"Administrators that perform further system integration work might "
+"additionally need to refer to the [developer documentation](../developer)."
+msgstr ""
+"Administratoren, die weitere Systemintegrationsarbeiten vornehmen, sollten "
+"auch die [entwicklerspezifische Dokumentation](../developer) konsultieren."
+
+#. type: Plain text
+msgid "_This page is currently under construction, sorry._"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Budibase"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Low-code database framework.**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://URL)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Discourse"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Discussion forum platform.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "TBD _A bit more detailed description and maybe reasoning to add it to RPS._  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://docs.discourse.org/)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Keycloak"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Identity and access management.**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "Used to manage users and their access to the other tools in the suite."
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "In RPS integrated with easy-to-use importing and exporting tools.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://www.keycloak.org/documentation)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Servicename"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Short and very general description**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"A bit more detailed description and maybe reasoning to add it to RPS. This "
+"text in smaller size"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "Comments on additional features and configurations that are added when this service is integrated to the RPS.  \n"
+msgstr ""
+
+#. type: Title =
+#, no-wrap
+msgid "Regular maintenance"
+msgstr ""
 
 #. type: Plain text
 msgid "Administrative tasks to be performed regularly:"
@@ -25,22 +151,15 @@ msgstr "Regelmäßige Administrationsaufgaben:"
 #. type: Bullet: ' * '
 msgid ""
 "Security updates provided by the software distributor need to be applied "
-"( [linux](../admin/clients-linux/security-updates)  [osx](../admin/clients-"
-"osx/security-updates)  [windows](../admin/clients-windows/security-updates)  "
-"[servers](../admin/servers-linux/security-updates) )"
+"( [servers](../admin/servers-linux/security-updates) )"
 msgstr ""
-"Sicherheits-Updates der Betriebssysteme einspielen ( [linux](../admin/clients-"
-"linux/security-updates) [osx](../admin/clients-osx/security-updates) [windows]"
-"(../admin/clients-windows/security-updates) [servers](../admin/servers-linux/"
-"security-updates) )"
+"Sicherheits-Updates der Betriebssysteme einspielen "
+"( [servers](../admin/servers-linux/security-updates) )"
 
 #. type: Bullet: ' * '
 msgid ""
-"Backups need to be run manually or verified that they are running ( [linux]"
-"(../admin/clients-linux/backups)  [osx](../admin/clients-osx/backups)  "
-"[windows](../admin/clients-windows/backups)  [servers](../admin/servers-"
-"linux/backups) )"
+"Backups need to be run manually or verified that they are running ( [servers]"
+"(../admin/servers-linux/backups) )"
 msgstr ""
-"Backups machen, bzw. verfizieren, dass automatisierte Backups laufen ([linux]"
-"(../admin/clients-linux/backups) [osx](../admin/clients-osx/backups) [windows]"
-"(../admin/clients-windows/backups) [servers](../admin/servers-linux/backups) )"
+"Backups machen, bzw. verfizieren, dass automatisierte Backups laufen ("
+"[servers](../admin/servers-linux/backups) )"

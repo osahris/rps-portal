@@ -2,12 +2,21 @@
 layout: docs
 title: "Docs for Admins"
 ---
-# Manual for admins
+Notes about systems administration
+==================================
+
+This part of the documentation is targeted specifically at the system
+administrators that keep everything running - also sometimes called the
+"Ops team".
+
+This document is mostly a skeleton for now - please feel free to at
+site-specific notes to whereever the doc is hosted at your site
+(ususally a site-specific or project-specific git branch).
+
+Administrators that perform further system integration work might
+additionally need to refer to the [developer documentation](../developer).
 
 _This page is currently under construction, sorry._
-
-Primary info on whom whis page is addressed to.
-
 
 ## Budibase
 **Low-code database framework.**  
