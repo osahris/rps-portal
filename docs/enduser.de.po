@@ -1,11 +1,11 @@
 # German translation of GhostrouteKB index page.
-# Copyright © 2013 Philipp Kaluza
+# Copyright © 2013-2014, 2023 Philipp Kaluza
 # This file is distributed under the same terms as GhostrouteKB itself.
-# Philipp Kaluza <consult@ghostroute.eu>, 2013-2014
+# Philipp Kaluza <consult@ghostroute.eu>, 2013-2014, 2023
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2023-06-01 16:45+0200\n"
-"PO-Revision-Date: 2016-10-21 17:20+0200\n"
+"PO-Revision-Date: 2023-06-01 16:46+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
 "Language: \n"
@@ -224,10 +224,8 @@ msgid "More info: [official docs](https://www.openproject.org/docs/) -->\n"
 msgstr ""
 
 #. type: Title ##
-#, fuzzy, no-wrap
-#| msgid "Available topics:"
 msgid "Other available topics"
-msgstr "Vorhandene Informationsseiten:"
+msgstr "Andere vorhandene Informationsseiten:"
 
 #. type: Bullet: ' * '
 msgid "[Using the email system](email)"
