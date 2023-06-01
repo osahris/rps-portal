@@ -5,7 +5,7 @@ This part of the documentation is targeted specifically at the system
 administrators that keep everything running - also sometimes called the
 "Ops team".
 
-This document is mostly a skeleton for now - please feel free to at
+This document is mostly a skeleton for now - please feel free to add
 site-specific notes to whereever the doc is hosted at your site
 (ususally a site-specific or project-specific git branch).
 
