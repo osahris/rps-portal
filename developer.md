@@ -8,7 +8,7 @@ Auto-generated API documentation
 --------------------------------
 
 The API documentation, as far as it exists, can be found at
-[API doc endpoint](developer/API/).
+[API doc endpoint](../developer/API/).
 
 
 Documentation workflow
@@ -28,5 +28,5 @@ of enduser- / admin- / developer-specific sections.
 Additional resources
 --------------------
 
- * [administrator documentation](admin)
+ * [administrator documentation](../admin)
 

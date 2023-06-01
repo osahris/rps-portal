@@ -10,7 +10,7 @@ site-specific notes to whereever the doc is hosted at your site
 (ususally a site-specific or project-specific git branch).
 
 Administrators that perform further system integration work might
-additionally need to refer to the [developer documentation](developer).
+additionally need to refer to the [developer documentation](../developer).
 
 Administrative tasks to be performed regularly:
 ----------------------------------------------
