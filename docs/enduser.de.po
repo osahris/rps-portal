@@ -4,7 +4,7 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2013-2014
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2016-10-21 17:02+0200\n"
+"POT-Creation-Date: 2023-06-01 16:45+0200\n"
 "PO-Revision-Date: 2016-10-21 17:20+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
@@ -13,6 +13,21 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. type: Yaml Front Matter Hash Value: layout
+#, no-wrap
+msgid "docs"
+msgstr ""
+
+#. type: Yaml Front Matter Hash Value: title
+#, no-wrap
+msgid "Docs for Users"
+msgstr ""
+
+#. type: Title #
+#, no-wrap
+msgid "Manual for users"
+msgstr ""
 
 #. type: Plain text
 msgid "Dear users,"
@@ -35,12 +50,184 @@ msgstr ""
 "herzlich eingeladen, die entsprechende Seite selbständig zu erweitern.)"
 
 #. type: Plain text
-msgid "Available topics:"
-msgstr "Vorhandene Informationsseiten:"
+msgid ""
+"A regular user, provided that they were given sufficient rights, may enjoy "
+"using the stack of services that is briefly described below. Here we "
+"intentionally avoid mentioning any technical peculiarities that can instead "
+"be found in manuals for [**Admins**](./admin) and [**Developers**](./"
+"developer)."
+msgstr ""
 
-#. type: Bullet: ' * '
-msgid "[Router](router) for internet access"
-msgstr "Internet-Zugangs-[Router](router)"
+#. type: Title ##
+#, no-wrap
+msgid "Keycloak"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Identity and access management.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "This so-called single-sign-on (SSO) service provides access to the other tools in the suite. In the RPS Keycloak is the entry point, the first what the users will see when they arrive to your portal. If the user is granted additional rights, they may also manage the scopes for others. For the rest it will seem to be just a friendly \"please login\" window.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"More info: [official docs - managing users](https://www.keycloak.org/docs/"
+"latest/server_admin/index.html#assembly-managing-"
+"users_server_administration_guide)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Groups Interface"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Manage access to services and their parts.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "The user with sufficient right may use this service to view, create, edit the groups for other users. Keeping in mind the relatively complex structure of [Keycloak](./#keycloak), we introduce this home-made service to provide the user with a handy and intuitive interface to edit the access rights to others.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [admin's manual](./admin/#groups-interface)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "RocketChat"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Communication platform.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "Highly customizable chatting tool that requires no rocket-science knowledge to start using it. With RocketChat it is easy to organize a convenient structure of the chat rooms to keep in touch with your colleagues spreding the discussions into multiple chats.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://docs.rocket.chat/)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Discourse"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Discussion forum platform.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "Sometimes a chat is not enough. For such cases we include the Discourse service to the RPS which allows for a broader list of means of communication in a form closer to a forum.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://docs.discourse.org/)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Nextcloud"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Documents storing, sharing and co-editing platform.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "Now that we're talking via [RocketChat](./#rocketchat) and [Discourse](./#discourse), time to have a handy tool to store, share and co-edit the documents in the cloud.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://nextcloud.com/support/)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Wiki-Bookstack"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Information systematization tool.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "For a bigger working group sooner or later comes the question of centralizing and structuring the core internal information. Having your own encyclopedia is a reasonable choice, especially if it is such a light-weight and easy-to-use one as Wiki-Bookstack in the RPS.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://www.bookstackapp.com/docs/)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Budibase"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Low-code database framework.**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "For building forms quickly and pleasant working structured data."
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "A simple example of its application could be a construction of a form to collect participants data for some event or project. With Budibase this can be done in a few minutes! (All right, first time it will take you longer...)  \n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"More info: [official promo in YouTube](https://www.youtube.com/watch?"
+"v=xoljVpty_Kw)"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid ""
+"<!-- ## OpenProject\n"
+"**Short and very general description**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"A bit more detailed description and maybe reasoning to add it to RPS. This "
+"text in smaller size"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "Comments on additional features and configurations that are added when this service is integrated to the RPS.  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "More info: [official docs](https://www.openproject.org/docs/) -->\n"
+msgstr ""
+
+#. type: Title ##
+#, fuzzy, no-wrap
+#| msgid "Available topics:"
+msgid "Other available topics"
+msgstr "Vorhandene Informationsseiten:"
 
 #. type: Bullet: ' * '
 msgid "[Using the email system](email)"
@@ -54,6 +241,8 @@ msgstr "[Verwendung der Mailing-Listen](mailinglists)"
 msgid "[The main wiki](wiki)"
 msgstr "[zentrales Wiki](wiki)"
 
-#. type: Bullet: ' * '
-msgid "[Remote access](remote_access)"
-msgstr "[Fernzugriff](remote_access)"
+#~ msgid "[Router](router) for internet access"
+#~ msgstr "Internet-Zugangs-[Router](router)"
+
+#~ msgid "[Remote access](remote_access)"
+#~ msgstr "[Fernzugriff](remote_access)"

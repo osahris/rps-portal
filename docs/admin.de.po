@@ -4,7 +4,7 @@
 # Philipp Kaluza <consult@ghostroute.eu>, 2013, 2023
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2023-06-01 11:54+0200\n"
+"POT-Creation-Date: 2023-06-01 16:45+0200\n"
 "PO-Revision-Date: 2023-06-01 10:43+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
@@ -13,6 +13,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#. type: Yaml Front Matter Hash Value: layout
+#, no-wrap
+msgid "docs"
+msgstr ""
+
+#. type: Yaml Front Matter Hash Value: title
+#, no-wrap
+msgid "Docs for Admins"
+msgstr ""
 
 #. type: Title =
 #, no-wrap
@@ -49,15 +59,105 @@ msgstr ""
 "auch die [entwicklerspezifische Dokumentation](../developer) konsultieren."
 
 #. type: Plain text
+msgid "_This page is currently under construction, sorry._"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Budibase"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Low-code database framework.**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://URL)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Discourse"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Discussion forum platform.**  \n"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "TBD _A bit more detailed description and maybe reasoning to add it to RPS._  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://docs.discourse.org/)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Keycloak"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Identity and access management.**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "Used to manage users and their access to the other tools in the suite."
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "In RPS integrated with easy-to-use importing and exporting tools.  \n"
+msgstr ""
+
+#. type: Plain text
+msgid "More info: [official docs](https://www.keycloak.org/documentation)"
+msgstr ""
+
+#. type: Title ##
+#, no-wrap
+msgid "Servicename"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "**Short and very general description**  \n"
+msgstr ""
+
+#. type: Plain text
+msgid ""
+"A bit more detailed description and maybe reasoning to add it to RPS. This "
+"text in smaller size"
+msgstr ""
+
+#. type: Plain text
+#, no-wrap
+msgid "Comments on additional features and configurations that are added when this service is integrated to the RPS.  \n"
+msgstr ""
+
+#. type: Title =
+#, no-wrap
+msgid "Regular maintenance"
+msgstr ""
+
+#. type: Plain text
 msgid "Administrative tasks to be performed regularly:"
 msgstr "Regelmäßige Administrationsaufgaben:"
 
 #. type: Bullet: ' * '
+#, fuzzy
+#| msgid ""
+#| "Security updates provided by the software distributor need to be applied "
+#| "( [linux](../admin/clients-linux/security-updates)  [osx](../admin/"
+#| "clients-osx/security-updates)  [windows](../admin/clients-windows/"
+#| "security-updates)  [servers](../admin/servers-linux/security-updates) )"
 msgid ""
 "Security updates provided by the software distributor need to be applied "
-"( [linux](../admin/clients-linux/security-updates)  [osx](../admin/clients-"
-"osx/security-updates)  [windows](../admin/clients-windows/security-updates)  "
-"[servers](../admin/servers-linux/security-updates) )"
+"( [servers](../admin/servers-linux/security-updates) )"
 msgstr ""
 "Sicherheits-Updates der Betriebssysteme einspielen ( [linux](../admin/"
 "clients-linux/security-updates) [osx](../admin/clients-osx/security-updates) "
@@ -65,11 +165,15 @@ msgstr ""
 "servers-linux/security-updates) )"
 
 #. type: Bullet: ' * '
+#, fuzzy
+#| msgid ""
+#| "Backups need to be run manually or verified that they are running "
+#| "( [linux](../admin/clients-linux/backups)  [osx](../admin/clients-osx/"
+#| "backups)  [windows](../admin/clients-windows/backups)  [servers](../admin/"
+#| "servers-linux/backups) )"
 msgid ""
-"Backups need to be run manually or verified that they are running ( [linux]"
-"(../admin/clients-linux/backups)  [osx](../admin/clients-osx/backups)  "
-"[windows](../admin/clients-windows/backups)  [servers](../admin/servers-"
-"linux/backups) )"
+"Backups need to be run manually or verified that they are running ( [servers]"
+"(../admin/servers-linux/backups) )"
 msgstr ""
 "Backups machen, bzw. verfizieren, dass automatisierte Backups laufen ([linux]"
 "(../admin/clients-linux/backups) [osx](../admin/clients-osx/backups) "

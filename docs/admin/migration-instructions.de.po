@@ -1,0 +1,89 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-06-01 16:45+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Title =
+#, markdown-text, no-wrap
+msgid "Instructions on migrating instance data into a new deployment"
+msgstr ""
+
+#. type: Title -
+#, markdown-text, no-wrap
+msgid "Nextcloud"
+msgstr ""
+
+#. type: Title ###
+#, markdown-text, no-wrap
+msgid "Exporting the SQL database"
+msgstr ""
+
+#. type: Plain text
+#, markdown-text
+msgid ""
+"Add the old host temporarily to an inventory file, e.g. `inventory-mine`, in "
+"the group `[rps_old_servers]`.  Make sure to set the variables "
+"`ansible_ssh_user`, `rps_admin_email` and `rps_dns_suffix` here."
+msgstr ""
+
+#. type: Plain text
+#, markdown-text, no-wrap
+msgid ""
+"<!-- TODO: set nextcloud_import=local_folder or call the specialized "
+"playbook when it works. -->\n"
+msgstr ""
+
+#. type: Plain text
+#, markdown-text
+msgid ""
+"On the old system, create an export of Nextcloud's PostgreSQL database using "
+"`pg_dump`.  On an RPS legacy instance (RPS 1.0 and below), this would look "
+"as follows:"
+msgstr ""
+
+#. type: Fenced code block
+#, no-wrap
+msgid ""
+"root@legacyhost:~# lxc exec cloud -- su postgres -c 'pg_dump nextcloud' - > "
+"/tmp/nextclouddb.sql\n"
+msgstr ""
+
+#. type: Plain text
+#, markdown-text
+msgid ""
+"Now for the simplified workflow (assuming your data privacy guidelines allow "
+"this), copy the file to your local machine:"
+msgstr ""
+
+#. type: Fenced code block
+#, no-wrap
+msgid "$ rsync -avrzP --inplace root@legacyhost:/tmp/nextclouddb.sql\n"
+msgstr ""
+
+#. type: Title ###
+#, markdown-text, no-wrap
+msgid "Importing the SQL database"
+msgstr ""
+
+#. type: Plain text
+#, markdown-text
+msgid "TODO"
+msgstr ""
+
+#. type: Title ###
+#, markdown-text, no-wrap
+msgid "Moving the `files` storage from one system to the other"
+msgstr ""
