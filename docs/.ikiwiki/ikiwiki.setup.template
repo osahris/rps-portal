@@ -17,7 +17,7 @@ adminuser:
 # users who are banned from the wiki
 banned_users: []
 # where the source of the wiki is located
-srcdir: /home/phk/src/GhostrouteKB
+srcdir: /home/phk/src/GhostrouteKB/docs/
 # where to build the wiki
 destdir: /var/www/html/GhostrouteKB
 # base url to the wiki
@@ -205,7 +205,7 @@ po_master_language: en|English
 po_slave_languages:
 - de|Deutsch
 # PageSpec controlling which pages are translatable
-po_translatable_pages: 'index* or admin* or enduser* or tempates/*'
+po_translatable_pages: 'index* or admin* or developer* or enduser* or tempates/*'
 # internal linking behavior (default/current/negotiated)
 po_link_to: current
 
