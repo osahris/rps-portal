@@ -1,11 +1,11 @@
 # German translation of GhostrouteKB index page.
-# Copyright © 2013 Philipp Kaluza
+# Copyright © 2013, 2023 Philipp Kaluza
 # This file is distributed under the same terms as GhostrouteKB itself.
-# Philipp Kaluza <consult@ghostroute.eu>, 2013
+# Philipp Kaluza <consult@ghostroute.eu>, 2013, 2023
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2023-05-20 23:26+0200\n"
-"PO-Revision-Date: 2016-10-21 17:20+0200\n"
+"PO-Revision-Date: 2023-06-01 11:06+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
 "Language: \n"
@@ -15,8 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. type: Title =
-#, fuzzy, no-wrap
-#| msgid "Welcome to Ghostroute Consulting's Knowledge Base."
+#, no-wrap
 msgid "Welcome to Ghostroute Consulting's Knowledge Base"
 msgstr "Willkommen in der Wissensbasis von Ghostroute Consulting"
 
@@ -41,10 +40,8 @@ msgid "[administrator documentation](admin)"
 msgstr "[Dokumentation für Administratoren](admin)"
 
 #. type: Bullet: ' * '
-#, fuzzy
-#| msgid "[administrator documentation](admin)"
 msgid "[developer documentation](developer)"
-msgstr "[Dokumentation für Administratoren](admin)"
+msgstr "[Dokumentation für Entwickler](developer)"
 
 #. type: Plain text
 msgid ""

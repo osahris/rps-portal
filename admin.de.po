@@ -1,11 +1,11 @@
 # German translation of GhostrouteKB page.
-# Copyright © 2013 Philipp Kaluza
+# Copyright © 2013, 2023 Philipp Kaluza
 # This file is distributed under the same terms as GhostrouteKB itself.
-# Philipp Kaluza <consult@ghostroute.eu>, 2013
+# Philipp Kaluza <consult@ghostroute.eu>, 2013, 2023
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2023-05-20 23:26+0200\n"
-"PO-Revision-Date: 2016-10-21 18:05+0200\n"
+"PO-Revision-Date: 2023-06-01 10:43+0200\n"
 "Last-Translator: Philipp Kaluza <consult@ghostroute.eu>\n"
 "Language-Team: None\n"
 "Language: \n"
@@ -25,6 +25,9 @@ msgid ""
 "administrators that keep everything running - also sometimes called the "
 "\"Ops team\"."
 msgstr ""
+"Dieser Teil der Dokumentation richtet sich spezifisch an die "
+"Systemadministratoren, welche die Software am Laufen haten sollen - "
+"neudeutsch auch als das \"Ops team\" bekannt."
 
 #. type: Plain text
 msgid ""
@@ -32,12 +35,19 @@ msgid ""
 "specific notes to whereever the doc is hosted at your site (ususally a site-"
 "specific or project-specific git branch)."
 msgstr ""
+"Dieses Dokument ist momentan größtenteils eine Vorlage - fügen Sie doch "
+"gerne Notizen, welche die konkrete Situation Ihrer Installation "
+"beschreiben, in die lokale Version dieses Dokumentes ein (normalerweise "
+"in einem installations- oder projektspezifischen git branch)."
 
 #. type: Plain text
 msgid ""
 "Administrators that perform further system integration work might "
 "additionally need to refer to the [developer documentation](developer)."
 msgstr ""
+"Administratoren, die weitere Systemintegrationsarbeiten vornehmen, "
+"sollten auch die [entwicklerspezifische Dokumentation](developer) "
+"konsultieren."
 
 #. type: Plain text
 msgid "Administrative tasks to be performed regularly:"
