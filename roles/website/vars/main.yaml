@@ -1,0 +1,18 @@
+---
+remote_path: /srv/{{website_service_name}}
+
+website_traefik_router:
+  rule: "Host(`{{website_service_name}}`)"
+  entrypoints: websecure
+  middlewares: "{{website_traefik_middlewares}}"
+  service: "{{website_service_name}}"
+
+website_traefik_service:
+  loadBalancer:
+    servers:
+      - url: "http://{{website_service_name | replace('.','')}}_website_1:{{website_service_port}}"
+
+website_traefik_dynamic_config:
+  http:
+    routers: "{{ { website_service_name : website_traefik_router } }}"
+    services: "{{ { website_service_name : website_traefik_service } }}"

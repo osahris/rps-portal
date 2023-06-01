@@ -1,0 +1,9 @@
+---
+
+website_service_name: website.{{ rps_dns_suffix }}
+
+website_traefik_middlewares:
+  - header-redirect
+
+website_oci_image: nginx:1
+website_service_port: 80

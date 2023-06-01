@@ -1,0 +1,4 @@
+---
+website_service_name: research-project-suite.org
+website_traefik_middlewares: []
+website_oci_image: registry.gitlab.com/idcohorts/rps/rps-website:latest
