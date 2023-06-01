@@ -3,6 +3,9 @@
 
 - import_tasks: setup_dirs.yaml
 
+########################################################################
+### Section: prepare docker-compose
+
 - name: copy env
   template:
     src: "env.j2"
@@ -17,6 +20,9 @@
   template:
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
+
+########################################################################
+### Section: bring up PostgreSQL database, then nextcloud
 
 - name: create postgresql script directory
   ansible.builtin.file:
@@ -53,8 +59,14 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
+########################################################################
+### Section: apply incremental nextcloud upgrade scripts to existing DB
+
 - import_tasks: upgrade.yaml
   when: nextcloud_upgrade
+
+########################################################################
+### Section: now set nextcloud's config idempotently to target values
 
 - import_tasks: initialize.yaml
   when: nextcloud_initialize
@@ -101,3 +113,4 @@
 - import_tasks: apps/install.yaml
   vars:
     nextcloud_install_apps: "{{nextcloud_apps}}"
+
