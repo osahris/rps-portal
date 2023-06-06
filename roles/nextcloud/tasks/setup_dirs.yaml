@@ -12,7 +12,7 @@
 - name: 'clone the nextcloud header injection repo'
   git:
     repo: "{{nextcloud_header_injection_repo}}"
-    dest: "{{remote_path}}/rps-nextcloud-header-injection.git"
+    dest: "{{remote_path}}/rps-nextcloud-header-injection"
     version: "main"
     single_branch: true
     force: false

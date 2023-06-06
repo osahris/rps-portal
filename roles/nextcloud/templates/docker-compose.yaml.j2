@@ -51,7 +51,7 @@ services:
       - ./skel:/srv/nextcloud/skel:ro
       - ./themes:/srv/nextcloud/themes:ro
 {% if nextcloud_with_header_injection %}
-      - {{remote_path}}/rps-nextcloud-header-injection.git/patches:/srv/header-patches/:ro
+      - {{remote_path}}/rps-nextcloud-header-injection/patches/:/srv/header-patches/:ro
 {% endif %}
     env_file:
       - "./env"

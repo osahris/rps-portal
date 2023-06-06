@@ -116,10 +116,11 @@
 - name: 'Apply the header injection patch'
   community.docker.docker_container_exec:
     container: "{{ nextcloud_app_container_name }}"
-    command: /bin/sh -c 'patch -p1 $(ls -1 "/srv/header-patches/nextcloud-header-injection-v{{nextcloud_version}}"*.diff | sort -n | tail -n1)'
-    chdir: /var/www/html
+    command: /srv/header-patches/apply-patch.sh v{{nextcloud_version}}
+  changed_when: not "Patch already applied" in _nextcloud_header_injection_patch.stdout
+  when: nextcloud_with_header_injection
+  register: _nextcloud_header_injection_patch
 
 - import_tasks: apps/install.yaml
   vars:
     nextcloud_install_apps: "{{nextcloud_apps}}"
-
