@@ -4,4 +4,7 @@ rps_dns_suffix: "{{ inventory_hostname }}"
 rps_core_package_with_keycloak: true
 rps_core_package_with_keycloak_realms: "{{ rps_core_package_with_keycloak }}"
 
+rps_core_package_with_keycloak_permissions: "{{ rps_core_package_with_keycloak }}"
+rps_core_package_with_keycloak_registration_email_sync: "{{ rps_core_package_with_keycloak }}"
+
 rps_with_gitlab_credentials: false
