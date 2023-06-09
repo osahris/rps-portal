@@ -12,3 +12,4 @@ permission_sync_keycloak_client_auth_realm: "{{keycloak_management_realm|default
 permission_sync_keycloak_client_auth_username: admin
 permission_sync_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 permission_sync_keycloak_client_validate_certs: true
+sync_path: "/srv/permission-sync"

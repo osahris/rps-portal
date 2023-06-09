@@ -16,9 +16,6 @@ services:
     networks:
       - keycloak-internal
       - proxy
-    #profiles:
-    #  - full
-    #  - only-rps-sync
     volumes:
       - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
     entrypoint: ''
