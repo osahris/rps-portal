@@ -87,6 +87,9 @@
       Ansible somehow skipped the initialize step of the nextcloud role.
       There might be something wrong with the docker-compose stack deployment. Please check the logs.
 
+########################################################################
+### Section: additional tuning of the webserver runtime environment
+
 - name: Update htaccess
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
@@ -109,6 +112,12 @@
   when: nextcloud_with_user_oidc_app
 - import_tasks: apps/oidc_login.yaml
   when: nextcloud_with_oidc_login_app
+
+- name: 'Apply the header injection patch'
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: /bin/sh -c 'patch -p1 $(ls -1 "/srv/header-patches/nextcloud-header-injection-v{{nextcloud_version}}"*.diff | sort -n | tail -n1)'
+    chdir: /var/www/html
 
 - import_tasks: apps/install.yaml
   vars:

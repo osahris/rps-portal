@@ -9,3 +9,13 @@
 - name: create skel directory
   file: path={{remote_path}}/theme state=directory
 
+- name: 'clone the nextcloud header injection repo'
+  git:
+    repo: "{{nextcloud_header_injection_repo}}"
+    dest: "{{remote_path}}/rps-nextcloud-header-injection.git"
+    version: "main"
+    single_branch: true
+    force: false
+    depth: 1
+  when: nextcloud_with_header_injection
+

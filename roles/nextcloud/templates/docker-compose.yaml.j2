@@ -27,7 +27,7 @@ services:
     environment:
       - SLEEP_MINUTES=1
     command: /opt/rps-admin-tools/command_loop.sh -c /opt/rps-admin-tools/config.yaml sync nextcloud --verbose
-        
+
   nextcloud:
     image: nextcloud:{{ nextcloud_version }}
     profiles:
@@ -50,6 +50,9 @@ services:
       - nextcloud-data:/srv/nextcloud/data
       - ./skel:/srv/nextcloud/skel:ro
       - ./themes:/srv/nextcloud/themes:ro
+{% if nextcloud_with_header_injection %}
+      - {{remote_path}}/rps-nextcloud-header-injection.git/patches:/srv/header-patches/:ro
+{% endif %}
     env_file:
       - "./env"
 
