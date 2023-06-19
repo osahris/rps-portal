@@ -1,6 +1,6 @@
 ---
 
-keycloak_approval_email_sender_keycloak_client_realm: rps
+keycloak_approval_email_sender_keycloak_client_realm: "{{ keycloak_realm }}"
 keycloak_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
 keycloak_sync_container_version: dev
 keycloak_approval_email_sender_keycloak_client_client_id: "approval-email-sender-{{keycloak_service_name}}"
