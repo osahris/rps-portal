@@ -1,5 +1,7 @@
 ---
 
+- import_tasks: secrets.yaml
+
 - name: create application directory
   file:
     path: "{{sync_path}}"

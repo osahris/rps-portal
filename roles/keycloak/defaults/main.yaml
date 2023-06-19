@@ -27,7 +27,6 @@ keycloak_admin_username: admin
 
 keycloak_admin_password: "{{ ansible_local[keycloak_service_name].keycloak_admin_password  }}"
 keycloak_postgres_password: "{{ ansible_local[keycloak_service_name].keycloak_postgres_password }}"
-permission_sync_keycloak_client_secret: "{{ ansible_local[keycloak_service_name].permission_sync_keycloak_client_secret }}"
 
 keycloak_registration_project_id: rps
 keycloak_registration_mail_login_link: https://research-project-suite.org
