@@ -1,0 +1,15 @@
+---
+
+keycloak_docker_compose_profile: full
+permission_sync_keycloak_client_realm: rps
+keycloak_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+keycloak_sync_container_version: dev
+permission_sync_keycloak_client_client_id: "permission-sync-{{keycloak_service_name}}"
+permission_sync_keycloak_client_secret: "{{ ansible_local[permission_sync_keycloak_client_client_id].permission_sync_keycloak_client_secret }}"
+keycloak_with_permission_sync_keycloak_client: true
+permission_sync_keycloak_client_auth_keycloak_url: "{{keycloak_service_name}}"
+permission_sync_keycloak_client_auth_client_id: admin-cli
+permission_sync_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+permission_sync_keycloak_client_auth_username: admin
+permission_sync_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+permission_sync_keycloak_client_validate_certs: true

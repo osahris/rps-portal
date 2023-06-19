@@ -17,11 +17,11 @@
 
 # Discourse
 
-- import_role:
-    name: discourse
-  tags:
-    - discourse
-    - dialog
+# - import_role:
+#     name: discourse
+#   tags:
+#     - discourse
+#     - dialog
 
 # RocketChat
 
