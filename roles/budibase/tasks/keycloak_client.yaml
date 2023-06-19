@@ -47,6 +47,7 @@
       grant_type: "password"
       client_id: "admin-cli"
   register: keycloak_token
+
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
     realm: "{{ nextcloud_keycloak_client_realm }}"
@@ -59,6 +60,7 @@
       - name: view-users
       - name: query-users
       - name: manage-users
+
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
     realm: "{{ nextcloud_keycloak_client_realm }}"

@@ -13,8 +13,6 @@ keycloak_import_from_controler: false
 keycloak_container_image: quay.io/keycloak/keycloak
 keycloak_container_version: 21.0
 
-
-
 # keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
@@ -25,7 +23,7 @@ keycloak_proxy_network: proxy
 
 keycloak_admin_username: admin
 
-keycloak_admin_password: "{{ ansible_local[keycloak_service_name].keycloak_admin_password  }}"
+keycloak_admin_password:    "{{ ansible_local[keycloak_service_name].keycloak_admin_password  }}"
 keycloak_postgres_password: "{{ ansible_local[keycloak_service_name].keycloak_postgres_password }}"
 
 keycloak_registration_project_id: rps
