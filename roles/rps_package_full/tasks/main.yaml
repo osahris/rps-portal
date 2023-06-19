@@ -17,11 +17,12 @@
 
 # Discourse
 
-# - import_role:
-#     name: discourse
-#   tags:
-#     - discourse
-#     - dialog
+- import_role:
+    name: discourse
+  tags:
+    - discourse
+    - dialog
+  when: rps_package_full_with_discourse
 
 # RocketChat
 
