@@ -1,6 +1,7 @@
 ---
 
 website_service_name: website.{{ rps_dns_suffix }}
+website_with_watchtower: false
 
 website_traefik_middlewares:
   - header-redirect
