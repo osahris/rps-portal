@@ -1,0 +1,14 @@
+---
+
+keycloak_approval_email_sender_keycloak_client_realm: rps
+keycloak_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+keycloak_sync_container_version: dev
+keycloak_approval_email_sender_keycloak_client_client_id: "permission-sync-{{keycloak_service_name}}"
+keycloak_with_keycloak_approval_email_sender_keycloak_client: true
+keycloak_approval_email_sender_keycloak_client_auth_keycloak_url: "{{keycloak_service_name}}"
+keycloak_approval_email_sender_keycloak_client_auth_client_id: admin-cli
+keycloak_approval_email_sender_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+keycloak_approval_email_sender_keycloak_client_auth_username: admin
+keycloak_approval_email_sender_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+keycloak_approval_email_sender_keycloak_client_validate_certs: true
+sync_path: "/srv/keycloak-approval-email-sender"
