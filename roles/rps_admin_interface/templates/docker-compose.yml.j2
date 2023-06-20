@@ -1,14 +1,37 @@
 ---
 version: "3"
 networks:
+  service:
   proxy:
     external: true
+  oauth2-proxy:
+    internal: true
 
 services:
-  web:
-    image: registry.gitlab.com/idcohorts/rps/rps-admin-tools:dev
+  rps-admin-interface:
+    image: {{rps_admin_interface_container_image}}:{{rps_admin_interface_container_image_version}}
     env_file: env
     networks:
-      - proxy
+      - service
     volumes:
-      - ./config.yaml:/opt/rps-admin-tools/configs/config.yaml:ro
+      - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
+{% if rps_admin_interface_with_watchtower %}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"  
+{% endif %}    
+  oauth2-proxy-admin:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
+    restart: unless-stopped
+    networks:
+      - proxy
+      - service
+      - oauth2-proxy
+    env_file: oauth2-proxy.env
+  oauth2-proxy-redis:
+    image: redis:6.2-alpine
+    restart: always
+    networks:
+      - oauth2-proxy
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass {{rps_admin_interface_oauth2_proxy_redis_pass}}

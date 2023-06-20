@@ -1,3 +1,4 @@
+#TODO: Refactor to use rps instead of numhub
 rps_structure:
 
 - name: numhub

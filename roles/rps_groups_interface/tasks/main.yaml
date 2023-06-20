@@ -4,6 +4,10 @@
   file:
     path: "{{remote_path}}"
     state: directory
+- name: create config directory
+  file:
+    path: "{{remote_path}}/config"
+    state: directory
 
 - name: create docker compose yaml
   template:
@@ -13,7 +17,7 @@
 - name: create suite config
   copy:
     content: "{{ rps_groups_interface_suite_config }}"
-    dest: "{{remote_path}}/suite.config.json"
+    dest: "{{remote_path}}/config/config.json"
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -32,4 +36,4 @@
 - name: traefik dynamic config
   copy:
     content: "{{ rps_groups_interface_traefik_dynamic_config }}"
-    dest: "/srv/traefik/conf.d/rps-groups-interface.yaml"
+    dest: "/srv/traefik/conf.d/{{ rps_groups_interface_service_name }}.yaml"

@@ -18,6 +18,11 @@
     - "docker-compose.yml.j2"
     - "config.yaml.j2"
 
+- name: template oauth2-proxy env file
+  template:
+    src: oauth2-proxy.env.j2
+    dest: "{{ remote_path }}/oauth2-proxy.env"
+
 - name: remove obsolete traefik config
   file:
     path: /srv/traefik/conf.d/rps-admin-interface.yaml
@@ -25,7 +30,7 @@
 
 - name: copy traefik dynamic config
   copy:
-    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    content: "{{ rps_admin_interface_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/{{rps_admin_interface_service_name}}.yaml"
 
 - name: deploy docker-compose stack

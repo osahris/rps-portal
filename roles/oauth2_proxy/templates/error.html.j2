@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>{{.StatusCode}} {{.Title}}</title>
   {% endraw %}
-  <link rel="stylesheet" href="{{rps_style_server_name}}/css-variables.css">
-{% raw %}
+    <link rel="stylesheet" href="{{ oauth2_proxy_css_src }}">
+  {% raw %}
 
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', function() {
@@ -30,7 +30,7 @@
     max-width: 600px;
   }
   .status-code {
-    font-size: 12rem;
+    font-size: 2rem;
     font-weight: 600;
   }
   #more-info.card {
@@ -45,47 +45,59 @@
   <nav id="rps-header" class="rps-header"></nav>
 <section class="section">
   <div class="box block error-box has-text-centered">
-    <div class="status-code">{{.StatusCode}}</div>
+    <div>
+      {% endraw %}
+        <img width="320" height="320" src="{{ oauth2_proxy_logo_src }}">
+      {% raw %}
+    </div>
+    <div class="status-code">Error {{.StatusCode}}</div>
     <div class="block">
-      <h1 class="subtitle is-1">{{.Title}}</h1>
+        {{ if eq .StatusCode 403 }}
+          <h1 class="subtitle is-1">
+            Ihr Benutzeraccount ist noch nicht freigeschaltet.
+            <br>This user account has not been unlocked yet.
+          </h1>
     </div>
-
-    {{ if or .Message .RequestID }}
-    <div id="more-info" class="block card is-fullwidth is-shadowless">
-      <header class="card-header is-shadowless">
-        <p class="card-header-title">More Info</p>
-        <a class="card-header-icon card-toggle">
-          <i class="fa fa-angle-down"></i>
-        </a>
-      </header>
-      <div class="card-content has-text-left is-hidden">
-        {{ if .Message }}
-        <div class="content">
-          {{.Message}}
+    {{ else }}
+          <h1 class="subtitle is-1">{{.Title}}</h1>
+        </div>
+        
+        {{ if or .Message .RequestID }}
+        <div id="more-info" class="block card is-fullwidth is-shadowless">
+          <header class="card-header is-shadowless">
+            <p class="card-header-title">More Info</p>
+            <a class="card-header-icon card-toggle">
+              <i class="fa fa-angle-down"></i>
+            </a>
+          </header>
+          <div class="card-content has-text-left is-hidden">
+            {{ if .Message }}
+            <div class="content">
+              {{.Message}}
+            </div>
+            {{ end }}
+            {{ if .RequestID }}
+            <div class="content">
+              Request ID: {{.RequestID}}
+            </div>
+            {{ end }}
+          </div>
         </div>
         {{ end }}
-        {{ if .RequestID }}
-        <div class="content">
-          Request ID: {{.RequestID}}
-        </div>
-        {{ end }}
-      </div>
-    </div>
     {{ end }}
-
     {{ if .Redirect }}
     <hr>
 
     <div class="columns">
       <div class="column">
         <form method="GET" action="{{.Redirect}}">
-          <button type="submit" class="button is-danger is-fullwidth">Go back</button>
+          <button type="submit" class="btn-rps-secondary">Go back</button>
         </form>
       </div>
       <div class="column">
-        <form method="GET" action="{{.ProxyPrefix}}/sign_in">
+        <form method="GET" action="{{.ProxyPrefix}}/sign_out">
           <input type="hidden" name="rd" value="{{.Redirect}}">
-          <button type="submit" class="button is-primary is-fullwidth">Sign in</button>
+          <button type="submit" class="btn-rps-primary">Sign out</button>
         </form>
       </div>
     </div>

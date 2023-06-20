@@ -1,0 +1,51 @@
+---
+
+- name: Import – create import directory
+  ansible.builtin.file:
+    path: "{{ remote_path }}/import"
+    state: directory
+    # TODO: figure out minimal permission set here
+    mode: 0755
+
+# If nextcloud_import=="local_folder", place a "nextclouddb.sql" in this folder: {{nextcloud_import_local_folder}}
+# If nextcloud_import==true, place the "nextclouddb.sql" into "{{remote_path}}/migration-data" !
+- name: "Import -- Sync SQL data from controller to managed host for import"
+  synchronize:
+    src: "{{ import_controller_path }}/nextclouddb.sql"
+    dest: "{{ remote_path }}/import/nextclouddb.sql"
+  when: nextcloud_import is defined and nextcloud_import == "local_folder"
+
+- name: "Import -- Sync user files from controller to managed host for import"
+  synchronize:
+    recursive: true
+    src: "{{ import_controller_path }}/nextcloud-data/"
+    dest: "{{ remote_path }}/import/nextcloud-data/"
+    # delete all files in the destination that are not in the source
+    delete: true
+  when: nextcloud_import is defined and nextcloud_import == "local_folder"
+
+- name: 'Import - stat the "nextcloud-data" directory'
+  ansible.builtin.stat:
+    path: "{{ remote_path }}/import/nextcloud-data"
+  register: nextcloud_import_datadir_r
+
+- name: 'Import - assert that the "nextcloud-data/" directory is present in the migration data'
+  ansible.builtin.assert:
+    that: nextcloud_import_datadir_r.stat.isdir is defined and nextcloud_import_datadir_r.stat.isdir
+
+- name: Import – copy import script
+  ansible.builtin.copy:
+    src: import.sh
+    dest: "{{ remote_path }}/import.sh"
+    mode: 0755
+
+- name: Import - copy update-config script
+  ansible.builtin.template:
+    src: update-config.php.j2
+    dest: "{{ remote_path }}/update-config.php"
+    mode: 0755
+
+- name: Import – run import script
+  ansible.builtin.command: "{{ remote_path }}/import.sh"
+  args:
+    chdir: "{{ remote_path }}"

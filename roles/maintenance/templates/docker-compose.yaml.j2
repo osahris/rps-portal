@@ -1,0 +1,20 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+
+services:
+
+  nginx:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - ./nginx/html:/usr/share/nginx/html
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    command: nginx -g 'daemon off;'

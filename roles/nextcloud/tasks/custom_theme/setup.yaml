@@ -1,8 +1,0 @@
----
-
-- name: copy nextcloud theme repo with git
-  git:
-    repo: "{{nextcloud_theme_repo}}"
-    dest: "{{remote_path}}/nextcloud/themes/{{nextcloud_custom_theme_name}}"
-    version: "{{nextcloud_theme_version}}"
-    force: true

@@ -20,6 +20,12 @@
   tags:
     - gitlab_credentials
     - gitlab-credentials
+  when: rps_with_gitlab_credentials
+
+- import_role:
+    name: watchtower
+  tags:
+    - watchtower
 
 - import_role:
     name: traefik
@@ -39,6 +45,33 @@
     - keycloak_realms
     - keycloak-realms
   when: rps_core_package_with_keycloak_realms
+
+- import_role:
+    name: keycloak_permissions
+  tags:
+    - keycloak_permissions
+    - keycloak-permissions
+  when: rps_core_package_with_keycloak_permissions
+
+- import_role:
+    name: keycloak_approval_email_sender
+  tags:
+    - keycloak_approval_email_sender
+    - keycloak-approval-email-sender
+  when: rps_core_package_with_keycloak_approval_email_sender
+
+- import_role:
+    name: keycloak_groups
+  tags:
+    - keycloak_groups
+    - keycloak-groups
+  when: keycloak_groups is defined
+
+- import_role:
+    name: rps_style_servers
+  tags:
+    - rps_style_servers
+    - style
 
 - import_role:  
     name: oauth2_proxy

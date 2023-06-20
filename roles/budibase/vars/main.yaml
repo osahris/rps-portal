@@ -9,6 +9,7 @@ budibase_secrets:
   budibase_redis_password: "{{ budibase_redis_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   budibase_internal_api_key: "{{ budibase_internal_api_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   budibase_admin_user_password: "{{ budibase_admin_user_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  budibase_sync_keycloak_client_secret: "{{ budibase_sync_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
   # budibase_admin_user_email: "{{ budibase_admin_user_email | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 budibase_custom_domain: "https://{{service_domain_name}}"

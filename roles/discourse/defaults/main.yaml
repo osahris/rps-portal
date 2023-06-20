@@ -33,6 +33,22 @@ discourse_oidc_sso_client_id: "{{ discourse_service_name }}"
 discourse_oidc_sso_discovery_url: "{{ discourse_keycloak_client_realm_url }}/.well-known/openid-configuration"
 discourse_oidc_sso_client_secret: "{{ ansible_local[discourse_service_name].discourse_oidc_sso_client_secret }}"
 
+discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
+
+keycloak_docker_compose_profile: full
+discourse_sync_keycloak_client_realm: rps
+discourse_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+discourse_sync_container_version: dev
+discourse_sync_keycloak_client_client_id: "sync-{{discourse_service_name}}"
+discourse_with_keycloak_client: true
+discourse_sync_keycloak_client_auth_keycloak_url: "{{keycloak_service_name}}"
+discourse_sync_keycloak_client_auth_client_id: admin-cli
+discourse_sync_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+discourse_sync_keycloak_client_auth_username: admin
+discourse_sync_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+discourse_sync_keycloak_client_validate_certs: true
+discourse_sync_username: system
+
 discourse_with_keycloak_client: true
 
 discourse_keycloak_base_url: "https://{{ keycloak_service_name }}"

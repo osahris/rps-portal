@@ -1,23 +1,24 @@
 ---
 
-- name: Import -- Copy all static files from the import folder
+- name: Import -- Copy all static files from the controler to the import folder on the host
   synchronize:
     recursive: true
-    src: "{{keycloak_import_local_folder}}/"
-    dest: "{{keycloak_import_directory}}"
-    # delete all files in the destination that are not in the source
-    delete: true
-  when: keycloak_import == "local_folder"
+    src:  "{{ import_controller_path }}/keycloak/"
+    dest: "{{ keycloak_import_path}}"
+    delete: true # If true, delete all files in the destination that are not in the source
+  when: keycloak_import and keycloak_import_from_controler
+
+# # Copy from managed node to the same managed node
+# - name: Import -- Copy additional files to be imported
+#   command: cp -a /root/keycloak-export/. {{ keycloak_import_path|quote }}
 
 - name: Import -- Copy import script
-  template:
-    src: import.sh.j2
+  copy:
+    src: import.sh
     dest: "{{remote_path}}/import.sh"
-    mode: "0755"
-  when: keycloak_import
+    mode: 0755
 
 - name: Import -- Execute import script
   command: "{{remote_path}}/import.sh"
   args:
     chdir: "{{remote_path}}"
-  when: keycloak_import

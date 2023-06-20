@@ -1,0 +1,2 @@
+[rps_servers]
+eliasham.iodatalabs.dev ansible_user=root 

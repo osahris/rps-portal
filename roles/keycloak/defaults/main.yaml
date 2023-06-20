@@ -4,6 +4,12 @@ keycloak_service_name: accounts.{{ rps_dns_suffix }}
 keycloak_protocol: "https"
 keycloak_frontend_url: "{{ keycloak_protocol }}://{{ keycloak_service_name }}"
 
+keycloak_deploy: true
+keycloak_export: false
+keycloak_import: false
+keycloak_export_to_controler: false
+keycloak_import_from_controler: false
+
 keycloak_container_image: quay.io/keycloak/keycloak
 keycloak_container_version: 21.0
 
@@ -11,13 +17,23 @@ keycloak_container_version: 21.0
 keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
 
-keycloak_import: false
-
 keycloak_validate_certs: true
 keycloak_with_proxy_network: true
 keycloak_proxy_network: proxy
 
 keycloak_admin_username: admin
 
-keycloak_admin_password: "{{ ansible_local[keycloak_service_name].keycloak_admin_password | default(ansible_local.secrets.keycloak_admin_password) }}"
-keycloak_postgres_password: "{{ ansible_local[keycloak_service_name].keycloak_postgres_password | default(ansible_local.secrets.keycloak_postgres_password) }}"
+keycloak_admin_password:    "{{ ansible_local[keycloak_service_name].keycloak_admin_password  }}"
+keycloak_postgres_password: "{{ ansible_local[keycloak_service_name].keycloak_postgres_password }}"
+
+keycloak_registration_project_id: rps
+keycloak_registration_mail_login_link: https://research-project-suite.org
+keycloak_registration_mail_subject_prefix: RPS
+keycloak_registration_mail_server_config_from: noreply@idcohorts.net
+keycloak_registration_mail_server_config_host: mail.idcohorts.net
+keycloak_registration_mail_server_config_port: 465
+keycloak_registration_mail_server_config_ssl: true
+keycloak_registration_mail_server_config_starttls: false
+keycloak_registration_mail_server_config_auth: true
+keycloak_registration_mail_server_config_username: username
+keycloak_registration_mail_server_config_password: "{{ ansible_local[keycloak_service_name].keycloak_registration_mail_server_config_password }}"

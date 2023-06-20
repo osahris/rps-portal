@@ -4,13 +4,18 @@ oauth2_proxy_cookie_domain: "{{ rps_dns_suffix }}"
 
 oauth2_proxy_base_url: "https://{{ oauth2_proxy_service_name }}"
 
-oauth2_proxy_client_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_client_secret | default(ansible_local.secrets.oauth2_proxy_client_secret) }}"
-oauth2_proxy_cookie_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_cookie_secret | default(ansible_local.secrets.oauth2_proxy_cookie_secret) }}"
+oauth2_proxy_client_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_client_secret }}"
+oauth2_proxy_cookie_secret: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_cookie_secret }}"
+oauth2_proxy_redis_pass: "{{ ansible_local.oauth2_proxy_secrets.oauth2_proxy_redis_pass }}"
 
 oauth2_root_redirect_url: "{{ oauth2_proxy_base_url }}/oauth2/userinfo"
 
 oauth2_proxy_container_version: v7.4.0
 oauth2_proxy_container_image: quay.io/oauth2-proxy/oauth2-proxy
+
+oauth2_proxy_sign_in_title: "Sign in on {{ rps_dns_suffix }}"
+
+oauth2_proxy_session_store_type: redis
 
 oauth2_proxy_http_address: ":4180"
 oauth2_proxy_show_debug_on_error: false
@@ -58,3 +63,9 @@ oauth2_proxy_keycloak_client_realm: "{{ keycloak_realm }}"
 oauth2_proxy_keycloak_client_redirect_uris:
   - "{{ oauth2_proxy_base_url }}/oauth2/callback"
 oauth2_proxy_keycloak_client_secret: "{{ oauth2_proxy_client_secret }}"
+
+oauth2_proxy_with_custom_templates: true
+
+oauth2_proxy_icon_src: "{{ rps_style_icon_src }}"
+oauth2_proxy_logo_src: "{{ rps_style_logo_src }}"
+oauth2_proxy_css_src:  "{{ rps_style_css_src }}"

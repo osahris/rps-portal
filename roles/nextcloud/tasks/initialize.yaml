@@ -1,6 +1,18 @@
 ---
 
-- name: query nextcloud status
+- name: 'Prepare the "nextcloud-data/" directory within the container'
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: >
+        chown -R www-data: -R /srv/nextcloud/data
+
+- name: 'Prepare the "nextcloud-data/" directory within the container (II)'
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: >
+        touch /srv/nextcloud/data/.ocdata
+
+- name: query nextcloud status to see if it needs to be installed
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
@@ -8,25 +20,9 @@
   register: _nextcloud_status_task
   changed_when: false
 
-- name: initialize nextcloud
+- name: "initialize nextcloud (occ maintenance:install)"
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
-    command: php occ maintenance:install --admin-user="{{nextcloud_admin_user}}" --admin-pass="{{nextcloud_admin_password}}" --database="pgsql" --database-name="{{nextcloud_postgres_database}}" --database-host="{{nextcloud_db_hostname}}" --database-user="{{nextcloud_postgres_user}}" --database-pass="{{nextcloud_postgres_password}}"
+    command: php occ maintenance:install --data-dir=/srv/nextcloud/data --admin-user="{{nextcloud_admin_user}}" --admin-pass="{{nextcloud_admin_password}}" --database="pgsql" --database-name="{{nextcloud_postgres_database}}" --database-host="{{nextcloud_db_hostname}}" --database-user="{{nextcloud_postgres_user}}" --database-pass="{{nextcloud_postgres_password}}"
   when: not _nextcloud_status.installed
-
-- name: query nextcloud status again
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command: php occ status --output=json
-  register: _nextcloud_status_task
-  changed_when: false
-
-- name: assert that nextcloud is initialized
-  assert:
-    that: _nextcloud_status.installed
-    msg: |
-      Nextcloud is not initialized!
-      Ansible somehow skipped the initialize step of the nextcloud role.
-      There might be something wrong with the docker-compose stack deployment. Please check the logs.

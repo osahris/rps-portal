@@ -1,0 +1,28 @@
+---
+
+- name: create application directory
+  file:
+    path: "{{remote_path}}"
+    state: directory
+
+- name: create application files
+  template:
+    src: "{{item}}"
+    dest: "{{remote_path}}/{{item | regex_replace('\\.j2$', '') }}"
+  with_items:
+    - "docker-compose.yaml.j2"
+    - "env-mysql.j2"
+    - "env-wordpress.j2"
+    - "wp-extra-config.php.j2"
+
+- name: deploy wp-cli helper
+  copy:
+    src: wp-cli-helper.sh
+    dest: "{{remote_path}}/wp-cli"
+    mode: 0755
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}"
+    pull: true
+    remove_orphans: true

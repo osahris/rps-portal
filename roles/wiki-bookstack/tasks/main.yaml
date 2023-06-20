@@ -1,6 +1,8 @@
 ---
 - import_tasks: secrets.yaml
 
+- import_tasks: keycloak_client.yaml
+
 - name: create directory
   file: path={{remote_path}} state=directory
 
@@ -35,4 +37,3 @@
     remove_orphans: true
   with_items:
     - "docker-compose.yaml"
-# - import_tasks: keycloak_client.yaml
