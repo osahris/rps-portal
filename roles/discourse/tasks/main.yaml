@@ -2,3 +2,4 @@
 - import_tasks: secrets.yaml
 - import_tasks: deploy.yaml
 - import_tasks: config.yaml
+- import_tasks: keycloak_client.yaml

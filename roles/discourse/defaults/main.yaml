@@ -34,6 +34,7 @@ discourse_oidc_sso_discovery_url: "{{ discourse_keycloak_client_realm_url }}/.we
 discourse_oidc_sso_client_secret: "{{ ansible_local[discourse_service_name].discourse_oidc_sso_client_secret }}"
 
 discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
+discourse_sync_api_key: "{{ ansible_local[discourse_service_name].discourse_sync_api_key }}"
 
 keycloak_docker_compose_profile: full
 discourse_sync_keycloak_client_realm: rps
@@ -49,13 +50,12 @@ discourse_sync_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 discourse_sync_keycloak_client_validate_certs: true
 discourse_sync_username: system
 
-discourse_with_keycloak_client: true
 
 discourse_keycloak_base_url: "https://{{ keycloak_service_name }}"
 
 discourse_keycloak_client_auth_keycloak_url: "{{discourse_keycloak_base_url}}"
 discourse_keycloak_client_auth_client_id: admin-cli
-discourse_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+discourse_keycloak_client_auth_realm: "numhub"
 discourse_keycloak_client_auth_username: admin
 discourse_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 discourse_keycloak_client_validate_certs: true

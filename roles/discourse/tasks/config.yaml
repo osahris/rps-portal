@@ -1,6 +1,24 @@
 ---
 
-- name: ensure discourse keycloak client
+#- name: ensure discourse keycloak client
+#  local_action: keycloak_client
+#  become: false
+#  args:
+#    auth_client_id: "{{ discourse_keycloak_client_auth_client_id }}"
+#    auth_keycloak_url: "{{ discourse_keycloak_client_auth_keycloak_url }}"
+#    auth_realm: "{{ discourse_keycloak_client_auth_realm }}"
+#    auth_username: "{{ discourse_keycloak_client_auth_username }}"
+#    auth_password: "{{ discourse_keycloak_client_auth_password }}"
+#    validate_certs: "{{ discourse_keycloak_client_validate_certs }}"
+#    client_id: "{{ discourse_keycloak_client_client_id }}"
+#    realm: "numhub"
+#    #realm: "{{ discourse_keycloak_client_realm }}"
+#    redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
+#    client_authenticator_type: client-secret
+#    secret: "{{ discourse_keycloak_client_secret }}"
+#  when: discourse_with_keycloak_client
+
+- name: set keycloak client config
   local_action: keycloak_client
   become: false
   args:
@@ -9,13 +27,28 @@
     auth_realm: "{{ discourse_keycloak_client_auth_realm }}"
     auth_username: "{{ discourse_keycloak_client_auth_username }}"
     auth_password: "{{ discourse_keycloak_client_auth_password }}"
-    validate_certs: "{{ discourse_keycloak_client_validate_certs }}"
     client_id: "{{ discourse_keycloak_client_client_id }}"
     realm: "{{ discourse_keycloak_client_realm }}"
     redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
     secret: "{{ discourse_keycloak_client_secret }}"
-  when: discourse_with_keycloak_client
+    state: present
+    direct_access_grants_enabled: true
+    service_accounts_enabled: true
+    validate_certs: "{{ discourse_keycloak_client_validate_certs | default(true) }}"
+    # backchannel logout url: https://my.discourse.org/apps/user_oidc/backchannel-logout/{{client_id}}
+    protocol_mappers:
+      - name: groups
+        config:
+          access.token.claim: 'false'
+          claim.name: groups
+          full.path: 'false'
+          id.token.claim: 'false'
+          userinfo.token.claim: 'true'
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-group-membership-mapper
+
 
 - name: traefik dynamic config
   copy:
@@ -25,4 +58,31 @@
 
 #discourse_sync_api_key ist der ansible fact
 #TODO: discourse_sync_api_key in ansible_local speichern
-# - name: create admin api key
+#discourse_sync_api_key: "{{ ansible_local[discourse_service_name].discourse_sync_api_key }}"
+
+- name: create admin api key
+  community.docker.docker_container_exec:
+    container: "{{discourse_service_name|replace('.', '')}}_web_1"
+    command: /bin/bash -c "rake api_key:create_master[sync]"
+    chdir: /root
+  register: result
+  when: discourse_sync_api_key == "not_set"
+
+- name: save api key to facts
+  ansible.builtin.set_fact: discourse_sync_api_key="{{result.stdout}}"
+  when: discourse_sync_api_key == "not_set"
+
+- name: config yaml for sync
+  template:
+    src: "config.yaml.j2"
+    dest: "{{discourse_target_directory}}/config.yaml"
+
+- name: Copy discourse secrets facts
+  copy:
+    content: "{{ discourse_secrets | to_nice_json }}\n"
+    dest: /etc/ansible/facts.d/{{service_name}}.fact
+  register: discourse_secrets_facts_copy_task
+
+- name: Gather facts again after secrets generation
+  setup:
+  when: discourse_secrets_facts_copy_task.changed
