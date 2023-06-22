@@ -1,6 +1,5 @@
-budibase_url: "https://{{ budibase_service_name }}"
-budibase_api_key: {{budibase_internal_api_key}}
-budibase_db_name: {{budibase_db_name}}
+budibase_url:
+budibase_api_key:
 
 project_id: {{rps_admin_interface_keycloak_realm}}
 project_name: rps-admin-interface
@@ -8,8 +7,8 @@ rps_header_url: {{rps_header_js_url}}
 
 keycloak_url: "https://{{keycloak_service_name}}"
 keycloak_realm: "{{rps_admin_interface_keycloak_realm}}"
-keycloak_secret: "{{budibase_sync_keycloak_client_secret}}"
-keycloak_client_id: "{{budibase_keycloak_client_client_id}}"
+keycloak_secret: "{{permission_sync_keycloak_client_secret}}"
+keycloak_client_id: "{{permission_sync_keycloak_client_client_id}}"
 keycloak_required_actions: ['UPDATE_PASSWORD','UPDATE_PROFILE','VERIFY_EMAIL']
 
 user_attributes: {{user_attributes}}

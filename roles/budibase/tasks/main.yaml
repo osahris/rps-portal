@@ -29,7 +29,6 @@
 
 - name: deploy docker-compose stack
   docker_compose:
-    profiles: "budibase"
     project_src: "{{remote_path}}/"
     # add multiple docker-compose.yaml / .yml files below
     files: "{{item}}"
@@ -39,12 +38,3 @@
     remove_orphans: true
   with_items:
     - "docker-compose.yaml"
-
-- import_tasks: keycloak_client.yaml
-
-- name: deploy docker-compose stack again only for sync
-  docker_compose:
-    profiles: "sync"
-    project_src: "/srv/{{budibase_service_name}}/"
-    pull: true
-    remove_orphans: true

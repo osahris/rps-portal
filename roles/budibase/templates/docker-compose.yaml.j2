@@ -17,8 +17,9 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-    profiles:
-      - sync
+    #profiles:
+    #  - full
+    #  - only-rps-sync
     volumes:
       - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
     entrypoint: ''
@@ -29,8 +30,6 @@ services:
   "{{budibase_service_name}}":
     image: budibase/budibase:{{budibase_version}}
     restart: unless-stopped
-    profiles:
-      - budibase
     logging:
       options:
         max-size: 5m
