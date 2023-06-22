@@ -20,6 +20,7 @@
     standard_flow_enabled: true
     implicit_flow_enabled: false
     direct_access_grants_enabled: false
+    service_accounts_enabled: true
     protocol_mappers:
       - name:	audience
         consentRequired: false
@@ -40,31 +41,29 @@
         protocol: openid-connect
         protocolMapper: oidc-group-membership-mapper
 
-- when: rps_admin_interface_with_keycloak_service_account_role_mapping
-  block:
-    - name: "Create access_token for keycloak for user {{ rps_admin_interface_keycloak_client_auth_username }}"
-      local_action: uri
-      become: false
-      args:
-        url: "{{ rps_admin_interface_keycloak_client_auth_keycloak_url }}/realms/master/protocol/openid-connect/token"
-        method: POST
-        validate_certs: "{{ keycloak_validate_certs }}"
-        body_format: form-urlencoded
-        body:
-          username: "{{ rps_admin_interface_keycloak_client_auth_username }}"
-          password: "{{ rps_admin_interface_keycloak_client_auth_password | mandatory }}"
-          grant_type: "password"
-          client_id: "admin-cli"
-      register: keycloak_token
+- name: "Create access_token for keycloak for user {{ rps_admin_interface_keycloak_client_auth_username }}"
+  local_action: uri
+  become: false
+  args:
+    url: "{{ rps_admin_interface_keycloak_client_auth_keycloak_url }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body_format: form-urlencoded
+    body:
+      username: "{{ rps_admin_interface_keycloak_client_auth_username }}"
+      password: "{{ rps_admin_interface_keycloak_client_auth_password | mandatory }}"
+      grant_type: "password"
+      client_id: "admin-cli"
+  register: keycloak_token
 
-    - name: Map a client role to a service account user for a client, authentication with credentials
-      community.general.keycloak_user_rolemapping:
-        realm: "{{ rps_admin_interface_keycloak_client_realm }}"
-        auth_keycloak_url: "{{ rps_admin_interface_keycloak_client_auth_keycloak_url }}"
-        token: "{{ keycloak_token.json.access_token }}"
-        state: present
-        client_id: realm-management
-        service_account_user_client_id : "{{ rps_admin_interface_keycloak_client_id }}"
-        roles:
-          - name: manage-realm
-          - name: realm-admin
+- name: Map a client role to a service account user for a client, authentication with credentials
+  community.general.keycloak_user_rolemapping:
+    realm: "{{ rps_admin_interface_keycloak_client_realm }}"
+    auth_keycloak_url: "{{ rps_admin_interface_keycloak_client_auth_keycloak_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    state: present
+    client_id: realm-management
+    service_account_user_client_id : "{{ rps_admin_interface_keycloak_client_id }}"
+    roles:
+      - name: manage-realm
+      - name: realm-admin

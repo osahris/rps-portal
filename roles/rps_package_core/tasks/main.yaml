@@ -54,13 +54,6 @@
   when: rps_core_package_with_keycloak_permissions
 
 - import_role:
-    name: keycloak_approval_email_sender
-  tags:
-    - keycloak_approval_email_sender
-    - keycloak-approval-email-sender
-  when: rps_core_package_with_keycloak_approval_email_sender
-
-- import_role:
     name: keycloak_groups
   tags:
     - keycloak_groups

@@ -49,8 +49,6 @@ discourse_sync_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 discourse_sync_keycloak_client_validate_certs: true
 discourse_sync_username: system
 
-discourse_with_keycloak_client: true
-
 discourse_keycloak_base_url: "https://{{ keycloak_service_name }}"
 
 discourse_keycloak_client_auth_keycloak_url: "{{discourse_keycloak_base_url}}"
