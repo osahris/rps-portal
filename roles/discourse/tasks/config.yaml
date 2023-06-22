@@ -75,7 +75,7 @@
     service_account_user_client_id : "{{ discourse_keycloak_client_client_id }}"
     roles:
       - name: view-users
-      - name: query-realm
+      - name: query-realms
       - name: query-users
       - name: view-realm
 
