@@ -18,9 +18,8 @@ services:
     restart: unless-stopped
     networks:
       - proxy
-    #profiles:
-    #  - full
-    #  - only-rps-sync
+    profiles:
+      - sync
     volumes:
       - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
     entrypoint: ''
@@ -31,6 +30,8 @@ services:
   redis:
     image: redis:7.0
     restart: unless-stopped
+    profiles:
+      - discourse
     volumes:
       - redis:/data
     networks:
@@ -39,6 +40,8 @@ services:
   postgres:
     image: postgres:15.1
     restart: unless-stopped
+    profiles:
+      - discourse
     volumes:
       - postgres:/var/lib/postgresql/data
     env_file: postgres.env
@@ -52,6 +55,8 @@ services:
     restart: unless-stopped
     shm_size: 512m
     command: /sbin/boot
+    profiles:
+      - discourse
     depends_on:
       - redis
       - postgres

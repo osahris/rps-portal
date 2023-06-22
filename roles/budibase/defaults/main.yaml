@@ -16,15 +16,17 @@ budibase_admin_user_password:         "{{ ansible_local[budibase_service_name].b
 budibase_sync_keycloak_client_secret: "{{ ansible_local[budibase_service_name].budibase_sync_keycloak_client_secret }}"
 
 keycloak_docker_compose_profile: full
+budibase_keycloak_client_client_id: "sync-{{budibase_service_name}}"
 budibase_sync_keycloak_client_realm: rps
 budibase_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
 budibase_sync_container_version: dev
-budibase_sync_keycloak_client_client_id: "{{budibase_service_name}}"
-budibase_with_keycloak_client: false # So far this task seems to be an undone from step "Create access_token for keycloak for user admin"
-budibase_sync_keycloak_client_auth_keycloak_url: "{{keycloak_service_name}}"
+budibase_sync_keycloak_client_client_id: "sync-{{budibase_service_name}}"
+budibase_with_keycloak_client: true
+budibase_sync_keycloak_client_auth_keycloak_url: "https://{{keycloak_service_name}}"
 budibase_sync_keycloak_client_auth_client_id: admin-cli
 budibase_sync_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
 budibase_sync_keycloak_client_auth_username: admin
 budibase_sync_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 budibase_sync_keycloak_client_validate_certs: true
-budibase_sync_keycloak_client_redirect_uris: "https://{{ budibase_service_name }}/auth/oidc/callback"
+
+budibase_db_name: "NUM Hub"
