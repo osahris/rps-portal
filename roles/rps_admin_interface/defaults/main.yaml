@@ -1,6 +1,9 @@
 ---
 rps_admin_interface_service_name: admin.{{ rps_dns_suffix }}
 
+# TODO: fix deployment with this as true
+rps_admin_interface_with_keycloak_service_account_role_mapping: false
+
 rps_admin_interface_keycloak_realm: "{{ keycloak_realm }}"
 
 rps_admin_interface_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
@@ -12,8 +15,8 @@ rps_admin_web_interface_keycloak_auth_username: "{{keycloak_admin_username|defau
 rps_admin_web_interface_keycloak_auth_password: "{{keycloak_admin_password}}"
 
 # secrets
-rps_admin_interface_keycloak_client_secret: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_keycloak_client_secret }}"
-rps_admin_interface_oauth2_proxy_redis_pass: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_oauth2_proxy_redis_pass }}"
+rps_admin_interface_keycloak_client_secret:     "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_keycloak_client_secret }}"
+rps_admin_interface_oauth2_proxy_redis_pass:    "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_oauth2_proxy_redis_pass }}"
 rps_admin_interface_oauth2_proxy_cookie_secret: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_oauth2_proxy_cookie_secret }}"
 
 

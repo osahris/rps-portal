@@ -47,6 +47,13 @@
   when: rps_core_package_with_keycloak_realms
 
 - import_role:
+    name: keycloak_permissions
+  tags:
+    - keycloak_permissions
+    - keycloak-permissions
+  when: rps_core_package_with_keycloak_permissions
+
+- import_role:
     name: keycloak_groups
   tags:
     - keycloak_groups

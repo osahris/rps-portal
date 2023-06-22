@@ -1,9 +1,0 @@
----
-
-- name: copy rps nextcloud header injection repo with git
-  git:
-    repo: "{{nextcloud_header_injection_repo}}"
-    dest: "{{remote_path}}/rps-nextcloud-header-injection"
-    version: "{{nextcloud_header_injection_version}}"
-    force: true
-    depth: 1

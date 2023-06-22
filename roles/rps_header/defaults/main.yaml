@@ -21,9 +21,9 @@ rps_header_top_navbar_links:
   - title: Groups
     link: https://{{ rps_groups_interface_service_name }}
     icon: user-group
-  - title: Forum
-    link: https://{{ discourse_service_name }}
-    icon: message
+  # - title: Forum
+  #   link: https://{{ discourse_service_name }}
+  #   icon: message
   - title: Files
     link: https://{{ nextcloud_service_name }}/apps/files
     icon: folder

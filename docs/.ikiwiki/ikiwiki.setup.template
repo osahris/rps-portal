@@ -205,7 +205,7 @@ po_master_language: en|English
 po_slave_languages:
 - de|Deutsch
 # PageSpec controlling which pages are translatable
-po_translatable_pages: 'index* or admin* or enduser* or tempates/*'
+po_translatable_pages: 'index* or admin* or developer* or enduser* or tempates/*'
 # internal linking behavior (default/current/negotiated)
 po_link_to: current
 

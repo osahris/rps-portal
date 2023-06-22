@@ -1,0 +1,19 @@
+
+project_id: {{keycloak_registration_project_id}}
+mail_login_link: {{keycloak_registration_mail_login_link}}
+mail_subject_prefix: {{keycloak_registration_mail_subject_prefix}}
+mail_server_config_from: {{keycloak_registration_mail_server_config_from}}
+mail_server_config_host: {{keycloak_registration_mail_server_config_host}}
+mail_server_config_port: {{keycloak_registration_mail_server_config_port}}
+mail_server_config_ssl: {{keycloak_registration_mail_server_config_ssl}}
+mail_server_config_starttls: {{keycloak_registration_mail_server_config_starttls}}
+mail_server_config_auth: {{keycloak_registration_mail_server_config_auth}}
+mail_server_config_username: {{keycloak_registration_mail_server_config_username}}
+mail_server_config_password: {{keycloak_registration_mail_server_config_password}}
+
+
+keycloak_url: "https://{{keycloak_service_name}}"
+keycloak_realm: "{{rps_admin_interface_keycloak_realm}}"
+keycloak_secret: "{{rps_admin_interface_keycloak_client_secret}}"
+keycloak_client_id: "{{ rps_admin_interface_keycloak_client_id }}"
+keycloak_required_actions: ['UPDATE_PASSWORD','UPDATE_PROFILE','VERIFY_EMAIL']

@@ -21,7 +21,7 @@ traefik_entry_points:
       tls:
         certResolver: "letsencrypt"
 
-traefik_with_whomai_service: true
+traefik_with_whomai_service: false
 
 traefik_certificates_resolvers:
   letsencrypt:

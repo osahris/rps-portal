@@ -75,7 +75,7 @@ nextcloud_oidc_login_disable_registration: false
 
 nextcloud_with_custom_ca_certificates: false
 
-nextcloud_with_header_injection: false
+nextcloud_with_header_injection: true
 nextcloud_header_injection_repo: https://gitlab.com/idcohorts/rps/rps-nextcloud-header-injection.git
 nextcloud_header_injection_version: "nextcloud/v{{ nextcloud_version }}"
 

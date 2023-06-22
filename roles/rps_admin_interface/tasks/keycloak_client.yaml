@@ -20,6 +20,7 @@
     standard_flow_enabled: true
     implicit_flow_enabled: false
     direct_access_grants_enabled: false
+    service_accounts_enabled: true
     protocol_mappers:
       - name:	audience
         consentRequired: false
@@ -39,6 +40,7 @@
         consentRequired: false
         protocol: openid-connect
         protocolMapper: oidc-group-membership-mapper
+
 - name: "Create access_token for keycloak for user {{ rps_admin_interface_keycloak_client_auth_username }}"
   local_action: uri
   become: false
@@ -53,6 +55,7 @@
       grant_type: "password"
       client_id: "admin-cli"
   register: keycloak_token
+
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
     realm: "{{ rps_admin_interface_keycloak_client_realm }}"

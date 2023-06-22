@@ -1,0 +1,123 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2023-06-01 16:45+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Title #
+#, markdown-text, no-wrap
+msgid "how traefik works:"
+msgstr ""
+
+#. type: Bullet: '1. '
+#, markdown-text
+msgid ""
+"for every service there needs to be a config on the host machine: "
+"\"/etc/traefik/conf.d/servicename.yaml\""
+msgstr ""
+
+#. type: Title #
+#, markdown-text, no-wrap
+msgid "example: "
+msgstr ""
+
+#. type: Fenced code block
+#, no-wrap
+msgid ""
+"{\n"
+"    \"http\": \n"
+"    {\n"
+"        \"routers\": \n"
+"        {\n"
+"            \"servicename\": \n"
+"            {\n"
+"                \"rule\": \"Host(`servicename.{{rps_dns_suffix}}`)\", \n"
+"                \"entrypoints\": \"websecure\", \n"
+"                \"service\": \"servicename\"\n"
+"                \n"
+"            }\n"
+"        },     \n"
+"        \"services\":\n"
+"        {\n"
+"            \"servicename\": \n"
+"            {\n"
+"                \"loadBalancer\": \n"
+"                {\n"
+"                    \"servers\": \n"
+"                        [\n"
+"                            {\n"
+"                                \"url\": "
+"\"http://service_container_name:8080\"\n"
+"                            }\n"
+"                        ]\n"
+"                }\n"
+"            }\n"
+"        }\n"
+"    }\n"
+"}\n"
+msgstr ""
+
+#. type: Bullet: '2. '
+#, markdown-text
+msgid "deploy traefik"
+msgstr ""
+
+#. type: Title #
+#, markdown-text, no-wrap
+msgid "things to do to create new ansible role and use reverse-proxy"
+msgstr ""
+
+#. type: Bullet: '1. '
+#, markdown-text
+msgid "create role folder -> mkdir ansible-role-example"
+msgstr ""
+
+#. type: Plain text
+#, markdown-text, no-wrap
+msgid ""
+"2. create subfolder -> \n"
+"        mkdir ansible-role-example/defaults \n"
+"        && mkdir ansible-role-example/tasks \n"
+"        && mkdir ansible-role-example/vars \n"
+"        && mkdir ansible-role-example/...\n"
+"3. set var service_traefik_dynamic_config in vars\n"
+"    ```\n"
+"    service_traefik_dynamic_config:\n"
+"        http:\n"
+"            routers:\n"
+"                servicename:\n"
+"                    rule: \"Host(`servicename{{inventory_host}}`)\"\n"
+"                    entrypoints: websecure\n"
+"                    service: servicename\n"
+"            services:\n"
+"                servicename:\n"
+"                    loadBalancer:\n"
+"                        servers:\n"
+"                            - url: http://service_container_name:8080\n"
+"    ```\n"
+"4. copy var to traefik conf directory\n"
+"    ```\n"
+"        - name: traefik dynamic config\n"
+"    \t    copy:\n"
+"                content: \"{{ keycloak_traefik_dynamic_config }}\"\n"
+"                dest: \"{{traefik_config_directory}}/conf.d/keycloak.yaml\" "
+"\n"
+"    ```\n"
+msgstr ""
+
+#. type: Bullet: '5. '
+#, markdown-text
+msgid "deploy and enjoy :)"
+msgstr ""

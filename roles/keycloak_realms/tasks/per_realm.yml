@@ -20,6 +20,9 @@
     id: "{{ item.name }}"
     realm: "{{ item.name }}"
     enabled: true
+    internationalization_enabled: true
+    supported_locales: ["de", "en"]
+    default_locale: "de"
     state: present
     registration_allowed: '{{item.is_registration_allowed | default(false)}}'
     default_groups: '{{ item.default_groups | default([]) }}'

@@ -1,7 +1,100 @@
 ---
 - import_tasks: secrets.yaml
 
-- import_tasks: deploy.yaml
+- import_tasks: setup_dirs.yaml
+
+########################################################################
+### Section: prepare docker-compose
+
+- name: copy env
+  template:
+    src: "env.j2"
+    dest: "{{remote_path}}/env"
+
+- name: copy config.yaml
+  template:
+    src: "config.yaml.j2"
+    dest: "{{remote_path}}/config.yaml"
+
+- name: copy docker-compose.yaml
+  template:
+    src: "docker-compose.yaml.j2"
+    dest: "{{remote_path}}/docker-compose.yaml"
+
+########################################################################
+### Section: bring up PostgreSQL database, then nextcloud
+
+- name: create postgresql script directory
+  ansible.builtin.file:
+    path: "{{ remote_path }}/initdb"
+    state: directory
+    # TODO: figure out minimal permission set here
+    mode: 0755
+
+- name: deploy script to create a backup user in database
+  template:
+    src: "create-default-postgres-user.sh.j2"
+    dest: "{{remote_path}}/initdb/create-default-postgres-user.sh"
+    mode: "ugo=rx"
+
+# Import the data from given SQL dump to the freshly deployed postgres
+- import_tasks: import.yaml
+  when: nextcloud_import
+
+- name: deploy docker-compose stack
+  docker_compose:
+    profiles: "{{ nextcloud_docker_compose_profile }}"
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+
+- name: wait for docker-compose stack deployment
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_status_task
+  changed_when: false
+  retries: 180
+  delay: 1
+  until: _nextcloud_status_task is not failed
+
+########################################################################
+### Section: apply incremental nextcloud upgrade scripts to existing DB
+
+- import_tasks: upgrade.yaml
+  when: nextcloud_upgrade
+
+########################################################################
+### Section: now set nextcloud's config idempotently to target values
+
+- import_tasks: initialize.yaml
+  when: nextcloud_initialize
+
+- name: query nextcloud status again to assert if it is initialized
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_status_task
+  changed_when: false
+
+- name: assert that nextcloud is initialized
+  assert:
+    that: _nextcloud_status.installed
+    msg: |
+      Nextcloud is not initialized!
+      Ansible somehow skipped the initialize step of the nextcloud role.
+      There might be something wrong with the docker-compose stack deployment. Please check the logs.
+
+########################################################################
+### Section: additional tuning of the webserver runtime environment
+
+- name: Update htaccess
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ maintenance:update:htaccess
 
 - import_tasks: config.yaml
   vars:
@@ -19,6 +112,14 @@
   when: nextcloud_with_user_oidc_app
 - import_tasks: apps/oidc_login.yaml
   when: nextcloud_with_oidc_login_app
+
+- name: 'Apply the header injection patch'
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: /srv/header-patches/apply-patch.sh v{{nextcloud_version}}
+  changed_when: not "Patch already applied" in _nextcloud_header_injection_patch.stdout
+  when: nextcloud_with_header_injection
+  register: _nextcloud_header_injection_patch
 
 - import_tasks: apps/install.yaml
   vars:
