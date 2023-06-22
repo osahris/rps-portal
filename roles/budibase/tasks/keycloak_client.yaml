@@ -4,21 +4,20 @@
   local_action: keycloak_client
   become: false
   args:
-    auth_client_id: "{{ nextcloud_keycloak_client_auth_client_id }}"
-    auth_keycloak_url: "{{ nextcloud_keycloak_client_auth_keycloak_url }}"
-    auth_realm: "{{ nextcloud_keycloak_client_auth_realm }}"
-    auth_username: "{{ nextcloud_keycloak_client_auth_username }}"
-    auth_password: "{{ nextcloud_keycloak_client_auth_password }}"
-    client_id: "{{ nextcloud_keycloak_client_client_id }}"
-    realm: "{{ nextcloud_keycloak_client_realm }}"
-    redirect_uris: "{{ nextcloud_keycloak_client_redirect_uris }}"
+    auth_client_id: "{{ budibase_sync_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ budibase_sync_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ budibase_sync_keycloak_client_auth_realm }}"
+    auth_username: "{{ budibase_sync_keycloak_client_auth_username }}"
+    auth_password: "{{ budibase_sync_keycloak_client_auth_password }}"
+    client_id: "{{ budibase_sync_keycloak_client_client_id }}"
+    realm: "{{ budibase_sync_keycloak_client_realm }}"
     client_authenticator_type: client-secret
-    secret: "{{ nextcloud_keycloak_client_secret }}"
+    secret: "{{ budibase_sync_keycloak_client_secret }}"
     state: present
     direct_access_grants_enabled: true
     service_accounts_enabled: true
-    validate_certs: "{{ nextcloud_keycloak_client_validate_certs | default(true) }}"
-    # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
+    validate_certs: "{{ budibase_sync_keycloak_client_validate_certs | default(true) }}"
+    # backchannel logout url: https://my.budibase.org/apps/user_oidc/backchannel-logout/{{client_id}}
     protocol_mappers:
       - name: groups
         config:
@@ -33,39 +32,39 @@
   #TODO: figure out how to use a custom CA cert here
   # environment:
   #   REQUESTS_CA_BUNDLE: /home/mkb/abrechnungspipeline/files/certs/nukleus_prod_2022_root_ca.crt
-- name: "Create access_token for keycloak for user {{ nextcloud_keycloak_client_auth_username }}"
+- name: "Create access_token for keycloak for user {{ budibase_keycloak_client_auth_username }}"
   local_action: uri
   become: false
   args:
-    url: "{{ nextcloud_keycloak_client_auth_keycloak_url }}/realms/master/protocol/openid-connect/token"
+    url: "{{ budibase_sync_keycloak_client_auth_keycloak_url }}/realms/master/protocol/openid-connect/token"
     method: POST
     validate_certs: "{{ keycloak_validate_certs }}"
     body_format: form-urlencoded
     body:
-      username: "{{ nextcloud_keycloak_client_auth_username }}"
-      password: "{{ nextcloud_keycloak_client_auth_password | mandatory }}"
+      username: "{{ budibase_sync_keycloak_client_auth_username }}"
+      password: "{{ budibase_sync_keycloak_client_auth_password | mandatory }}"
       grant_type: "password"
       client_id: "admin-cli"
   register: keycloak_token
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
-    realm: "{{ nextcloud_keycloak_client_realm }}"
-    auth_keycloak_url: "{{ nextcloud_keycloak_client_auth_keycloak_url }}"
+    realm: "{{ budibase_sync_keycloak_client_realm }}"
+    auth_keycloak_url: "{{ budibase_sync_keycloak_client_auth_keycloak_url }}"
     token: "{{ keycloak_token.json.access_token }}"
     state: present
     client_id: realm-management
-    service_account_user_client_id : "{{ nextcloud_keycloak_client_client_id }}"
+    service_account_user_client_id : "{{ budibase_keycloak_client_client_id }}"
     roles:
       - name: view-users
       - name: query-users
       - name: manage-users
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
-    realm: "{{ nextcloud_keycloak_client_realm }}"
-    auth_keycloak_url: "{{ nextcloud_keycloak_client_auth_keycloak_url }}"
+    realm: "{{ budibase_sync_keycloak_client_realm }}"
+    auth_keycloak_url: "{{ budibase_sync_keycloak_client_auth_keycloak_url }}"
     token: "{{ keycloak_token.json.access_token }}"
     state: present
     client_id: account
-    service_account_user_client_id : "{{ nextcloud_keycloak_client_client_id }}"
+    service_account_user_client_id : "{{ budibase_sync_keycloak_client_client_id }}"
     roles:
       - name: view-groups
