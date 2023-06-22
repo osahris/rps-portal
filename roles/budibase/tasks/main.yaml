@@ -22,7 +22,7 @@
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/srv/traefik/conf.d/{{service_name}}.yaml"
+    dest: "/srv/traefik/conf.d/{{budibase_service_name}}.yaml"
 
 - import_tasks: keycloak_client.yaml
   when: budibase_with_keycloak_client

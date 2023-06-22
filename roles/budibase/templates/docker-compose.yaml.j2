@@ -12,7 +12,7 @@ volumes:
   budibase_data:
 
 services:
-  "{{service_name}}_sync":
+  "{{budibase_service_name}}_sync":
     image: {{ budibase_sync_container_image }}:{{ budibase_sync_container_version }}
     restart: unless-stopped
     networks:
@@ -27,7 +27,7 @@ services:
       - SLEEP_MINUTES=1
     command: /opt/rps-admin-tools/command_loop.sh -c /opt/rps-admin-tools/config.yaml sync budibase --verbose
 
-  "{{service_name}}":
+  "{{budibase_service_name}}":
     image: budibase/budibase:{{budibase_version}}
     restart: unless-stopped
     logging:

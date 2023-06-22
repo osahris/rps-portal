@@ -2,8 +2,8 @@
 remote_path: "/srv/{{rps_admin_interface_service_name}}"
 
 rps_admin_interface_secrets:
-  rps_admin_interface_keycloak_client_secret: "{{ rps_admin_interface_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  rps_admin_interface_oauth2_proxy_redis_pass: "{{ rps_admin_interface_oauth2_proxy_redis_pass | default(lookup('ansible.builtin.password', '/dev/null length=64 chars=ascii_letters,digits')) }}"
+  rps_admin_interface_keycloak_client_secret:         "{{ rps_admin_interface_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  rps_admin_interface_oauth2_proxy_redis_pass:       "{{ rps_admin_interface_oauth2_proxy_redis_pass | default(lookup('ansible.builtin.password', '/dev/null length=64 chars=ascii_letters,digits')) }}"
   rps_admin_interface_oauth2_proxy_cookie_secret: "{{ rps_admin_interface_oauth2_proxy_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 rps_admin_interface_traefik_router:
