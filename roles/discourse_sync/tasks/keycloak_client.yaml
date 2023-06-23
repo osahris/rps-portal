@@ -1,23 +1,5 @@
 ---
 
-#- name: ensure discourse keycloak client
-#  local_action: keycloak_client
-#  become: false
-#  args:
-#    auth_client_id: "{{ discourse_keycloak_client_auth_client_id }}"
-#    auth_keycloak_url: "{{ discourse_keycloak_client_auth_keycloak_url }}"
-#    auth_realm: "{{ discourse_keycloak_client_auth_realm }}"
-#    auth_username: "{{ discourse_keycloak_client_auth_username }}"
-#    auth_password: "{{ discourse_keycloak_client_auth_password }}"
-#    validate_certs: "{{ discourse_keycloak_client_validate_certs }}"
-#    client_id: "{{ discourse_keycloak_client_client_id }}"
-#    realm: "numhub"
-#    #realm: "{{ discourse_keycloak_client_realm }}"
-#    redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
-#    client_authenticator_type: client-secret
-#    secret: "{{ discourse_keycloak_client_secret }}"
-#  when: discourse_with_keycloak_client
-
 - name: set keycloak client config
   local_action: keycloak_client
   become: false
@@ -27,11 +9,11 @@
     auth_realm: "{{ discourse_keycloak_client_auth_realm }}"
     auth_username: "{{ discourse_keycloak_client_auth_username }}"
     auth_password: "{{ discourse_keycloak_client_auth_password }}"
-    client_id: "{{ discourse_keycloak_client_client_id }}"
+    client_id: "{{ discourse_sync_keycloak_client_client_id }}"
     realm: "{{ discourse_keycloak_client_realm }}"
     redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
-    secret: "{{ discourse_keycloak_client_secret }}"
+    secret: "{{ discourse_sync_keycloak_client_secret }}"
     state: present
     direct_access_grants_enabled: true
     service_accounts_enabled: true
@@ -48,8 +30,9 @@
         consentRequired: false
         protocol: openid-connect
         protocolMapper: oidc-group-membership-mapper
-
-
+  #TODO: figure out how to use a custom CA cert here
+  # environment:
+  #   REQUESTS_CA_BUNDLE: /home/mkb/abrechnungspipeline/files/certs/nukleus_prod_2022_root_ca.crt
 - name: "Create access_token for keycloak for user {{ discourse_keycloak_client_auth_username }}"
   local_action: uri
   become: false
@@ -64,7 +47,6 @@
       grant_type: "password"
       client_id: "admin-cli"
   register: keycloak_token
-
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
     realm: "{{ discourse_keycloak_client_realm }}"
@@ -72,15 +54,18 @@
     token: "{{ keycloak_token.json.access_token }}"
     state: present
     client_id: realm-management
-    service_account_user_client_id : "{{ discourse_keycloak_client_client_id }}"
+    service_account_user_client_id : "{{ discourse_sync_keycloak_client_client_id }}"
     roles:
       - name: view-users
-      - name: query-realms
       - name: query-users
-      - name: view-realm
-
-- name: traefik dynamic config
-  copy:
-    content: "{{ discourse_traefik_dynamic_config }}"
-    dest: "/srv/traefik/conf.d/{{discourse_service_name}}.yaml"
-  when: discourse_with_traefik
+      - name: manage-users
+- name: Map a client role to a service account user for a client, authentication with credentials
+  community.general.keycloak_user_rolemapping:
+    realm: "{{ discourse_keycloak_client_realm }}"
+    auth_keycloak_url: "{{ discourse_keycloak_client_auth_keycloak_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    state: present
+    client_id: account
+    service_account_user_client_id : "{{ discourse_sync_keycloak_client_client_id }}"
+    roles:
+      - name: view-groups

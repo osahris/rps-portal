@@ -1,0 +1,2 @@
+- import_tasks: keycloak_client.yaml
+- import_tasks: deploy.yaml
