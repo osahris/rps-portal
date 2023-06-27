@@ -43,11 +43,11 @@
 
 # Gitea
 
-# - import_role:
-#     name: gitea
-#   tags:
-#     - gitea
-#     - git
+- import_role:
+    name: forgejo
+  tags:
+    - forgejo
+    - code
 
 # Collabora
 

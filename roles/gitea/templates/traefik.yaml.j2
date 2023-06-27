@@ -1,0 +1,35 @@
+---
+http:
+  services:
+    gitea:
+      loadBalancer:
+        servers:
+        - url: http://gitea:3000
+    oauth2-proxy:
+      loadBalancer:
+        servers:
+        - url: http://gitea-oauth2-proxy:4180
+  routers:
+    public:
+      middlewares:
+        - gitea-headers
+      rule: PathPrefix(`/`)
+      service: gitea
+    authenticated:
+      middlewares:
+        - gitea-headers
+      rule: PathPrefix(`/oauth2`) || PathPrefix(`/user`) || PathPrefix(`/admin`)
+      service: oauth2-proxy
+    api:
+      middlewares:
+        - gitea-headers
+      rule: PathPrefix(`/api`) 
+      service: gitea
+  middlewares:
+    gitea-headers:
+      headers:
+        customRequestHeaders:
+          # Keep empty to remove reverse proxy auth headers
+          X-Forwarded-User: ""
+          X-Forwarded-Preferred-Username: ""
+          X-Forwarded-Email: ""

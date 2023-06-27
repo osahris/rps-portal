@@ -1,0 +1,16 @@
+---
+version: "3"
+
+services:
+  gitea:
+{% if gitea_override_image %}
+    image: "{{gitea_override_image}}"
+{% endif %}
+{% if gitea_expose_ssh_port %}
+    ports:
+      - "{{gitea_ssh_port}}:22"
+{% endif %}
+{% if gitea_with_header_integration %}
+    volumes:
+      - ./templates:/data/gitea/templates/custom:ro
+{% endif %}
