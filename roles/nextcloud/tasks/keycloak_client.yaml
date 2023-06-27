@@ -48,6 +48,7 @@
       client_id: "admin-cli"
   register: keycloak_token
 
+
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
     realm: "{{ nextcloud_keycloak_client_realm }}"
@@ -58,8 +59,11 @@
     service_account_user_client_id : "{{ nextcloud_keycloak_client_client_id }}"
     roles:
       - name: view-users
+      - name: query-realms
       - name: query-users
-      - name: manage-users
+      - name: view-realm
+      - name: query-groups
+
 
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:

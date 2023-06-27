@@ -126,6 +126,7 @@ Clean VM from all RPS related for a brand new setup:
 docker ps -a --format "{{.Names}}" | grep -v '^traefik$' | xargs docker stop | xargs docker rm
 docker volume prune
 docker system prune
+docker stop traefik
 docker rm traefik
 rm -r /srv
 rm /etc/ansible/facts.d/ -R

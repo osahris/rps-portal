@@ -69,11 +69,3 @@
     service_account_user_client_id : "{{ discourse_sync_keycloak_client_client_id }}"
     roles:
       - name: view-groups
-
-
-- name: deploy docker-compose stack again only for sync
-  docker_compose:
-    profiles: "sync"
-    project_src: "{{discourse_target_directory}}"
-    pull: true
-    remove_orphans: true

@@ -1,42 +1,13 @@
 ---
 discourse_service_name: "dialog.{{ rps_dns_suffix }}"
-
-locales:
-  lang: de_DE.UTF-8
-  language: de
-
-discourse_version: stable
-
-discourse_postgres_password: "{{ ansible_local[discourse_service_name].discourse_postgres_password }}"
-discourse_postgres_db_default_text_search_config: pg_catalog.german
-
-discourse_smtp_port: 587
-
-discourse_mail_domain: "{{ discourse_service_name }}"
-
-discourse_web_ratelimited: true
-discourse_mail_reveiver_enabled: false
-discourse_mail_reveiver_tls_enabled: false
-
-discourse_http_host: false
-discourse_https_host: false
-
-discourse_validate_certs: yes
-
 discourse_api_username: system
-
-discourse_admin_users: []
-
-
-discourse_with_oidc_sso: true
-discourse_oidc_sso_client_id: "{{ discourse_service_name }}"
-discourse_oidc_sso_discovery_url: "{{ discourse_keycloak_client_realm_url }}/.well-known/openid-configuration"
-discourse_oidc_sso_client_secret: "{{ ansible_local[discourse_service_name].discourse_oidc_sso_client_secret }}"
 
 discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
 discourse_sync_api_key: "{{ ansible_local[discourse_service_name].discourse_sync_api_key }}"
 
-keycloak_docker_compose_profile: full
+discourse_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+discourse_sync_container_version: dev
+discourse_sync_keycloak_client_client_id: "sync-{{discourse_service_name}}"
 discourse_sync_username: system
 
 discourse_keycloak_base_url: "https://{{ keycloak_service_name }}"
@@ -53,6 +24,3 @@ discourse_keycloak_client_realm_url: "{{discourse_keycloak_base_url}}/realms/{{d
 discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
 discourse_keycloak_client_redirect_uris:
   - "{{ discourse_base_url }}/auth/oidc/callback"
-discourse_keycloak_client_secret: "{{ discourse_oidc_sso_client_secret }}"
-
-discourse_with_traefik: true
