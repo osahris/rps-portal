@@ -88,6 +88,10 @@
       There might be something wrong with the docker-compose stack deployment. Please check the logs.
 
 ########################################################################
+### Section: create admin app password
+- import_tasks: admin_app_password.yaml
+
+########################################################################
 ### Section: additional tuning of the webserver runtime environment
 
 - name: Update htaccess
@@ -124,3 +128,4 @@
 - import_tasks: apps/install.yaml
   vars:
     nextcloud_install_apps: "{{nextcloud_apps}}"
+
