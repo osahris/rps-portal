@@ -17,21 +17,21 @@
 
 # Discourse
 
-- import_role:
-    name: discourse
-  tags:
-    - discourse
-    - dialog
-  when: rps_package_full_with_discourse
+# - import_role:
+#     name: discourse
+#   tags:
+#     - discourse
+#     - dialog
+#   when: rps_package_full_with_discourse
 
-- import_role:
-    name: discourse_sync
-  tags:
-    - discourse_sync
-    - discourse-sync
-    - dialog_sync
-    - dialog-sync
-  when: rps_package_full_with_discourse
+# - import_role:
+#     name: discourse_sync
+#   tags:
+#     - discourse_sync
+#     - discourse-sync
+#     - dialog_sync
+#     - dialog-sync
+#   when: rps_package_full_with_discourse
 
 # RocketChat
 
