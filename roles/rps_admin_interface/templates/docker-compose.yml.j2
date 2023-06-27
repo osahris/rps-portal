@@ -9,13 +9,17 @@ networks:
 
 services:
   rps-admin-interface:
-    image: registry.gitlab.com/idcohorts/rps/rps-admin-tools:dev
+    image: {{rps_admin_interface_container_image}}:{{rps_admin_interface_container_image_version}}
     env_file: env
     networks:
       - service
     volumes:
       - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
-  oauth2-proxy-admin-interface:
+{% if rps_admin_interface_with_watchtower %}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"  
+{% endif %}    
+  oauth2-proxy-admin:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
     restart: unless-stopped
     networks:

@@ -33,6 +33,7 @@
 
   - name: deploy docker-compose stack without discourse web container
     docker_compose:
+      profiles: "discourse"
       project_src: "{{discourse_target_directory}}/"
 
   - name: bootstrap discourse web container
@@ -69,5 +70,6 @@
 
 - name: deploy docker-compose stack with discourse web container
   docker_compose:
+    profiles: "discourse"
     project_src: "{{discourse_target_directory}}/"
 

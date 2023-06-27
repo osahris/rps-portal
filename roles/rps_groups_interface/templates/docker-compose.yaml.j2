@@ -2,13 +2,17 @@
 version: '3'
 
 networks:
-    proxy:
-        external: true
+  proxy:
+    external: true
 
 services:
-    web:
-        image: {{rps_groups_interface_container_image}}:{{rps_groups_interface_container_version}}
-        volumes:
-            - ./suite.config.json:/usr/share/nginx/html/config.json
-        networks:
-            - proxy
+  web:
+    image: {{rps_groups_interface_container_image}}:{{rps_groups_interface_container_version}}
+    volumes:
+      - ./config/config.json:/usr/share/nginx/html/config/config.json:ro
+    networks:
+      - proxy
+{% if rps_groups_interface_with_watchtower %}
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"  
+{% endif %}

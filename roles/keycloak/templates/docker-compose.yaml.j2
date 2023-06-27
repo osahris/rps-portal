@@ -10,6 +10,7 @@ volumes:
   postgres:
 
 services:
+   
   keycloak:
     image: {{ keycloak_container_image }}:{{ keycloak_container_version }}
     restart: unless-stopped

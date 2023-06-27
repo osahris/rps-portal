@@ -22,3 +22,15 @@
   ansible.builtin.command: "{{ remote_path }}/import.sh"
   args:
     chdir: "{{ remote_path }}"
+
+- name: Import – run import script
+  ansible.builtin.command: "{{ remote_path }}/import.sh"
+  args:
+    chdir: "{{ remote_path }}"
+  when: not wordpress_import_with_user_removal
+    
+- name: Import – run import script
+  ansible.builtin.command: "{{ remote_path }}/import_with_user_removal.sh"
+  args:
+    chdir: "{{ remote_path }}"
+  when: wordpress_import_with_user_removal == true

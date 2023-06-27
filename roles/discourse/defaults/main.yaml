@@ -33,7 +33,11 @@ discourse_oidc_sso_client_id: "{{ discourse_service_name }}"
 discourse_oidc_sso_discovery_url: "{{ discourse_keycloak_client_realm_url }}/.well-known/openid-configuration"
 discourse_oidc_sso_client_secret: "{{ ansible_local[discourse_service_name].discourse_oidc_sso_client_secret }}"
 
-discourse_with_keycloak_client: true
+discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
+discourse_sync_api_key: "{{ ansible_local[discourse_service_name].discourse_sync_api_key }}"
+
+keycloak_docker_compose_profile: full
+discourse_sync_username: system
 
 discourse_keycloak_base_url: "https://{{ keycloak_service_name }}"
 

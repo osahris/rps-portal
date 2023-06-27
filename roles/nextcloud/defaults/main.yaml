@@ -2,8 +2,10 @@
 nextcloud_import: false
 nextcloud_initialize: true
 nextcloud_upgrade: false
-
 nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
+nextcloud_docker_compose_profile: full
+nextcloud_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+nextcloud_sync_container_version: dev
 
 nextcloud_version: "25.0"
 # when nextcloud_upgrade is true, nextcloud_version must be the same as nextcloud_current_version, TODO this is weird so we need to improve this 
@@ -14,6 +16,7 @@ nextcloud_defaultapp: files
 
 nextcloud_postgres_password: "{{ ansible_local[nextcloud_service_name].nextcloud_postgres_password }}"
 nextcloud_admin_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_password }}"
+nextcloud_admin_app_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_app_password }}"
 nextcloud_keycloak_client_secret: "{{ ansible_local[nextcloud_service_name].nextcloud_keycloak_client_secret }}"
 
 nextcloud_admin_user: admin
@@ -73,7 +76,7 @@ nextcloud_oidc_login_disable_registration: false
 
 nextcloud_with_custom_ca_certificates: false
 
-nextcloud_with_header_injection: false
+nextcloud_with_header_injection: true
 nextcloud_header_injection_repo: https://gitlab.com/idcohorts/rps/rps-nextcloud-header-injection.git
 nextcloud_header_injection_version: "nextcloud/v{{ nextcloud_version }}"
 

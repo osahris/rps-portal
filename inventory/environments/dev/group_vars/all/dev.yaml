@@ -1,0 +1,6 @@
+---
+watchtower_enabled: true
+
+rps_admin_interface_container_image_version: dev
+rps_groups_interface_container_version: dev
+rps_header_container_image_version: dev

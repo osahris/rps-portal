@@ -1,0 +1,3 @@
+---
+watchtower_enabled: false
+watchtower_poll_interval: 60

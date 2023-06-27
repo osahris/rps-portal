@@ -1,6 +1,24 @@
 ---
 
-- name: ensure discourse keycloak client
+#- name: ensure discourse keycloak client
+#  local_action: keycloak_client
+#  become: false
+#  args:
+#    auth_client_id: "{{ discourse_keycloak_client_auth_client_id }}"
+#    auth_keycloak_url: "{{ discourse_keycloak_client_auth_keycloak_url }}"
+#    auth_realm: "{{ discourse_keycloak_client_auth_realm }}"
+#    auth_username: "{{ discourse_keycloak_client_auth_username }}"
+#    auth_password: "{{ discourse_keycloak_client_auth_password }}"
+#    validate_certs: "{{ discourse_keycloak_client_validate_certs }}"
+#    client_id: "{{ discourse_keycloak_client_client_id }}"
+#    realm: "numhub"
+#    #realm: "{{ discourse_keycloak_client_realm }}"
+#    redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
+#    client_authenticator_type: client-secret
+#    secret: "{{ discourse_keycloak_client_secret }}"
+#  when: discourse_with_keycloak_client
+
+- name: set keycloak client config
   local_action: keycloak_client
   become: false
   args:
@@ -9,13 +27,57 @@
     auth_realm: "{{ discourse_keycloak_client_auth_realm }}"
     auth_username: "{{ discourse_keycloak_client_auth_username }}"
     auth_password: "{{ discourse_keycloak_client_auth_password }}"
-    validate_certs: "{{ discourse_keycloak_client_validate_certs }}"
     client_id: "{{ discourse_keycloak_client_client_id }}"
     realm: "{{ discourse_keycloak_client_realm }}"
     redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
     secret: "{{ discourse_keycloak_client_secret }}"
-  when: discourse_with_keycloak_client
+    state: present
+    direct_access_grants_enabled: true
+    service_accounts_enabled: true
+    validate_certs: "{{ discourse_keycloak_client_validate_certs | default(true) }}"
+    # backchannel logout url: https://my.discourse.org/apps/user_oidc/backchannel-logout/{{client_id}}
+    protocol_mappers:
+      - name: groups
+        config:
+          access.token.claim: 'false'
+          claim.name: groups
+          full.path: 'false'
+          id.token.claim: 'false'
+          userinfo.token.claim: 'true'
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-group-membership-mapper
+
+
+- name: "Create access_token for keycloak for user {{ discourse_keycloak_client_auth_username }}"
+  local_action: uri
+  become: false
+  args:
+    url: "{{ discourse_keycloak_client_auth_keycloak_url }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    validate_certs: "{{ keycloak_validate_certs }}"
+    body_format: form-urlencoded
+    body:
+      username: "{{ discourse_keycloak_client_auth_username }}"
+      password: "{{ discourse_keycloak_client_auth_password | mandatory }}"
+      grant_type: "password"
+      client_id: "admin-cli"
+  register: keycloak_token
+
+- name: Map a client role to a service account user for a client, authentication with credentials
+  community.general.keycloak_user_rolemapping:
+    realm: "{{ discourse_keycloak_client_realm }}"
+    auth_keycloak_url: "{{ discourse_keycloak_client_auth_keycloak_url }}"
+    token: "{{ keycloak_token.json.access_token }}"
+    state: present
+    client_id: realm-management
+    service_account_user_client_id : "{{ discourse_keycloak_client_client_id }}"
+    roles:
+      - name: view-users
+      - name: query-realms
+      - name: query-users
+      - name: view-realm
 
 - name: traefik dynamic config
   copy:

@@ -1,0 +1,26 @@
+---
+discourse_service_name: "dialog.{{ rps_dns_suffix }}"
+discourse_api_username: system
+
+discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
+discourse_sync_api_key: "{{ ansible_local[discourse_service_name].discourse_sync_api_key }}"
+
+discourse_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+discourse_sync_container_version: dev
+discourse_sync_keycloak_client_client_id: "sync-{{discourse_service_name}}"
+discourse_sync_username: system
+
+discourse_keycloak_base_url: "https://{{ keycloak_service_name }}"
+
+discourse_keycloak_client_auth_keycloak_url: "{{discourse_keycloak_base_url}}"
+discourse_keycloak_client_auth_client_id: admin-cli
+discourse_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+discourse_keycloak_client_auth_username: admin
+discourse_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+discourse_keycloak_client_validate_certs: true
+
+discourse_keycloak_client_realm: "{{ keycloak_realm }}"
+discourse_keycloak_client_realm_url: "{{discourse_keycloak_base_url}}/realms/{{discourse_keycloak_client_realm}}"
+discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
+discourse_keycloak_client_redirect_uris:
+  - "{{ discourse_base_url }}/auth/oidc/callback"
