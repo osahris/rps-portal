@@ -42,11 +42,15 @@ traefik_dynamic_config:
         rule: "Host(`{{ nextcloud_service_name }}`)"
         entrypoints: websecure
         middlewares:
-        - header-redirect
-        - nextcloud-headers
-        tls:
-          certresolver: letsencrypt
+          - header-redirect
+          - nextcloud-headers
         service: nextcloud
+      # nextcloud-login:
+      #   rule: "Host(`{{ nextcloud_service_name }}`) && PathPrefix(`/login`)"
+      #   entrypoints: websecure
+      #   middlewares:
+      #     - nextcloud-oauth2-proxy-login-redirect
+      #   service: nextcloud
 
     services:
       nextcloud:
@@ -58,7 +62,10 @@ traefik_dynamic_config:
       nextcloud-headers:
         headers:
           contentSecurityPolicy: "{{ nextcloud_content_security_policy }}"
-
+      nextcloud-oauth2-proxy-login-redirect:
+        redirectRegex:
+          regex: "^https?://{{ nextcloud_service_name }}/login$"
+          replacement: "{{ oauth2_proxy_base_url }}/oauth2/sign_in?rd=https%3A%2F%2F{{nextcloud_service_name}}%2Fapps%2Foidc_login%2Foidc"
 
 nextcloud_content_security_policy: >
   default-src 'none';
