@@ -9,6 +9,12 @@
 - name: create skel directory
   file: path={{remote_path}}/theme state=directory
 
+- name: copy occ script
+  ansible.builtin.copy:
+    src: occ.sh
+    dest: "{{ remote_path }}/occ.sh"
+    mode: 0755
+
 - name: 'clone the nextcloud header injection repo'
   git:
     repo: "{{nextcloud_header_injection_repo}}"
