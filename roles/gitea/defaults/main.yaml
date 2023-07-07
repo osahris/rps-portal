@@ -1,4 +1,53 @@
 ---
+gitea_service_name: "code.{{inventory_hostname}}"
+
+gitea_project_name: gitea
+gitea_override_image: false
+
+gitea_admin_username: administrator
+gitea_admin_email: admin@{{gitea_service_name}}
+
+gitea_with_header_integration: true
+
+# secrets
+gitea_db_pass:                    "{{ ansible_local[gitea_service_name].gitea_db_pass }}"
+gitea_admin_password:             "{{ ansible_local[gitea_service_name].gitea_admin_password }}"
+gitea_security_secret_key:        "{{ ansible_local[gitea_service_name].gitea_security_secret_key }}"
+gitea_keycloak_client_secret:     "{{ ansible_local[gitea_service_name].gitea_keycloak_client_secret }}"
+gitea_oauth2_proxy_redis_pass:    "{{ ansible_local[gitea_service_name].gitea_oauth2_proxy_redis_pass }}"
+gitea_oauth2_proxy_cookie_secret: "{{ ansible_local[gitea_service_name].gitea_oauth2_proxy_cookie_secret }}"
+
+# oauth2-proxy
+gitea_oauth2_proxy_email_domains: "*"
+gitea_oauth2_proxy_allowed_roles:
+  - approved
+gitea_oauth2_proxy_request_logging: true
+
+# SSH
+gitea_with_ssh_features: true
+gitea_ssh_port: 222
+# gitea_with_builtin_ssh_server: false
+gitea_expose_ssh_port: true
+
+# actions
+gitea_with_actions: true
+gitea_actions_default_url: https://gitea.com/actions/checkout
+
+# keycloak
+gitea_keycloak_client_id: "{{ gitea_service_name }}"
+
+gitea_keycloak_client_auth_keycloak_url: "{{gitea_keycloak_client_url}}"
+gitea_keycloak_client_auth_client_id: admin-cli
+gitea_keycloak_client_auth_realm: master
+gitea_keycloak_client_auth_username: "{{keycloak_admin_username|default('admin')}}"
+gitea_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+gitea_keycloak_client_validate_certs: true
+
+gitea_keycloak_client_url: "https://{{ keycloak_service_name }}"
+gitea_keycloak_client_realm_url: "{{gitea_keycloak_client_url}}/realms/{{gitea_keycloak_client_realm}}"
+gitea_keycloak_client_realm: "{{ keycloak_realm }}"
+gitea_keycloak_client_redirect_uris: "https://{{ gitea_service_name }}/oauth2/callback"
+---
 gitea_service_name: "code.{{rps_dns_suffix}}"
 
 gitea_project_name: gitea

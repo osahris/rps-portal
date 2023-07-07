@@ -1,0 +1,47 @@
+---
+
+- name: discourse app discourse_sync_target_directory
+  file:
+    path: "{{discourse_sync_target_directory}}"
+    state: directory
+
+- name: create admin api key
+  community.docker.docker_container_exec:
+    container: "{{discourse_service_name|replace('.', '')}}_web_1"
+    command: /bin/bash -c "rake api_key:create_master[sync]"
+    chdir: /root
+  register: result
+  when: discourse_sync_api_key == "not_set"
+
+
+#TODO: discourse_sync_api_key in ansible_local speichern
+- name: save api key to facts
+  ansible.builtin.set_fact: discourse_sync_api_key="{{result.stdout}}"
+  when: discourse_sync_api_key == "not_set"
+
+- name: Copy discourse secrets facts
+  copy:
+    content: "{{ discourse_secrets | to_nice_json }}\n"
+    dest: /etc/ansible/facts.d/{{service_name}}.fact
+  register: discourse_secrets_facts_copy_task
+
+- name: Gather facts again after secrets generation
+  setup:
+  when: discourse_secrets_facts_copy_task.changed
+
+- name: discourse sync config file
+  template:
+    src: "config.yaml.j2"
+    dest: "{{discourse_sync_target_directory}}/config.yaml"
+
+- name: docker-compose file
+  template:
+    src: "docker-compose.yaml.j2"
+    dest: "{{discourse_sync_target_directory}}/docker-compose.yaml"
+
+- name: deploy docker-compose only for sync
+  docker_compose:
+    profiles: "sync"
+    project_src: "{{discourse_sync_target_directory}}"
+    pull: true
+    remove_orphans: true

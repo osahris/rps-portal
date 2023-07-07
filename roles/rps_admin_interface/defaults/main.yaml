@@ -19,7 +19,6 @@ rps_admin_interface_keycloak_client_secret:     "{{ ansible_local[rps_admin_inte
 rps_admin_interface_oauth2_proxy_redis_pass:    "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_oauth2_proxy_redis_pass }}"
 rps_admin_interface_oauth2_proxy_cookie_secret: "{{ ansible_local[rps_admin_interface_service_name].rps_admin_interface_oauth2_proxy_cookie_secret }}"
 
-
 # oauth2-proxy
 rps_admin_interface_oauth2_proxy_email_domains: "*"
 rps_admin_interface_oauth2_proxy_allowed_roles:
