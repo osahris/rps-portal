@@ -1,5 +1,4 @@
 ---
-# Ansible variables
 remote_path: "/srv/{{wiki_bookstack_service_name}}"
 
 # # ------------------------------------------ #
