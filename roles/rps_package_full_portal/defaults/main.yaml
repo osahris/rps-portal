@@ -15,6 +15,7 @@ rps_with_oauth2_proxy:   true
 rps_with_wiki_bookstack: true
 # -------------------------------------------------------- #
 # Functional services | Specific
+rps_with_admin_interface:  false
 rps_with_cohort_explorer:  false
 rps_with_groups_interface: false
 # -------------------------------------------------------- #
@@ -27,6 +28,9 @@ navigator_with_header_integration:      "{{rps_with_header}}"
 nextcloud_with_header_integration:      "{{rps_with_header}}"
 oauth2_proxy_with_header_integration:   "{{rps_with_header}}"
 wiki_bookstack_with_header_integration: "{{rps_with_header}}"
+# -------------------------------------------------------- #
+# Keycloak additional options
+rps_with_keycloak_groups: true
 # -------------------------------------------------------- #
 # Keycloak Sync -- synchronizes the groups, roles and permissions between Keycloak and other services where supported 
 rps_with_keycloak_sync:            true # <- requires roles: keycloak_groups
