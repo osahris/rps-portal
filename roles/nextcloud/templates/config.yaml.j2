@@ -1,9 +1,9 @@
-project_id: {{rps_admin_interface_keycloak_realm}}
+project_id: {{rps_admin_interface_keycloak_realm | default('{{keycloak_realm}}')}}
 project_name: rps-admin-interface
 rps_header_url: {{rps_header_js_url}}
 
 keycloak_url: "https://{{keycloak_service_name}}"
-keycloak_realm: "{{rps_admin_interface_keycloak_realm}}"
+keycloak_realm: "{{rps_admin_interface_keycloak_realm | default('{{keycloak_realm}}')}}"
 keycloak_secret: "{{nextcloud_keycloak_client_secret}}"
 keycloak_client_id: "{{nextcloud_keycloak_client_client_id}}"
 keycloak_required_actions: ['UPDATE_PASSWORD','UPDATE_PROFILE','VERIFY_EMAIL']
