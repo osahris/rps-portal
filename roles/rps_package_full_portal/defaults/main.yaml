@@ -15,9 +15,9 @@ rps_with_oauth2_proxy:   true
 rps_with_wiki_bookstack: true
 # -------------------------------------------------------- #
 # Functional services | Specific
-rps_with_admin_interface:  false
+rps_with_admin_interface:  true
 rps_with_cohort_explorer:  false
-rps_with_groups_interface: false
+rps_with_groups_interface: true
 # -------------------------------------------------------- #
 # Header -- integrates a common header to all services where supported
 rps_with_header:                        true # <- requires roles: oauth2_proxy, rps_style

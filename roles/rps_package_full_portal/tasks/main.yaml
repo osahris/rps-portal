@@ -100,14 +100,24 @@
     - rps-admin-interface
     - admin_interface
     - admin-interface
-  when: rps_with_rps_admin_interface
+  when: rps_with_admin_interface
 
   # Groups Interface
 - import_role:  
-    name: rps_admin_interface
+    name: rps_groups_interface
   tags:
     - rps_groups_interface
     - rps-groups-interface
     - groups_interface
     - groups-interface
-  when: rps_with_rps_groups_interface
+  when: rps_with_groups_interface
+
+  # Cohort Explorer
+- import_role:  
+    name: rps_cohort_explorer
+  tags:
+    - rps_cohort_explorer
+    - rps-cohort-explorer
+    - cohort_explorer
+    - cohort-explorer
+  when: rps_with_cohort_explorer
