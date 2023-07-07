@@ -1,0 +1,85 @@
+---
+- name: assert that the systems distribution is Debian
+  assert:
+    that: ansible_distribution == "Debian"
+    msg: "The RPS is only supported on Debian!"
+
+# Old Debian releases don't support docker with IPv6
+- name: assert that the debian release is bookworm
+  assert:
+    that: ansible_distribution_release == "bookworm"
+    msg: "The RPS is targeted for Debian bookworm!"
+
+# --------------------------------------------------- #
+# Chat
+- import_role: 
+    name: matrix
+  tags:
+    - matrix
+    - chat
+  when: rps_with_matrix
+
+# Wiki Bookstack
+- import_role:
+    name: wiki_bookstack
+  tags:
+    - wiki_bookstack
+    - wiki-bookstack
+    - wiki
+    - bookstack
+  when: rps_with_wiki_bookstack
+
+# Nextcloud
+- import_role:
+    name: nextcloud
+  tags:
+    - nextcloud
+    - cloud
+  when: rps_with_nextcloud
+
+# Collabora
+- import_role: 
+    name: collabora
+  tags: collabora
+  when: rps_with_collabora
+
+# Gitea
+- import_role: 
+    name: gitea
+  tags: 
+    - gitea
+    - code
+  when: rps_with_gitea
+
+# Navigator
+- import_role:
+    name: rps_navigator
+  tags:
+    - rps_navigator
+    - navigator
+  when: rps_with_navigator
+
+# Discourse
+- import_role:
+    name: discourse
+  tags:
+    - discourse
+    - forum
+  when: rps_with_discourse
+
+# Oauth2 proxy
+- import_role:  
+    name: oauth2_proxy
+  tags:
+    - oauth2_proxy
+    - oauth2-proxy
+    - oauth2
+  when: rps_with_oauth2_proxy
+
+# Header
+- import_role:
+    name: rps_header
+  tags:
+    - rps_header
+    - header
+  when: rps_with_header
