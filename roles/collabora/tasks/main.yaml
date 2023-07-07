@@ -1,9 +1,6 @@
 ---
 - import_tasks: secrets.yaml
 
-# - import_role:
-#     name: docker
-
 - name: create directory
   file: path={{remote_path}} state=directory
 
@@ -21,23 +18,10 @@
     - "docker-compose.yaml.j2"
     - "env.j2"
 
-- name: create directory for ssl certificates
-  file:
-    path: "/ssl-certs/"
-    state: directory
-
-- name: create traefik config directory
-  file: path=/srv/traefik/conf.d state=directory
-
 - name: copy traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/collabora.yaml"
-
-# Creation of networks, images, containers
-- name: create docker networks
-  docker_network:
-    name: "proxy"
 
 - name: deploy docker-compose stack
   docker_compose:
@@ -50,19 +34,3 @@
     pull: true
   with_items:
     - "docker-compose.yaml"
-# The below part is redundant since the docker container is now via docker-compose.yaml deployed
-# - name: collabora docker container
-#   community.docker.docker_container:
-#     name: collabora
-#     image: "{{collabora_domain_image}}"
-#     state: started
-#     restart: yes
-#     container_default_behavior: no_defaults
-#     ports:
-#      - "9980:9980"
-#      - "[::]:9980:9980"
-#     env: "{{collabora_docker_env}}"
-#     capabilities:
-#       - MKNOD
-#       # - SYS_CHROOT
-#       # - FOWNER
