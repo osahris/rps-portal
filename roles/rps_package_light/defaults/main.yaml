@@ -38,3 +38,9 @@ gitea_with_keycloak_sync:          "{{rps_with_keycloak_sync}}"
 matrix_with_keycloak_sync:         "{{rps_with_keycloak_sync}}"
 nextcloud_with_keycloak_sync:      "{{rps_with_keycloak_sync}}"
 wiki_bookstack_with_keycloak_sync: "{{rps_with_keycloak_sync}}"
+# -------------------------------------------------------- #
+# Watchtower
+rps_with_watchtower:                   false
+rps_admin_interface_with_watchtower:  "{{ rps_with_watchtower }}"
+rps_groups_interface_with_watchtower: "{{ rps_with_watchtower }}"
+rps_header_with_watchtower:           "{{ rps_with_watchtower }}"
