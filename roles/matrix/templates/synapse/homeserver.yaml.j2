@@ -1,4 +1,4 @@
-server_name: "{{chat_service_name}}"
+server_name: "{{matrix_service_name}}"
 enable_registration: false
 # enable_registration_without_verification: true # uncomment for tests if enable_registration: true
 report_stats: no
@@ -14,7 +14,7 @@ allow_public_rooms_without_auth: false
 app_service_config_files: []
 
 auto_join_rooms:
-- '#hello:{{chat_service_name}}'
+- '#hello:{{matrix_service_name}}'
 autocreate_auto_join_rooms: true
 
 backchannel_logout_enabled: true
@@ -28,7 +28,7 @@ enable_registration_captcha: false
 enable_room_list_search: true
 
 
-public_baseurl: "https://matrix.{{chat_service_name}}"
+public_baseurl: "https://matrix.{{matrix_service_name}}"
 
 pid_file: /data/homeserver.pid
 
@@ -49,10 +49,10 @@ database:
   name: psycopg2
   txn_limit: 10000
   args:
-    database: {{chat_postgress_db}}
-    user: {{chat_postgress_user}}
-    password: {{chat_postgress_password}}
-    host: {{chat_service_name|replace('.','')}}_synapse_db_1
+    database: {{matrix_postgress_db}}
+    user: {{matrix_postgress_user}}
+    password: {{matrix_postgress_password}}
+    host: {{matrix_service_name|replace('.','')}}_synapse_db_1
     port: 5432
     cp_min: 5
     cp_max: 10
@@ -62,7 +62,7 @@ max_upload_size: 100M
 search_all_users: true
 prefer_local_users: true
 url_preview_enabled: false
-log_config: "/data/{{chat_service_name}}.log.config"
+log_config: "/data/{{matrix_service_name}}.log.config"
 media_store_path: /data/media_store
 suppress_key_server_warning: true #added for use element
 
@@ -75,8 +75,8 @@ trusted_key_servers:
 oidc_config:
     enabled: true
     idp_name: "KeyCloak SSO"
-    client_id: "{{ chat_keycloak_client_id }}"
-    client_secret: "{{ chat_keycloak_client_secret }}"
+    client_id: "{{ matrix_keycloak_client_id }}"
+    client_secret: "{{ matrix_keycloak_client_secret }}"
     issuer: "https://{{keycloak_service_name}}/realms/{{keycloak_realm}}"
     scopes:
       - openid
@@ -97,8 +97,8 @@ password_config:
     pepper: ''
     policy: null
 
-signing_key_path: "/data/{{chat_service_name}}.signing.key"
+signing_key_path: "/data/{{matrix_service_name}}.signing.key"
 
 sso:
   client_whitelist:
-  - "https://element.{{chat_service_name}}"
+  - "https://element.{{matrix_service_name}}"

@@ -23,7 +23,7 @@ server {
         access_log off;
         add_header Access-Control-Allow-Origin *;
         default_type application/json;
-        return 200 '{"m.server": "matrix.{{chat_service_name}}:443"}';
+        return 200 '{"m.server": "matrix.{{matrix_service_name}}:443"}';
     }
 
     location /.well-known/matrix/client {

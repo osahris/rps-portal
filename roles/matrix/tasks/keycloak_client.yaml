@@ -3,20 +3,20 @@
   local_action: keycloak_client
   become: false
   args:
-    auth_client_id: "{{ chat_keycloak_client_auth_client_id }}"
-    auth_keycloak_url: "{{ chat_keycloak_client_auth_keycloak_url }}"
-    auth_realm: "{{ chat_keycloak_client_auth_realm }}"
-    auth_username: "{{ chat_keycloak_client_auth_username }}"
-    auth_password: "{{ chat_keycloak_client_auth_password }}"
-    client_id: "{{ chat_keycloak_client_id }}"
-    realm: "{{ chat_keycloak_client_realm }}"
-    redirect_uris: "{{ chat_keycloak_client_redirect_uris }}"
+    auth_client_id: "{{ matrix_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ matrix_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ matrix_keycloak_client_auth_realm }}"
+    auth_username: "{{ matrix_keycloak_client_auth_username }}"
+    auth_password: "{{ matrix_keycloak_client_auth_password }}"
+    client_id: "{{ matrix_keycloak_client_id }}"
+    realm: "{{ matrix_keycloak_client_realm }}"
+    redirect_uris: "{{ matrix_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
-    secret: "{{ chat_keycloak_client_secret }}"
+    secret: "{{ matrix_keycloak_client_secret }}"
     state: present
     direct_access_grants_enabled: true
     service_accounts_enabled: true
-    validate_certs: "{{ chat_keycloak_client_validate_certs | default(true) }}"
+    validate_certs: "{{ matrix_keycloak_client_validate_certs | default(true) }}"
     # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
     protocol_mappers:
       - name:	audience
@@ -24,7 +24,7 @@
         protocol: openid-connect
         protocolMapper: oidc-audience-mapper
         config:
-          included.client.audience:	"{{ chat_keycloak_client_id }}"
+          included.client.audience:	"{{ matrix_keycloak_client_id }}"
           id.token.claim: 'true'
           access.token.claim: 'true'
 

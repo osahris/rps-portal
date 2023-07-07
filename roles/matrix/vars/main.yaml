@@ -1,10 +1,9 @@
 ---
-remote_path: "/srv/{{chat_service_name}}"
+remote_path: "/srv/{{matrix_service_name}}"
 
-chat_secrets:
-  chat_sevret_var_name:               "{{ chat_sevret_var_name | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  chat_postgress_password:         "{{ chat_postgress_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  chat_keycloak_client_secret: "{{ chat_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+matrix_secrets:
+  matrix_postgress_password:         "{{ matrix_postgress_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  matrix_keycloak_client_secret: "{{ matrix_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 traefik_certresolver: "letsencrypt"
 app_port: "8008"
@@ -15,7 +14,7 @@ traefik_dynamic_config:
     routers:
 
       nginx:
-        rule: "Host(`{{chat_service_name}}`)"
+        rule: "Host(`{{matrix_service_name}}`)"
         entrypoints: websecure
         # middlewares: 
         # - header-redirect
@@ -24,7 +23,7 @@ traefik_dynamic_config:
         service: "nginx"
 
       synapse:
-        rule: "Host(`matrix.{{chat_service_name}}`)"
+        rule: "Host(`matrix.{{matrix_service_name}}`)"
         entrypoints: websecure
         # middlewares: 
         # - header-redirect
@@ -33,7 +32,7 @@ traefik_dynamic_config:
         service: "synapse"
 
       element:
-        rule: "Host(`element.{{chat_service_name}}`)"
+        rule: "Host(`element.{{matrix_service_name}}`)"
         entrypoints: websecure
         # middlewares: 
         # - header-redirect
@@ -46,14 +45,14 @@ traefik_dynamic_config:
       nginx:
         loadBalancer:
           servers:
-            - url: "http://{{chat_service_name|replace('.','')}}_nginx_1:8080" # "http://container_name:container_port"
+            - url: "http://{{matrix_service_name|replace('.','')}}_nginx_1:8080" # "http://container_name:container_port"
 
       synapse:
         loadBalancer:
           servers:
-            - url: "http://{{chat_service_name|replace('.','')}}_synapse_1:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{matrix_service_name|replace('.','')}}_synapse_1:{{app_port}}" # "http://container_name:container_port"
 
       element:
         loadBalancer:
           servers:
-            - url: "http://{{chat_service_name|replace('.','')}}_element_1:80" # "http://container_name:container_port"
+            - url: "http://{{matrix_service_name|replace('.','')}}_element_1:80" # "http://container_name:container_port"

@@ -46,7 +46,7 @@ services:
         max-size: 5m
     environment:
       - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
-      - SYNAPSE_SERVER_NAME={{chat_service_name}}
+      - SYNAPSE_SERVER_NAME={{matrix_service_name}}
       - SYNAPSE_REPORT_STATS=no
     volumes:
       - synapse_data:/data/:rw
