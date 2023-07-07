@@ -1,0 +1,73 @@
+---
+remote_path: "/srv/{{gitea_service_name}}"
+
+gitea_secrets:
+  gitea_db_pass:                                       "{{ gitea_db_pass | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_security_secret_key:               "{{ gitea_security_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_admin_password:                         "{{ gitea_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_keycloak_client_secret:         "{{ gitea_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  gitea_oauth2_proxy_redis_pass:       "{{ gitea_oauth2_proxy_redis_pass | default(lookup('ansible.builtin.password', '/dev/null length=64 chars=ascii_letters,digits')) }}"
+  gitea_oauth2_proxy_cookie_secret: "{{ gitea_oauth2_proxy_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+gitea_db_name: "gitea"
+gitea_db_user: "gitea"
+gitea_http_port: 3000
+
+gitea_config_tree:
+  DEFAULT:
+    APP_NAME: "Gitea"
+    RUN_MODE: prod
+  database:
+    DB_TYPE: postgres
+    HOST: db:5432
+    NAME: "{{gitea_db_name}}"
+    USER: "{{gitea_db_user}}"
+    PASSWD: "{{gitea_db_pass}}"
+  server:
+    ROOT_URL: "https://{{gitea_service_name}}"
+    HTTP_PORT: "{{gitea_http_port}}"
+    DOMAIN: "{{gitea_service_name}}"
+    DISABLE_SSH: "{{not gitea_with_ssh_features|bool|lower}}"
+    SSH_DOMAIN: "{{gitea_service_name}}"
+    SSH_PORT: "{{gitea_ssh_port}}"
+    #START_SSH_SERVER: "{{gitea_with_builtin_ssh_server|bool|lower}}"
+    #SSH_LISTEN_PORT: "{{gitea_ssh_port}}"
+  service:
+    ALLOW_ONLY_EXTERNAL_REGISTRATION: false
+    ENABLE_REVERSE_PROXY_AUTHENTICATION: true
+    ENABLE_REVERSE_PROXY_AUTO_REGISTRATION: true
+    ENABLE_REVERSE_PROXY_EMAIL: true
+    ENABLE_BASIC_AUTHENTICATION: false
+    DISABLE_REGISTRATION: true
+  security:
+    SECRET_KEY: "{{ gitea_security_secret_key }}"
+    INSTALL_LOCK: true
+    REVERSE_PROXY_AUTHENTICATION_USER: X-Forwarded-Preferred-Username
+    REVERSE_PROXY_AUTHENTICATION_EMAIL: X-Forwarded-Email
+    REVERSE_PROXY_TRUSTED_PROXIES: '*'
+  oauth2:
+    ENABLE: false
+  actions:
+    ENABLED: "{{ gitea_with_actions|bool|lower }}"
+    DEFAULT_ACTIONS_URL: "{{ gitea_actions_default_url }}"
+
+gitea_traefik_router:
+  rule: "Host(`{{gitea_service_name}}`)"
+  entrypoints: websecure
+  service: "{{gitea_service_name}}"
+
+gitea_traefik_service:
+  loadBalancer:
+    servers:
+      - url: "http://{{gitea_service_name | replace('.', '')}}_traefik_1:80"
+
+gitea_traefik_dynamic_config:
+  http:
+    routers: |
+      {{ { 
+        gitea_service_name : gitea_traefik_router
+      } }}
+    services: |
+      {{ { 
+        gitea_service_name : gitea_traefik_service
+      } }}

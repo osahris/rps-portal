@@ -1,0 +1,72 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+  db:
+    internal: true
+  service:
+    internal: true
+  oauth2-proxy:
+    internal: true
+
+volumes:
+  db:
+  data:
+
+services:
+
+  gitea: 
+    image: gitea/gitea:1.19
+    restart: unless-stopped
+    volumes:
+      - data:/data
+      - "./templates:/data/gitea/templates"
+      - "./public:/data/gitea/public"
+      #- /etc/timezone:/etc/timezone:ro
+      #- /etc/localtime:/etc/localtime:ro
+    env_file:
+      - gitea.env
+    networks:
+      - service
+      - db
+    ports:
+      - "2222:22"
+
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - db.env
+    networks:
+      - db
+
+  traefik:
+    image: traefik:v2.10
+    restart: unless-stopped
+    volumes:
+      - ./traefik/:/etc/traefik/:ro
+    environment:
+      TRAEFIK_PROVIDERS_FILE_FILENAME: /etc/traefik/gitea.yaml
+      #TRAEFIK_ENTRYPOINTS_proxy_ADDRESS: ":80"
+    networks:
+      - proxy
+      - service
+
+  gitea-oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
+    restart: unless-stopped
+    networks:
+      - proxy
+      - service
+      - oauth2-proxy
+    env_file: oauth2-proxy.env
+
+  oauth2-proxy-redis:
+    image: redis:7.0
+    restart: always
+    networks:
+      - oauth2-proxy

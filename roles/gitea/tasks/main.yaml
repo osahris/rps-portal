@@ -1,0 +1,6 @@
+---
+- import_tasks: secrets.yaml
+- import_tasks: setup.yaml
+- import_tasks: keycloak_client.yaml
+- import_tasks: admin_user.yaml
+- import_tasks: traefik.yaml

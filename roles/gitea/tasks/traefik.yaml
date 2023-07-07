@@ -1,0 +1,5 @@
+---
+- name: gitea traefik dynamic config
+  copy:
+    content: "{{ gitea_traefik_dynamic_config }}"
+    dest: "/srv/traefik/conf.d/{{gitea_service_name}}.yaml"  
