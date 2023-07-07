@@ -1,0 +1,32 @@
+---
+- name: install git
+  apt:
+    pkg:
+      - git
+
+- name: create directory
+  file: path={{remote_path}} state=directory
+  
+- name: Clone style_server repo
+  git:
+    repo: "{{ rps_style_server_git_url }}"
+    version: "{{ rps_style_server_git_branch }}"
+    dest: "{{remote_path}}/style_server"
+    force: yes
+
+- name: template docker-compose file
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{remote_path}}/docker-compose.yaml"
+
+- name: copy traefik dynamic config
+  copy:
+    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/srv/traefik/conf.d/rps-style.yaml"
+
+- name: deploy style_server container
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    build: true
+    pull: true
+    remove_orphans: true

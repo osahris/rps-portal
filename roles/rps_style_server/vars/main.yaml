@@ -8,17 +8,17 @@ app_port: "80"
 traefik_dynamic_config:
   http:
     routers:
-      style: # <-- Change this to your service name
+      style:
         rule: "Host(`{{rps_style_service_name}}`)"
         entrypoints: websecure
         middlewares: 
         - header-redirect
         tls:
           certresolver: "{{traefik_certresolver}}"
-        service: "style" # <-- Change this to your service name
+        service: "style"
 
     services:
-      style: # <-- Change this to your service name
+      style:
         loadBalancer:
           servers:
             - url: "http://{{rps_style_service_name|replace('.','')}}_style_1:{{app_port}}" # "http://container_name:container_port"
