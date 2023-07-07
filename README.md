@@ -20,6 +20,7 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] keycloak
 - [x] keycloak_realms
 - [ ] rps_people
+- [x] matrix
 - [x] minimum_viable_product
 - [ ] nextcloud
 - [x] oauth2_proxy
