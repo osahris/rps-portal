@@ -3,13 +3,13 @@ remote_path: "/srv/{{rps_header_service_name}}"
 
 rps_header_allowed_default_origins:
   - https://{{ keycloak_service_name }}
-  - https://{{ rps_profile_interface_service_name }}
-  - https://{{ rps_admin_interface_service_name }}
-  - https://{{ rps_groups_interface_service_name }}  
+  - https://{{ rps_profile_interface_service_name | default('')}}
+  - https://{{ rps_admin_interface_service_name | default('')}}
+  - https://{{ rps_groups_interface_service_name | default('')}}
   - https://{{ rps_style_service_name }}
-  - https://{{ rps_people_service_name }}
+  - https://{{ rps_people_service_name | default('')}}
   - https://{{ rps_navigator_service_name }}
-  - https://{{ budibase_service_name }}
+  - https://{{ budibase_service_name | default('')}}
   - https://{{ oauth2_proxy_service_name }}
 
 rps_header_dynamic_config:

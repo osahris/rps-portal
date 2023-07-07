@@ -41,7 +41,7 @@ rps_header_top_navbar_links:
     link: 'mailto:{{ rps_admin_email }}'
     icon: circle-question
   # - title: Profile
-  #   link: https://{{ rps_profile_interface_service_name }}
+  #   link: https://{{ rps_profile_interface_service_name | default('')}}
   #   icon: user
 
 rps_header_bottom_navbar_links: []
