@@ -95,6 +95,7 @@ nextcloud_default_config:
     overwritehost: "{{ nextcloud_service_name }}"
     overwriteprotocol: https
     overwrite.cli.url: https://{{ nextcloud_service_name }}
+    ratelimit.protection.enabled: false
 
 nextcloud_user_oidc_config:
   apps:
