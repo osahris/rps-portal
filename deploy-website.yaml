@@ -1,0 +1,19 @@
+---
+- hosts: rps_servers
+  become: true
+
+  pre_tasks:
+    - block:
+        - name: Display current host
+          debug:
+            msg:
+              - "{{ ansible_ssh_host }}"
+              - "{{ inventory_hostname }}"
+              - "{{ rps_dns_suffix }}"
+
+  roles:
+<<<<<<<< HEAD:deploy-rps-full-portal.yaml
+    - role: rps_package_full_portal
+========
+    - role: website
+>>>>>>>> b6068aff62e4ec1ad8dff3ae8b694c51a24b4baa:deploy-website.yaml

@@ -144,3 +144,6 @@
     remove_orphans: true
     services:
       - nextcloud_sync
+
+- import_tasks: cron.yaml
+  when: nextcloud_with_cron

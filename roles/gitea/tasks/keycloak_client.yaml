@@ -1,5 +1,4 @@
 ---
-
 - name: keycloak client
   local_action: keycloak_client
   become: false
@@ -30,12 +29,12 @@
           id.token.claim: 'true'
           access.token.claim: 'true'
       # - name: groups
+      #   consentRequired: false
+      #   protocol: openid-connect
+      #   protocolMapper: oidc-group-membership-mapper
       #   config:
       #     access.token.claim: 'false'
       #     claim.name: groups
       #     full.path: 'true'
       #     id.token.claim: 'true'
       #     userinfo.token.claim: 'true'
-      #   consentRequired: false
-      #   protocol: openid-connect
-      #   protocolMapper: oidc-group-membership-mapper

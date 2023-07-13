@@ -1,0 +1,5 @@
+---
+dependencies:
+  - role: docker
+  - role: oauth2_proxy
+  - role: rps_style_server

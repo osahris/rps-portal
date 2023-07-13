@@ -1,6 +1,6 @@
 ---
 rps_header_service_name: header.{{ rps_dns_suffix }}
-rps_header_root_redirect_url: https://{{ rps_admin_navigator_service_name }}
+rps_header_root_redirect_url: https://{{ rps_navigator_service_name }}
 
 rps_header_allowed_origins: "{{ rps_header_allowed_default_origins + rps_header_allowed_additional_origins }}"
 rps_header_allowed_additional_origins: []
@@ -8,19 +8,17 @@ rps_header_allowed_additional_origins: []
 rps_header_container_image: registry.gitlab.com/idcohorts/rps/rps-vue-header
 rps_header_container_image_version: latest # TODO-Version-Pin
 
-rps_header_with_watchtower: "{{ watchtower_enabled }}"
-
 rps_header_logo_link: https://{{rps_header_service_name}}
 rps_header_icon_src: "{{ rps_style_icon_src }}"
 rps_header_logo_src: "{{ rps_style_logo_src }}"
 
 rps_header_top_navbar_links:
-  - title: Persons
-    link: https://{{ rps_people_service_name }}
-    icon: people-group
-  - title: Groups
-    link: https://{{ rps_groups_interface_service_name }}
-    icon: user-group
+  # - title: Persons
+  #   link: https://{{ rps_people_service_name }}
+  #   icon: people-group
+  # - title: Groups
+  #   link: https://{{ rps_groups_interface_service_name }}
+  #   icon: user-group
   # - title: Forum
   #   link: https://{{ discourse_service_name }}
   #   icon: message
@@ -28,14 +26,23 @@ rps_header_top_navbar_links:
     link: https://{{ nextcloud_service_name }}/apps/files
     icon: folder
   - title: Calendar
-    link: https://{{ nextcloud_service_name }}/apps/files
+    link: https://{{ nextcloud_service_name }}/apps/calendar
     icon: calendar
+  - title: Chat
+    link: https://element.{{ matrix_service_name }}
+    icon: chat
+  - title: Wiki
+    link: https://{{ wiki_bookstack_service_name }}
+    icon: wiki
+  - title: Git
+    link: https://{{ gitea_service_name }}
+    icon: code
   - title: Support
     link: 'mailto:{{ rps_admin_email }}'
     icon: circle-question
-  - title: Profile
-    link: https://{{ rps_profile_interface_service_name }}
-    icon: user
+  # - title: Profile
+  #   link: https://{{ rps_profile_interface_service_name | default('')}}
+  #   icon: user
 
 rps_header_bottom_navbar_links: []
 

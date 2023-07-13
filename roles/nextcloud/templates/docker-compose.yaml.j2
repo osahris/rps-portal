@@ -12,6 +12,7 @@ volumes:
   nextcloud-data:
 
 services:
+
   nextcloud:
     image: nextcloud:{{ nextcloud_version }}
     profiles:
@@ -34,6 +35,9 @@ services:
       - nextcloud-data:/srv/nextcloud/data
       - ./skel:/srv/nextcloud/skel:ro
       - ./themes:/srv/nextcloud/themes:ro
+{% if nextcloud_with_cron %}
+      - ./cron.d:/var/spool/cron:rw
+{% endif %}  
 {% if nextcloud_with_header_injection %}
       - {{remote_path}}/rps-nextcloud-header-injection/patches/:/srv/header-patches/:ro
 {% endif %}

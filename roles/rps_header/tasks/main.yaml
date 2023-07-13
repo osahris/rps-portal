@@ -4,7 +4,7 @@
     path: "{{remote_path}}"
     state: directory
 
-- name: header dynamic config
+- name: copy header dynamic config
   copy:
     content: "{{ rps_header_dynamic_config }}"
     dest: "{{ remote_path }}/config.dynamic.yaml"
@@ -32,7 +32,7 @@
   debug:
     msg: "{{rps_header_allowed_origins}}"
 
-- name: traefik dynamic config
+- name: copy traefik dynamic config
   copy:
     content: "{{ header_traefik_dynamic_config }}"
     dest: "/srv/traefik/conf.d/header.yaml"

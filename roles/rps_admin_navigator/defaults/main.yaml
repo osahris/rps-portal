@@ -1,2 +1,0 @@
----
-rps_admin_navigator_service_name: navigator.{{ rps_dns_suffix }}

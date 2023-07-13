@@ -14,14 +14,15 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 
 - [ ] budibase
 - [x] collabora
-- [x] discourse
+- [ ] discourse
 - [x] keycloak_themes
 - [x] docker
 - [x] keycloak
 - [x] keycloak_realms
 - [ ] rps_people
+- [x] matrix
 - [x] minimum_viable_product
-- [ ] nextcloud
+- [x] nextcloud
 - [x] oauth2_proxy
 - [ ] openproject
 - [ ] proskive
@@ -30,14 +31,14 @@ The [x]-marked roles are ready to be deployed within one button click, without f
 - [x] rps_admin_navigator
 - [ ] rps_cohort_explorer
 - [x] rps_groups_interface
-- [ ] rps_header
-- [x] rps_style_servers
+- [x] rps_header
+- [x] rps_style_server
 - [ ] rps_sync_services
 - [ ] socat_https_proxy
 - [x] traefik
 - [ ] typesense
-- [ ] wiki-bookstack
-- [x] wiki-js
+- [x] wiki_bookstack
+- [x] wiki_js
 - [ ] wordpress
 
 ## Add a new service
