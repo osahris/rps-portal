@@ -1,15 +1,4 @@
 ---
-- name: assert that the systems distribution is Debian
-  assert:
-    that: ansible_distribution == "Debian"
-    msg: "The RPS is only supported on Debian!"
-
-# Old Debian releases don't support docker with IPv6
-- name: assert that the debian release is bookworm
-  assert:
-    that: ansible_distribution_release == "bookworm"
-    msg: "The RPS is targeted for Debian bookworm!"
-
 # --------------------------------------------------- #
 # Chat
 - import_role: 
