@@ -1,0 +1,11 @@
+# launch a cron_command accroding to cron_schedule with output to cron_log_file
+{{cron_schedule}} {{cron_command}} >> {{cron_log_file}} 2>&1
+# purify the log file every Sunday at 0:00
+# 0 0 * * Sun > {{cron_log_file}}
+#
+#
+#
+# cron_schedule cron_command >> log_file 2>&1        <-- to log all output
+# cron_schedule cron_command >/dev/null 2>>log_file  <-- to log only errors
+# */5 * * * * cron_command > cron_output             <-- to run every 5 min
+# Don't remove the empty line at the end of this file. It is required to run the cron job

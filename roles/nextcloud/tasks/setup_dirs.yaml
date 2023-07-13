@@ -1,13 +1,22 @@
 ---
+- name: create directories
+  file: 
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - "{{remote_path}}"
+    - "{{remote_path}}/skel"
+    - "{{remote_path}}/theme"
 
-- name: create directory
-  file: path={{remote_path}} state=directory
-
-- name: create skel directory
-  file: path={{remote_path}}/skel state=directory
-
-- name: create skel directory
-  file: path={{remote_path}}/theme state=directory
+- name: create directories
+  file: 
+    path: "{{item}}"
+    state: directory
+  with_items:
+    - "{{remote_path}}/cron.d"
+    - "{{remote_path}}/cron.d/crontabs"
+    - "{{remote_path}}/cron.d/scripts"
+  when: nextcloud_with_cron
 
 - name: 'clone the nextcloud header injection repo'
   git:

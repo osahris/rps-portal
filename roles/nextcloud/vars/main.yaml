@@ -117,3 +117,11 @@ nextcloud_oidc_login_config: # legacy plugin
 nextcloud_custom_theme_config:
   system:
     theme: "{{nextcloud_custom_theme_name}}"
+
+
+# Cron variables
+cron_schedule: "*/1 * * * *" # "*/5 * * * *" means run a command every 5 min
+cron_log_file: "/var/spool/cron/cron.log"
+# Cron command examples:
+# cron_command: "echo 123"
+cron_command: "/usr/local/bin/php /var/www/html/occ --version"
