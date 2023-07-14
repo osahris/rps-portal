@@ -34,8 +34,9 @@
 
 # Gitea
 - import_role: 
-    name: gitea
+    name: forgejo
   tags: 
+    - forgejo
     - gitea
     - code
   when: rps_with_gitea
