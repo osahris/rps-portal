@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec docker-compose exec -u www-data nextcloud php occ $@
+exec docker-compose exec -T -u www-data nextcloud php occ $@
