@@ -12,4 +12,4 @@
               - "{{ rps_dns_suffix }}"
 
   roles:
-    - role: rps_package_full
+    - role: rps_package_full_portal
