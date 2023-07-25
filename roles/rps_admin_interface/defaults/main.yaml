@@ -37,3 +37,15 @@ rps_admin_interface_keycloak_client_url: "https://{{ keycloak_service_name }}"
 rps_admin_interface_keycloak_client_realm_url: "{{rps_admin_interface_keycloak_client_url}}/realms/{{rps_admin_interface_keycloak_client_realm}}"
 rps_admin_interface_keycloak_client_realm: "{{ keycloak_realm }}"
 rps_admin_interface_keycloak_client_redirect_uris: "https://{{ rps_admin_interface_service_name }}/oauth2/callback"
+
+rps_admin_interface_keycloak_required_actions:
+  - VERIFY_EMAIL
+  - UPDATE_PASSWORD
+  - UPDATE_PROFILE
+
+rps_admin_interface_user_first_name_label: "First Name"
+rps_admin_interface_user_last_name_label: "Last Name"
+rps_admin_interface_user_username_label: "Username"
+rps_admin_interface_user_email_label: "E-Mail"
+rps_admin_interface_user_import_roles_label: "Roles"
+rps_admin_interface_user_import_groups_label: "Groups"
