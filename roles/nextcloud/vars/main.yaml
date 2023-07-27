@@ -41,7 +41,7 @@ traefik_dynamic_config:
       nextcloud:
         rule: "Host(`{{ nextcloud_service_name }}`)"
         entrypoints: websecure
-        middlewares: "{{'[nextcloud-headers,header-redirect]' if (nextcloud_with_header_integration) else 'nextcloud-headers'}}"
+        middlewares: "{{['nextcloud-headers','header-redirect'] if (nextcloud_with_header_integration) else 'nextcloud-headers'}}"
         service: nextcloud
       # nextcloud-login:
       #   rule: "Host(`{{ nextcloud_service_name }}`) && PathPrefix(`/login`)"
