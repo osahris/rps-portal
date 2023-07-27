@@ -4,30 +4,32 @@ rps_dns_suffix: "{{ inventory_hostname }}"
 # -------------------------------------------------------- #
 # Feature flags to include services to the deployment list #
 # -------------------------------------------------------- #
-# Functional services | Genaral
+# Functional services | General
 rps_with_collabora:      true
-rps_with_discourse:      false
+rps_with_discourse:      true
 rps_with_gitea:          true
 rps_with_matrix:         true
-rps_with_navigator:      true
 rps_with_nextcloud:      true
 rps_with_oauth2_proxy:   true
+rps_with_rps_navigator:  true
 rps_with_wiki_bookstack: true
 # -------------------------------------------------------- #
 # Functional services | Specific
-rps_with_admin_interface:  true
-rps_with_cohort_explorer:  false
-rps_with_groups_interface: true
+rps_with_rps_admin_interface:  true
+rps_with_rps_cohort_explorer:  false
+rps_with_rps_groups_interface: true
 # -------------------------------------------------------- #
 # Header -- integrates a common header to all services where supported
-rps_with_header:                        true # <- requires roles: oauth2_proxy, rps_style
-discourse_with_header_integration:      "{{rps_with_header}}"
-gitea_with_header_integration:          "{{rps_with_header}}"
-matrix_with_header_integration:         "{{rps_with_header}}"
-navigator_with_header_integration:      "{{rps_with_header}}"
-nextcloud_with_header_integration:      "{{rps_with_header}}"
-oauth2_proxy_with_header_integration:   "{{rps_with_header}}"
-wiki_bookstack_with_header_integration: "{{rps_with_header}}"
+rps_with_header:                              true # <- requires roles: oauth2_proxy, rps_style
+discourse_with_header_integration:            "{{rps_with_header}}"
+gitea_with_header_integration:                "{{rps_with_header}}"
+matrix_with_header_integration:               "{{rps_with_header}}"
+nextcloud_with_header_integration:            "{{rps_with_header}}"
+oauth2_proxy_with_header_integration:         "{{rps_with_header}}"
+rps_admin_interface_with_header_integration:  "{{rps_with_header}}"
+rps_groups_interface_with_header_integration: "{{rps_with_header}}"
+rps_navigator_with_header_integration:        "{{rps_with_header}}"
+wiki_bookstack_with_header_integration:       "{{rps_with_header}}"
 # -------------------------------------------------------- #
 # Keycloak additional options
 rps_with_keycloak_groups: true

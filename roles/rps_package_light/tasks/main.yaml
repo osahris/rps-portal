@@ -48,4 +48,4 @@
   tags:
     - rps_navigator
     - navigator
-  when: rps_with_navigator
+  when: rps_with_rps_navigator

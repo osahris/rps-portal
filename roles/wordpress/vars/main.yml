@@ -12,16 +12,12 @@ wordpress_traefik_router_profiles:
   oauth2:
     rule: "Host(`{{wordpress_service_name}}`)"
     entrypoints: websecure
-    middlewares: 
-      - header-redirect
-      - "{{ wordpress_service_name }}-add-oauth2-redirect"
-      - oauth2
+    middlewares: "{{'[header-redirect,{{ wordpress_service_name }}-add-oauth2-redirect,oauth2]' if (wordpress_with_header_integration) else '{{ wordpress_service_name }}-add-oauth2-redirect,oauth2'}}"
     service: "{{ wordpress_service_name }}"
   public:
     rule: "Host(`{{wordpress_service_name}}`)"
     entrypoints: websecure
-    middlewares: 
-      - header-redirect
+    middlewares: "{{'header-redirect' if (wordpress_with_header_integration) else ''}}"
     service: "{{ wordpress_service_name }}"
 
 wordpress_traefik_service_config:

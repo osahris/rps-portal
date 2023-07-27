@@ -9,8 +9,7 @@ traefik_dynamic_config:
       rps_navigator:
         rule: "Host(`{{rps_navigator_service_name}}`)"
         entrypoints: websecure
-        middlewares:
-        - header-redirect
+        middlewares: "{{'header-redirect' if (rps_navigator_with_header_integration) else ''}}"
         tls:
           certresolver: letsencrypt
           domains:

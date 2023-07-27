@@ -5,8 +5,7 @@ rps_groups_interface_traefik_router:
   rule: "Host(`{{rps_groups_interface_service_name}}`)"
   entrypoints: websecure
   service: "{{rps_groups_interface_service_name}}"
-  middlewares:
-    - header-redirect
+  middlewares: "{{'header-redirect' if (rps_groups_interface_with_header_integration) else ''}}"
 
 rps_groups_interface_traefik_service:
   loadBalancer:

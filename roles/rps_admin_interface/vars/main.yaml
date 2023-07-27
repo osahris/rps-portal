@@ -9,8 +9,7 @@ rps_admin_interface_secrets:
 rps_admin_interface_traefik_router:
   rule: "Host(`{{rps_admin_interface_service_name}}`)"
   entrypoints: websecure
-  middlewares:
-    - header-redirect
+  middlewares: "{{'header-redirect' if (rps_admin_interface_with_header_integration) else ''}}"
   service: "{{rps_admin_interface_service_name}}"
 
 rps_admin_interface_traefik_service:

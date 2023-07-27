@@ -29,8 +29,7 @@ traefik_dynamic_config:
       budibase:
         rule: "Host(`{{service_domain_name}}`)"
         entrypoints: websecure
-        middlewares: 
-        - header-redirect
+        middlewares: "{{'header-redirect' if (nextcloud_with_header_integration) else ''}}"
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "budibase"

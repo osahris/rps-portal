@@ -11,8 +11,7 @@ traefik_dynamic_config:
       style:
         rule: "Host(`{{rps_style_service_name}}`)"
         entrypoints: websecure
-        middlewares: 
-        - header-redirect
+        middlewares: "{{'header-redirect' if (rps_style_with_header_integration) else ''}}"
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "style"
