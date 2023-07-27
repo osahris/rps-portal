@@ -16,8 +16,7 @@ traefik_dynamic_config:
       nginx:
         rule: "Host(`{{matrix_service_name}}`)"
         entrypoints: websecure
-        # middlewares: 
-        # - header-redirect
+        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "nginx"
@@ -25,8 +24,7 @@ traefik_dynamic_config:
       synapse:
         rule: "Host(`matrix.{{matrix_service_name}}`)"
         entrypoints: websecure
-        # middlewares: 
-        # - header-redirect
+        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "synapse"
@@ -34,8 +32,7 @@ traefik_dynamic_config:
       element:
         rule: "Host(`element.{{matrix_service_name}}`)"
         entrypoints: websecure
-        # middlewares: 
-        # - header-redirect
+        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "element"

@@ -13,8 +13,7 @@ traefik_dynamic_config:
       wiki-js:
         rule: "Host(`{{wiki_js_service_name}}`)"
         entrypoints: websecure
-        middlewares:
-        - header-redirect
+        middlewares: "{{'header-redirect' if (wiki_js_with_header_integration) else ''}}"
         tls:
           certresolver: letsencrypt
         service: wiki-js
