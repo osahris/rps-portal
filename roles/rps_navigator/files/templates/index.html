@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
 {% block body %}
-    Links to the services from the RPS:
-    <br>
-    {% for service in services %}
-        <a href="https://{{service.subdomain}}.{{domain}}/{{service.path|default()}}">
-        {%if service.received_code in [200,302,307] %}
-            <button class="green_button">{{service.name}} </button></a>
-        {% else %}
-            <button class="red_button">{{service.name}} </button></a>Error {{service.received_code}}
-        {% endif %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Welcome to the RPS navigation page!
+            </h1>
+        </div>
         <br>
-    {% endfor %}
+        <div class="columns is-multiline">
+            {% for service in services %}
+                <div class="column is-one-quarter">
+                    <a href="https://{{service.subdomain}}.{{domain}}/{{service.path|default()}}">
+                        <img class="fit-picture"
+                            src="/static/icons/{{service.name}}_128x128.png"
+                            onerror="this.src='/static/icons/RPS_128x128.png';"
+                            alt="{{service.name}}">
+                    </a>
+                    <p class="subtitle">{{service.name}}</p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    <br>
+                    
+                    {%if service.received_code in [200,302,307] %}
+                        <button class="button is-success is-small">Deployed</button>
+                    {% else %}
+                        <button class="button is-warning is-small">Error {{service.received_code}}</button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 {% endblock %}
