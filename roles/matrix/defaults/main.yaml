@@ -1,5 +1,5 @@
 ---
-matrix_service_name: "chat.{{inventory_hostname}}"
+matrix_service_name: "chat.{{rps_dns_suffix}}"
 matrix_element_web_service_name: "element.{{matrix_service_name}}"
 
 matrix_postgress_db: synapse
