@@ -50,6 +50,13 @@
     - navigator
   when: rps_with_rps_navigator
 
+# OpenProject
+- import_role: 
+    name: openproject
+  tags:
+    - openproject
+  when: rps_with_openproject
+
 # Header
 - import_role:
     name: rps_header

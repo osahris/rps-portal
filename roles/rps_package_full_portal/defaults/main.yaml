@@ -11,6 +11,7 @@ rps_with_gitea:          true
 rps_with_matrix:         true
 rps_with_nextcloud:      true
 rps_with_oauth2_proxy:   true
+rps_with_openproject:    false
 rps_with_rps_navigator:  true
 rps_with_wiki_bookstack: true
 # -------------------------------------------------------- #
@@ -26,6 +27,7 @@ gitea_with_header_integration:                "{{rps_with_header}}"
 matrix_with_header_integration:               "{{rps_with_header}}"
 nextcloud_with_header_integration:            "{{rps_with_header}}"
 oauth2_proxy_with_header_integration:         "{{rps_with_header}}"
+openproject_with_header_integration:          "{{rps_with_header}}"
 rps_admin_interface_with_header_integration:  "{{rps_with_header}}"
 rps_groups_interface_with_header_integration: "{{rps_with_header}}"
 rps_navigator_with_header_integration:        "{{rps_with_header}}"
