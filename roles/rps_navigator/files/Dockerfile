@@ -12,6 +12,6 @@ COPY . .
 
 # RUN apk add bind-tools curl
 RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install flask flask-sqlalchemy requests
+RUN python3 -m pip install flask flask-sqlalchemy requests pyyaml
 
 CMD ["python3", "app.py" ]

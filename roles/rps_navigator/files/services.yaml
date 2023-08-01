@@ -1,0 +1,68 @@
+---
+services:
+
+- name: 'Budibase'
+  subdomain: 'base'
+
+- name: 'Element'
+  subdomain: 'element.chat'
+  description: 'Chat with your colleagues and exchange files'
+
+- name: 'Forgejo'
+  subdomain: 'code'
+  description: 'Self-hosted version control repository to share codes and track changes'
+
+# - name: 'Header'      
+#   subdomain: 'header'
+
+# - name: 'Header (static)'
+#   subdomain: 'static-header-test'
+
+- name: 'Keycloak'
+  subdomain: 'accounts'
+  description: 'Get logged to all services with a signle account'
+
+# - name: 'MVP'
+#   subdomain: 'mvp'
+
+- name: 'Nextcloud'
+  subdomain:  'cloud'
+  description: 'Share files and co-edit them online'
+
+- name: 'OpenProject'
+  subdomain: 'openproject'
+  description: "Manage your projects and keep track of your team's workflow"
+
+# - name: 'RocketChat'
+#   subdomain: 'rocketchat'
+
+- name: 'rps_admin_interface'
+  subdomain: 'admin'
+
+# - name: 'rps_navigator'
+
+# - name: 'rps_people'
+#   subdomain:  'people'
+
+- name: 'rps_groups_interface'
+  subdomain: 'groups'
+  path: 'realms/rps'
+
+- name: 'Traefik'
+  subdomain: 'traefik'
+  # path: 'dashboard/#'
+  description: 'Keep track on the health of each service and their network configurations'
+
+- name: 'Wiki Bookstack'
+  subdomain: 'wiki'
+  description: 'Create your own wiki-like knowledge base'
+
+# - name: 'Wiki.js'
+#   subdomain: 'wiki-js'
+#   description: 'Create your own wiki-like knowledge base'
+
+# - name: 'Wordpress (Draft)'
+#   subdomain: 'www-draft'
+
+# - name: 'Wordpress (Live)'
+#   subdomain: 'www'
