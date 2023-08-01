@@ -1,5 +1,13 @@
 ---
 # --------------------------------------------------- #
+# Keycloak Theme
+- import_role: 
+    name: keycloak_theme
+  tags:
+    - keycloak_theme
+    - keycloak-theme
+  when: rps_with_keycloak_theme
+
 # Chat
 - import_role: 
     name: matrix
