@@ -49,3 +49,11 @@
     - rps_navigator
     - navigator
   when: rps_with_rps_navigator
+
+# Header
+- import_role:
+    name: rps_header
+  tags:
+    - rps_header
+    - header
+  when: rps_with_header

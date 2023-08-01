@@ -7,11 +7,11 @@
     - "{{remote_path}}/synapse"
     - "{{remote_path}}/element"
 
-- name: copy all static files
-  synchronize:
-    recursive: true
-    src: "./" # relative to ./files on local role path
-    dest: "{{remote_path}}" # relative to ~/ on remote
+# - name: copy all static files
+#   synchronize:
+#     recursive: true
+#     src: "./" # relative to ./files on local role path
+#     dest: "{{remote_path}}" # relative to ~/ on remote
 
 - name: copy some templated .j2 files
   template:
@@ -19,6 +19,7 @@
     dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
   with_items:
     - "element/config.json.j2"
+    - "element/index.html.j2"
     - "nginx/nginx.conf.j2"
     - "synapse/env.j2"
     - "synapse/homeserver.yaml.j2"

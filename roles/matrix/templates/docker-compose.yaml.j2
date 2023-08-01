@@ -64,7 +64,8 @@ services:
       options:
         max-size: 5m
     volumes:
-      - ./element/config.json:/app/config.json 
+      - ./element/config.json:/app/config.json
+      - ./element/index.html:/app/index.html
     networks:
       - matrixchat
       - proxy
