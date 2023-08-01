@@ -30,7 +30,7 @@ traefik_dynamic_config:
         service: "synapse"
 
       element:
-        rule: "Host(`element.{{matrix_service_name}}`)"
+        rule: "Host(`{{matrix_element_web_service_name}}`)"
         entrypoints: websecure
         middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
         tls:

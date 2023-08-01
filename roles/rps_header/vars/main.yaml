@@ -5,7 +5,7 @@ rps_header_allowed_default_origins:
   - https://{{ rps_dns_suffix }}
   - https://{{ budibase_service_name | default('')}}
   - https://{{ keycloak_service_name }}
-  - https://element.{{ matrix_service_name }}
+  - https://{{ matrix_element_web_service_name }}
   - https://{{ rps_navigator_service_name }}
   - https://{{ oauth2_proxy_service_name }}
   - https://{{ rps_admin_interface_service_name | default('')}}
