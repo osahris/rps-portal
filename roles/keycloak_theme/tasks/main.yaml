@@ -23,6 +23,7 @@
     project_src: "{{ remote_path }}/themes/ansible-theme"
     state: present
     build: yes
+    profiles: build
     recreate: always
     remove_orphans: yes
     pull: yes
