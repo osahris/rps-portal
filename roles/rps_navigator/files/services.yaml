@@ -44,7 +44,7 @@ services:
 #   scope: 'general'
 #   subdomain: 'rocketchat'
 
-- name: 'rps_admin_interface'
+- name: 'Admin Interface'
   subdomain: 'admin'
   scope: 'admin'
 
@@ -55,9 +55,9 @@ services:
 #   scope: 'general'
 #   subdomain:  'people'
 
-- name: 'rps_groups_interface'
+- name: 'Groups Interface'
   subdomain: 'groups'
-  path: 'realms/rps'
+  # path: 'realms/rps'
   scope: 'admin'
 
 - name: 'Traefik'
