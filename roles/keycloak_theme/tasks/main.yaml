@@ -29,10 +29,16 @@
     pull: yes
 
 # move all theme files to theme directory
+- name: Delete content & directory
+  ansible.builtin.file:
+    state: absent
+    path: "{{ remote_path }}/themes/rps/"
+
 - name: create rps theme directory -- {{remote_path}}
   file:
     path: "{{ remote_path }}/themes/rps/"
     state: directory
+
 - name: move all files to rps theme directory
   shell: mv {{ remote_path }}/themes/ansible-theme/rps-keycloak-theme/* {{ remote_path }}/themes/rps/
   notify:

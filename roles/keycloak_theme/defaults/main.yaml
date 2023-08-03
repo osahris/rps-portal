@@ -1,5 +1,5 @@
 ---
-keycloak_theme: https://gitlab.com/idcohorts/rps/rps-default-keycloak-theme.git
+keycloak_theme: https://gitlab.com/idcohorts/rps/rps-keycloak-theme.git
 keycloak_theme_version: main
 
 keycloak_registration_form_rules: {}
