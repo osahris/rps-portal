@@ -1,0 +1,17 @@
+{#- Tulsky V.A. 2023 -#}
+                    <div class="column is-one-quarter">
+                        <a href="{{service.url}}">
+                            <img class="fit-picture"
+                                src="/static/icons/{{service.name}}_128x128.png"
+                                onerror="this.src='/static/icons/RPS_128x128.png';"
+                                alt="{{service.name}}">
+                        </a>
+                        <p class="subtitle">{{service.name}}</p>
+                        {{service.description|default('') -}}
+                        <br>
+                        {% if service.received_code in [200,302,307] -%}
+                            <button class="button is-success is-small">Deployed</button>
+                        {%- else -%}
+                            <button class="button is-warning is-small">Error {{service.received_code}}</button>
+                        {%- endif %}
+                    </div>

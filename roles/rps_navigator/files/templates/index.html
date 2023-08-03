@@ -1,32 +1,34 @@
+{#- Tulsky V.A. 2023 -#}
 {% extends 'base.html' %}
 {% block body %}
-    <section class="section">
-        <div class="container">
-            <h1 class="title">
-                Welcome to the RPS navigation page!
-            </h1>
-        </div>
-        <br>
-        <div class="columns is-multiline">
-            {% for service in services %}
-                <div class="column is-one-quarter">
-                    <a href="{{service.url}}">
-                        <img class="fit-picture"
-                            src="/static/icons/{{service.name}}_128x128.png"
-                            onerror="this.src='/static/icons/RPS_128x128.png';"
-                            alt="{{service.name}}">
-                    </a>
-                    <p class="subtitle">{{service.name}}</p>
-                    {{service.description|default('')}}
-                    <br>
-                    
-                    {%if service.received_code in [200,302,307] %}
-                        <button class="button is-success is-small">Deployed</button>
-                    {% else %}
-                        <button class="button is-warning is-small">Error {{service.received_code}}</button>
-                    {% endif %}
+            <section class="section">
+                <div class="container">
+                    <h1 class="title">
+                        Welcome to the RPS navigation page!
+                    </h1>
                 </div>
-            {% endfor %}
-        </div>
-    </section>
+                <br>
+                <div> 
+                    <p class="title">
+                        General services:
+                    </p>
+                </div>
+                <br>
+                <div class="columns is-multiline">
+                    {% for service in services if service.scope in ["general"] -%}
+                        {%+ include 'service_card.html' +%}
+                    {%- endfor %}
+                </div>
+                <div> 
+                    <p class="title">
+                        Admin services:
+                    </p>
+                </div>
+                <br>
+                <div class="columns is-multiline">
+                    {% for service in services if service.scope in ["admin"] -%}
+                        {%+ include 'service_card.html' +%}
+                    {%- endfor %}
+                </div>
+            </section>
 {% endblock %}
