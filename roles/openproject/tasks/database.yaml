@@ -4,7 +4,7 @@
   assert:
     that:
       - openproject_db_host == "localhost"
-    fail_msg: "'openproject_db_host' must be set to localhost, external database isntallation not supported yet"
+    fail_msg: "'openproject_db_host' must be set to localhost, external database installation is not supported yet"
 
 # - name: debian packages required for database management
 #   apt:

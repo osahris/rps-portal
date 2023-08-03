@@ -34,7 +34,7 @@ rps_header_top_navbar_links:
   - title: Wiki
     link: https://{{ wiki_bookstack_service_name }}
     icon: wiki
-  - title: Git
+  - title: Code
     link: https://{{ gitea_service_name }}
     icon: code
   - title: Support

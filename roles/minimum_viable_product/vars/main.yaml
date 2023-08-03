@@ -13,8 +13,7 @@ traefik_dynamic_config:
       mvp: # <-- Change this to your service name
         rule: "Host(`{{service_domain_name}}`)"
         entrypoints: websecure
-        middlewares: 
-        - header-redirect
+        middlewares: "{{'header-redirect' if (mvp_with_header_integration) else ''}}"
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "mvp" # <-- Change this to your service name

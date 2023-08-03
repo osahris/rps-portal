@@ -4,7 +4,7 @@ discourse_api_key: {{ discourse_sync_api_key }}
 
 project_id: {{rps_admin_interface_keycloak_realm}}
 project_name: rps-admin-interface
-rps_header_url: {{rps_header_js_url}}
+rps_header_url: "{{rps_header_js_url | default('')}}"
 
 keycloak_url: "https://{{keycloak_service_name}}"
 keycloak_realm: "{{rps_admin_interface_keycloak_realm}}"

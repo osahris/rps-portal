@@ -4,6 +4,13 @@
 from flask import Flask, render_template, request, redirect
 import requests
 import os
+import yaml
+
+# Read YAML file
+def read_yaml_file(filename):
+    with open(filename, 'r') as file:
+        data = yaml.safe_load(file) # returns a dictionary
+    return data
 
 app = Flask(__name__)
 
@@ -12,43 +19,29 @@ def home():
     title = "RPS Services Navigator"
     domain = os.environ.get("HOST_DOMAIN")
     # upperdomain = '.'.join(domain.split('.')[1:])
-    services = [{'name': 'Budibase',                'subdomain': 'base'},
-                {'name': 'Gitea',                   'subdomain': 'code'},
-                {'name': 'Header',                  'subdomain': 'header'},
-                {'name': 'Header (static)',         'subdomain': 'static-header-test'},
-                {'name': 'Keycloak',                'subdomain': 'accounts'},
-                {'name': 'MatrixChat',              'subdomain': 'element.chat'},
-                {'name': 'MVP',                     'subdomain': 'mvp'},
-                {'name': 'Nextcloud',               'subdomain': 'cloud'},
-                {'name': 'OpenProject',             'subdomain': 'openproject'},
-                {'name': 'RocketChat',              'subdomain': 'rocketchat'},
-                {'name': 'rps_admin_interface',     'subdomain': 'admin'},
-                # {'name': 'rps_navigator',           'subdomain': 'navigator'}, 
-                {'name': 'rps_people',              'subdomain': 'people'},
-                {'name': 'rps_groups_interface',    'subdomain': 'groups',       'path': 'realms/rps'},
-                {'name': 'Traefik',                 'subdomain': 'traefik'},
-                {'name': 'Wiki Bookstack',          'subdomain': 'wiki'},
-                {'name': 'Wiki.js',                 'subdomain': 'wiki-js'},
-                {'name': 'Wordpress (Draft)',       'subdomain': 'www-draft'},
-                {'name': 'Wordpress (Live)',        'subdomain': 'www'},
-                ]
-    for service in services:
+
+    script_dir = os.path.dirname(__file__) # Get the absolute path to the current script
+    services_data = read_yaml_file(os.path.join(script_dir, "services.yaml"))
+    services = []
+    for service in services_data.get('services'):
         url_protocol = 'https'
         url =  url_protocol + "://"
         if 'subdomain' in service:
-            url += service['subdomain'] + '.'
+            url += service.get('subdomain') + '.'
         url += domain 
         if 'path' in service:
-            url += '/' + service['path']
+            url += '/' + service.get('path')
         try:
             status_code = requests.head(url,timeout=1).status_code
         except:
             status_code = '404'
         service['received_code'] = status_code
-    return  render_template('index.html', 
-                            title = title,
-                            domain = domain,
-                            services = services)
+        service['url'] = url
+        services.append(service)
+    return render_template('index.html', 
+                        title = title,
+                        domain = domain,
+                        services = services)
 
 @app.errorhandler(404)
 def page_not_found(e):

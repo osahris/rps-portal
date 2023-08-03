@@ -1,0 +1,43 @@
+version: "3"
+
+networks:
+  # openproject: # Uncomment if a network out of scope of Traefik needed
+  proxy:
+    external:
+      name: proxy
+
+volumes:
+  openproject_assets:
+  openproject_db_data:
+
+services:
+
+  # openproject_db:
+  #   image: docker.io/postgres:14-alpine
+  #   restart: unless-stopped
+  #   logging:
+  #     options:
+  #       max-size: 5m
+  #   # env_file: synapse/env
+  #   volumes:
+  #     - openproject_db_data:/var/lib/postgresql/data
+  #   networks:
+  #     - openproject
+
+  openproject:
+    image: openproject/community:12
+    # entrypoint: sh -c "python3 start.py generate -m synapse.app.homeserver --config-path=/data/homeserver.yaml && python3 start.py"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    env_file: env
+    volumes:
+      - openproject_assets:/var/openproject/assets:rw
+      - openproject_db_data:/var/openproject/pgdata:rw
+      # - ./synapse/homeserver.yaml:/data/homeserver.yaml:ro
+    networks:
+      # - openproject
+      - proxy
+    # depends_on:
+    #   - openproject_db
