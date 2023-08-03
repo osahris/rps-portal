@@ -1,0 +1,32 @@
+{{ ansible_managed | comment }}
+SLEEP_MINUTES=1
+
+DEBUG="false"
+
+HOST=0.0.0.0
+PORT=5000
+SECRET_KEY={{ rps_admin_interface_secret_key }}
+
+USER_FIRST_NAME_LABEL={{ rps_admin_interface_user_first_name_label }}
+USER_LAST_NAME_LABEL={{ rps_admin_interface_user_last_name_label }}
+USER_USERNAME_LABEL={{ rps_admin_interface_user_username_label }}
+USER_EMAIL_LABEL={{ rps_admin_interface_user_email_label }}
+USER_IMPORT_ROLES_LABEL={{ rps_admin_interface_user_import_roles_label }}
+USER_IMPORT_GROUPS_LABEL={{ rps_admin_interface_user_import_groups_label }}
+
+KEYCLOAK_URL=https://{{keycloak_service_name}}
+KEYCLOAK_REALM={{rps_admin_interface_keycloak_realm}}
+KEYCLOAK_SECRET={{rps_admin_interface_keycloak_client_secret}}
+KEYCLOAK_CLIENT_ID={{ rps_admin_interface_keycloak_client_id }}
+KEYCLOAK_REQUIRED_ACTIONS={{ rps_admin_interface_keycloak_required_actions | join(',') }}
+
+PROJECT_ID= {{rps_admin_interface_keycloak_realm | default('{{keycloak_realm}}')}}
+PROJECT_NAME= rps-admin-interface
+
+NEXTCLOUD_ADMIN_PASS: {{nextcloud_admin_app_password}}
+NEXTCLOUD_ADMIN_USER: {{nextcloud_admin_user}}
+NEXTCLOUD_SERVER_NAME: {{nextcloud_service_name}}
+NEXTCLOUD_URL: "http://nextcloud"
+
+SYNC_IGNORE_GROUPS: ['admin']
+SYNC_IGNORE_USERS: ['admin']

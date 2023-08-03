@@ -123,12 +123,15 @@
 ########################################################################
 ### Section: configure sync service
 - import_tasks: admin_app_password.yaml
+  tags: debug-here
   when: nextcloud_with_keycloak_sync
 
-- name: copy config.yaml
+
+- name: copy env file
   template:
-    src: "config.yaml.j2"
-    dest: "{{remote_path}}/config.yaml"
+    src: "nextcloud-sync-env.j2"
+    dest: "{{remote_path}}/nextcloud-sync-env"
+  tags: debug-here
 
 - name: copy docker-compose.override.yml
   template:
@@ -141,6 +144,7 @@
     project_src: "{{remote_path}}/"
     pull: true
     remove_orphans: true
+    recreate: always
     services:
       - nextcloud_sync
 
