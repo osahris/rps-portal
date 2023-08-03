@@ -1,0 +1,121 @@
+---
+# --------------------------------------------------- #
+# Keycloak Theme
+- import_role: 
+    name: keycloak_theme
+  tags:
+    - keycloak_theme
+    - keycloak-theme
+  when: rps_with_keycloak_theme
+
+# Chat
+- import_role: 
+    name: matrix
+  tags:
+    - matrix
+    - chat
+  when: rps_with_matrix
+
+# Wiki Bookstack
+- import_role:
+    name: wiki_bookstack
+  tags:
+    - wiki_bookstack
+    - wiki-bookstack
+    - wiki
+    - bookstack
+  when: rps_with_wiki_bookstack
+
+# Nextcloud
+- import_role:
+    name: nextcloud
+  tags:
+    - nextcloud
+    - cloud
+  when: rps_with_nextcloud
+
+# Collabora
+- import_role: 
+    name: collabora
+  tags: collabora
+  when: rps_with_collabora
+
+# Gitea
+- import_role: 
+    name: forgejo
+  tags: 
+    - forgejo
+    - gitea
+    - code
+  when: rps_with_gitea
+
+# Navigator
+- import_role:
+    name: rps_navigator
+  tags:
+    - rps_navigator
+    - navigator
+  when: rps_with_navigator
+
+# Discourse
+- import_role:
+    name: discourse
+  tags:
+    - discourse
+    - forum
+  when: rps_with_discourse
+
+# Oauth2 proxy
+- import_role:  
+    name: oauth2_proxy
+  tags:
+    - oauth2_proxy
+    - oauth2-proxy
+    - oauth2
+  when: rps_with_oauth2_proxy
+
+# Header
+- import_role:
+    name: rps_header
+  tags:
+    - rps_header
+    - header
+  when: rps_with_header
+
+# Keycloak groups
+- import_role:  
+    name: keycloak_groups
+  tags:
+    - keycloak_groups
+    - keycloak-groups
+  when: rps_with_keycloak_groups
+
+  # Admin Interface
+- import_role:  
+    name: rps_admin_interface
+  tags:
+    - rps_admin_interface
+    - rps-admin-interface
+    - admin_interface
+    - admin-interface
+  when: rps_with_admin_interface
+
+  # Groups Interface
+- import_role:  
+    name: rps_groups_interface
+  tags:
+    - rps_groups_interface
+    - rps-groups-interface
+    - groups_interface
+    - groups-interface
+  when: rps_with_groups_interface
+
+  # Cohort Explorer
+- import_role:  
+    name: rps_cohort_explorer
+  tags:
+    - rps_cohort_explorer
+    - rps-cohort-explorer
+    - cohort_explorer
+    - cohort-explorer
+  when: rps_with_cohort_explorer

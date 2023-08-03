@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block body %}
+    Links to the services from the RPS:
+    <br>
+    {% for service in services %}
+        <a href="https://{{service.subdomain}}.{{domain}}/{{service.path|default()}}">
+        {%if service.received_code in [200,302,307] %}
+            <button class="green_button">{{service.name}} </button></a>
+        {% else %}
+            <button class="red_button">{{service.name}} </button></a>Error {{service.received_code}}
+        {% endif %}
+        <br>
+    {% endfor %}
+{% endblock %}

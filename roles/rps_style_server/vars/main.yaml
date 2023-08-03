@@ -1,0 +1,24 @@
+---
+remote_path: "/srv/{{rps_style_service_name}}"
+
+traefik_certresolver: "letsencrypt"
+app_port: "80"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      style:
+        rule: "Host(`{{rps_style_service_name}}`)"
+        entrypoints: websecure
+        middlewares: 
+        - header-redirect
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: "style"
+
+    services:
+      style:
+        loadBalancer:
+          servers:
+            - url: "http://{{rps_style_service_name|replace('.','')}}_style_1:{{app_port}}" # "http://container_name:container_port"

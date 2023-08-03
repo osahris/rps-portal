@@ -1,0 +1,40 @@
+---
+- name: keycloak client
+  local_action: keycloak_client
+  become: false
+  args:
+    auth_client_id: "{{ gitea_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ gitea_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ gitea_keycloak_client_auth_realm }}"
+    auth_username: "{{ gitea_keycloak_client_auth_username }}"
+    auth_password: "{{ gitea_keycloak_client_auth_password }}"
+    client_id: "{{ gitea_keycloak_client_id }}"
+    realm: "{{ gitea_keycloak_client_realm }}"
+    redirect_uris: "{{ gitea_keycloak_client_redirect_uris }}"
+    client_authenticator_type: client-secret
+    secret: "{{ gitea_keycloak_client_secret }}"
+    state: present
+    validate_certs: "{{ gitea_keycloak_client_validate_certs | default(true) }}"
+    # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
+    standard_flow_enabled: true
+    implicit_flow_enabled: false
+    direct_access_grants_enabled: false
+    protocol_mappers:
+      - name:	audience
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience:	"{{ gitea_keycloak_client_id }}"
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+      # - name: groups
+      #   consentRequired: false
+      #   protocol: openid-connect
+      #   protocolMapper: oidc-group-membership-mapper
+      #   config:
+      #     access.token.claim: 'false'
+      #     claim.name: groups
+      #     full.path: 'true'
+      #     id.token.claim: 'true'
+      #     userinfo.token.claim: 'true'

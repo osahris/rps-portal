@@ -13,8 +13,6 @@ services:
     env_file: env
     networks:
       - service
-    volumes:
-      - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
 {% if rps_admin_interface_with_watchtower %}
     labels:
       - "com.centurylinklabs.watchtower.enable=true"  

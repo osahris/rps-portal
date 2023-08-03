@@ -1,0 +1,51 @@
+---
+
+# --------------------------------------------------- #
+# Chat
+- import_role: 
+    name: matrix
+  tags:
+    - matrix
+    - chat
+  when: rps_with_matrix
+
+# Wiki Bookstack
+- import_role:
+    name: wiki_bookstack
+  tags:
+    - wiki_bookstack
+    - wiki-bookstack
+    - wiki
+    - bookstack
+  when: rps_with_wiki_bookstack
+
+# Nextcloud
+- import_role:
+    name: nextcloud
+  tags:
+    - nextcloud
+    - cloud
+  when: rps_with_nextcloud
+
+# Collabora
+- import_role: 
+    name: collabora
+  tags: collabora
+  when: rps_with_collabora
+
+# Gitea
+- import_role: 
+    name: forgejo
+  tags: 
+    - forgejo
+    - gitea
+    - code
+  when: rps_with_gitea
+
+# Navigator
+- import_role:
+    name: rps_navigator
+  tags:
+    - rps_navigator
+    - navigator
+  when: rps_with_navigator

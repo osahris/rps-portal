@@ -10,4 +10,4 @@
     env:
       WATCHTOWER_LABEL_ENABLE: "true"
       WATCHTOWER_POLL_INTERVAL: "{{ watchtower_poll_interval | string }}"
-    state: "{{ watchtower_enabled | ternary('started', 'absent') }}"
+    state: "{{ rps_with_watchtower | ternary('started', 'absent') }}"

@@ -1,0 +1,19 @@
+---
+- name: copy some templated .j2 files
+  template:
+    src: "cron.d/{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/cron.d/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "crontabs/www-data.j2"
+
+- name: "install and start Cron inside Nextcloud container"
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: root
+    command: /bin/bash -c "{{ item }}"
+  with_items:
+      - "apt-get update"
+      - "apt-get install cron nano -y"
+      - "touch {{cron_log_file}}"
+      - "chown www-data:www-data {{cron_log_file}}"
+      - "crontab -u www-data /var/spool/cron/crontabs/www-data"

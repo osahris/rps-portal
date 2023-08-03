@@ -12,21 +12,6 @@ volumes:
   nextcloud-data:
 
 services:
-  nextcloud_sync:
-    image: {{ nextcloud_sync_container_image }}:{{ nextcloud_sync_container_version }}
-    restart: unless-stopped
-    networks:
-      - nextcloud-internal
-      - proxy
-    profiles:
-      - full
-      - only-rps-sync
-    volumes:
-      - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
-    entrypoint: ''
-    environment:
-      - SLEEP_MINUTES=1
-    command: /opt/rps-admin-tools/command_loop.sh -c /opt/rps-admin-tools/config.yaml sync nextcloud --verbose
 
   nextcloud:
     image: nextcloud:{{ nextcloud_version }}
@@ -50,6 +35,9 @@ services:
       - nextcloud-data:/srv/nextcloud/data
       - ./skel:/srv/nextcloud/skel:ro
       - ./themes:/srv/nextcloud/themes:ro
+{% if nextcloud_with_cron %}
+      - ./cron.d:/var/spool/cron:rw
+{% endif %}  
 {% if nextcloud_with_header_injection %}
       - {{remote_path}}/rps-nextcloud-header-injection/patches/:/srv/header-patches/:ro
 {% endif %}

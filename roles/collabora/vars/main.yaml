@@ -18,4 +18,4 @@ traefik_dynamic_config:
       collabora:
         loadBalancer:
           servers:
-            - url: "http://{{collabora_service_name|replace('.', '')}}_app_1:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{collabora_service_name|replace('.', '')}}_collabora_1:{{app_port}}" # "http://container_name:container_port"

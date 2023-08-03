@@ -22,16 +22,12 @@ services:
       - ./tmp:/opt/keycloak/tmp
       - ./import:/opt/keycloak/data/import:ro
       - ./export:/opt/keycloak/data/export
-    # healthcheck:
-    #   test:
-    #     [
-    #       "CMD-SHELL",
-    #       "curl --fail http://127.0.0.1:8080/health/live || exit 1",
-    #     ]
-    #   interval: 5s
-    #   timeout: 10s
-    #   retries: 3
-    #   start_period: 1m
+    healthcheck:
+      test: set -e && exec 3<>/dev/tcp/localhost/5009 && echo -e GET /health/ready HTTP/1.0 >&3 && echo >&3 && timeout --preserve-status 1 cat <&3 | grep -m 1 status | grep -m 1 UP
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 1m
     networks:
       - proxy
       - keycloak-internal

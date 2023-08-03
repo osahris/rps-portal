@@ -16,7 +16,6 @@
   with_items:
     - "env.j2"
     - "docker-compose.yml.j2"
-    - "config.yaml.j2"
 
 - name: template oauth2-proxy env file
   template:

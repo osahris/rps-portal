@@ -11,11 +11,6 @@
     src: "env.j2"
     dest: "{{remote_path}}/env"
 
-- name: copy config.yaml
-  template:
-    src: "config.yaml.j2"
-    dest: "{{remote_path}}/config.yaml"
-
 - name: copy docker-compose.yaml
   template:
     src: "docker-compose.yaml.j2"
@@ -88,10 +83,6 @@
       There might be something wrong with the docker-compose stack deployment. Please check the logs.
 
 ########################################################################
-### Section: create admin app password
-- import_tasks: admin_app_password.yaml
-
-########################################################################
 ### Section: additional tuning of the webserver runtime environment
 
 - name: Update htaccess
@@ -129,3 +120,30 @@
   vars:
     nextcloud_install_apps: "{{nextcloud_apps}}"
 
+########################################################################
+### Section: configure sync service
+- import_tasks: admin_app_password.yaml
+  tags: debug-here
+
+- name: copy config.yaml
+  template:
+    src: "config.yaml.j2"
+    dest: "{{remote_path}}/config.yaml"
+  tags: debug-here
+
+- name: copy docker-compose.override.yml
+  template:
+    src: "docker-compose.override.yaml.j2"
+    dest: "{{remote_path}}/docker-compose.override.yaml"
+
+- name: deploy nextcloud_sync docker-compose
+  docker_compose:
+    profiles: "{{ nextcloud_docker_compose_profile }}"
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+    services:
+      - nextcloud_sync
+
+- import_tasks: cron.yaml
+  when: nextcloud_with_cron

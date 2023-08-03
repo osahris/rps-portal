@@ -1,0 +1,24 @@
+---
+remote_path: "/srv/{{rps_navigator_service_name}}"
+app_port: "80"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      rps_navigator:
+        rule: "Host(`{{rps_navigator_service_name}}`)"
+        entrypoints: websecure
+        middlewares:
+        - header-redirect
+        tls:
+          certresolver: letsencrypt
+          domains:
+            - main: "{{rps_navigator_service_name}}"
+        service: rps_navigator
+
+    services:
+      rps_navigator:
+        loadBalancer:
+          servers:
+            - url: "http://{{rps_navigator_service_name|replace('.', '')}}_navigator_1:{{app_port}}" # "http://container_name:container_port"

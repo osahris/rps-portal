@@ -1,0 +1,45 @@
+---
+
+- name: Create app directory for service
+  file: path={{remote_path}} state=directory
+
+- name: Copy docker-compose.yaml file
+  copy:
+    src: docker-compose.yaml
+    dest: "{{remote_path}}/docker-compose.yaml"
+
+- name: Copy some templated .j2 files
+  template:
+    src: "{{item}}" # relative to ./templates on local role path
+    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
+  with_items:
+    - "db.env.j2"
+    - "gitea.env.j2"
+    - "docker-compose.override.yaml.j2"
+    - "oauth2-proxy.env.j2"
+    - "oauth2-proxy-redis.env.j2"
+
+- name: Create Traefik config directory
+  file:
+    path: "{{remote_path}}/traefik"
+    state: directory
+
+- name: Template Traefik dynamic config
+  template:
+    src: traefik.yaml.j2
+    dest: "{{remote_path}}/traefik/gitea.yaml"
+
+- import_tasks: custom.yaml
+
+- name: Deploy docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}"
+    build: true
+    pull: true
+    remove_orphans: true
+  register: gitea_docker_compose_task
+
+- name: Wait for gitea http port to be open
+  wait_for:
+    port: "{{ gitea_http_port }}"
+    host: "{{ gitea_docker_compose_task.services.gitea[gitea_service_name|replace('.', '')+'_gitea_1'].networks[gitea_service_name|replace('.', '')+'_service'].IPAddress }}"

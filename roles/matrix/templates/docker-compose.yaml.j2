@@ -1,0 +1,72 @@
+version: "3"
+
+networks:
+  matrixchat: # Uncomment if a network out of scope of Traefik needed
+  proxy:
+    external:
+      name: proxy
+
+volumes:
+  nginx_conf:
+  synapse_data:
+  synapse_db_data:
+
+services:
+
+  nginx:
+    image: "nginx:latest"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    volumes:
+      - nginx_conf:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    networks:
+      - proxy
+
+  synapse_db:
+    image: docker.io/postgres:14-alpine
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    env_file: synapse/env
+    volumes:
+      - synapse_db_data:/var/lib/postgresql/data
+    networks:
+      - matrixchat
+
+  synapse:
+    image: matrixdotorg/synapse:latest
+    entrypoint: sh -c "python3 start.py generate -m synapse.app.homeserver --config-path=/data/homeserver.yaml && python3 start.py"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    environment:
+      - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+      - SYNAPSE_SERVER_NAME={{matrix_service_name}}
+      - SYNAPSE_REPORT_STATS=no
+    volumes:
+      - synapse_data:/data/:rw
+      - ./synapse/homeserver.yaml:/data/homeserver.yaml:ro
+    networks:
+      - matrixchat
+      - proxy
+    depends_on:
+      - synapse_db
+
+  element:
+    image: vectorim/element-web:latest
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    volumes:
+      - ./element/config.json:/app/config.json 
+    networks:
+      - matrixchat
+      - proxy
+    depends_on:
+      - synapse

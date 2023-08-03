@@ -1,8 +1,5 @@
 ---
 
-- import_role:
-    name: docker
-
 - name: clone cohort_explorer repo
   git:
     repo: "{{ rps_cohort_explorer_repo }}"
@@ -21,7 +18,7 @@
     force_tag: true
     force_source: true
 
-- name: cohort_explorer container
+- name: start cohort_explorer container
   community.general.docker_container:
     name: cohort_explorer
     image: cohort_explorer:dev

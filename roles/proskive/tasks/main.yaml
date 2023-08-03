@@ -25,9 +25,6 @@
     path: "{{proskive_directory}}"
     state: directory
 
-- import_role:
-    name: docker
-
 - name: clone proskive
   git:
     repo: "{{proskive_release_git_repo}}"
