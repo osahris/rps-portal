@@ -8,51 +8,39 @@
   git:
     repo: "{{ keycloak_theme }}"
     dest: "{{ remote_path }}/themes/ansible-theme"
-    version: master
+    version: "{{ keycloak_theme_version }}"
     force: true
   register: theme
   when: keycloak_theme is defined
 
-#TODO: add theme to Account page
-- name: keycloak auto account theme directory -- {{remote_path}}
+- name: create config.yaml
+  template:
+    src: config.yaml.j2
+    dest: "{{ remote_path }}/themes/ansible-theme/rps-jinja-template/config.yaml"
+
+- name: run docker-compose
+  docker_compose:
+    project_src: "{{ remote_path }}/themes/ansible-theme"
+    state: present
+    build: yes
+    profiles: build
+    recreate: always
+    remove_orphans: yes
+    pull: yes
+
+# move all theme files to theme directory
+- name: Delete content & directory
+  ansible.builtin.file:
+    state: absent
+    path: "{{ remote_path }}/themes/rps/"
+
+- name: create rps theme directory -- {{remote_path}}
   file:
-    path: "{{ remote_path }}/themes/rps/account"
+    path: "{{ remote_path }}/themes/rps/"
     state: directory
-- name: keycloak auto theme account properties
-  template:
-    src: theme.properties.j2
-    dest: "{{ remote_path }}/themes/rps/account/theme.properties"
-- name: keycloak auto theme registration page
-  template:
-    src: account.ftl.j2
-    dest: "{{ remote_path }}/themes/rps/account/account.ftl"
 
-#TODO: add theme to email page
-# - name: keycloak auto email theme directory
-#   file:
-#     path: /var/lib/keycloak/themes/auto/email
-#     state: directory
-# - name: keycloak auto theme email properties
-#   template:
-#     src: theme.properties.j2
-#     dest: /var/lib/keycloak/themes/auto/email/theme.properties
-
-
-- name: keycloak auto login theme directory
-  file:
-    path: "{{ remote_path }}/themes/rps/login"
-    state: directory
-    recurse: yes
-
-- name: keycloak auto theme login properties
-  template:
-    src: theme.properties.j2
-    dest: "{{ remote_path }}/themes/rps/login/theme.properties"
-
-- name: keycloak auto theme registration page
-  template:
-    src: register.ftl.j2
-    dest: "{{ remote_path }}/themes/rps/login/register.ftl"
+- name: move all files to rps theme directory
+  shell: mv {{ remote_path }}/themes/ansible-theme/rps-keycloak-theme/* {{ remote_path }}/themes/rps/
   notify:
   - Restart Keycloak
 
