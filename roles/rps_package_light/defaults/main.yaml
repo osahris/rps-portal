@@ -16,9 +16,9 @@ rps_with_rps_navigator:  true
 rps_with_wiki_bookstack: true
 # -------------------------------------------------------- #
 # Functional services | Specific
-rps_with_admin_interface:  false
+rps_with_rps_admin_interface:  false
+rps_with_rps_groups_interface: false
 rps_with_cohort_explorer:  false
-rps_with_groups_interface: false
 rps_with_keycloak_theme:         false
 # -------------------------------------------------------- #
 # Header -- integrates a common header to all services where supported
