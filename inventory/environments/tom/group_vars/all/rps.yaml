@@ -3,3 +3,5 @@ rps_admin_email: tom-robin.raja@uk-koeln.de
 
 traefik_log_level: DEBUG
 dns_suffix: eliasham.iodatalabs.dev
+
+nextcloud_with_sync: true
