@@ -1,5 +1,13 @@
 ---
 # --------------------------------------------------- #
+# Navigator
+- import_role:
+    name: rps_navigator
+  tags:
+    - rps_navigator
+    - navigator
+  when: rps_with_rps_navigator
+
 # Chat
 - import_role: 
     name: matrix
@@ -18,6 +26,40 @@
     - bookstack
   when: rps_with_wiki_bookstack
 
+# Gitea
+- import_role: 
+    name: forgejo
+  tags: 
+    - forgejo
+    - gitea
+    - code
+  when: rps_with_gitea
+
+# Discourse
+- import_role:
+    name: discourse
+  tags:
+    - discourse
+    - forum
+  when: rps_with_discourse
+
+# Keycloak groups
+- import_role:  
+    name: keycloak_groups
+  tags:
+    - keycloak_groups
+    - keycloak-groups
+  when: rps_with_keycloak_groups
+
+# Oauth2 proxy
+- import_role:  
+    name: oauth2_proxy
+  tags:
+    - oauth2_proxy
+    - oauth2-proxy
+    - oauth2
+  when: rps_with_oauth2_proxy
+
 # Nextcloud
 - import_role:
     name: nextcloud
@@ -31,40 +73,6 @@
     name: collabora
   tags: collabora
   when: rps_with_collabora
-
-# Gitea
-- import_role: 
-    name: forgejo
-  tags: 
-    - forgejo
-    - gitea
-    - code
-  when: rps_with_gitea
-
-# Navigator
-- import_role:
-    name: rps_navigator
-  tags:
-    - rps_navigator
-    - navigator
-  when: rps_with_rps_navigator
-
-# Discourse
-- import_role:
-    name: discourse
-  tags:
-    - discourse
-    - forum
-  when: rps_with_discourse
-
-# Oauth2 proxy
-- import_role:  
-    name: oauth2_proxy
-  tags:
-    - oauth2_proxy
-    - oauth2-proxy
-    - oauth2
-  when: rps_with_oauth2_proxy
 
 # OpenProject
 - import_role: 
@@ -80,14 +88,6 @@
     - rps_header
     - header
   when: rps_with_header
-
-# Keycloak groups
-- import_role:  
-    name: keycloak_groups
-  tags:
-    - keycloak_groups
-    - keycloak-groups
-  when: rps_with_keycloak_groups
 
   # Admin Interface
 - import_role:  
