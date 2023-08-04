@@ -14,9 +14,6 @@ services:
       - proxy
     profiles:
       - sync
-    volumes:
-      - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
     entrypoint: ''
-    environment:
-      - SLEEP_MINUTES=1
-    command: /opt/rps-admin-tools/command_loop.sh -c /opt/rps-admin-tools/config.yaml sync discourse --verbose
+    env_file: env
+    command: /opt/rps-admin-tools/command_loop.sh sync discourse --verbose

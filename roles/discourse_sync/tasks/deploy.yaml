@@ -19,20 +19,12 @@
   ansible.builtin.set_fact: discourse_sync_api_key="{{result.stdout}}"
   when: discourse_sync_api_key == "not_set"
 
-- name: Copy discourse secrets facts
-  copy:
-    content: "{{ discourse_secrets | to_nice_json }}\n"
-    dest: /etc/ansible/facts.d/{{service_name}}.fact
-  register: discourse_secrets_facts_copy_task
-
-- name: Gather facts again after secrets generation
-  setup:
-  when: discourse_secrets_facts_copy_task.changed
+- import_tasks: secrets.yaml
 
 - name: discourse sync config file
   template:
-    src: "config.yaml.j2"
-    dest: "{{discourse_sync_target_directory}}/config.yaml"
+    src: "env.j2"
+    dest: "{{discourse_sync_target_directory}}/env"
 
 - name: docker-compose file
   template:
@@ -45,3 +37,4 @@
     project_src: "{{discourse_sync_target_directory}}"
     pull: true
     remove_orphans: true
+    recreate: always

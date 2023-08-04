@@ -5,7 +5,7 @@ nextcloud_upgrade: false
 nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 nextcloud_docker_compose_profile: full
 nextcloud_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
-nextcloud_sync_container_version: latest
+nextcloud_sync_container_version: dev
 
 nextcloud_version: "25.0"
 # when nextcloud_upgrade is true, nextcloud_version must be the same as nextcloud_current_version, TODO this is weird so we need to improve this 
@@ -87,3 +87,5 @@ nextcloud_theme_version: main
 
 # execute user-defined nextcloud-related screduled tasks with cron
 nextcloud_with_cron: true
+
+nextcloud_with_sync: false

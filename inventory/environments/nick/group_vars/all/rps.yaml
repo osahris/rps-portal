@@ -3,3 +3,11 @@ rps_admin_email: nick.schulze@uk-koeln.de
 
 traefik_log_level: DEBUG
 dns_suffix: nick.iodatalabs.dev
+
+rps_with_collabora: false
+rps_with_nextcloud: false
+rps_with_keycloak: true
+rps_with_wiki: false
+rps_with_gitea: false
+nextcloud_with_sync: true
+rps_with_rps_admin_interface: true
