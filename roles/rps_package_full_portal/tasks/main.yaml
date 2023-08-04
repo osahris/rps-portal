@@ -8,6 +8,14 @@
     - keycloak-theme
   when: rps_with_keycloak_theme
 
+
+- import_role: 
+    name: keycloak_permissions
+  tags:
+    - keycloak_permissions
+    - keycloak-permissions
+  when: rps_with_keycloak_permissions
+
 # Chat
 - import_role: 
     name: matrix

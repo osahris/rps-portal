@@ -20,6 +20,7 @@ rps_with_rps_admin_interface:  false
 rps_with_rps_groups_interface: false
 rps_with_cohort_explorer:  false
 rps_with_keycloak_theme:         false
+rps_with_keycloak_permissions:   false
 # -------------------------------------------------------- #
 # Header -- integrates a common header to all services where supported
 rps_with_header:                              false # <- requires roles: oauth2_proxy, rps_style
