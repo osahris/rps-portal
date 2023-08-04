@@ -10,3 +10,4 @@ rps_with_keycloak: true
 rps_with_wiki: false
 rps_with_gitea: false
 nextcloud_with_sync: true
+rps_with_rps_admin_interface: true
