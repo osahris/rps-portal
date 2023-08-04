@@ -1,6 +1,14 @@
 ---
 
 # --------------------------------------------------- #
+# Navigator
+- import_role:
+    name: rps_navigator
+  tags:
+    - rps_navigator
+    - navigator
+  when: rps_with_rps_navigator
+
 # Chat
 - import_role: 
     name: matrix
@@ -41,14 +49,6 @@
     - gitea
     - code
   when: rps_with_gitea
-
-# Navigator
-- import_role:
-    name: rps_navigator
-  tags:
-    - rps_navigator
-    - navigator
-  when: rps_with_rps_navigator
 
 # OpenProject
 - import_role: 
