@@ -1,0 +1,19 @@
+- name: copy env file
+  template:
+    src: "nextcloud-sync.env.j2"
+    dest: "{{remote_path}}/nextcloud-sync.env"
+
+- name: copy docker-compose.override.yaml
+  template:
+    src: "docker-compose.override.yaml.j2"
+    dest: "{{remote_path}}/docker-compose.override.yaml"
+
+- name: deploy nextcloud_sync docker-compose
+  docker_compose:
+    profiles: "{{ nextcloud_docker_compose_profile }}"
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+    recreate: always
+    services:
+      - nextcloud_sync

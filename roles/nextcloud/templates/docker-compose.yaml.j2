@@ -12,20 +12,6 @@ volumes:
   nextcloud-data:
 
 services:
-{% if nextcloud_with_keycloak_sync %}
-  nextcloud_sync:
-    image: {{ nextcloud_sync_container_image }}:{{ nextcloud_sync_container_version }}
-    restart: unless-stopped
-    networks:
-      - nextcloud-internal
-      - proxy
-    profiles:
-      - full
-      - only-rps-sync
-    entrypoint: ''
-    env_file: nextcloud-sync-env
-    command: /opt/rps-admin-tools/command_loop.sh sync nextcloud --verbose
-{% endif %}
 
   nextcloud:
     image: nextcloud:{{ nextcloud_version }}
