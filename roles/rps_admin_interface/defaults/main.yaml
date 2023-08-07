@@ -52,4 +52,4 @@ rps_admin_interface_user_import_roles_label: "Roles"
 rps_admin_interface_user_import_groups_label: "Groups"
 
 rps_admin_interface_role_attribute_mapping: {}
-rps_admin_interface_group_attribute_mapping: {}
+rps_admin_interface_attribute_mapping:      {}
