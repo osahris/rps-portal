@@ -10,8 +10,8 @@ volumes:
   postgres:
 
 services:  
-  keycloak_sync:
-    image: {{ keycloak_sync_container_image }}:{{ keycloak_sync_container_version }}
+  keycloak_permissions_sync:
+    image: {{ keycloak_permissions_sync_container_image }}:{{ keycloak_permissions_sync_container_version }}
     restart: unless-stopped
     networks:
       - keycloak-internal
