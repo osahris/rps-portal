@@ -34,14 +34,14 @@
     - bookstack
   when: rps_with_wiki_bookstack
 
-# Gitea
+# Forgejo
 - import_role: 
     name: forgejo
   tags: 
     - forgejo
     - gitea
     - code
-  when: rps_with_gitea
+  when: rps_with_forgejo
 
 # Nextcloud
 - import_role:
