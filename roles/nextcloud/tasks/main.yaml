@@ -123,15 +123,13 @@
 ########################################################################
 ### Section: configure sync service
 - import_tasks: admin_app_password.yaml
-  tags: debug-here
   when: nextcloud_with_keycloak_sync
-
 
 - name: copy env file
   template:
     src: "nextcloud-sync-env.j2"
     dest: "{{remote_path}}/nextcloud-sync-env"
-  tags: debug-here
+  when: nextcloud_with_keycloak_sync
 
 - name: deploy nextcloud_sync docker-compose
   docker_compose:
@@ -142,6 +140,9 @@
     recreate: always
     services:
       - nextcloud_sync
+  when: nextcloud_with_keycloak_sync
 
+########################################################################
+### Section: set scheduled Cron tasks for nextcloud
 - import_tasks: cron.yaml
   when: nextcloud_with_cron
