@@ -107,15 +107,6 @@
     - forum
   when: rps_with_discourse
 
-- import_role:
-    name: discourse_sync
-  tags:
-    - discourse-sync
-    - forum-sync
-    - discourse_sync
-    - forum_sync
-  when: rps_with_discourse_sync
-
 # Oauth2 proxy
 - import_role:  
     name: oauth2_proxy
