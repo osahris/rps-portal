@@ -1,9 +1,14 @@
 ---
 services:
 
-- name: 'Budibase'
-  subdomain: 'base'
+- name: 'Discourse'
+  subdomain: 'dialog'
   scope: 'general'
+  description: 'Communicate with your colleagues on a self-hosted forum'
+
+# - name: 'Budibase'
+#   subdomain: 'base'
+#   scope: 'general'
 
 - name: 'Element'
   subdomain: 'element.chat'
