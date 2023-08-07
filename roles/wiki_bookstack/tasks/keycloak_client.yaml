@@ -9,7 +9,7 @@
     auth_realm: "{{ wiki_bookstack_keycloak_client_auth_realm }}"
     auth_username: "{{ wiki_bookstack_keycloak_client_auth_username }}"
     auth_password: "{{ wiki_bookstack_keycloak_client_auth_password }}"
-    client_id: "{{ wiki_bookstack_keycloak_client_client_id }}"
+    client_id: "{{ wiki_bookstack_keycloak_client_id }}"
     realm: "{{ wiki_bookstack_keycloak_client_realm }}"
     redirect_uris: "{{ wiki_bookstack_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
