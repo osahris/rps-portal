@@ -2,4 +2,3 @@
 dependencies:
   - role: traefik
   - role: keycloak
-  - role: keycloak_realms
