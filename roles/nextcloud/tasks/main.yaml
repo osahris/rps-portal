@@ -123,7 +123,7 @@
 ########################################################################
 ### Section: configure sync service
 - import_tasks: admin_app_password.yaml
-  when: nextcloud_with_keycloak_sync
+  when: nextcloud_with_admin_app_password
 
 - name: copy env file
   template:
