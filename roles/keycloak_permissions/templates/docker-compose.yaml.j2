@@ -16,8 +16,6 @@ services:
     networks:
       - keycloak-internal
       - proxy
-    volumes:
-      - ./config.yaml:/opt/rps-admin-tools/config.yaml:ro
     entrypoint: ''
     env_file: env
     command: /opt/rps-admin-tools/command_loop.sh sync permissions
