@@ -1,0 +1,31 @@
+---
+# Keycloak Custom Realms
+- import_role:
+    name: keycloak_realms
+  tags:
+    - keycloak_realms
+    - keycloak-realms
+
+# Keycloak Groups
+- import_role:  
+    name: keycloak_groups
+  tags:
+    - keycloak_groups
+    - keycloak-groups
+  when: rps_with_keycloak_groups
+
+# Keycloak Permission Synchronization
+- import_role: 
+    name: keycloak_permissions_sync
+  tags:
+    - keycloak_permissions_sync
+    - keycloak-permissions-sync
+  when: rps_with_keycloak_permissions_sync
+
+# Keycloak Theme
+- import_role: 
+    name: keycloak_theme
+  tags:
+    - keycloak_theme
+    - keycloak-theme
+  when: rps_with_keycloak_theme
