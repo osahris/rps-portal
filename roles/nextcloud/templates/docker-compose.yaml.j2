@@ -12,7 +12,7 @@ volumes:
   nextcloud-data:
 
 services:
-{% if nextcloud_with_sync %}
+{% if nextcloud_with_keycloak_sync %}
   nextcloud_sync:
     image: {{ nextcloud_sync_container_image }}:{{ nextcloud_sync_container_version }}
     restart: unless-stopped

@@ -89,5 +89,3 @@ nextcloud_theme_version: main
 nextcloud_with_cron: true
 
 nextcloud_with_admin_app_password: false
-
-nextcloud_with_sync: false
