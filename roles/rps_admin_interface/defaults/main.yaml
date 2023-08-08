@@ -39,11 +39,6 @@ rps_admin_interface_keycloak_client_realm_url: "{{rps_admin_interface_keycloak_c
 rps_admin_interface_keycloak_client_realm: "{{ keycloak_realm }}"
 rps_admin_interface_keycloak_client_redirect_uris: "https://{{ rps_admin_interface_service_name }}/oauth2/callback"
 
-rps_admin_interface_keycloak_required_actions:
-  - VERIFY_EMAIL
-  - UPDATE_PASSWORD
-  - UPDATE_PROFILE
-
 rps_admin_interface_user_first_name_label: "First Name"
 rps_admin_interface_user_last_name_label: "Last Name"
 rps_admin_interface_user_username_label: "Username"
