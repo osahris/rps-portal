@@ -41,6 +41,12 @@
 - import_tasks: import.yaml
   when: nextcloud_import
 
+- name: copy env file
+  template:
+    src: "nextcloud-sync-env.j2"
+    dest: "{{remote_path}}/nextcloud-sync-env"
+  when: nextcloud_with_keycloak_sync
+
 - name: deploy docker-compose stack
   docker_compose:
     profiles: "{{ nextcloud_docker_compose_profile }}"
