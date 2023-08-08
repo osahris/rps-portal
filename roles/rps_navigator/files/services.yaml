@@ -1,9 +1,14 @@
 ---
 services:
 
-- name: 'Budibase'
-  subdomain: 'base'
+- name: 'Discourse'
+  subdomain: 'dialog'
   scope: 'general'
+  description: 'Communicate with your colleagues on a self-hosted forum'
+
+# - name: 'Budibase'
+#   subdomain: 'base'
+#   scope: 'general'
 
 - name: 'Element'
   subdomain: 'element.chat'
@@ -17,9 +22,6 @@ services:
 
 # - name: 'Header'      
 #   subdomain: 'header'
-
-# - name: 'Header (static)'
-#   subdomain: 'static-header-test'
 
 - name: 'Keycloak'
   subdomain: 'accounts'
@@ -66,7 +68,7 @@ services:
   scope: 'admin'
   description: 'Keep track on the health of each service and their network configurations'
 
-- name: 'Wiki Bookstack'
+- name: 'Bookstack'
   subdomain: 'wiki'
   scope: 'general'
   description: 'Create your own wiki-like knowledge base'

@@ -3,3 +3,7 @@
 - import_tasks: deploy.yaml
 - import_tasks: config.yaml
 # - import_tasks: keycloak_client.yaml
+
+- import_role: 
+    name: discourse_sync
+  when: discourse_with_keycloak_permissions_sync

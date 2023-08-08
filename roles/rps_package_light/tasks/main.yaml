@@ -1,6 +1,13 @@
 ---
-
 # --------------------------------------------------- #
+# Header
+- import_role:
+    name: rps_header
+  tags:
+    - rps_header
+    - header
+  when: rps_with_header
+
 # Navigator
 - import_role:
     name: rps_navigator
@@ -27,6 +34,15 @@
     - bookstack
   when: rps_with_wiki_bookstack
 
+# Forgejo
+- import_role: 
+    name: forgejo
+  tags: 
+    - forgejo
+    - gitea
+    - code
+  when: rps_with_forgejo
+
 # Nextcloud
 - import_role:
     name: nextcloud
@@ -41,15 +57,6 @@
   tags: collabora
   when: rps_with_collabora
 
-# Gitea
-- import_role: 
-    name: forgejo
-  tags: 
-    - forgejo
-    - gitea
-    - code
-  when: rps_with_gitea
-
 # OpenProject
 - import_role: 
     name: openproject
@@ -57,10 +64,10 @@
     - openproject
   when: rps_with_openproject
 
-# Header
+# Discourse
 - import_role:
-    name: rps_header
+    name: discourse
   tags:
-    - rps_header
-    - header
-  when: rps_with_header
+    - discourse
+    - forum
+  when: rps_with_discourse

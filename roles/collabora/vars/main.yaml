@@ -8,7 +8,7 @@ traefik_dynamic_config:
   http:
     routers:
       collabora:
-        rule: "Host(`collabora.{{ collabora_service_name }}`)"
+        rule: "Host(`{{ collabora_service_name }}`)"
         entrypoints: websecure
         tls:
           certresolver: letsencrypt
