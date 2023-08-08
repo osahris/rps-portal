@@ -6,7 +6,7 @@ networks:
     external: true
 
 services:  
-  keycloak-registration-email-sync:
+  keycloak-mail-sender:
     image: {{keycloak_mail_sender_container_image}}:{{keycloak_mail_sender_container_image_version}}
     restart: unless-stopped
     networks:
