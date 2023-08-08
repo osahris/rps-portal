@@ -29,3 +29,11 @@
     - keycloak_theme
     - keycloak-theme
   when: rps_with_keycloak_theme
+
+# Keycloak Mail Sender
+- import_role: 
+    name: keycloak_mail_sender
+  tags:
+    - keycloak_mail_sender
+    - keycloak-mail-sender
+  when: rps_with_keycloak_mail_sender

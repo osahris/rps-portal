@@ -1,26 +1,27 @@
 ---
+keycloak_mail_sender_service_name: "keycloak-mail-sender.{{keycloak_service_name}}"
 
-keycloak_approval_email_sender_keycloak_client_realm: "{{ keycloak_realm }}"
-keycloak_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
-keycloak_sync_container_version: dev
-keycloak_approval_email_sender_keycloak_client_client_id: "approval-email-sender-{{keycloak_service_name}}"
-keycloak_approval_email_sender_keycloak_client_secret: "{{ ansible_local[keycloak_approval_email_sender_keycloak_client_client_id].keycloak_approval_email_sender_keycloak_client_secret }}"
-keycloak_with_keycloak_approval_email_sender_keycloak_client: true
-keycloak_approval_email_sender_keycloak_client_auth_keycloak_url: "{{keycloak_service_name}}"
-keycloak_approval_email_sender_keycloak_client_auth_client_id: admin-cli
-keycloak_approval_email_sender_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
-keycloak_approval_email_sender_keycloak_client_auth_username: admin
-keycloak_approval_email_sender_keycloak_client_auth_password: "{{keycloak_admin_password}}"
-keycloak_approval_email_sender_keycloak_client_validate_certs: true
+keycloak_mail_sender_keycloak_client_realm: "{{ keycloak_realm }}"
+keycloak_mail_sender_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+keycloak_mail_sender_container_image_version: latest
+keycloak_mail_sender_keycloak_client_client_id: "{{keycloak_mail_sender_service_name}}"
+keycloak_mail_sender_keycloak_client_secret: "{{ ansible_local[keycloak_mail_sender_service_name].keycloak_mail_sender_keycloak_client_secret }}"
 
-keycloak_registration_project_id: rps
-keycloak_registration_mail_login_link: https://{{nextcloud_service_name}}.{{rps_dns_suffix}}
-keycloak_registration_mail_subject_prefix: RPS
-keycloak_registration_mail_server_config_from: noreply@idcohorts.net
-keycloak_registration_mail_server_config_host: mail.idcohorts.net
-keycloak_registration_mail_server_config_port: 465
-keycloak_registration_mail_server_config_ssl: true
-keycloak_registration_mail_server_config_starttls: false
-keycloak_registration_mail_server_config_auth: true
-keycloak_registration_mail_server_config_username: username
-keycloak_registration_mail_server_config_password: "{{ ansible_local[keycloak_approval_email_sender_keycloak_client_client_id].keycloak_registration_mail_server_config_password }}"
+keycloak_mail_sender_keycloak_client_auth_keycloak_url: "{{keycloak_service_name}}"
+keycloak_mail_sender_keycloak_client_auth_client_id: admin-cli
+keycloak_mail_sender_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+keycloak_mail_sender_keycloak_client_auth_username: admin
+keycloak_mail_sender_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+keycloak_mail_sender_keycloak_client_validate_certs: true
+
+keycloak_mail_sender_project_id: rps
+keycloak_mail_sender_login_link: https://{{rps_dns_suffix}}
+keycloak_mail_sender_subject_prefix: RPS
+keycloak_mail_sender_from: noreply@idcohorts.net
+keycloak_mail_sender_host: mail.idcohorts.net
+keycloak_mail_sender_port: 465
+keycloak_mail_sender_ssl: true
+keycloak_mail_sender_starttls: false
+keycloak_mail_sender_auth: true
+keycloak_mail_sender_username: username
+keycloak_mail_sender_password: "{{ ansible_local[keycloak_mail_sender_service_name].keycloak_mail_sender_password }}"
