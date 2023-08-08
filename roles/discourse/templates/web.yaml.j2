@@ -138,6 +138,7 @@ run:
   - exec: rails r "SiteSetting.notification_email='{{ discourse_mail_from }}'"
 {% endif %}
   - exec: rails r "SiteSetting.max_category_nesting = 3"
+  - exec: rails r "SiteSetting.max_username_length = 60"
 
   - exec: echo "End of custom commands"
   #- exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
