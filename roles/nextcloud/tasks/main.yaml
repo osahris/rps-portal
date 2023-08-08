@@ -11,6 +11,11 @@
     src: "env.j2"
     dest: "{{remote_path}}/env"
 
+- name: copy postgres env
+  template:
+    src: "postgres.env.j2"
+    dest: "{{remote_path}}/postgres.env"
+
 - name: copy docker-compose.yaml
   template:
     src: "docker-compose.yaml.j2"
