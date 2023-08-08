@@ -6,9 +6,6 @@ networks:
     external: true
   keycloak-internal:
 
-volumes:
-  postgres:
-
 services:  
   keycloak_permissions_sync:
     image: {{ keycloak_permissions_sync_container_image }}:{{ keycloak_permissions_sync_container_version }}
