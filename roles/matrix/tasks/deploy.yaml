@@ -7,11 +7,11 @@
     - "{{remote_path}}/synapse"
     - "{{remote_path}}/element"
 
-- name: copy all static files
-  synchronize:
-    recursive: true
-    src: "./" # relative to ./files on local role path
-    dest: "{{remote_path}}" # relative to ~/ on remote
+# - name: copy all static files
+#   synchronize:
+#     recursive: true
+#     src: "./" # relative to ./files on local role path
+#     dest: "{{remote_path}}" # relative to ~/ on remote
 
 - name: copy some templated .j2 files
   template:

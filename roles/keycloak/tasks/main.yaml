@@ -21,3 +21,5 @@
 # --- Existing data with same names will be deleted before import
 - import_tasks: import.yaml
   when: keycloak_import
+
+- import_tasks: customization.yaml

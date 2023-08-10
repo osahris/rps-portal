@@ -1,10 +1,10 @@
 ---
+- import_tasks: secrets.yaml
+- import_tasks: deploy.yaml
+- import_tasks: keycloak_client.yaml
 
-- import_tasks: database.yaml
-- import_tasks: certificate.yaml
+# - import_tasks: database.yaml
 
-- include_tasks: "setup_{{ansible_distribution}}.yaml"
+# - import_tasks: install.yaml
 
-- import_tasks: install.yaml
-
-- import_tasks: customize.yaml
+# - import_tasks: customize.yaml

@@ -3,8 +3,7 @@
 website_service_name: website.{{ rps_dns_suffix }}
 website_with_watchtower: false
 
-website_traefik_middlewares:
-  - header-redirect
+website_traefik_middlewares: "{{'header-redirect' if (website_with_header_integration) else ''}}"
 
 website_oci_image: nginx:1
 website_service_port: 80

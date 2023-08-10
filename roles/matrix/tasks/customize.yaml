@@ -1,0 +1,28 @@
+---
+
+# Preparing the custom /app/index.html
+
+- name: get the bundle id of the Element Web app
+  community.docker.docker_container_exec:
+    container: "{{matrix_service_name|replace('.','')}}_element_1"
+    command: ls /app/bundles/
+  register: matrix_element_bundle_id
+
+- set_fact: 
+    matrix_element_bundle_id={{ matrix_element_bundle_id.stdout }}
+    
+- name: print retrieved bundle id
+  debug:
+    msg: "{{matrix_element_bundle_id}}"
+
+
+# Templating the ready-to-use custom /app/index.html
+
+- name: copy some templated .j2 files
+  template:
+    src: "element/index.html.j2" # relative to ./templates on local role path
+    dest: "{{remote_path}}/element/index.html" # relative to ~/ on remote
+
+- name: copy a file into the container
+  ansible.builtin.shell: "docker cp {{remote_path}}/element/index.html {{matrix_service_name|replace('.','')}}_element_1:/app/index.html"
+

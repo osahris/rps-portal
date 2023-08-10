@@ -11,6 +11,11 @@
     src: "env.j2"
     dest: "{{remote_path}}/env"
 
+- name: copy postgres env
+  template:
+    src: "postgres.env.j2"
+    dest: "{{remote_path}}/postgres.env"
+
 - name: copy docker-compose.yaml
   template:
     src: "docker-compose.yaml.j2"
@@ -123,27 +128,12 @@
 ########################################################################
 ### Section: configure sync service
 - import_tasks: admin_app_password.yaml
-  tags: debug-here
+  when: nextcloud_with_admin_app_password
 
-- name: copy config.yaml
-  template:
-    src: "config.yaml.j2"
-    dest: "{{remote_path}}/config.yaml"
-  tags: debug-here
+- import_tasks: keycloak_sync.yaml
+  when: nextcloud_with_keycloak_permissions_sync
 
-- name: copy docker-compose.override.yml
-  template:
-    src: "docker-compose.override.yaml.j2"
-    dest: "{{remote_path}}/docker-compose.override.yaml"
-
-- name: deploy nextcloud_sync docker-compose
-  docker_compose:
-    profiles: "{{ nextcloud_docker_compose_profile }}"
-    project_src: "{{remote_path}}/"
-    pull: true
-    remove_orphans: true
-    services:
-      - nextcloud_sync
-
+########################################################################
+### Section: set scheduled Cron tasks for nextcloud
 - import_tasks: cron.yaml
   when: nextcloud_with_cron

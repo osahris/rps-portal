@@ -1,10 +1,9 @@
 ---
 remote_path: "/srv/{{wiki_bookstack_service_name}}"
 
-# # ------------------------------------------ #
-wiki_DB_DATABASE: "bookstackapp"
-wiki_DB_USER: "bookstack"
-wiki_DB_PASS: "{{wiki_bookstack_db_admin_password}}"
+wiki_bookstack_secrets:
+  wiki_bookstack_db_admin_password:           "{{ wiki_bookstack_db_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wiki_bookstack_keycloak_client_secret: "{{ wiki_bookstack_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 keycloak_host: "{{keycloak_service_name}}"
 
@@ -17,8 +16,7 @@ traefik_dynamic_config:
       wiki-bookstack:
         rule: "Host(`{{wiki_bookstack_service_name}}`)"
         entrypoints: websecure
-        middlewares:
-        - header-redirect
+        middlewares: "{{'header-redirect' if (wiki_bookstack_with_header_integration) else ''}}"
         tls:
           certresolver: letsencrypt
         service: wiki-bookstack

@@ -1,0 +1,8 @@
+---
+keycloak_mail_sender_secrets:
+  keycloak_mail_sender_keycloak_client_secret: "{{ keycloak_mail_sender_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  keycloak_mail_sender_password: "{{ keycloak_mail_sender_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+sync_path: "/srv/{{keycloak_mail_sender_keycloak_client_client_id}}"
+
+keycloak_mail_sender_docker_network: "{{ keycloak_service_name|replace('.', '') }}_keycloak-internal"

@@ -1,0 +1,85 @@
+---
+services:
+
+- name: 'Discourse'
+  subdomain: 'dialog'
+  scope: 'general'
+  description: 'Communicate with your colleagues on a self-hosted forum'
+
+# - name: 'Budibase'
+#   subdomain: 'base'
+#   scope: 'general'
+
+- name: 'Element'
+  subdomain: 'element.chat'
+  scope: 'general'
+  description: 'Chat with your colleagues and exchange files'
+
+- name: 'Forgejo'
+  subdomain: 'code'
+  scope: 'general'
+  description: 'Self-hosted version control repository to share codes and track changes'
+
+# - name: 'Header'      
+#   subdomain: 'header'
+
+- name: 'Keycloak'
+  subdomain: 'accounts'
+  scope: 'admin'
+  description: 'Get logged to all services with a signle account'
+
+# - name: 'MVP'
+#   subdomain: 'mvp'
+#  type: 'admin'
+
+- name: 'Nextcloud'
+  subdomain:  'cloud'
+  scope: 'general'
+  description: 'Share files and co-edit them online'
+
+- name: 'OpenProject'
+  subdomain: 'openproject'
+  scope: 'general'
+  description: "Manage your projects and keep track of your team's workflow"
+
+# - name: 'RocketChat'
+#   scope: 'general'
+#   subdomain: 'rocketchat'
+
+- name: 'Admin Interface'
+  subdomain: 'admin'
+  scope: 'admin'
+
+# - name: 'rps_navigator'
+#   scope: 'admin'
+
+# - name: 'rps_people'
+#   scope: 'general'
+#   subdomain:  'people'
+
+- name: 'Groups Interface'
+  subdomain: 'groups'
+  # path: 'realms/rps'
+  scope: 'admin'
+
+- name: 'Traefik'
+  subdomain: 'traefik'
+  # path: 'dashboard/#'
+  scope: 'admin'
+  description: 'Keep track on the health of each service and their network configurations'
+
+- name: 'Bookstack'
+  subdomain: 'wiki'
+  scope: 'general'
+  description: 'Create your own wiki-like knowledge base'
+
+# - name: 'Wiki.js'
+#   subdomain: 'wiki-js'
+#   scope: 'general'
+#   description: 'Create your own wiki-like knowledge base'
+
+# - name: 'Wordpress (Draft)'
+#   subdomain: 'www-draft'
+
+# - name: 'Wordpress (Live)'
+#   subdomain: 'www'

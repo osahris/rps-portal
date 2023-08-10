@@ -1,5 +1,6 @@
 ---
-matrix_service_name: "chat.{{inventory_hostname}}"
+matrix_service_name: "chat.{{rps_dns_suffix}}"
+matrix_element_web_service_name: "element.{{matrix_service_name}}"
 
 matrix_postgress_db: synapse
 matrix_postgress_user: synapse
@@ -10,7 +11,7 @@ matrix_keycloak_client_secret: "{{ ansible_local[matrix_service_name].matrix_key
 
 
 
-matrix_keycloak_client_auth_keycloak_url: "{{matrix_keycloak_client_url}}"
+matrix_keycloak_client_auth_keycloak_url: "https://{{ keycloak_service_name }}"
 matrix_keycloak_client_auth_client_id: admin-cli
 matrix_keycloak_client_auth_realm: master
 matrix_keycloak_client_auth_username: "{{keycloak_admin_username|default('admin')}}"
@@ -18,7 +19,5 @@ matrix_keycloak_client_auth_password: "{{keycloak_admin_password}}"
 matrix_keycloak_client_validate_certs: true
 
 matrix_keycloak_client_id: "{{matrix_service_name}}"
-matrix_keycloak_client_url: "https://{{ keycloak_service_name }}"
-matrix_keycloak_client_realm_url: "{{matrix_keycloak_client_url}}/realms/{{matrix_keycloak_client_realm}}"
 matrix_keycloak_client_realm: "{{ keycloak_realm }}"
 matrix_keycloak_client_redirect_uris: "https://matrix.{{ matrix_service_name }}/*"

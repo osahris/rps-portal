@@ -1,0 +1,19 @@
+---
+version: "3.4"
+
+networks:
+  proxy:
+    external: true
+  keycloak-internal:
+
+services:  
+  keycloak_permissions_sync:
+    image: {{ keycloak_permissions_sync_container_image }}:{{ keycloak_permissions_sync_container_version }}
+    restart: unless-stopped
+    networks:
+      - keycloak-internal
+      - proxy
+    entrypoint: ''
+    env_file: env
+    command: /opt/rps-admin-tools/command_loop.sh sync permissions
+    # --verbose broken because of click_cli and the use of colours in the output, starting without it

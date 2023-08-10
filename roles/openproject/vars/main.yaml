@@ -1,0 +1,30 @@
+---
+remote_path: "/srv/{{openproject_service_name}}"
+
+openproject_secrets:
+  openproject_secret_key_base:               "{{ openproject_secret_key_base | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  # openproject_postgress_password:         "{{ openproject_postgress_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  openproject_keycloak_client_secret: "{{ openproject_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+traefik_certresolver: "letsencrypt"
+app_port: "80"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+
+      openproject:
+        rule: "Host(`{{openproject_service_name}}`)"
+        entrypoints: websecure
+        middlewares: "{{'header-redirect' if (openproject_with_header_integration) else ''}}"
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: "openproject"
+
+    services:
+
+      openproject:
+        loadBalancer:
+          servers:
+            - url: "http://{{openproject_service_name|replace('.','')}}_openproject_1:{{app_port}}" # "http://container_name:container_port"

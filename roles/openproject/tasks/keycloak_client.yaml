@@ -1,0 +1,29 @@
+---
+- name: set keycloak client config
+  local_action: keycloak_client
+  become: false
+  args:
+    auth_client_id: "{{ openproject_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ openproject_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ openproject_keycloak_client_auth_realm }}"
+    auth_username: "{{ openproject_keycloak_client_auth_username }}"
+    auth_password: "{{ openproject_keycloak_client_auth_password }}"
+    client_id: "{{ openproject_keycloak_client_id }}"
+    realm: "{{ openproject_keycloak_client_realm }}"
+    redirect_uris: "{{ openproject_keycloak_client_redirect_uris }}"
+    client_authenticator_type: client-secret
+    secret: "{{ openproject_keycloak_client_secret }}"
+    state: present
+    direct_access_grants_enabled: true
+    service_accounts_enabled: true
+    validate_certs: "{{ openproject_keycloak_client_validate_certs | default(true) }}"
+    protocol_mappers:
+      - name:	audience
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience:	"{{ openproject_keycloak_client_id }}"
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+

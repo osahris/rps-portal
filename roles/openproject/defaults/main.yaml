@@ -1,10 +1,31 @@
----
-openproject_server_name: "openproject.{{ rps_dns_suffix }}"
-openproject_version: stable/11
-openproject_subdirectory: ""
+# ---
+# openproject_server_name: "openproject.{{ rps_dns_suffix }}"
+# openproject_version: stable/11
+# openproject_subdirectory: ""
 
-openproject_db_host: localhost
-openproject_db_port: 45432
-openproject_db_user: openproject
-openproject_db_name: openproject
-openproject_postgresql_lc: de_DE.UTF-8
+---
+openproject_service_name: "openproject.{{rps_dns_suffix}}"
+
+# openproject_db_host: localhost
+# openproject_db_port: 45432
+# openproject_db_name: openproject
+# openproject_db_user: openproject
+# openproject_postgresql_lc: de_DE.UTF-8
+
+# secrets
+openproject_secret_key_base:        "{{ ansible_local[openproject_service_name].openproject_secret_key_base}}"
+# openproject_postgress_password:     "{{ ansible_local[openproject_service_name].openproject_postgress_password}}"
+openproject_keycloak_client_secret: "{{ ansible_local[openproject_service_name].openproject_keycloak_client_secret }}"
+
+openproject_keycloak_client_auth_keycloak_url: "{{openproject_keycloak_client_url}}"
+openproject_keycloak_client_auth_client_id: admin-cli
+openproject_keycloak_client_auth_realm: master
+openproject_keycloak_client_auth_username: "{{keycloak_admin_username|default('admin')}}"
+openproject_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+openproject_keycloak_client_validate_certs: true
+
+openproject_keycloak_client_id: "{{openproject_service_name}}"
+openproject_keycloak_client_url: "https://{{ keycloak_service_name }}"
+openproject_keycloak_client_realm_url: "{{openproject_keycloak_client_url}}/realms/{{openproject_keycloak_client_realm}}"
+openproject_keycloak_client_realm: "{{ keycloak_realm }}"
+openproject_keycloak_client_redirect_uris: "https://openproject.{{ openproject_service_name }}/*"

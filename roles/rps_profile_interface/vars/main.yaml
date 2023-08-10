@@ -18,9 +18,7 @@ traefik_dynamic_config:
       profile: # <-- Change this to your service name
         rule: "Host(`{{service_domain_name}}`)"
         entrypoints: websecure
-        middlewares: 
-        - header-redirect
-        - oauth2-auth
+        middlewares: "{{['header-redirect','oauth2-auth'] if (rps_people_with_header_integration) else 'oauth2-auth'}}"
         tls:
           certresolver: "{{traefik_certresolver}}"
         service: "profile" # <-- Change this to your service name
