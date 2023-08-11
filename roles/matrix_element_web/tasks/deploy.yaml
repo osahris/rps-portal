@@ -1,6 +1,8 @@
 ---
 - name: create directories
-  file: path={{item}} state=directory
+  file: 
+    path: "{{item}}"
+    state: directory
   with_items:
     - "{{remote_path}}"
     - "{{remote_path}}/nginx"
@@ -21,10 +23,14 @@
     - "element/config.json.j2"
     - "nginx/nginx.conf.j2"
     - "synapse/env.j2"
-    - "synapse/homeserver.yaml.j2"
     - "docker-compose.yaml.j2"
 
-- name: copy traefik dynamic config
+- name: set synapse homeserver config
+  copy:
+    content: "{{ matrix_synapse_homeserver_config }}"
+    dest: "{{remote_path}}/synapse/homeserver.yaml
+
+- name: set traefik dynamic config
   copy:
     content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/{{matrix_service_name}}.yaml"

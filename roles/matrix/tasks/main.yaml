@@ -1,8 +1,21 @@
 ---
-- import_tasks: secrets.yaml
+- import_role:
+    name: matrix_synapse
+  tags:
+    - matrix_synapse
+    - matrix-synapse
+  when: matrix_with_synapse
 
-- import_tasks: deploy.yaml
+- import_role:
+    name: matrix_service_discovery
+  tags:
+    - matrix_service_discovery
+    - matrix-service-discovery
+  when: matrix_with_service_discovery
 
-- import_tasks: customize.yaml
-
-- import_tasks: keycloak_client.yaml
+- import_role:
+    name: matrix_element_web
+  tags:
+    - matrix_element_web
+    - matrix-element-web
+  when: matrix_with_element_web

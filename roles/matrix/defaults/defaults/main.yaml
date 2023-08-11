@@ -1,0 +1,6 @@
+---
+matrix_domain: "{{rps_dns_suffix}}"
+
+matrix_with_service_discovery: true
+matrix_with_synapse: true
+matrix_with_element_web: true

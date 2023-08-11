@@ -1,0 +1,157 @@
+---
+matrix_synapse_path: "/srv/{{matrix_service_name}}"
+
+matrix_secrets:
+  matrix_synapse_postgress_password:         "{{ matrix_synapse_postgress_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  matrix_keycloak_client_secret: "{{ matrix_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+traefik_certresolver: "letsencrypt"
+app_port: "8008"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+
+      nginx:
+        rule: "Host(`{{matrix_service_name}}`)"
+        entrypoints: websecure
+        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: "nginx"
+
+      synapse:
+        rule: "Host(`matrix.{{matrix_service_name}}`)"
+        entrypoints: websecure
+        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: "synapse"
+
+      element:
+        rule: "Host(`{{matrix_element_web_service_name}}`)"
+        entrypoints: websecure
+        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: "element"
+
+    services:
+
+      nginx:
+        loadBalancer:
+          servers:
+            - url: "http://{{matrix_service_name|replace('.','')}}_nginx_1:8080" # "http://container_name:container_port"
+
+      synapse:
+        loadBalancer:
+          servers:
+            - url: "http://{{matrix_service_name|replace('.','')}}_synapse_1:{{app_port}}" # "http://container_name:container_port"
+
+      element:
+        loadBalancer:
+          servers:
+            - url: "http://{{matrix_service_name|replace('.','')}}_element_1:80" # "http://container_name:container_port"
+
+matrix_synapse_homeserver_config:
+  server_name: "{{matrix_service_name}}"
+
+  report_stats: no
+
+  alias_creation_rules:
+    - action: allow
+      alias: '*'
+      room_id: '*'
+      user_id: '*'
+
+  allow_guest_access: false
+  allow_public_rooms_over_federation: false
+  allow_public_rooms_without_auth: false
+  app_service_config_files: []
+
+  auto_join_rooms:
+    - '#hello:{{matrix_service_name}}'
+  autocreate_auto_join_rooms: true
+
+  backchannel_logout_enabled: true
+
+  client_max_body_size: 500M
+
+  enable_group_creation: true
+  enable_metrics: false
+  enable_registration: false
+  enable_registration_captcha: false
+  # enable_registration_without_verification: true # uncomment for tests if enable_registration: true
+  enable_room_list_search: true
+
+  public_baseurl: "https://{{matrix_service_name}}"
+
+  pid_file: /data/homeserver.pid
+
+  listeners:
+    - port: "{{app_port}}"
+      bind_addresses:
+        - '::'
+      tls: false
+      type: http
+      x_forwarded: true
+      resources:
+        - names: [client, openid]
+          compress: true
+        - names: [federation]
+          compress: false
+
+  database:
+    name: psycopg2
+    txn_limit: 10000
+    args:
+      database: "{{matrix_synapse_postgress_db}}"
+      user: "{{matrix_synapse_postgress_user}}"
+      password: "{{matrix_synapse_postgress_password}}"
+      host: synapse_db
+      port: 5432
+      cp_min: 5
+      cp_max: 10
+
+  max_upload_size: 100M
+  search_all_users: true
+  prefer_local_users: true
+  url_preview_enabled: false
+  log_config: "/data/{{matrix_service_name}}.log.config"
+  media_store_path: /data/media_store
+  suppress_key_server_warning: true #added for use element
+
+
+  trusted_key_servers:
+    - server_name: "matrix.org"
+
+
+  # # https://github.com/matrix-org/synapse/blob/5c5516f80ef08dc07c1a7c297614f455c1bc75d4/docs/openid.md#keycloak
+  oidc_config:
+    enabled: true
+    idp_name: "SSO"
+    client_id: "{{ matrix_keycloak_client_id }}"
+    client_secret: "{{ matrix_keycloak_client_secret }}"
+    issuer: "https://{{keycloak_service_name}}/realms/{{keycloak_realm}}"
+    scopes:
+      - openid
+      - profile
+    user_mapping_provider:
+      config:
+        localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
+        display_name_template: "{% raw %}{{ user.given_name }} {{ user.last_name }}{% endraw %}"
+
+  old_signing_keys: null
+  opentracing: null
+  password_config:
+      enabled: false
+      localdb_enabled: true
+      pepper: ''
+      policy: null
+
+  signing_key_path: "/data/{{matrix_service_name}}.signing.key"
+
+  sso:
+    client_whitelist:
+      - "https://{{matrix_element_web_service_name}}"

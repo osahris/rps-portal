@@ -25,4 +25,3 @@
 
 - name: copy a file into the container
   ansible.builtin.shell: "docker cp {{remote_path}}/element/index.html {{matrix_service_name|replace('.','')}}_element_1:/app/index.html"
-
