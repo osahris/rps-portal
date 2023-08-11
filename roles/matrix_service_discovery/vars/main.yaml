@@ -1,0 +1,6 @@
+---
+matrix_service_discovery_well_known_matrix_client_info:
+  m.homeserver:
+    base_url: "https://{{matrix_homeserver_name}}"
+matrix_service_discovery_well_known_matrix_server_info:
+  m.server: "{{matrix_homeserver_name}}:443"

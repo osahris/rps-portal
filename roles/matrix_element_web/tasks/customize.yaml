@@ -4,7 +4,7 @@
 
 - name: get the bundle id of the Element Web app
   community.docker.docker_container_exec:
-    container: "{{matrix_service_name|replace('.','')}}_element_1"
+    container: "{{matrix_element_web_service_name|replace('.','')}}_element_1"
     command: ls /app/bundles/
   register: matrix_element_bundle_id
 
@@ -20,9 +20,8 @@
 
 - name: copy some templated .j2 files
   template:
-    src: "element/index.html.j2" # relative to ./templates on local role path
-    dest: "{{remote_path}}/element/index.html" # relative to ~/ on remote
+    src: "index.html.j2" # relative to ./templates on local role path
+    dest: "{{matrix_element_web_service_directory}}/index.html" # relative to ~/ on remote
 
 - name: copy a file into the container
-  ansible.builtin.shell: "docker cp {{remote_path}}/element/index.html {{matrix_service_name|replace('.','')}}_element_1:/app/index.html"
-
+  ansible.builtin.shell: "docker cp {{matrix_element_web_service_directory}}/index.html {{matrix_element_web_service_name|replace('.','')}}_element_1:/app/index.html"

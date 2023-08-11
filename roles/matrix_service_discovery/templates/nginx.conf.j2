@@ -1,0 +1,19 @@
+server {
+    listen       8080;
+    listen  [::]:8080;
+    server_name  localhost;
+
+    location /.well-known/matrix/server {
+        access_log off;
+        add_header Access-Control-Allow-Origin *;
+        default_type application/json;
+        return 200 '{{ matrix_service_discovery_well_known_matrix_server_info }}';
+    }
+
+    location /.well-known/matrix/client {
+        access_log off;
+        add_header Access-Control-Allow-Origin *;
+        default_type application/json;
+        return 200 '{{ matrix_service_discovery_well_known_matrix_client_info }}';
+    }
+}

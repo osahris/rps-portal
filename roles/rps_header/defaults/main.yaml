@@ -29,8 +29,8 @@ rps_header_top_navbar_links:
     link: https://{{ nextcloud_service_name }}/apps/calendar
     icon: calendar
   - title: Chat
-    link: https://element.{{ matrix_service_name }}
-    icon: chat
+    link: https://{{ matrix_element_web_service_name }}
+    icon: comments
   - title: Wiki
     link: https://{{ wiki_bookstack_service_name }}
     icon: wiki

@@ -1,0 +1,27 @@
+---
+- name: create directory
+  file: 
+    state: directory
+    path: "{{ matrix_element_web_service_directory }}"
+
+- name: set element config
+  copy:
+    content: "{{ matrix_element_web_config }}"
+    dest: "{{ matrix_element_web_service_directory }}/config.json"
+
+- name: template docker-compose config
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ matrix_element_web_service_directory }}/docker-compose.yaml"
+
+- name: set traefik dynamic config
+  copy:
+    content: "{{ matrix_element_web_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/srv/traefik/conf.d/{{matrix_element_web_service_name}}.yaml"
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{ matrix_element_web_service_directory }}/"
+    # build: true
+    pull: true
+    remove_orphans: true
