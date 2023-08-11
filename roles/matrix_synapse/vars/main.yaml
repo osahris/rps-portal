@@ -68,7 +68,7 @@ matrix_synapse_homeserver_config:
   search_all_users: true
   prefer_local_users: true
   url_preview_enabled: false
-  log_config: "/data/{{matrix_synapse_service_name}}.log.config"
+  log_config: "/data/{{matrix_synapse_homeserver_server_name}}.log.config"
   media_store_path: /data/media_store
   suppress_key_server_warning: true #added for use element
 
