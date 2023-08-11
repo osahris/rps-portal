@@ -1,61 +1,12 @@
 ---
-matrix_synapse_path: "/srv/{{matrix_service_name}}"
+matrix_synapse_secrets:
+  matrix_synapse_postgres_password: "{{ matrix_synapse_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  matrix_synapse_keycloak_client_secret: "{{ matrix_synapse_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
-matrix_secrets:
-  matrix_synapse_postgress_password:         "{{ matrix_synapse_postgress_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  matrix_keycloak_client_secret: "{{ matrix_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-
-traefik_certresolver: "letsencrypt"
-app_port: "8008"
-
-# For each new running service add below a traefik router and a traefik service
-traefik_dynamic_config:
-  http:
-    routers:
-
-      nginx:
-        rule: "Host(`{{matrix_service_name}}`)"
-        entrypoints: websecure
-        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
-        tls:
-          certresolver: "{{traefik_certresolver}}"
-        service: "nginx"
-
-      synapse:
-        rule: "Host(`matrix.{{matrix_service_name}}`)"
-        entrypoints: websecure
-        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
-        tls:
-          certresolver: "{{traefik_certresolver}}"
-        service: "synapse"
-
-      element:
-        rule: "Host(`{{matrix_element_web_service_name}}`)"
-        entrypoints: websecure
-        middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
-        tls:
-          certresolver: "{{traefik_certresolver}}"
-        service: "element"
-
-    services:
-
-      nginx:
-        loadBalancer:
-          servers:
-            - url: "http://{{matrix_service_name|replace('.','')}}_nginx_1:8080" # "http://container_name:container_port"
-
-      synapse:
-        loadBalancer:
-          servers:
-            - url: "http://{{matrix_service_name|replace('.','')}}_synapse_1:{{app_port}}" # "http://container_name:container_port"
-
-      element:
-        loadBalancer:
-          servers:
-            - url: "http://{{matrix_service_name|replace('.','')}}_element_1:80" # "http://container_name:container_port"
+matrix_synapse_postgres_host: postgres
 
 matrix_synapse_homeserver_config:
-  server_name: "{{matrix_service_name}}"
+  server_name: "{{matrix_synapse_homeserver_server_name}}"
 
   report_stats: no
 
@@ -70,8 +21,7 @@ matrix_synapse_homeserver_config:
   allow_public_rooms_without_auth: false
   app_service_config_files: []
 
-  auto_join_rooms:
-    - '#hello:{{matrix_service_name}}'
+  auto_join_rooms: "{{ matrix_synapse_homeserver_auto_join_rooms }}"
   autocreate_auto_join_rooms: true
 
   backchannel_logout_enabled: true
@@ -85,12 +35,12 @@ matrix_synapse_homeserver_config:
   # enable_registration_without_verification: true # uncomment for tests if enable_registration: true
   enable_room_list_search: true
 
-  public_baseurl: "https://{{matrix_service_name}}"
+  public_baseurl: "https://{{matrix_synapse_service_name}}"
 
   pid_file: /data/homeserver.pid
 
   listeners:
-    - port: "{{app_port}}"
+    - port: "{{matrix_synapse_http_port}}"
       bind_addresses:
         - '::'
       tls: false
@@ -106,10 +56,10 @@ matrix_synapse_homeserver_config:
     name: psycopg2
     txn_limit: 10000
     args:
-      database: "{{matrix_synapse_postgress_db}}"
-      user: "{{matrix_synapse_postgress_user}}"
-      password: "{{matrix_synapse_postgress_password}}"
-      host: synapse_db
+      database: "{{ matrix_synapse_postgres_db }}"
+      user: "{{ matrix_synapse_postgres_user }}"
+      password: "{{ matrix_synapse_postgres_password }}"
+      host: "{{ matrix_synapse_postgres_host }}"
       port: 5432
       cp_min: 5
       cp_max: 10
@@ -118,21 +68,19 @@ matrix_synapse_homeserver_config:
   search_all_users: true
   prefer_local_users: true
   url_preview_enabled: false
-  log_config: "/data/{{matrix_service_name}}.log.config"
+  log_config: "/data/{{matrix_synapse_service_name}}.log.config"
   media_store_path: /data/media_store
   suppress_key_server_warning: true #added for use element
 
-
   trusted_key_servers:
     - server_name: "matrix.org"
-
 
   # # https://github.com/matrix-org/synapse/blob/5c5516f80ef08dc07c1a7c297614f455c1bc75d4/docs/openid.md#keycloak
   oidc_config:
     enabled: true
     idp_name: "SSO"
-    client_id: "{{ matrix_keycloak_client_id }}"
-    client_secret: "{{ matrix_keycloak_client_secret }}"
+    client_id: "{{ matrix_synapse_keycloak_client_id }}"
+    client_secret: "{{ matrix_synapse_keycloak_client_secret }}"
     issuer: "https://{{keycloak_service_name}}/realms/{{keycloak_realm}}"
     scopes:
       - openid
@@ -150,8 +98,23 @@ matrix_synapse_homeserver_config:
       pepper: ''
       policy: null
 
-  signing_key_path: "/data/{{matrix_service_name}}.signing.key"
+  signing_key_path: "/data/signing.key"
 
   sso:
-    client_whitelist:
-      - "https://{{matrix_element_web_service_name}}"
+    client_whitelist: "{{ matrix_synapse_homeserver_sso_client_whitelist }}"
+
+matrix_synapse_http_port: 8008
+
+matrix_synapse_traefik_dynamic_config:
+  http:
+    routers: "{{ { matrix_synapse_service_name : matrix_synapse_traefik_router } }}"
+    services: "{{ { matrix_synapse_service_name : matrix_synapse_traefik_service } }}"
+
+matrix_synapse_traefik_router:
+  rule: "Host(`{{matrix_synapse_service_name}}`)"
+  service: "{{ matrix_synapse_service_name }}"
+
+matrix_synapse_traefik_service:
+  loadBalancer:
+    servers:
+      - url: "http://{{matrix_synapse_service_name|replace('.','')}}_synapse_1:{{matrix_synapse_http_port}}" # "http://container_name:container_port"

@@ -1,0 +1,69 @@
+---
+matrix_element_web_config:
+  default_server_config:
+    m.homeserver:
+      base_url: "https://{{matrix_homeserver_name}}"
+      server_name: "{{matrix_domain}}"
+  brand: Element RPS
+  branding:
+    auth_footer_links:
+    auth_header_logo_url: welcome/images/logo.svg
+    welcome_background_url:
+  bug_report_endpoint_url: https://element.io/bugreports/submit
+  default_theme: light
+  disable_custom_urls: true
+  disable_guests: true
+  enable_presence_by_hs_url:
+    https://matrix.org: false
+    https://matrix-client.matrix.org: false
+    https://{{matrix_homeserver_name}}: true
+  integrations_ui_url: https://scalar.vector.im/
+  integrations_rest_url: https://scalar.vector.im/api
+  integrations_widgets_urls:
+    - https://scalar.vector.im/_matrix/integrations/v1
+    - https://scalar.vector.im/api
+    - https://scalar-staging.vector.im/_matrix/integrations/v1
+    - https://scalar-staging.vector.im/api
+    - https://scalar-staging.riot.im/scalar/api
+  login_for_welcome: true
+  map_style_url: https://api.maptiler.com/maps/streets/style.json?key=fU3vlMsMn4Jb6dnEIFsx
+  posthog:
+    projectApiKey: phc_Jzsm6DTm6V2705zeU5dcNvQDlonOR68XvX2sh1sEOHO
+    apiHost: https://posthog.element.io
+  privacy_policy_url: https://element.io/cookie-policy
+  roomDirectory:
+    servers:
+    - matrix.org
+    - gitter.im
+    - libera.chat
+  settingDefaults:
+    breadcrumbs: false
+    UIFeature.deactivate: false
+    UIFeature.registration: false
+    UIFeature.passwordReset: false
+    UIFeature.identityServer: false
+  showLabsSettings: false
+  sso_redirect_options:
+    immediate: false
+    on_welcome_page: true
+  terms_and_conditions_links:
+    - url: https://element.io/privacy
+      text: Privacy Policy
+    - url: https://element.io/cookie-policy
+      text: Cookie Policy
+  uisi_autorageshake_app: element-auto-uisi
+
+matrix_element_web_traefik_dynamic_config:
+  http:
+    routers: "{{ { matrix_element_web_service_name : matrix_element_web_traefik_router } }}"
+    services: "{{ { matrix_element_web_service_name : matrix_element_web_traefik_service } }}"
+
+matrix_element_web_traefik_router:
+  rule: "Host(`{{matrix_element_web_service_name}}`)"
+  middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
+  service: "{{ matrix_element_web_service_name }}"
+
+matrix_element_web_traefik_service:
+  loadBalancer:
+    servers:
+      - url: "http://{{matrix_element_web_service_name|replace('.','')}}_element_1:80" # "http://container_name:container_port"

@@ -1,48 +1,38 @@
 ---
-- name: create directories
+- name: create directory
   file: 
-    path: "{{item}}"
+    path: "{{matrix_synapse_service_directory}}"
     state: directory
-  with_items:
-    - "{{remote_path}}"
-    - "{{remote_path}}/nginx"
-    - "{{remote_path}}/synapse"
-    - "{{remote_path}}/element"
-
-# - name: copy all static files
-#   synchronize:
-#     recursive: true
-#     src: "./" # relative to ./files on local role path
-#     dest: "{{remote_path}}" # relative to ~/ on remote
-
-- name: copy some templated .j2 files
-  template:
-    src: "{{item}}" # relative to ./templates on local role path
-    dest: "{{remote_path}}/{{ item | regex_replace(role_path+'/templates/', '') | regex_replace('\\.j2', '') }}" # relative to ~/ on remote
-  with_items:
-    - "element/config.json.j2"
-    - "nginx/nginx.conf.j2"
-    - "synapse/env.j2"
-    - "docker-compose.yaml.j2"
 
 - name: set synapse homeserver config
   copy:
-    content: "{{ matrix_synapse_homeserver_config }}"
-    dest: "{{remote_path}}/synapse/homeserver.yaml
+    content: "{{ matrix_synapse_homeserver_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "{{ matrix_synapse_service_directory }}/homeserver.yaml"
+
+- name: template postgres env file
+  template:
+    src: postgres.env.j2
+    dest: "{{ matrix_synapse_service_directory }}/postgres.env"  
+
+- name: template synapse env file
+  template:
+    src: synapse.env.j2
+    dest: "{{ matrix_synapse_service_directory }}/synapse.env"  
+
+- name: template docker-compose config
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ matrix_synapse_service_directory }}/docker-compose.yaml"
 
 - name: set traefik dynamic config
   copy:
-    content: "{{ traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
-    dest: "/srv/traefik/conf.d/{{matrix_service_name}}.yaml"
+    content: "{{ matrix_synapse_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
+    dest: "/srv/traefik/conf.d/{{matrix_synapse_service_name}}.yaml"
 
 - name: deploy docker-compose stack
   docker_compose:
-    project_src: "{{remote_path}}/"
-    # add multiple docker-compose.yaml / .yml files below
-    files: "{{item}}"
+    project_src: "{{ matrix_synapse_service_directory }}"
     # This option ensures that the images are rebuilt
-    build: true
+    # build: true
     pull: true
     remove_orphans: true
-  with_items:
-    - "docker-compose.yaml"

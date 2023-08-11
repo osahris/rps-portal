@@ -3,23 +3,17 @@ server {
     listen  [::]:8080;
     server_name  localhost;
 
-    location / {
-        access_log off;
-        add_header Access-Control-Allow-Origin *;
-        root   /usr/share/nginx/html;
-    }
-
     location /.well-known/matrix/server {
         access_log off;
         add_header Access-Control-Allow-Origin *;
         default_type application/json;
-        return 200 '{"m.server": "matrix.{{matrix_service_name}}:443"}';
+        return 200 '{{ matrix_service_discovery_well_known_matrix_server_info }}';
     }
 
     location /.well-known/matrix/client {
         access_log off;
         add_header Access-Control-Allow-Origin *;
         default_type application/json;
-        return 200 '{"m.homeserver": {"base_url": "https://matrix.{{rps_dns_suffix}}"}}';
+        return 200 '{{ matrix_service_discovery_well_known_matrix_client_info }}';
     }
 }

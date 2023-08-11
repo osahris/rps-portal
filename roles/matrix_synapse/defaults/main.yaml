@@ -1,25 +1,30 @@
 ---
+matrix_synapse_service_name: "{{ matrix_homeserver_name }}"
+matrix_synapse_service_directory: "/srv/{{matrix_synapse_service_name}}"
 
-# synapse
-matrix_synapse_postgress_db: synapse
-matrix_synapse_postgress_user: synapse
+# homeserver
+matrix_synapse_homeserver_server_name: "{{ matrix_domain }}"
+matrix_synapse_homeserver_auto_join_rooms:
+  - '#hello:{{matrix_domain}}'
+matrix_synapse_homeserver_sso_client_whitelist:
+  - "https://{{matrix_element_web_service_name}}"
 
-# element
-matrix_with_element_web: true
-matrix_element_web_service_name: "chat.{{matrix_domain}}"
+# postgres
+matrix_synapse_postgres_db: synapse
+matrix_synapse_postgres_user: synapse
 
 # secrets
-matrix_synapse_postgress_password:     "{{ ansible_local[matrix_service_name].matrix_synapse_postgress_password}}"
-matrix_keycloak_client_secret: "{{ ansible_local[matrix_service_name].matrix_keycloak_client_secret }}"
+matrix_synapse_postgres_password: "{{ ansible_local[matrix_synapse_service_name].matrix_synapse_postgres_password }}"
+matrix_synapse_keycloak_client_secret: "{{ ansible_local[matrix_synapse_service_name].matrix_synapse_keycloak_client_secret }}"
 
 # keycloak client
-matrix_keycloak_client_auth_keycloak_url: "https://{{ keycloak_service_name }}"
-matrix_keycloak_client_auth_client_id: admin-cli
-matrix_keycloak_client_auth_realm: master
-matrix_keycloak_client_auth_username: "{{keycloak_admin_username|default('admin')}}"
-matrix_keycloak_client_auth_password: "{{keycloak_admin_password}}"
-matrix_keycloak_client_validate_certs: true
+matrix_synapse_keycloak_client_auth_keycloak_url: "https://{{ keycloak_service_name }}"
+matrix_synapse_keycloak_client_auth_client_id: admin-cli
+matrix_synapse_keycloak_client_auth_realm: master
+matrix_synapse_keycloak_client_auth_username: "{{keycloak_admin_username|default('admin')}}"
+matrix_synapse_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+matrix_synapse_keycloak_client_validate_certs: true
 
-matrix_keycloak_client_id: "{{matrix_service_name}}"
-matrix_keycloak_client_realm: "{{ keycloak_realm }}"
-matrix_keycloak_client_redirect_uris: "https://matrix.{{ matrix_service_name }}/*"
+matrix_synapse_keycloak_client_id: "{{matrix_synapse_service_name}}"
+matrix_synapse_keycloak_client_realm: "{{ keycloak_realm }}"
+matrix_synapse_keycloak_client_redirect_uris: "https://{{ matrix_synapse_service_name }}/_synapse/client/oidc/callback"
