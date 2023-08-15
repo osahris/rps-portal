@@ -1,0 +1,42 @@
+version: "3"
+
+networks:
+  db:
+  proxy:
+    external:
+      name: proxy
+
+volumes:
+  synapse_data:
+  synapse_db_data:
+
+services:
+
+  postgres:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    env_file: postgres.env
+    volumes:
+      - synapse_db_data:/var/lib/postgresql/data
+    networks:
+      - db
+
+  synapse:
+    image: matrixdotorg/synapse:latest
+    entrypoint: sh -c "python3 start.py generate -m synapse.app.homeserver --config-path=/data/homeserver.yaml && python3 start.py"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    env_file: synapse.env
+    volumes:
+      - synapse_data:/data/:rw
+      - ./homeserver.yaml:/data/homeserver.yaml:ro
+    networks:
+      - db
+      - proxy
+    depends_on:
+      - postgres

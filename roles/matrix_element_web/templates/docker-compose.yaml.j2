@@ -1,0 +1,19 @@
+version: "3"
+
+networks:
+  proxy:
+    external:
+      name: proxy
+
+services:
+
+  element:
+    image: vectorim/element-web:latest
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    volumes:
+      - ./config.json:/app/config.json
+    networks:
+      - proxy

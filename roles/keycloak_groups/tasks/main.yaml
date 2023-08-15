@@ -16,21 +16,26 @@
     attributes: "{{ item.attributes | default(omit) }}"
   register: keycloak_groups_task_result
 
-- &keycloak_subgroups_task
-  name: keycloak sub groups
-  loop: |
-      [
-      {% for item in keycloak_groups_task_result.results | subelements('item.subgroups', skip_missing=True) %}
-      {{ item.1 | combine({'parent_id': item.0.end_state.id, 'parent_path': item.0.end_state.path}) | to_nice_json }},
-      {% endfor %}
-      ]
-  loop_control:
-    label: "{{ item.parent_path }}/{{ item.name }}"
-  community.general.keycloak_group: 
-    <<: *keycloak_group
-    parents:
-      - id: "{{ item.parent_id }}"
-  register: keycloak_groups_task_result
+- vars:
+    keycloak_groups_recursion_level: sub
+  block: 
+    - &keycloak_subgroups_task
+      name: keycloak {{keycloak_groups_recursion_level}} groups
+      loop: |
+          [
+          {% for item in keycloak_groups_task_result.results | subelements('item.subgroups', skip_missing=True) %}
+          {{ item.1 | combine({'parent_id': item.0.end_state.id, 'parent_path': item.0.end_state.path}) | to_nice_json }},
+          {% endfor %}
+          ]
+      loop_control:
+        label: "{{ item.parent_path }}/{{ item.name }}"
+      community.general.keycloak_group: 
+        <<: *keycloak_group
+        parents:
+          - id: "{{ item.parent_id }}"
+      register: keycloak_groups_task_result
 
-- name: keycloak sub sub groups
-  <<: *keycloak_subgroups_task
+- vars:
+    keycloak_groups_recursion_level: sub sub
+  block: 
+    - *keycloak_subgroups_task
