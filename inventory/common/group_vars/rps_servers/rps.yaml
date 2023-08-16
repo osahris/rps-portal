@@ -11,3 +11,7 @@ user_import_group_membership_label: Gruppen
 user_import_group_owner_label: Groups Owner
 user_last_name_label: Last Name
 user_username_label: Username
+keycloak_required_user_actions:
+  - VERIFY_EMAIL
+  - UPDATE_PASSWORD
+  - UPDATE_PROFILE
