@@ -45,6 +45,7 @@ rps_header_top_navbar_links:
   #   icon: user
 
 rps_header_bottom_navbar_links: []
+rps_header_toggle_button_config: {}
 
 rps_header_admin_contact_link: mailto:{{rps_admin_email}}
 

@@ -20,6 +20,7 @@ rps_header_dynamic_config:
   logo_src: "{{ rps_header_logo_src }}"
   top_navbar_links: "{{ rps_header_top_navbar_links }}"
   bottom_navbar_links: "{{ rps_header_bottom_navbar_links }}"
+  toggleButtonConfig: "{{ rps_header_toggle_button_config }}"
 
 header_traefik_dynamic_config:
   http:
