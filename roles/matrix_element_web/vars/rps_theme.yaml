@@ -12,72 +12,36 @@ custom_themes:
     general: Inter, sans
     monospace: "'Courier New'"
   colors:
-    accent-color:  "#00cccc"
-    primary-color: "#cc00cc"
-    warning-color: "#ff4b55"
-    sidebar-color: "#cccc00"
+    accent-color:  "#0f2d64" 
+    primary-color: "#0f2d64" 
+    warning-color: "#ff4b55" 
+    sidebar-color: "#0f2d64" 
 
-    roomlist-background-color:     "#f3f8fd"
+    roomlist-background-color:     "#ddeefa" 
     roomlist-text-color:           "#2e2f32"
     roomlist-text-secondary-color: "#61708b"
     roomlist-highlights-color:     "#ffffff"
-    roomlist-separator-color:      "#e3e8f0"
+    roomlist-separator-color:      "#d0e4f3" 
 
     timeline-background-color:     "#ffffff"
-    timeline-text-color:           "#2e2f32"
+    timeline-text-color:           "#0f2d64"
     timeline-text-secondary-color: "#61708b"
     timeline-highlights-color:     "#f3f8fd"
-    username-colors:
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    avatar-background-colors:
-    - "#cc0000"
-    - "#cc0000"
-    - "#cc0000"
 
+    username-colors_1:  "#ff0000"
+    username-colors_2:  "#FF5722"
+    username-colors_3:  "#E91E63"
+    username-colors_4:  "#9C27B0"
+    username-colors_5:  "#673AB7"
+    username-colors_6:  "#3F51B5"
+    username-colors_7:  "#2196F3"
+    username-colors_8:  "#00BCD4"
+    avatar-background-colors_1: "#cc0000"
+    avatar-background-colors_2: "#FAFAFA"
+    avatar-background-colors_3: "#E1F5FE"
 
-- name: RPS-dark
-  is_dark: true
-  fonts:
-    faces:
-    - font-family: Inter
-      src:
-      - url: "/fonts/Inter.ttf"
-        format: ttf
-    general: Inter, sans
-    monospace: "'Courier New'"
-  colors:
-    accent-color:  "#00cccc"
-    primary-color: "#cc00cc"
-    warning-color: "#ff4b55"
-    sidebar-color: "#cccc00"
+    sidebar-color-50pct:  "#0f2d6496"
+    secondary-content:    "#ffffff"
+    quinary-content:      "#3c3c434a" 
 
-    roomlist-background-color:     "#f3f8fd"
-    roomlist-text-color:           "#2e2f32"
-    roomlist-text-secondary-color: "#61708b"
-    roomlist-highlights-color:     "#ffffff"
-    roomlist-separator-color:      "#e3e8f0"
-
-    timeline-background-color:     "#ffffff"
-    timeline-text-color:           "#2e2f32"
-    timeline-text-secondary-color: "#61708b"
-    timeline-highlights-color:     "#f3f8fd"
-    username-colors:
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    - "#ff0000"
-    avatar-background-colors:
-    - "#cc0000"
-    - "#cc0000"
-    - "#cc0000"
+  
