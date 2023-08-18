@@ -13,6 +13,7 @@ custom_themes:
     monospace: "'Courier New'"
   colors:
     accent-color:  "#0f2d64" 
+    accent:        "#0f2d64" 
     primary-color: "#0f2d64" 
     warning-color: "#ff4b55" 
     sidebar-color: "#0f2d64" 
@@ -40,8 +41,12 @@ custom_themes:
     avatar-background-colors_2: "#FAFAFA"
     avatar-background-colors_3: "#E1F5FE"
 
-    sidebar-color-50pct:  "#0f2d6496"
-    secondary-content:    "#ffffff"
-    quinary-content:      "#3c3c434a" 
+
+    strong-input-border-color:  "#0f2d64" 
+    sidebar-color-50pct:        "#0f2d6496"
+    secondary-content:          "#0f2d64"
+    quinary-content:            "#3c3c434a" 
+    sidebar-button-background:  "#ffffff" 
+    tertiary-content:           "#0f2d6433"
 
   
