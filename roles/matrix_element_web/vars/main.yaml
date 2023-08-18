@@ -45,7 +45,7 @@ matrix_element_web_config:
     UIFeature.registration: false
     UIFeature.passwordReset: false
     UIFeature.identityServer: false
-  showLabsSettings: true
+  showLabsSettings: false
   sso_redirect_options:
     immediate: false
     on_welcome_page: true
