@@ -11,7 +11,7 @@ services:
 #   scope: 'general'
 
 - name: 'Element'
-  subdomain: 'element.chat'
+  subdomain: 'chat'
   scope: 'general'
   description: 'Chat with your colleagues and exchange files'
 

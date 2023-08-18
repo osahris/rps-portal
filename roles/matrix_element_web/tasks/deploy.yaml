@@ -4,9 +4,17 @@
     state: directory
     path: "{{ matrix_element_web_service_directory }}"
 
+- name: include vars from custom themes .yaml files into the 'matrix_element_web_custom_theme'
+  include_vars:
+    file: "{{ matrix_element_web_custom_themes_file }}"
+    name: matrix_element_web_custom_themes
+
+- set_fact: 
+    matrix_element_web_custom_themes={{ matrix_element_web_custom_themes.custom_themes }}
+
 - name: set element config
   copy:
-    content: "{{ matrix_element_web_config }}"
+    content: "{{ matrix_element_web_config | to_nice_json }}"
     dest: "{{ matrix_element_web_service_directory }}/config.json"
 
 - name: template docker-compose config
