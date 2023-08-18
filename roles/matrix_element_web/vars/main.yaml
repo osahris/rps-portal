@@ -1,4 +1,6 @@
 ---
+matrix_element_web_custom_themes_file: "rps_theme.yaml"
+
 matrix_element_web_config:
   default_server_config:
     m.homeserver:
@@ -10,7 +12,7 @@ matrix_element_web_config:
     auth_header_logo_url: welcome/images/logo.svg
     welcome_background_url:
   bug_report_endpoint_url: https://element.io/bugreports/submit
-  default_theme: light
+  default_theme: "custom-RPS"
   disable_custom_urls: true
   disable_guests: true
   enable_presence_by_hs_url:
@@ -37,12 +39,13 @@ matrix_element_web_config:
     - gitter.im
     - libera.chat
   settingDefaults:
+    custom_themes: "{{matrix_element_web_custom_themes}}"
     breadcrumbs: false
     UIFeature.deactivate: false
     UIFeature.registration: false
     UIFeature.passwordReset: false
     UIFeature.identityServer: false
-  showLabsSettings: false
+  showLabsSettings: true
   sso_redirect_options:
     immediate: false
     on_welcome_page: true
