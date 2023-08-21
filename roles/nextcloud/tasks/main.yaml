@@ -128,7 +128,9 @@
 ########################################################################
 ### Section: configure sync service
 - import_tasks: admin_app_password.yaml
-  when: nextcloud_with_admin_app_password
+  when: 
+    - nextcloud_with_admin_app_password
+    - not nextcloud_admin_app_password
 
 - import_tasks: keycloak_sync.yaml
   when: nextcloud_with_keycloak_permissions_sync
