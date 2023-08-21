@@ -41,6 +41,7 @@ nextcloud_keycloak_client_redirect_uris:
 nextcloud_apps:
   - calendar
   - drawio
+  - groupfolders
 
 # new user_oidc plugin options
 nextcloud_with_user_oidc_app: "{{nextcloud_with_keycloak_client}}"
