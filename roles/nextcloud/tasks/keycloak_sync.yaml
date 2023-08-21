@@ -16,5 +16,4 @@
     remove_orphans: true
     recreate: always
     services:
-      - nextcloud_for_sync
       - sync

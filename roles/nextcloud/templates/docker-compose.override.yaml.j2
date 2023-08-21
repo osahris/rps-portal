@@ -5,26 +5,10 @@ networks:
   sync:
 
 services:
-  nextcloud_for_sync:
-    image: {{ nextcloud_oci_image }}
-    profiles:
-      - full
-      - only-nextcloud
-    restart: unless-stopped
-    logging:
-      options:
-        max-size: 5m
-    restart: unless-stopped
+
+  nextcloud:
     networks:
-      - db
       - sync
-    depends_on:
-      - postgres
-    volumes:
-      - nextcloud:/var/www/html
-      - nextcloud-data:/srv/nextcloud/data
-    env_file:
-      - "./env"
 
   sync:
     image: {{ nextcloud_sync_container_image }}:{{ nextcloud_sync_container_version }}
