@@ -17,3 +17,4 @@
     recreate: always
     services:
       - sync
+      - nextcloud
