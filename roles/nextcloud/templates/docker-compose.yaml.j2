@@ -14,7 +14,7 @@ volumes:
 services:
 
   nextcloud:
-    image: nextcloud:{{ nextcloud_version }}
+    image: {{ nextcloud_oci_image }}
     profiles:
       - full
       - only-nextcloud
