@@ -1,0 +1,78 @@
+- name: create admin api key if not already set
+  community.docker.docker_container_exec:
+    container: "{{discourse_service_name|replace('.', '')}}_web_1"
+    command: /bin/bash -c "rake api_key:create_master[sync]"
+    chdir: /var/www/discourse
+  register: result
+  when: discourse_sync_api_key == "not_set"
+
+- name: save api key to facts
+  set_fact:
+    discourse_sync_api_key: "{{result.stdout}}"
+  when: discourse_sync_api_key == "not_set"
+
+- import_tasks: secrets.yaml
+  when: discourse_sync_api_key == "not_set"
+
+#print the api key
+- name: Display api key
+  debug:
+    msg:
+      - "{{ discourse_sync_api_key }}"
+
+# curl request
+- name: get category ids via api
+  shell: 'curl -X GET "{{discourse_base_url}}/site.json" \
+                              -H "Api-Key: {{discourse_sync_api_key}}" \
+                              -H "Api-Username: system"'
+  register: request_result
+
+- name: Display request_result "categories" and save to variable
+  debug:
+    msg:
+      - "{{ request_result.stdout | from_json | json_query('categories[*].id') }}"
+  register: category_ids
+
+- name: delete old files in {{discourse_target_directory}}/exports if exists
+  ansible.builtin.file:
+    path: "{{discourse_target_directory}}/exports"
+    state: absent
+
+- name: create path {{discourse_target_directory}}/exports
+  ansible.builtin.file:
+    path: "{{discourse_target_directory}}/exports"
+    state: directory
+    mode: '0755'
+
+- name: print category_ids
+  debug:
+    msg:
+      - "{{ request_result.stdout | from_json | json_query('categories[*].id') }}"
+
+- name: execute command discourse export_category [id] for every id in docker container
+  shell: "docker exec {{discourse_service_name|replace('.', '')}}_web_1 /bin/bash -c 'discourse export_category {{item}}'"
+  loop: "{{ request_result.stdout | from_json | json_query('categories[*].id') }}"
+  register: export_result
+  ignore_errors: true
+
+- name: print export_result
+  debug:
+    msg:
+      - "{{ export_result }}"
+
+- name: get lines containing category-export-[date].json
+  shell: docker exec {{discourse_service_name|replace('.', '')}}_web_1 /bin/bash -c 'ls /var/www/discourse | grep category-export-'
+  register: grep_result
+
+- name: print grep_result
+  debug:
+    msg:
+      - "{{ grep_result }}"
+
+- name: Copy files from container to host
+  shell: docker cp {{discourse_service_name|replace('.', '')}}_web_1:/var/www/discourse/{{item}} {{discourse_target_directory}}/exports/
+  loop: "{{ grep_result.stdout_lines }}"
+
+- name: remove files containing category-export-[date].json from container
+  shell: docker exec {{discourse_service_name|replace('.', '')}}_web_1 /bin/bash -c 'rm /var/www/discourse/{{item}}'
+  loop: "{{ grep_result.stdout_lines }}"

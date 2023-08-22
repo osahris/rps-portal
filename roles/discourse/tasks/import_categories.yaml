@@ -1,0 +1,24 @@
+
+- name: "assert that {{discourse_target_directory}}/imports/ exists"
+  ansible.builtin.file:
+    path: "{{discourse_target_directory}}/imports/"
+    state: directory
+    mode: '0755'
+
+- name: get lines containing category-export-[date].json
+  shell: /bin/bash -c 'ls {{discourse_target_directory}}/imports/ | grep category-export-'
+  register: grep_result
+
+- name: "copy all .json files from {{discourse_target_directory}}/imports to {{discourse_service_name|replace('.', '')}}_web_1:/var/www/discourse/"
+  shell: docker cp {{discourse_target_directory}}/imports/{{item}} {{discourse_service_name|replace('.', '')}}_web_1:/var/www/discourse/
+  loop: "{{ grep_result.stdout_lines }}"  
+
+- name: execute command discourse import_category [id] for every file
+  shell: "docker exec {{discourse_service_name|replace('.', '')}}_web_1 /bin/bash -c 'discourse import_category {{item}}'"
+  loop: "{{ grep_result.stdout_lines }}"
+  register: import_result
+
+- name: print import_result
+  debug:
+    msg:
+      - "{{ import_result }}"

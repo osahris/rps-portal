@@ -2,7 +2,12 @@
 - import_tasks: secrets.yaml
 - import_tasks: deploy.yaml
 - import_tasks: config.yaml
-# - import_tasks: keycloak_client.yaml
+
+- import_tasks: export_categories.yaml
+  when: discourse_with_category_export
+
+- import_tasks: import_categories.yaml
+  when: discourse_with_category_import
 
 # - import_role: 
 #     name: discourse_sync
