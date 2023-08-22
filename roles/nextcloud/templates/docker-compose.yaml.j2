@@ -16,6 +16,7 @@ services:
   nextcloud:
     image: {{ nextcloud_oci_image }}
     profiles:
+      - default
       - full
       - only-nextcloud
     restart: unless-stopped
@@ -47,6 +48,7 @@ services:
   postgres:
     image: postgres:15.1
     profiles:
+      - default
       - full
       - only-nextcloud
     restart: unless-stopped
