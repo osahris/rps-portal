@@ -82,7 +82,7 @@ env:
   #DISCOURSE_CDN_URL: //discourse-cdn.example.com
 
   ## Admin API rate limits
-  DISCOURSE_MAX_ADMIN_API_REQS_PER_KEY_PER_MINUTE : 1000
+  DISCOURSE_MAX_ADMIN_API_REQS_PER_KEY_PER_MINUTE : 10000
   DISCOURSE_MAX_REQS_PER_IP_MODE: warn
 
 ## Plugins go here
@@ -138,6 +138,7 @@ run:
   - exec: rails r "SiteSetting.notification_email='{{ discourse_mail_from }}'"
 {% endif %}
   - exec: rails r "SiteSetting.max_category_nesting = 3"
+  - exec: rails r "SiteSetting.max_username_length = 60"
 
   - exec: echo "End of custom commands"
   #- exec: awk -F\# '{print $1;}' ~/.ssh/authorized_keys | awk 'BEGIN { print "Authorized SSH keys for this container:"; } NF>=2 {print $NF;}'
