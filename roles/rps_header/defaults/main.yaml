@@ -45,7 +45,60 @@ rps_header_top_navbar_links:
   #   icon: user
 
 rps_header_bottom_navbar_links: []
-rps_header_toggle_button_config: {}
+
+rps_header_toggle_button_config:
+  layout:
+    backgroundColor: 'white'
+    selectedBackgroundColor: 'lightgray'
+
+  config:
+    delay: 0.4,
+    preSelected: 'unknown'
+    disabled: false
+    items:
+    - name: Forum
+      selectedStyleBackgroundColor: 'lightgray'
+      triggerUrl: 'https://{{ discourse_service_name }}'
+      disabled : false
+      id: forum
+
+    - name: Cloud
+      selectedBackgroundColor: 'lightgray'
+      triggerUrl: 'https://{{ nextcloud_service_name }}/apps/files'
+      disabled: false
+      id: cloud
+
+    - name: Chat
+      selectedBackgroundColor: 'lightgray'
+      triggerUrl: 'https://{{ matrix_element_web_service_name }}'
+      disabled: false
+      id: chat
+    
+    - name: Kanban
+      selectedBackgroundColor: 'lightgray'
+      triggerUrl: 'https://{{ nextcloud_service_name }}/apps/deck'
+      disabled: false
+      id: kanban
+
+    rooms:
+
+    - name: 'Forschungsportal'
+      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/12'
+      forum: 'https://{{ discourse_service_name }}/c/forschungsportal/6'
+      cloud: 'https://{{ nextcloud_service_name }}/apps/files/?dir=/forschungsportal'
+
+    - name: 'NUM-Dokumente'
+      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/29'
+    
+    - name: 'Austauschformate'
+      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/30'
+
+    - name: 'AtGs'
+      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/31'
+
+    - name: 'Sprachrohr'
+      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/32'
+
 
 rps_header_admin_contact_link: mailto:{{rps_admin_email}}
 
