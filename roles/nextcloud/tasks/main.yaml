@@ -43,7 +43,7 @@
 
 - name: copy env file
   template:
-    src: "nextcloud-sync-env.j2"
+    src: "nextcloud-sync.env.j2"
     dest: "{{remote_path}}/nextcloud-sync-env"
   when: nextcloud_with_keycloak_sync
 
