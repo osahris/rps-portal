@@ -90,4 +90,4 @@ nextcloud_theme_version: main
 # execute user-defined nextcloud-related screduled tasks with cron
 nextcloud_with_cron: true
 
-nextcloud_with_admin_app_password: "{{ nextcloud_with_keycloak_permissions_sync }}"
+nextcloud_with_admin_app_password: "{{ nextcloud_with_keycloak_sync }}"
