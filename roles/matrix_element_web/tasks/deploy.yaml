@@ -6,7 +6,7 @@
 
 - name: include vars from custom themes .yaml files into the 'matrix_element_web_custom_theme'
   include_vars:
-    file: "{{ matrix_element_web_custom_themes_file }}"
+    file: "{{ matrix_element_web_custom_theme_name }}_theme.yaml"
     name: matrix_element_web_custom_themes
 
 - set_fact: 

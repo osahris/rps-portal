@@ -15,9 +15,7 @@
   debug:
     msg: "{{matrix_element_bundle_id}}"
 
-
 # Templating the ready-to-use custom /app/index.html
-
 - name: copy some templated .j2 files
   template:
     src: "index.html.j2" # relative to ./templates on local role path
@@ -25,3 +23,13 @@
 
 - name: copy a file into the container
   ansible.builtin.shell: "docker cp {{matrix_element_web_service_directory}}/index.html {{matrix_element_web_service_name|replace('.','')}}_element_1:/app/index.html"
+
+
+# Templating the custom /app/custom-theme.css file
+- name: copy some templated .j2 files
+  template:
+    src: "{{matrix_element_web_custom_theme_name}}_theme.css.j2" # relative to ./templates on local role path
+    dest: "{{matrix_element_web_service_directory}}/{{matrix_element_web_custom_theme_name}}_theme.css" # relative to ~/ on remote
+
+- name: copy a file into the container
+  ansible.builtin.shell: "docker cp {{matrix_element_web_service_directory}}/{{matrix_element_web_custom_theme_name}}_theme.css {{matrix_element_web_service_name|replace('.','')}}_element_1:/app/{{matrix_element_web_custom_theme_name}}_theme.css"
