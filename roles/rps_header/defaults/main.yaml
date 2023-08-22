@@ -80,24 +80,8 @@ rps_header_toggle_button_config:
       disabled: false
       id: kanban
 
-    rooms:
+    rooms: []
 
-    - name: 'Forschungsportal'
-      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/12'
-      forum: 'https://{{ discourse_service_name }}/c/forschungsportal/6'
-      cloud: 'https://{{ nextcloud_service_name }}/apps/files/?dir=/forschungsportal'
-
-    - name: 'NUM-Dokumente'
-      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/29'
-    
-    - name: 'Austauschformate'
-      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/30'
-
-    - name: 'AtGs'
-      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/31'
-
-    - name: 'Sprachrohr'
-      kanban: 'https://{{ nextcloud_service_name }}/apps/deck/#/board/32'
 
 
 rps_header_admin_contact_link: mailto:{{rps_admin_email}}
