@@ -45,7 +45,7 @@
   template:
     src: "nextcloud-sync.env.j2"
     dest: "{{remote_path}}/nextcloud-sync-env"
-  when: nextcloud_with_keycloak_sync
+  when: nextcloud_with_keycloak_permissions_sync
 
 - name: deploy docker-compose stack
   docker_compose:

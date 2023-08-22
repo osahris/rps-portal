@@ -42,7 +42,7 @@ rps_with_keycloak_permissions_sync:            false # <- requires roles: keyclo
 discourse_with_keycloak_permissions_sync:      "{{rps_with_keycloak_permissions_sync}}"
 gitea_with_keycloak_permissions_sync:          "{{rps_with_keycloak_permissions_sync}}"
 matrix_with_keycloak_permissions_sync:         "{{rps_with_keycloak_permissions_sync}}"
-nextcloud_with_keycloak_sync:      "{{rps_with_keycloak_permissions_sync}}"
+nextcloud_with_keycloak_permissions_sync:      "{{rps_with_keycloak_permissions_sync}}"
 wiki_bookstack_with_keycloak_permissions_sync: "{{rps_with_keycloak_permissions_sync}}"
 # -------------------------------------------------------- #
 # Watchtower

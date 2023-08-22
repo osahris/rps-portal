@@ -11,4 +11,4 @@ rps_with_wiki: false
 rps_with_gitea: false
 rps_with_rps_admin_interface: true
 
-nextcloud_with_keycloak_sync: true
+nextcloud_with_keycloak_permissions_sync: true

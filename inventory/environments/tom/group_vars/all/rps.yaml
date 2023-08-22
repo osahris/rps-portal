@@ -4,7 +4,7 @@ rps_admin_email: tom-robin.raja@uk-koeln.de
 traefik_log_level: DEBUG
 dns_suffix: eliasham.iodatalabs.dev
 
-nextcloud_with_keycloak_sync: true
+nextcloud_with_keycloak_permissions_sync: true
 rps_with_discourse_sync: true
 discourse_with_category_export: false
 discourse_with_category_import: true
