@@ -1,8 +1,10 @@
+---
 custom_themes:
 
 
+# Tulsky V.A. 2023
 - name: NUM
-  is_dark: true
+  is_dark: false
   fonts:
     faces:
     - font-family: Inter
@@ -12,44 +14,98 @@ custom_themes:
     general: Inter, sans
     monospace: "'Courier New'"
   colors:
-    accent:                        "#8b8b8b"
-    accent-color:                  "#44546a"
+    accent:                        "#44546A"
+    accent-color:                  "#44546A"
 
-    avatar-background-colors_1:    "#993333"
-    avatar-background-colors_2:    "#339933"
-    avatar-background-colors_3:    "#333399"
+    avatar-background-colors_1:    "#2A69A2"
+    avatar-background-colors_2:    "#249CAC"
+    avatar-background-colors_3:    "#FFC000"
 
-    primary-color:                 "#c8c8c8"
+    primary-color:                 "#44546A"
     
-    quinary-content:               "#3c3c43"
+    quinary-content:               "#EAEDF2"
 
-    roomlist-background-color:     "#2b2b2b"
-    roomlist-highlights-color:     "#7f7f7f"
-    roomlist-separator-color:      "#2b2b2b" 
-    roomlist-text-color:           "#44546a"
+    roomlist-background-color:     "#D2D5D9"
+    roomlist-highlights-color:     "#EAEDF2"
+    roomlist-separator-color:      "#44546A" 
+    roomlist-text-color:           "#44546A"
     roomlist-text-secondary-color: "#626262"
 
-    secondary-content:             "#ffffff"
+    secondary-content:             "#44546A"
 
-    sidebar-button-background:     "#ffffff"
-    sidebar-color:                 "#171717"
+    sidebar-button-background:     "#EAEDF2"
+    sidebar-color:                 "#FFFFFF"
 
-    strong-input-border-color:     "#ffffff"
+    strong-input-border-color:     "#44546A"
 
-    tertiary-content:              "#d8d8d8"
+    tertiary-content:              "#44546A"
 
-    timeline-background-color:     "#171717"
-    timeline-highlights-color:     "#7f7f7f"
-    timeline-text-color:           "#d8d8d8"
-    timeline-text-secondary-color: "#d8d8d8"
+    timeline-background-color:     "#FFFFFF"
+    timeline-highlights-color:     "#EAEDF2"
+    timeline-text-color:           "#44546A"
+    timeline-text-secondary-color: "#FFFFFF"
 
-    username-colors_1: "#990000"
-    username-colors_2: "#009900"
-    username-colors_3: "#000099"
-    username-colors_4: "#777700"
-    username-colors_5: "#770077"
-    username-colors_6: "#007777"
+    username-colors_1: "#993333"
+    username-colors_2: "#339933"
+    username-colors_3: "#333399"
+    username-colors_4: "#777722"
+    username-colors_5: "#772277"
+    username-colors_6: "#227777"
     username-colors_7: "#777777"
     username-colors_8: "#444444"
 
-    warning-color: "#cc5769"
+    warning-color: "#800000"
+
+
+- name: RPS
+  is_dark: false
+  fonts:
+    faces:
+    - font-family: Inter
+      src:
+      - url: "/fonts/Inter.ttf"
+        format: ttf
+    general: Inter, sans
+    monospace: "'Courier New'"
+  colors:
+    accent:                        "#0f2d64"
+    accent-color:                  "#0f2d64"
+
+    avatar-background-colors_1:    "#2A69A2"
+    avatar-background-colors_2:    "#249CAC"
+    avatar-background-colors_3:    "#FFC000"
+
+    primary-color:                 "#0f2d64" 
+    
+    quinary-content:               "#3c3c43"
+
+    roomlist-background-color:     "#ddeefa"
+    roomlist-highlights-color:     "#f6f6f7"
+    roomlist-separator-color:      "#44546A" 
+    roomlist-text-color:           "#44546A"
+    roomlist-text-secondary-color: "#61708b"
+
+    secondary-content:             "#6275a3"
+    
+    sidebar-button-background:     "#3c3c43" 
+    sidebar-color:                 "#0f2d64" 
+
+    strong-input-border-color:     "#44546A" 
+
+    tertiary-content:              "#44546A"
+
+    timeline-background-color:     "#FFFFFF"
+    timeline-highlights-color:     "#f6f6f7"
+    timeline-text-color:           "#44546A"
+    timeline-text-secondary-color: "#0f2d64"
+
+    username-colors_1: "#993333"
+    username-colors_2: "#339933"
+    username-colors_3: "#333399"
+    username-colors_4: "#777722"
+    username-colors_5: "#772277"
+    username-colors_6: "#227777"
+    username-colors_7: "#777777"
+    username-colors_8: "#444444"
+
+    warning-color: "#ff4b55"
