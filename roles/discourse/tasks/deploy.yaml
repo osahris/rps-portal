@@ -21,7 +21,9 @@
     dest: "{{discourse_target_directory}}/discourse_docker/containers/{{discourse_service_name|replace('.', '')}}_web_image_builder.yml"
   register: discourse_web_image_builder_task
 
-- when: discourse_web_image_builder_task.changed
+- when: 
+    - discourse_web_image_builder_task.changed
+    - discourse_with_image_building
   block:
   - name: docker-compose file for databases
     template:

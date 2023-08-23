@@ -1,5 +1,5 @@
 ---
-discourse_service_name: "dialog.{{ rps_dns_suffix }}"
+discourse_service_name: "forum.{{ rps_dns_suffix }}"
 
 locales:
   lang: de_DE.UTF-8
@@ -58,3 +58,5 @@ discourse_keycloak_client_secret: "{{ discourse_oidc_sso_client_secret }}"
 discourse_with_traefik: true
 discourse_with_category_import: false
 discourse_with_category_export: false
+
+discourse_with_image_building: true
