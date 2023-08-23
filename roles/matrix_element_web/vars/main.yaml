@@ -1,6 +1,4 @@
 ---
-matrix_element_web_custom_theme_name: "RPS"
-
 matrix_element_web_config:
   default_server_config:
     m.homeserver:
