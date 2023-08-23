@@ -1,5 +1,5 @@
 ---
-discourse_service_name: "dialog.{{ rps_dns_suffix }}"
+discourse_service_name: "forum.{{ rps_dns_suffix }}"
 
 locales:
   lang: de_DE.UTF-8
