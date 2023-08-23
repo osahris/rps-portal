@@ -58,3 +58,5 @@ discourse_keycloak_client_secret: "{{ discourse_oidc_sso_client_secret }}"
 discourse_with_traefik: true
 discourse_with_category_import: false
 discourse_with_category_export: false
+
+discourse_with_image_building: true
