@@ -12,3 +12,11 @@
 # - import_role: 
 #     name: discourse_sync
 #   when: discourse_with_keycloak_permissions_sync
+
+# Discourse sync
+- import_role:
+    name: discourse_sync
+  tags:
+    - discourse_sync
+    - forum_sync
+  when: rps_with_discourse_sync
