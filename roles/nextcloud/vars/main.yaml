@@ -59,7 +59,9 @@ traefik_dynamic_config:
     middlewares:
       nextcloud-headers:
         headers:
-          contentSecurityPolicy: "{{ nextcloud_content_security_policy }}"
+          customResponseHeaders:
+            contentSecurityPolicy: "{{ nextcloud_content_security_policy }}"
+
       nextcloud-oauth2-proxy-login-redirect:
         redirectRegex:
           regex: "^https?://{{ nextcloud_service_name }}/login$"

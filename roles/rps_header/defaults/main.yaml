@@ -45,8 +45,8 @@ rps_header_top_navbar_links:
   #   icon: user
 
 rps_header_bottom_navbar_links: []
+
 rps_header_toggle_button_config:
-  
   layout:
     backgroundColor: 'white'
     selectedBackgroundColor: 'lightgray'
