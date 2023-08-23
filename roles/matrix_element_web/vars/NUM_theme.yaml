@@ -1,0 +1,55 @@
+custom_themes:
+
+
+- name: NUM
+  is_dark: true
+  fonts:
+    faces:
+    - font-family: Inter
+      src:
+      - url: "/fonts/Inter.ttf"
+        format: ttf
+    general: Inter, sans
+    monospace: "'Courier New'"
+  colors:
+    accent:                        "#8b8b8b"
+    accent-color:                  "#44546a"
+
+    avatar-background-colors_1:    "#993333"
+    avatar-background-colors_2:    "#339933"
+    avatar-background-colors_3:    "#333399"
+
+    primary-color:                 "#c8c8c8"
+    
+    quinary-content:               "#3c3c43"
+
+    roomlist-background-color:     "#2b2b2b"
+    roomlist-highlights-color:     "#7f7f7f"
+    roomlist-separator-color:      "#2b2b2b" 
+    roomlist-text-color:           "#44546a"
+    roomlist-text-secondary-color: "#626262"
+
+    secondary-content:             "#ffffff"
+
+    sidebar-button-background:     "#ffffff"
+    sidebar-color:                 "#171717"
+
+    strong-input-border-color:     "#ffffff"
+
+    tertiary-content:              "#d8d8d8"
+
+    timeline-background-color:     "#171717"
+    timeline-highlights-color:     "#7f7f7f"
+    timeline-text-color:           "#d8d8d8"
+    timeline-text-secondary-color: "#d8d8d8"
+
+    username-colors_1: "#990000"
+    username-colors_2: "#009900"
+    username-colors_3: "#000099"
+    username-colors_4: "#777700"
+    username-colors_5: "#770077"
+    username-colors_6: "#007777"
+    username-colors_7: "#777777"
+    username-colors_8: "#444444"
+
+    warning-color: "#cc5769"
