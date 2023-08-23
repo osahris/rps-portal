@@ -63,6 +63,7 @@ matrix_element_web_traefik_router:
   rule: "Host(`{{matrix_element_web_service_name}}`)"
   middlewares: "{{'header-redirect' if (matrix_with_header_integration) else ''}}"
   service: "{{ matrix_element_web_service_name }}"
+  entrypoint: websecure
 
 matrix_element_web_traefik_service:
   loadBalancer:
