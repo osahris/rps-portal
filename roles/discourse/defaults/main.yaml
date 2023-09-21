@@ -33,7 +33,7 @@ discourse_oidc_sso_client_id: "{{ discourse_service_name }}"
 discourse_oidc_sso_discovery_url: "{{ discourse_keycloak_client_realm_url }}/.well-known/openid-configuration"
 discourse_oidc_sso_client_secret: "{{ ansible_local[discourse_service_name].discourse_oidc_sso_client_secret }}"
 
-discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
+discourse_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
 discourse_sync_api_key: "{{ ansible_local[discourse_service_name].discourse_sync_api_key }}"
 
 keycloak_docker_compose_profile: full
@@ -53,10 +53,13 @@ discourse_keycloak_client_realm_url: "{{discourse_keycloak_base_url}}/realms/{{d
 discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
 discourse_keycloak_client_redirect_uris:
   - "{{ discourse_base_url }}/auth/oidc/callback"
-discourse_keycloak_client_secret: "{{ discourse_oidc_sso_client_secret }}"
+# discourse_keycloak_client_secret: "{{ discourse_oidc_sso_client_secret }}"
 
 discourse_with_traefik: true
 discourse_with_category_import: false
 discourse_with_category_export: false
 
 discourse_with_image_building: true
+
+discourse_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
+discourse_sync_container_version: dev

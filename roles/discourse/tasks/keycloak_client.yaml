@@ -13,7 +13,7 @@
     realm: "{{ discourse_keycloak_client_realm }}"
     redirect_uris: "{{ discourse_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
-    secret: "{{ discourse_sync_keycloak_client_secret }}"
+    secret: "{{ discourse_keycloak_client_secret }}"
     state: present
     direct_access_grants_enabled: true
     service_accounts_enabled: true

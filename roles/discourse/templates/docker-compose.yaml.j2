@@ -28,6 +28,8 @@ services:
     restart: unless-stopped
     profiles:
       - discourse
+      - full
+      - only-nextcloud
     volumes:
       - postgres:/var/lib/postgresql/data
     env_file: postgres.env
@@ -43,6 +45,8 @@ services:
     command: /sbin/boot
     profiles:
       - discourse
+      - full
+      - only-discourse
     depends_on:
       - redis
       - postgres
