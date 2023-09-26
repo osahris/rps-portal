@@ -88,8 +88,7 @@ rps_header_admin_contact_link: mailto:{{rps_admin_email}}
 rps_header_js_url: https://{{rps_header_service_name}}/header.js
 rps_header_stylesheet_url: https://{{rps_header_service_name}}/header.css
 rps_header_userinfo_url: https://{{rps_header_service_name}}/oauth2/userinfo
-rps_header_sign_in_url: https://{{rps_header_service_name}}/oauth2/start?rd={{rps_header_sign_in_redirect_url|urlencode}}
-rps_header_sign_in_redirect_url: https://{{rps_header_service_name}}
+rps_header_sign_in_url: https://{{rps_header_service_name}}/oauth2/start
 rps_header_sign_out_url: https://{{rps_header_service_name}}/oauth2/sign_out?rd={{rps_header_sign_out_keycloak_redirect_url|urlencode}}
 rps_header_sign_out_keycloak_redirect_url: https://{{keycloak_service_name}}/realms/{{keycloak_realm}}/protocol/openid-connect/logout #?redirect_uri={{rps_header_sign_out_redirect_url|urlencode}}
 #rps_header_sign_out_redirect_url: https://{{rps_header_service_name}}

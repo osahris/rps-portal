@@ -69,3 +69,6 @@ oauth2_proxy_with_custom_templates: true
 oauth2_proxy_icon_src: "{{ rps_style_icon_src }}"
 oauth2_proxy_logo_src: "{{ rps_style_logo_src }}"
 oauth2_proxy_css_src:  "{{ rps_style_css_src }}"
+
+oauth2_proxy_whitelist_domains:
+  - "*.{{ rps_dns_suffix }}"
