@@ -4,7 +4,7 @@
     name: git
     state: present
 
-- name: fetch keycloak theme - {{keycloak_theme}}
+- name: fetch keycloak theme
   git:
     repo: "{{ keycloak_theme }}"
     dest: "{{ remote_path }}/themes/ansible-theme"

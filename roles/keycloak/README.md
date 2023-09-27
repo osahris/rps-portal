@@ -14,10 +14,6 @@ This ansible role uses the community.general module
 
 Files can be found in /templates folder
 
-Configuration on which items should the NUM regisration mask should have can be found [here] (https://cloud.netzwerk-universitaetsmedizin.de/f/33227)
-
-Example for NAPKON Keycloak Theme can be found [here] (https://gitlab.com/idcohorts/napkon/keycloak-theme/)
-
 ### Testing the registration mask
 Deploy it by executing following playbook with no inventory give
 
