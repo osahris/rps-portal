@@ -8,7 +8,7 @@ services:
 {% endif %}
 {% if gitea_expose_ssh_port %}
     ports:
-      - "{{gitea_ssh_port}}:{{gitea_ssh_port}}"
+      - "{{gitea_ssh_port}}:22"
 {% endif %}
 {% if gitea_with_header_integration %}
     volumes:
