@@ -3,6 +3,7 @@ services:
 
 - name: 'Discourse'
   subdomain: 'dialog'
+  icon: 'Discourse'
   scope: 'general'
   description: 'Communicate with your colleagues on a self-hosted forum'
 
@@ -12,11 +13,13 @@ services:
 
 - name: 'Element'
   subdomain: 'chat'
+  icon: 'Element'
   scope: 'general'
   description: 'Chat with your colleagues and exchange files'
 
 - name: 'Forgejo'
   subdomain: 'code'
+  icon: 'Forgejo'
   scope: 'general'
   description: 'Self-hosted version control repository to share codes and track changes'
 
@@ -25,20 +28,24 @@ services:
 
 - name: 'Keycloak'
   subdomain: 'accounts'
+  icon: 'Keycloak'
   scope: 'admin'
   description: 'Get logged to all services with a signle account'
 
 # - name: 'MVP'
 #   subdomain: 'mvp'
-#  type: 'admin'
+#   icon: 'Nginx'
+#   type: 'admin'
 
 - name: 'Nextcloud'
   subdomain:  'cloud'
+  icon: 'Nextcloud'
   scope: 'general'
   description: 'Share files and co-edit them online'
 
 - name: 'OpenProject'
   subdomain: 'openproject'
+  icon: 'OpenProject'
   scope: 'general'
   description: "Manage your projects and keep track of your team's workflow"
 
@@ -49,9 +56,6 @@ services:
 - name: 'Admin Interface'
   subdomain: 'admin'
   scope: 'admin'
-
-# - name: 'rps_navigator'
-#   scope: 'admin'
 
 # - name: 'rps_people'
 #   scope: 'general'
@@ -65,11 +69,13 @@ services:
 - name: 'Traefik'
   subdomain: 'traefik'
   # path: 'dashboard/#'
+  icon: 'Traefik'
   scope: 'admin'
   description: 'Keep track on the health of each service and their network configurations'
 
 - name: 'Bookstack'
   subdomain: 'wiki'
+  icon: 'Bookstack'
   scope: 'general'
   description: 'Create your own wiki-like knowledge base'
 
@@ -78,8 +84,10 @@ services:
 #   scope: 'general'
 #   description: 'Create your own wiki-like knowledge base'
 
-# - name: 'Wordpress (Draft)'
+# - name: 'WordPress (Draft)'
 #   subdomain: 'www-draft'
+#   icon: 'WordPress'
 
-# - name: 'Wordpress (Live)'
+# - name: 'WordPress (Live)'
 #   subdomain: 'www'
+#   icon: 'WordPress'

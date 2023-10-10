@@ -1,5 +1,5 @@
 ---
 dependencies:
   - role: docker
-  - role: rps_header
-    when: rps_navigator_with_header_integration
+  # - role: rps_header
+  #   when: rps_navigator_with_header_integration

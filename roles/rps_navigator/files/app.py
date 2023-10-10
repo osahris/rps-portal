@@ -28,7 +28,10 @@ def home():
         url =  url_protocol + "://"
         if 'subdomain' in service:
             url += service.get('subdomain') + '.'
-        url += domain 
+        if 'domain' in service:
+            url += service.get('domain')
+        else:
+            url += domain
         if 'path' in service:
             url += '/' + service.get('path')
         try:
