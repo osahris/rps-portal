@@ -17,6 +17,7 @@ keycloak_realms:
       - scientists
       - vip
     roles:
+      - name: admin
       - name: approved
       - name: new
       - name: groups-management
