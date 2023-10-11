@@ -1,5 +1,5 @@
 ---
-discourse_service_name: "dialog.{{ rps_dns_suffix }}"
+discourse_service_name: "forum.{{ rps_dns_suffix }}"
 discourse_api_username: system
 
 discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
