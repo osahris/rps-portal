@@ -2,7 +2,7 @@
 services:
 
 - name: 'Discourse'
-  subdomain: 'dialog'
+  subdomain: 'forum'
   icon: 'Discourse'
   scope: 'general'
   description: 'Communicate with your colleagues on a self-hosted forum'
