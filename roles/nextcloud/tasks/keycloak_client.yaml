@@ -15,7 +15,7 @@
     client_authenticator_type: client-secret
     secret: "{{ nextcloud_keycloak_client_secret }}"
     state: present
-    direct_access_grants_enabled: true
+    direct_access_grants_enabled: false
     service_accounts_enabled: true
     validate_certs: "{{ nextcloud_keycloak_client_validate_certs | default(true) }}"
     # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
