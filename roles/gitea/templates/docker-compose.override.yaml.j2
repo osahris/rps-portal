@@ -1,6 +1,13 @@
 ---
 version: "3"
 
+{% if gitea_expose_ssh_port %}
+networks:
+  exposed-ssh:
+    internal: false
+    external: false
+{% endif %}
+
 services:
   gitea:
 {% if gitea_override_image %}
@@ -9,6 +16,8 @@ services:
 {% if gitea_expose_ssh_port %}
     ports:
       - "{{gitea_ssh_port}}:22"
+    networks:
+      - exposed-ssh
 {% endif %}
 {% if gitea_with_header_integration %}
     volumes:

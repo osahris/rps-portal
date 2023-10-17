@@ -31,8 +31,6 @@ services:
     networks:
       - service
       - db
-    ports:
-      - "2222:22"
 
   db:
     image: postgres:15

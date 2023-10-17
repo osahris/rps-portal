@@ -1,5 +1,5 @@
 ---
 - name: gitea traefik dynamic config
   copy:
-    content: "{{ gitea_traefik_dynamic_config }}"
+    content: "{{ gitea_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/{{gitea_service_name}}.yaml"  
