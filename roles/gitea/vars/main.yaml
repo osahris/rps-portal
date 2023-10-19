@@ -59,7 +59,7 @@ gitea_traefik_router:
 gitea_traefik_service:
   loadBalancer:
     servers:
-      - url: "http://{{gitea_service_name | replace('.', '')}}_traefik_1:80"
+      - url: "http://{{gitea_service_name | replace('.', '')}}_gitea-oauth2-proxy_1:4180"
 
 gitea_traefik_dynamic_config:
   http:
@@ -71,3 +71,14 @@ gitea_traefik_dynamic_config:
       {{ { 
         gitea_service_name : gitea_traefik_service
       } }}
+
+# here we decide which paths are publically accessible
+# here is the gitea router, where we can look which routes exist
+# https://github.com/go-gitea/gitea/blob/release/v1.20/routers/init.go#L176
+# https://github.com/go-gitea/gitea/blob/release/v1.20/routers/web/web.go
+gitea_oauth2_proxy_skip_auth_routes: 
+# bypass authentication for requests that match the method & path.
+# Format: method=path_regex OR method!=path_regex. For all methods: path_regex OR !=path_regex
+  - '^/api/v1/' # the oauth2-proxy removes the Authorization-Header, we might want to route the api calls directly to gitea
+  - '^/assets/(js|css)/swagger'
+  - '^/swagger.v1.json$'

@@ -2,6 +2,9 @@
 version: "3"
 
 networks:
+  gitea:
+    internal: false
+    external: false
   proxy:
     external: true
   db:
@@ -41,18 +44,6 @@ services:
       - db.env
     networks:
       - db
-
-  traefik:
-    image: traefik:v2.10
-    restart: unless-stopped
-    volumes:
-      - ./traefik/:/etc/traefik/:ro
-    environment:
-      TRAEFIK_PROVIDERS_FILE_FILENAME: /etc/traefik/gitea.yaml
-      #TRAEFIK_ENTRYPOINTS_proxy_ADDRESS: ":80"
-    networks:
-      - proxy
-      - service
 
   gitea-oauth2-proxy:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0

@@ -21,7 +21,7 @@ gitea_oauth2_proxy_cookie_secret: "{{ ansible_local[gitea_service_name].gitea_oa
 gitea_oauth2_proxy_email_domains: "*"
 gitea_oauth2_proxy_allowed_roles:
   - approved
-gitea_oauth2_proxy_request_logging: true
+gitea_oauth2_proxy_request_logging: false
 
 # SSH
 gitea_with_ssh_features: true

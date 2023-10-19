@@ -19,16 +19,6 @@
     - "oauth2-proxy.env.j2"
     - "oauth2-proxy-redis.env.j2"
 
-- name: Create Traefik config directory
-  file:
-    path: "{{remote_path}}/traefik"
-    state: directory
-
-- name: Template Traefik dynamic config
-  template:
-    src: traefik.yaml.j2
-    dest: "{{remote_path}}/traefik/gitea.yaml"
-
 - import_tasks: custom.yaml
 
 - name: Deploy docker-compose stack
