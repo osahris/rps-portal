@@ -72,6 +72,10 @@ gitea_traefik_dynamic_config:
         gitea_service_name : gitea_traefik_service
       } }}
 
+gitea_oauth2_proxy_api_routes:
+# return HTTP 401 instead of redirecting to authentication server if token is not valid. Format: path_regex
+- '^/api/' # the oauth2-proxy removes the Authorization-Header, we might want to route the api calls directly to gitea
+
 # here we decide which paths are publically accessible
 # here is the gitea router, where we can look which routes exist
 # https://github.com/go-gitea/gitea/blob/release/v1.20/routers/init.go#L176
@@ -79,6 +83,7 @@ gitea_traefik_dynamic_config:
 gitea_oauth2_proxy_skip_auth_routes: 
 # bypass authentication for requests that match the method & path.
 # Format: method=path_regex OR method!=path_regex. For all methods: path_regex OR !=path_regex
-  - '^/api/v1/' # the oauth2-proxy removes the Authorization-Header, we might want to route the api calls directly to gitea
-  - '^/assets/(js|css)/swagger'
-  - '^/swagger.v1.json$'
+- '^/api/v1/' # the oauth2-proxy removes the Authorization-Header, we might want to route the api calls directly to gitea
+- '^/assets/(js|css)/swagger'
+- '^/swagger.v1.json$'
+
