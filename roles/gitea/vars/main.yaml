@@ -74,7 +74,7 @@ gitea_traefik_dynamic_config:
 
 gitea_oauth2_proxy_api_routes:
 # return HTTP 401 instead of redirecting to authentication server if token is not valid. Format: path_regex
-- '^/api/' # the oauth2-proxy removes the Authorization-Header, we might want to route the api calls directly to gitea
+- '^/api/'
 
 # here we decide which paths are publically accessible
 # here is the gitea router, where we can look which routes exist
