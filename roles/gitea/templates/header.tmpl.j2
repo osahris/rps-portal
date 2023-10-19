@@ -1,1 +1,1 @@
-<script src="{{rps_header_js_url | default('')}}"></script>
+{% if gitea_with_header_integration %}<script src="https://{{rps_header_service_name}}/header.js"></script>{% endif %}
