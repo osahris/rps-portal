@@ -19,7 +19,7 @@ services:
 
 - name: 'Forgejo'
   subdomain: 'code'
-  icon: 'Forgejo'
+  icon: 'Code'
   scope: 'general'
   description: 'Self-hosted version control repository to share codes and track changes'
 
