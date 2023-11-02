@@ -9,6 +9,8 @@ rps_groups_interface_keycloak_auth_username: "{{keycloak_admin_username|default(
 rps_groups_interface_keycloak_auth_password: "{{keycloak_admin_password}}"
 rps_groups_interface_keycloak_client_id: "{{rps_groups_interface_service_name}}"
 
+rps_groups_interface_with_header_integration: true
+
 rps_groups_interface_suite_config:
   project_id: "rps"
   project_name: "Test Suite"
