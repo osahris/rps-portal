@@ -82,6 +82,7 @@
     - rps-groups-interface
     - groups_interface
     - groups-interface
+    - groups
   when: rps_with_rps_groups_interface
 
   # Cohort Explorer
