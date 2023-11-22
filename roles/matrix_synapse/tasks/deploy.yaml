@@ -4,6 +4,11 @@
     path: "{{matrix_synapse_service_directory}}"
     state: directory
 
+- name: create initdb.d directory
+  file: 
+    path: "{{matrix_synapse_service_directory}}/initdb.d"
+    state: directory
+
 - name: set synapse homeserver config
   copy:
     content: "{{ matrix_synapse_homeserver_config | to_nice_yaml(indent=2, width=777) }}"
@@ -13,6 +18,11 @@
   template:
     src: postgres.env.j2
     dest: "{{ matrix_synapse_service_directory }}/postgres.env"  
+
+- name: copy postgres init script
+  copy:
+    src: create-default-postgres-user.sh
+    dest: "{{ matrix_synapse_service_directory }}/initdb.d/create-default-postgres-user.sh"
 
 - name: template synapse env file
   template:

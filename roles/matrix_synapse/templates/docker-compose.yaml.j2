@@ -20,6 +20,7 @@ services:
         max-size: 5m
     env_file: postgres.env
     volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d:ro
       - synapse_db_data:/var/lib/postgresql/data
     networks:
       - db
