@@ -10,12 +10,13 @@ matrix_synapse_homeserver_sso_client_whitelist:
   - "https://{{matrix_element_web_service_name}}"
 
 # postgres
-matrix_synapse_postgres_db: synapse
+matrix_synapse_postgres_db:   synapse
 matrix_synapse_postgres_user: synapse
 
 # secrets
-matrix_synapse_postgres_password: "{{ ansible_local[matrix_synapse_service_name].matrix_synapse_postgres_password }}"
-matrix_synapse_keycloak_client_secret: "{{ ansible_local[matrix_synapse_service_name].matrix_synapse_keycloak_client_secret }}"
+matrix_synapse_postgres_password:          "{{ ansible_local[matrix_synapse_service_name].matrix_synapse_postgres_password }}"
+matrix_synapse_keycloak_client_secret:     "{{ ansible_local[matrix_synapse_service_name].matrix_synapse_keycloak_client_secret }}"
+matrix_synapse_registration_shared_secret: "{{ ansible_local[matrix_synapse_service_name].matrix_synapse_registration_shared_secret }}"
 
 # keycloak client
 matrix_synapse_keycloak_client_auth_keycloak_url: "https://{{ keycloak_service_name }}"

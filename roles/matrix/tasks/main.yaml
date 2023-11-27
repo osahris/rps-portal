@@ -19,3 +19,10 @@
     - matrix_element_web
     - matrix-element-web
   when: matrix_with_element_web
+
+- import_role:
+    name: matrix_sync
+  tags:
+    - matrix_sync
+    - matrix-sync
+  when: matrix_with_sync

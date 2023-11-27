@@ -27,7 +27,7 @@ services:
 
   synapse:
     image: matrixdotorg/synapse:latest
-    entrypoint: sh -c "python3 start.py generate -m synapse.app.homeserver --config-path=/data/homeserver.yaml && python3 start.py"
+    entrypoint: sh -c "python3 start.py generate -m synapse.app.homeserver --config-path={{matrix_synapse_homeserver_config_file}} && python3 start.py"
     restart: unless-stopped
     logging:
       options:
@@ -35,7 +35,7 @@ services:
     env_file: synapse.env
     volumes:
       - synapse_data:/data/:rw
-      - ./homeserver.yaml:/data/homeserver.yaml:ro
+      - "./homeserver.yaml:{{matrix_synapse_homeserver_config_file}}:ro"
     networks:
       - db
       - proxy

@@ -2,7 +2,7 @@
 
 This role deploys the chat service to your server and allows you to easily communicate with your team. The chat used here is Matrix Synapse and the end-user client is Element Web.
 
-Default address of the Element Web client is https://element.<domain_name> .
+Default address of the Element Web client is https://chat.<domain_name> .
 
 Default address of the Matrix server is https://matrix.<domain_name> .
 

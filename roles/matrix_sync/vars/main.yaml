@@ -1,0 +1,6 @@
+matrix_sync_target_directory: "/srv/{{ matrix_service_name }}/sync"
+
+matrix_sync_secrets:
+  matrix_sync_keycloak_client_secret: "{{ matrix_sync_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  matrix_sync_access_token:                     "{{ matrix_sync_access_token | default('not_set') }}"
+  matrix_sync_pass:                                     "{{ matrix_sync_pass | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"

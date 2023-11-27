@@ -1,14 +1,20 @@
 ---
 matrix_synapse_secrets:
-  matrix_synapse_postgres_password: "{{ matrix_synapse_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  matrix_synapse_keycloak_client_secret: "{{ matrix_synapse_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  matrix_synapse_postgres_password:                   "{{ matrix_synapse_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  matrix_synapse_keycloak_client_secret:         "{{ matrix_synapse_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  matrix_synapse_registration_shared_secret: "{{ matrix_synapse_registration_shared_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 matrix_synapse_postgres_host: postgres
+
+matrix_synapse_homeserver_config_file: "/data/homeserver.yaml"
 
 matrix_synapse_homeserver_config:
   server_name: "{{matrix_synapse_homeserver_server_name}}"
 
   report_stats: no
+
+  # admin_users:
+  #   - "@admin:{{matrix_synapse_homeserver_server_name}}"
 
   alias_creation_rules:
     - action: allow
@@ -70,6 +76,20 @@ matrix_synapse_homeserver_config:
   url_preview_enabled: false
   log_config: "/data/{{matrix_synapse_homeserver_server_name}}.log.config"
   media_store_path: /data/media_store
+
+  rc_invites:
+    per_room:
+      per_second: 100
+      burst_count: 1000
+    per_user:
+      per_second: 100
+      burst_count: 1000
+    per_issuer:
+      per_second: 100
+      burst_count: 1000
+
+  registration_shared_secret: "{{matrix_synapse_registration_shared_secret}}"
+
   suppress_key_server_warning: true #added for use element
 
   trusted_key_servers:

@@ -1,0 +1,22 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  matrix_sync:
+    image: {{ matrix_sync_container_image }}:{{ matrix_sync_container_version }}
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - proxy
+    profiles:
+      - sync
+    entrypoint: ''
+    env_file: ".env"
+    # command: "tail -f /dev/null"
+    command: /opt/rps-admin-tools/command_loop.sh sync element --verbose
