@@ -26,7 +26,6 @@ services:
 
   openproject:
     image: openproject/community:12
-    # entrypoint: sh -c "python3 start.py generate -m synapse.app.homeserver --config-path=/data/homeserver.yaml && python3 start.py"
     restart: unless-stopped
     logging:
       options:
@@ -35,7 +34,6 @@ services:
     volumes:
       - openproject_assets:/var/openproject/assets:rw
       - openproject_db_data:/var/openproject/pgdata:rw
-      # - ./synapse/homeserver.yaml:/data/homeserver.yaml:ro
     networks:
       # - openproject
       - proxy
