@@ -23,19 +23,19 @@ rps_header_top_navbar_links:
   #   link: https://{{ discourse_service_name }}
   #   icon: message
   - title: Files
-    link: https://{{ nextcloud_service_name }}/apps/files
+    link: https://{{ nextcloud_service_name  | default('')}}/apps/files
     icon: folder
   - title: Calendar
-    link: https://{{ nextcloud_service_name }}/apps/calendar
+    link: https://{{ nextcloud_service_name  | default('')}}/apps/calendar
     icon: calendar
   - title: Chat
-    link: https://{{ matrix_element_web_service_name }}
+    link: https://{{ matrix_element_web_service_name | default('')}}
     icon: comments
   - title: Wiki
-    link: https://{{ wiki_bookstack_service_name }}
+    link: https://{{ wiki_bookstack_service_name  | default('')}}
     icon: wiki
   - title: Code
-    link: https://{{ gitea_service_name }}
+    link: https://{{ gitea_service_name  | default('')}}
     icon: code
   - title: Support
     link: 'mailto:{{ rps_admin_email }}'
