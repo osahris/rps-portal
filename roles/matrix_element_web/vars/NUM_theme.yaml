@@ -1,6 +1,4 @@
----
 custom_themes:
-
 
 # Tulsky V.A. 2023
 - name: NUM
@@ -43,7 +41,7 @@ custom_themes:
     timeline-background-color:     "#FFFFFF"
     timeline-highlights-color:     "#EAEDF2"
     timeline-text-color:           "#44546A"
-    timeline-text-secondary-color: "#FFFFFF"
+    timeline-text-secondary-color: "#44546A"
 
     username-colors_1: "#993333"
     username-colors_2: "#339933"
