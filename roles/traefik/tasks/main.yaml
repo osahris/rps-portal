@@ -44,7 +44,7 @@
   copy:
     content: "{{ traefik_dashboard_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/traefik-dashboard.yaml"
-  when: traefik_dashboard_service_name is defined
+  when: traefik_with_dashboard
 
 - name: make sure traefik dashboard service is absent if it is not defined
   file:

@@ -1,4 +1,5 @@
 ---
+traefik_with_dashboard: false
 traefik_dashboard_service_name: "traefik.{{ rps_dns_suffix }}"
 
 traefik_proxy_network: "proxy"
