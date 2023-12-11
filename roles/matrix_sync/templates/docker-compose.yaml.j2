@@ -6,8 +6,9 @@ networks:
     external: true
 
 services:
-  matrix_sync:
+  sync:
     image: {{ matrix_sync_container_image }}:{{ matrix_sync_container_version }}
+    # build: ./rps-admin-tools-element_sync/
     restart: unless-stopped
     logging:
       options:

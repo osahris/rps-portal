@@ -1,29 +1,29 @@
 ---
-- name: matrix app matrix_sync_target_directory
+- name: matrix app matrix_sync_service_directory
   file:
-    path: "{{matrix_sync_target_directory}}"
+    path: "{{matrix_sync_service_directory}}"
     state: directory
 
 # - name: copy all static files
 #   synchronize:
 #     recursive: true
 #     src: "./" # relative to ./files on local role path
-#     dest: "{{matrix_sync_target_directory}}" # relative to ~/ on remote
+#     dest: "{{matrix_sync_service_directory}}" # relative to ~/ on remote
 
 - name: matrix sync config file
   template:
     src: ".env.j2"
-    dest: "{{matrix_sync_target_directory}}/.env"
+    dest: "{{matrix_sync_service_directory}}/.env"
 
 - name: docker-compose file
   template:
     src: "docker-compose.yaml.j2"
-    dest: "{{matrix_sync_target_directory}}/docker-compose.yaml"
+    dest: "{{matrix_sync_service_directory}}/docker-compose.yaml"
 
 - name: deploy docker-compose only for sync
   docker_compose:
     profiles: "sync"
-    project_src: "{{matrix_sync_target_directory}}"
+    project_src: "{{matrix_sync_service_directory}}"
     pull: true
     build: true
     remove_orphans: true

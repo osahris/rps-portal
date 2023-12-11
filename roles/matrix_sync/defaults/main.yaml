@@ -1,7 +1,6 @@
 ---
-matrix_base_url:               "{{ rps_dns_suffix }}"
-matrix_service_name:    "matrix.{{ matrix_base_url }}"
-matrix_sync_service_name: "sync-{{matrix_service_name}}"
+matrix_sync_service_name:      "sync.{{matrix_homeserver_name}}"
+matrix_sync_service_directory: "/srv/{{matrix_sync_service_name}}"
 
 matrix_sync_synapse_homeserver_config_file: "{{matrix_synapse_homeserver_config_file}}"
 
@@ -26,4 +25,4 @@ matrix_sync_keycloak_client_realm: "{{ keycloak_realm }}"
 matrix_sync_keycloak_client_realm_url: "{{matrix_sync_keycloak_base_url}}/realms/{{matrix_sync_keycloak_client_realm}}"
 matrix_sync_keycloak_client_client_id: "{{ matrix_sync_service_name }}"
 matrix_sync_keycloak_client_redirect_uris:
-  - "{{ matrix_base_url }}/auth/oidc/callback"
+  - "{{ matrix_domain }}/auth/oidc/callback"
