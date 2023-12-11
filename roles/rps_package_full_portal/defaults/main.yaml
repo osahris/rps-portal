@@ -13,6 +13,7 @@ rps_with_nextcloud:      true
 rps_with_openproject:    true
 rps_with_rps_navigator:  true
 rps_with_wiki_bookstack: true
+rps_with_website:        true
 # -------------------------------------------------------- #
 # Functional services | Specific
 rps_with_rps_admin_interface:  true

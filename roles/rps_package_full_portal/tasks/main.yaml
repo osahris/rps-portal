@@ -16,6 +16,13 @@
     - navigator
   when: rps_with_rps_navigator
 
+# Website
+- import_role:
+    name: website
+  tags:
+    - website
+  when: rps_with_website
+
 # Chat
 - import_role: 
     name: matrix

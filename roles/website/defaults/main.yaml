@@ -1,9 +1,49 @@
 ---
+# Service
+website_service_name: "www.{{ rps_dns_suffix }}"
+website_service_directory: /srv/{{website_service_name}}
+website_service_base_url: "https://{{ website_service_name }}"
 
-website_service_name: website.{{ rps_dns_suffix }}
+# Website
 website_with_watchtower: false
-
-website_traefik_middlewares: "{{'header-redirect' if (website_with_header_integration) else ''}}"
-
 website_oci_image: nginx:1
 website_service_port: 80
+
+# Traefik
+website_traefik_middlewares: "{{'header-redirect' if (website_with_header_integration) else ''}}"
+website_with_header_integration: false
+
+# Auth
+website_with_auth: false
+website_auth_allowed_roles:
+  - approved
+# website_auth_required_groups:
+#   - "/mygroup/managers"
+
+## keycloak auth
+website_auth_keycloak_client_auth_keycloak_url: "https://{{ keycloak_service_name }}"
+website_auth_keycloak_client_auth_client_id: admin-cli
+website_auth_keycloak_client_auth_realm: "{{keycloak_management_realm|default('master')}}"
+website_auth_keycloak_client_auth_username: "{{keycloak_admin_username|default('admin')}}"
+website_auth_keycloak_client_auth_password: "{{keycloak_admin_password}}"
+website_auth_keycloak_client_validate_certs: true
+
+## keycloak client
+website_auth_keycloak_client_realm_url: "https://{{ keycloak_service_name }}/realms/{{website_auth_keycloak_client_realm}}"
+website_auth_keycloak_client_client_id: "{{ website_service_name }}"
+website_auth_keycloak_client_realm: "{{ keycloak_realm }}"
+website_auth_keycloak_client_redirect_uris:
+- "{{ website_service_base_url }}/oauth2/callback"
+website_auth_keycloak_client_secret: "{{ ansible_local[website_service_name].website_auth_keycloak_client_secret }}"
+
+## oauth2-proxy
+website_auth_oauth2_proxy_oci_image: quay.io/oauth2-proxy/oauth2-proxy:v7.5.1
+website_auth_oauth2_proxy_cookie_name: _website_oauth2
+website_auth_oauth2_proxy_cookie_expire: 1h
+website_auth_oauth2_proxy_oidc_issuer_url: "{{ website_auth_keycloak_client_realm_url }}"
+website_auth_oauth2_proxy_redirect_url: "{{ website_service_base_url }}/oauth2/callback"
+website_auth_oauth2_proxy_client_id: "{{ website_auth_keycloak_client_client_id }}"
+website_auth_oauth2_proxy_client_secret: "{{ website_auth_keycloak_client_secret }}"
+website_auth_oauth2_proxy_show_debug_on_error: true
+website_auth_oauth2_proxy_request_logging: true
+website_auth_oauth2_proxy_cookie_secret: "{{ ansible_local[website_service_name].website_auth_oauth2_proxy_cookie_secret }}"

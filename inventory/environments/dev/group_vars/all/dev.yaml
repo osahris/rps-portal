@@ -2,3 +2,4 @@
 rps_admin_interface_container_image_version: dev
 rps_groups_interface_container_version: dev
 rps_header_container_image_version: dev
+website_with_auth: true
