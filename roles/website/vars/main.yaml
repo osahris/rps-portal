@@ -20,5 +20,6 @@ website_traefik_dynamic_config:
     services: "{{ { website_service_name : website_traefik_service } }}"
 
 website_secrets:
-  website_auth_keycloak_client_secret: "{{ website_auth_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  website_auth_keycloak_client_secret: "{{ website_auth_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=64 chars=ascii_letters,digits')) }}"
   website_auth_oauth2_proxy_cookie_secret: "{{ website_auth_oauth2_proxy_cookie_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  website_auth_oauth2_proxy_redis_pass: "{{ website_auth_oauth2_proxy_redis_pass | default(lookup('ansible.builtin.password', '/dev/null length=64 chars=ascii_letters,digits')) }}"

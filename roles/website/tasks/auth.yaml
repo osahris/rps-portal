@@ -41,4 +41,8 @@
   template:
     src: oauth2-proxy.env.j2
     dest: "{{website_service_directory}}/oauth2-proxy.env"
-  register: oauth2_proxy_config_copy_task
+
+- name: oauth2-proxy-cache config
+  template:
+    src: oauth2-proxy-cache.env.j2
+    dest: "{{website_service_directory}}/oauth2-proxy-cache.env"

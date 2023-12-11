@@ -39,11 +39,18 @@ website_auth_keycloak_client_secret: "{{ ansible_local[website_service_name].web
 ## oauth2-proxy
 website_auth_oauth2_proxy_oci_image: quay.io/oauth2-proxy/oauth2-proxy:v7.5.1
 website_auth_oauth2_proxy_cookie_name: _website_oauth2
-website_auth_oauth2_proxy_cookie_expire: 1h
+website_auth_oauth2_proxy_cookie_refresh: 55s
+website_auth_oauth2_proxy_cookie_expire: 4h
+website_auth_oauth2_proxy_cookie_secret: "{{ ansible_local[website_service_name].website_auth_oauth2_proxy_cookie_secret }}"
 website_auth_oauth2_proxy_oidc_issuer_url: "{{ website_auth_keycloak_client_realm_url }}"
 website_auth_oauth2_proxy_redirect_url: "{{ website_service_base_url }}/oauth2/callback"
 website_auth_oauth2_proxy_client_id: "{{ website_auth_keycloak_client_client_id }}"
 website_auth_oauth2_proxy_client_secret: "{{ website_auth_keycloak_client_secret }}"
 website_auth_oauth2_proxy_show_debug_on_error: true
 website_auth_oauth2_proxy_request_logging: true
-website_auth_oauth2_proxy_cookie_secret: "{{ ansible_local[website_service_name].website_auth_oauth2_proxy_cookie_secret }}"
+website_auth_oauth2_proxy_with_cache: true
+website_auth_oauth2_proxy_redis_pass: "{{ ansible_local[website_service_name].website_auth_oauth2_proxy_redis_pass }}"
+website_auth_oauth2_proxy_session_cookie_minimal: "{{ not (website_auth_oauth2_proxy_pass_access_token or website_auth_oauth2_proxy_pass_authorization_header) }}"
+website_auth_oauth2_proxy_pass_access_token: false
+website_auth_oauth2_proxy_pass_authorization_header: false
+website_auth_oauth2_proxy_pass_user_headers: false
