@@ -7,7 +7,7 @@ website_traefik_router:
   service: "{{website_service_name}}"
 
 website_service_url: http://{{website_service_name | replace('.','')}}_website_1:{{website_service_port}}
-website_auth_oauth2_proxy_service_url: http://{{website_service_name | replace('.','')}}_oauth2-proxy_1:4180
+website_auth_oauth2_proxy_service_url: http://{{website_service_name | replace('.','')}}_website-oauth2-proxy_1:4180
 
 website_traefik_service:
   loadBalancer:

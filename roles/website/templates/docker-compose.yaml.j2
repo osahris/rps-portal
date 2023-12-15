@@ -36,12 +36,13 @@ services:
 
 {% if website_with_auth %}
 # Auth
-  oauth2-proxy:
+  website-oauth2-proxy:
     image: {{ website_auth_oauth2_proxy_oci_image | to_json }}
     env_file: oauth2-proxy.env
     networks:
-      - default
+      - website
       - proxy
+      - oauth2-proxy-cache
     depends_on:
     - website
     - oauth2-proxy-cache
@@ -51,8 +52,9 @@ services:
     env_file: oauth2-proxy-cache.env
     volumes: 
       - oauth2-proxy-redis:/data
-  whoami:
-    image: docker.io/traefik/whoami:v1.9
+    networks:
+      - oauth2-proxy-cache
+      - proxy
 
 volumes:
   oauth2-proxy-redis:
