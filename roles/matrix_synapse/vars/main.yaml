@@ -87,6 +87,9 @@ matrix_synapse_homeserver_config:
     per_issuer:
       per_second: 100
       burst_count: 1000
+  rc_message:
+      per_second: 100
+      burst_count: 1000
 
   registration_shared_secret: "{{matrix_synapse_registration_shared_secret}}"
 
