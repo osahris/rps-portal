@@ -34,9 +34,10 @@ rps_navigator_with_header_integration:        "{{rps_with_header}}"
 wiki_bookstack_with_header_integration:       "{{rps_with_header}}"
 # -------------------------------------------------------- #
 # Keycloak additional options
-rps_with_keycloak_groups:      true
-rps_with_keycloak_theme:       true
-rps_with_keycloak_mail_sender: false
+rps_with_keycloak_groups:           true
+rps_with_rps_group_application_api: true
+rps_with_keycloak_theme:            true
+rps_with_keycloak_mail_sender:      false
 # -------------------------------------------------------- #
 # Keycloak Sync -- synchronizes the groups, roles and permissions between Keycloak and other services where supported 
 rps_with_keycloak_permissions_sync:             true # <- requires roles: keycloak_groups

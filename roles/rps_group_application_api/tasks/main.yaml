@@ -9,6 +9,7 @@
     repo: "{{ group_application_api_repository }}"
     dest: "{{ group_application_api_target_directory }}"
     update: yes
+    force: yes
     version: "{{ group_application_api_version }}"
 
 - name: copy .env.j2

@@ -23,6 +23,7 @@
   docker_compose:
     project_src: "{{remote_path}}/"
     files: "docker-compose.yaml"
+    build: true
     pull: true
     remove_orphans: true
 
