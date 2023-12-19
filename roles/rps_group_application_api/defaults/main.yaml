@@ -1,0 +1,20 @@
+rps_groups_application_api_service_name: "application-api.{{ rps_dns_suffix }}"
+group_application_api_keycloak_client_secret: "{{ ansible_local[rps_groups_application_api_service_name].group_application_api_keycloak_client_secret }}"
+
+
+group_application_api_repository: "git@gitlab.com:idcohorts/rps/rps-group-application-api.git"
+group_application_api_version: main
+group_application_api_container_image: registry.gitlab.com/idcohorts/rps/rps-group-application-api
+group_application_api_container_version: latest
+group_application_api_keycloak_url: "https://{{ keycloak_service_name }}"
+
+group_application_api_validate_certs: true
+group_application_api_keycloak_service_url: "https://{{ keycloak_service_name }}"
+group_application_api_keycloak_auth_username: "{{keycloak_admin_username|default('admin')}}"
+group_application_api_keycloak_auth_password: "{{keycloak_admin_password}}"
+group_application_api_auth_realm: "master"
+
+group_application_api_keycloak_client_id: "{{ rps_groups_application_api_service_name }}"
+group_application_api_keycloak_realm: "dzif"
+
+group_application_api_redirect_uris: ""

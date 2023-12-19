@@ -1,0 +1,42 @@
+---
+
+- import_tasks: secrets.yaml
+
+- import_tasks: keycloak_client.yaml
+
+- name: Clone repository
+  git:
+    repo: "{{ group_application_api_repository }}"
+    dest: "{{ group_application_api_target_directory }}"
+    update: yes
+    version: "{{ group_application_api_version }}"
+
+- name: copy .env.j2
+  template:
+    src: .env.j2
+    dest: "{{ group_application_api_target_directory }}/.env"
+    owner: "root"
+    group: "root"
+    mode: 0640
+
+- name: copy traefik dynamic config
+  copy:
+    content: "{{ group_application_api_traefik_dynamic_config | to_nice_json }}\n"
+    dest: "/srv/traefik/conf.d/{{ rps_groups_application_api_service_name }}.yaml"
+
+- name: Copy docker-compose.override.yaml.j2
+  template:
+    src: docker-compose.override.yaml.j2
+    dest: "{{ group_application_api_target_directory }}/docker-compose.override.yaml"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "docker-compose up -d"
+  docker_compose:
+    project_src: "{{ group_application_api_target_directory }}"
+    state: present
+    build: yes
+    remove_orphans: yes
+    recreate: always
+    timeout: 300

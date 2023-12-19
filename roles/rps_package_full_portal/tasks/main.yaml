@@ -109,3 +109,12 @@
     - discourse
     - forum
   when: rps_with_discourse
+
+# group application api
+- import_role:
+    name: rps_group_application_api
+  tags:
+    - rps_group_application_api
+    - group_application_api
+    - group-application-api
+  when: rps_with_rps_group_application_api

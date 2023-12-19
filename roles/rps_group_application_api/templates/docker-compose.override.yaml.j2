@@ -1,0 +1,15 @@
+---
+version: "3.4"
+networks:
+  proxy:
+    external: true
+
+services:
+  group-application:
+    image: "{{ group_application_api_container_image }}:{{ group_application_api_container_version }}"
+    networks:
+      - proxy
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - 8000

@@ -1,0 +1,41 @@
+---
+
+- name: set keycloak client config
+  local_action: keycloak_client
+  become: false
+  args:
+    auth_client_id: "admin-cli"
+    auth_keycloak_url: "{{ group_application_api_keycloak_service_url }}"
+    auth_realm: "{{ group_application_api_auth_realm }}"
+    auth_username: "{{ group_application_api_keycloak_auth_username }}"
+    auth_password: "{{ group_application_api_keycloak_auth_password }}"
+    client_id: "{{ group_application_api_keycloak_client_id }}"
+    realm: "{{ group_application_api_keycloak_realm }}"
+    client_authenticator_type: client-secret
+    secret: "{{ group_application_api_keycloak_client_secret }}"
+    state: present
+    redirect_uris: "{{ group_application_api_redirect_uris }}"
+    service_accounts_enabled: true
+    validate_certs: "{{ group_application_api_validate_certs | default(true) }}"
+    standard_flow_enabled: true
+    implicit_flow_enabled: false
+    direct_access_grants_enabled: false
+    protocol_mappers:
+      - name:	audience
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-audience-mapper
+        config:
+          included.client.audience:	"{{ group_application_api_keycloak_client_id }}"
+          id.token.claim: 'true'
+          access.token.claim: 'true'
+      - name: groups
+        config:
+          access.token.claim: 'false'
+          claim.name: groups
+          full.path: 'true'
+          id.token.claim: 'true'
+          userinfo.token.claim: 'true'
+        consentRequired: false
+        protocol: openid-connect
+        protocolMapper: oidc-group-membership-mapper
