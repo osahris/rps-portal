@@ -1,5 +1,20 @@
 ---
 # --------------------------------------------------- #
+
+# Traefik
+- import_role:
+    name: traefik
+  tags:
+    - traefik
+    - proxy
+
+# Keycloak
+- import_role:
+    name: keycloak
+  tags:
+    - keycloak
+    - accounts
+
 # Header
 - import_role:
     name: rps_header
