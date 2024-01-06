@@ -72,7 +72,6 @@
       - name: view-users
       - name: query-users
       - name: manage-users
-      - name: realm-admin
 
 - name: Map a client role to a service account user for a client, authentication with credentials
   community.general.keycloak_user_rolemapping:
