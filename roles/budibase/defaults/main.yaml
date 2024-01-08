@@ -17,8 +17,8 @@ budibase_sync_keycloak_client_secret: "{{ ansible_local[budibase_service_name].b
 
 keycloak_docker_compose_profile: full
 budibase_sync_keycloak_client_realm: rps
-budibase_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
-budibase_sync_container_version: dev
+budibase_sync_container_image: "{{ rps_sync_container_image | default('registry.gitlab.com/idcohorts/rps/rps-admin-tools') }}"
+budibase_sync_container_version: "{{ rps_sync_container_version | default('latest') }}"
 budibase_sync_keycloak_client_client_id: "{{budibase_service_name}}"
 budibase_with_keycloak_client: false # So far this task seems to be an undone from step "Create access_token for keycloak for user admin"
 budibase_sync_keycloak_client_auth_keycloak_url: "{{keycloak_service_name}}"

@@ -2,8 +2,8 @@
 keycloak_mail_sender_service_name: "keycloak-mail-sender.{{keycloak_service_name}}"
 
 keycloak_mail_sender_keycloak_client_realm: "{{ keycloak_realm }}"
-keycloak_mail_sender_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
-keycloak_mail_sender_container_image_version: latest
+keycloak_mail_sender_container_image: "{{ rps_sync_container_image | default('registry.gitlab.com/idcohorts/rps/rps-admin-tools') }}"
+keycloak_mail_sender_container_image_version: "{{ rps_sync_container_version | default('latest') }}"
 keycloak_mail_sender_keycloak_client_client_id: "{{keycloak_mail_sender_service_name}}"
 keycloak_mail_sender_keycloak_client_secret: "{{ ansible_local[keycloak_mail_sender_service_name].keycloak_mail_sender_keycloak_client_secret }}"
 
