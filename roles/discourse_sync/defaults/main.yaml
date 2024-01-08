@@ -24,3 +24,6 @@ discourse_keycloak_client_realm_url: "{{discourse_keycloak_base_url}}/realms/{{d
 discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
 discourse_keycloak_client_redirect_uris:
   - "{{ discourse_base_url }}/auth/oidc/callback"
+
+discourse_sync_ignore_roles: "{{ rps_sync_ignore_roles | default(['admin']) }}"
+discourse_sync_ignore_groups: "{{ rps_sync_ignore_groups | default(['admin']) }}"

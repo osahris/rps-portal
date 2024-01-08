@@ -27,4 +27,4 @@ matrix_sync_keycloak_client_client_id: "{{ matrix_sync_service_name }}"
 matrix_sync_keycloak_client_redirect_uris:
   - "{{ matrix_domain }}/auth/oidc/callback"
 
-matrix_sync_ignore_groups: ['admin']
+matrix_sync_ignore_groups: "{{ rps_sync_ignore_groups | default(['admin']) }}"

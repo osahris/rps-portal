@@ -91,3 +91,6 @@ nextcloud_theme_version: main
 nextcloud_with_cron: true
 
 nextcloud_with_admin_app_password: "{{ nextcloud_with_keycloak_permissions_sync }}"
+
+nextcloud_sync_ignore_groups: "{{ rps_sync_ignore_groups | default(['admin']) }}"
+nextcloud_sync_ignore_users: "{{ rps_sync_ignore_users | default(['admin']) }}"

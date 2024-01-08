@@ -16,3 +16,6 @@ keycloak_permissions_sync_keycloak_client_validate_certs: true
 
 keycloak_permissions_sync_keycloak_realm: "{{ keycloak_realm }}"
 keycloak_permissions_sync_keycloak_client_id: "{{keycloak_permissions_sync_keycloak_client_client_id}}"
+
+keycloak_permissions_sync_ignore_roles: "{{ rps_sync_ignore_roles | default(['admin']) }}"
+keycloak_permissions_sync_ignore_groups: "{{ rps_sync_ignore_groups | default(['admin']) }}"
