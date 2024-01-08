@@ -2,3 +2,5 @@
 - import_tasks: secrets.yaml
 - import_tasks: deploy.yaml
 - import_tasks: keycloak_client.yaml
+- import_tasks: auto_invite.yaml
+  when: matrix_with_auto_invite

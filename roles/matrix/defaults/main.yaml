@@ -4,5 +4,6 @@ matrix_homeserver_name: "matrix.{{ matrix_domain }}"
 
 matrix_with_service_discovery: false
 matrix_with_synapse:           true
+matrix_with_auto_invite:       true
 matrix_with_element_web:       true
 matrix_with_sync:              true

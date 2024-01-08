@@ -1,0 +1,23 @@
+---
+- name: install synapse-auto-accept-invite
+  community.docker.docker_container_exec:
+    container: "{{matrix_synapse_service_name|replace('.','')}}_synapse_1"
+    command: pip install synapse-auto-accept-invite --root-user-action=ignore
+
+- name: Stop a container
+  community.docker.docker_container:
+    name: "{{matrix_synapse_service_name|replace('.','')}}_synapse_1"
+    state: stopped
+
+- name: Insert a block at the beginning of a file homeserver.yaml
+  ansible.builtin.blockinfile:
+    path: "{{ matrix_synapse_service_directory }}/homeserver.yaml"
+    insertbefore: EOF
+    block: |
+      {{ matrix_synapse_modules_config | to_nice_yaml(indent=2, width=777) }}
+
+- name: Restart a container
+  community.docker.docker_container:
+    name: "{{matrix_synapse_service_name|replace('.','')}}_synapse_1"
+    state: started
+    restart: true
