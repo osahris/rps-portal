@@ -5,8 +5,8 @@ discourse_api_username: system
 discourse_sync_keycloak_client_secret: "{{ ansible_local[discourse_service_name].discourse_sync_keycloak_client_secret }}"
 discourse_sync_api_key: "{{ ansible_local[discourse_service_name].discourse_sync_api_key }}"
 
-discourse_sync_container_image: registry.gitlab.com/idcohorts/rps/rps-admin-tools
-discourse_sync_container_version: dev
+discourse_sync_container_image: "{{ rps_sync_container_image | default('registry.gitlab.com/idcohorts/rps/rps-admin-tools') }}"
+discourse_sync_container_version: "{{ rps_sync_container_version | default('latest') }}"
 discourse_sync_keycloak_client_client_id: "sync-{{discourse_service_name}}"
 discourse_sync_username: system
 
@@ -25,5 +25,5 @@ discourse_keycloak_client_client_id: "{{ discourse_oidc_sso_client_id }}"
 discourse_keycloak_client_redirect_uris:
   - "{{ discourse_base_url }}/auth/oidc/callback"
 
-discourse_sync_ignore_roles: "{{ rps_sync_ignore_roles | default(['admin']) }}"
+discourse_sync_ignore_users: "{{ rps_sync_ignore_users | default(['admin']) }}"
 discourse_sync_ignore_groups: "{{ rps_sync_ignore_groups | default(['admin']) }}"

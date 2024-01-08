@@ -20,6 +20,7 @@
   tags:
     - keycloak_permissions_sync
     - keycloak-permissions-sync
+    - sync
   when: rps_with_keycloak_permissions_sync
 
 # Keycloak Theme

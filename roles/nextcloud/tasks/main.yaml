@@ -138,6 +138,8 @@
 
 - import_tasks: keycloak_sync.yaml
   when: nextcloud_with_keycloak_permissions_sync
+  tags:
+    - sync
 
 ########################################################################
 ### Section: set scheduled Cron tasks for nextcloud
