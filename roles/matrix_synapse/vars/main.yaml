@@ -79,17 +79,17 @@ matrix_synapse_homeserver_config:
 
   rc_invites:
     per_room:
-      per_second: 100
-      burst_count: 1000
+      per_second: 1000
+      burst_count: 10000
     per_user:
-      per_second: 100
-      burst_count: 1000
+      per_second: 1000
+      burst_count: 10000
     per_issuer:
-      per_second: 100
-      burst_count: 1000
+      per_second: 1000
+      burst_count: 10000
   rc_message:
-      per_second: 100
-      burst_count: 1000
+      per_second: 1000
+      burst_count: 10000
 
   registration_shared_secret: "{{matrix_synapse_registration_shared_secret}}"
 
