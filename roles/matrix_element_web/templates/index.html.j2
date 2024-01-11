@@ -53,14 +53,15 @@
         <link rel="preload" as="font" href="./fonts/Inter/Inter-Medium.6be58ea.woff2" crossorigin="anonymous"/>
         <link rel="preload" as="font" href="./fonts/Inter/Inter-Italic.faebbae.woff2" crossorigin="anonymous"/>
         <link rel="preload" as="font" href="./fonts/Inter/Inter-Regular.bed7225.woff2" crossorigin="anonymous"/>
-{% if matrix_hide_help_to_improve_window %}
+{% if matrix_element_web_hide_help_to_improve_window %}
         <style>
+            /* Hide Help to improve pop up window */
             .mx_ToastContainer {
               display: none;
             }
         </style>
 {% endif %}
-{% if matrix_with_header_integration %}
+{% if matrix_element_web_with_header_injection %}
         <!-- RPS Header integration -->
         <script type="text/javascript" src="/header.js"></script>
         <!-- --- -->
@@ -69,7 +70,7 @@
 
     <body style="height: 100%; margin: 0;">
         <noscript>Sorry, Element requires JavaScript to be enabled.</noscript> <!-- TODO: Translate this? -->
-{% if matrix_with_header_integration %}
+{% if matrix_element_web_with_header_injection %}
         <!-- RPS Header integration -->
         <nav id="rps-header" class="rps-header" data-user-logged-in="true" style="z-index: 0;"></nav>
         <!-- --- -->

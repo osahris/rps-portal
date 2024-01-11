@@ -2,4 +2,4 @@
 - import_tasks: deploy.yaml
 
 - import_tasks: customize.yaml
-  when: matrix_element_web_with_header_injection
+  when: matrix_element_web_with_header_injection or matrix_element_web_hide_help_to_improve_window

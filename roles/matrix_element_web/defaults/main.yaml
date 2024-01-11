@@ -3,4 +3,4 @@ matrix_element_web_service_name: "chat.{{matrix_domain}}"
 matrix_element_web_service_directory: "/srv/{{matrix_element_web_service_name}}"
 matrix_element_web_with_header_injection: "{{ matrix_with_header_integration }}"
 matrix_element_web_custom_theme_name: "RPS"
-matrix_hide_help_to_improve_window: true
+matrix_element_web_hide_help_to_improve_window: true
