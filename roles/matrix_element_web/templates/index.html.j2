@@ -53,6 +53,13 @@
         <link rel="preload" as="font" href="./fonts/Inter/Inter-Medium.6be58ea.woff2" crossorigin="anonymous"/>
         <link rel="preload" as="font" href="./fonts/Inter/Inter-Italic.faebbae.woff2" crossorigin="anonymous"/>
         <link rel="preload" as="font" href="./fonts/Inter/Inter-Regular.bed7225.woff2" crossorigin="anonymous"/>
+{% if matrix_hide_help_to_improve_window %}
+        <style>
+            .mx_ToastContainer {
+              display: none;
+            }
+        </style>
+{% endif %}
 {% if matrix_with_header_integration %}
         <!-- RPS Header integration -->
         <script type="text/javascript" src="/header.js"></script>
