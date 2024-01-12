@@ -90,6 +90,10 @@ matrix_synapse_homeserver_config:
   rc_message:
       per_second: 1000
       burst_count: 10000
+  rc_joins:
+    local:
+      per_second: 1000
+      burst_count: 10000
 
   registration_shared_secret: "{{matrix_synapse_registration_shared_secret}}"
 
