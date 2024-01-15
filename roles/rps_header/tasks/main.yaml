@@ -6,7 +6,7 @@
 
 - name: copy header dynamic config
   copy:
-    content: "{{ rps_header_dynamic_config }}"
+    content: "{{ rps_header_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "{{ remote_path }}/config.dynamic.yaml"
 
 - name: create docker compose yaml
@@ -34,5 +34,5 @@
 
 - name: copy traefik dynamic config
   copy:
-    content: "{{ header_traefik_dynamic_config }}"
+    content: "{{ header_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/header.yaml"

@@ -16,7 +16,7 @@
 
 - name: create suite config
   copy:
-    content: "{{ rps_groups_interface_suite_config }}"
+    content: "{{ rps_groups_interface_suite_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "{{remote_path}}/config/config.json"
 
 - name: deploy docker-compose stack
@@ -36,5 +36,5 @@
 
 - name: traefik dynamic config
   copy:
-    content: "{{ rps_groups_interface_traefik_dynamic_config }}"
+    content: "{{ rps_groups_interface_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/{{ rps_groups_interface_service_name }}.yaml"

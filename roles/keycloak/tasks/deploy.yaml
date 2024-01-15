@@ -23,7 +23,7 @@
 
 - name: traefik dynamic config
   copy:
-    content: "{{ keycloak_traefik_dynamic_config }}"
+    content: "{{ keycloak_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/keycloak.yaml"
 
 - name: wait for keycloak

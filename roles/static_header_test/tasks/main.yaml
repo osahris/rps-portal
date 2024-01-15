@@ -29,5 +29,5 @@
 
 - name: traefik dynamic config
   copy:
-    content: "{{ static_header_test_traefik_dynamic_config }}"
+    content: "{{ static_header_test_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/static-header-test.yaml"

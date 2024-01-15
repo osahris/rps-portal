@@ -63,7 +63,7 @@
     ```
         - name: traefik dynamic config
     	    copy:
-                content: "{{ keycloak_traefik_dynamic_config }}"
+                content: "{{ keycloak_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
                 dest: "{{traefik_config_directory}}/conf.d/keycloak.yaml" 
     ```
 

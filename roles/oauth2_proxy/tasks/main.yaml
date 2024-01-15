@@ -51,5 +51,5 @@
 
 - name: traefik dynamic config
   copy:
-    content: "{{ oauth2_proxy_traefik_dynamic_config }}"
+    content: "{{ oauth2_proxy_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/oauth2-proxy.yaml"
