@@ -401,7 +401,9 @@ label {
 }
 
 /*** CONTENT ELEMENTS END*****/
-
+  .section {
+    font-align: center;
+  }
 
   .rps-button {
     display: block;
@@ -439,20 +441,19 @@ label {
         </div>
         <h4 class="text-center font-weight-bold">Vielen Dank für Ihre Anmeldung.</h4>
         <div class="block">
-          <div>
-            Wir werden Ihre Registrierung innerhalb der nächsten Werktage händisch verifizieren. <br> 
-            Nach erfolgreicher Aktivierung Ihres Nutzerkontos werden Sie von uns per E-Mail informiert.
-          </div>
-          <div>
+          <p>
+            Wir werden Ihre Registrierung innerhalb der nächsten Werktage händisch verifizieren. Nach erfolgreicher Aktivierung Ihres Nutzerkontos werden Sie von uns per E-Mail informiert.
+          </p>
+          <p>
             Sollten Sie länger als 5 Werktage auf eine Bearbeitung warten, informieren Sie uns bitte unter 
             {% endraw %}
               <a href="mailto:support@hub.netzwerk-universitaetsmedizin.de" class="authButton">support@hub.netzwerk-universitaetsmedizin.de</a>
             {% raw %}
-          </div>
+          </p>
           <div class="columns">
             <div class="column">
               <form method="GET" action="{{.Redirect}}">
-                <button type="submit" class="rps-button rps-btn-primary">Zurück</button>
+                <button type="submit" class="rps-button rps-btn-primary" style="margin:1em auto">Zurück</button>
               </form>
             </div>
           </div>
