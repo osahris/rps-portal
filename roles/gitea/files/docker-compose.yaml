@@ -21,7 +21,7 @@ volumes:
 services:
 
   gitea: 
-    image: gitea/gitea:1.19
+    image: gitea/gitea:1.21
     restart: unless-stopped
     volumes:
       - data:/data

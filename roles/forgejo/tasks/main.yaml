@@ -4,4 +4,4 @@
     name: gitea
   vars:
     gitea_project_name: forgejo
-    gitea_override_image: codeberg.org/forgejo/forgejo:1.19
+    gitea_override_image: codeberg.org/forgejo/forgejo:1.21
