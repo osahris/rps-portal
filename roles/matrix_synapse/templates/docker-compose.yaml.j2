@@ -26,7 +26,7 @@ services:
       - db
 
   synapse:
-    image: matrixdotorg/synapse:latest
+    image: matrixdotorg/synapse:v1.98.0
     entrypoint: sh -c "python3 start.py generate -m synapse.app.homeserver --config-path={{matrix_synapse_homeserver_config_file}} && python3 start.py"
     restart: unless-stopped
     logging:
