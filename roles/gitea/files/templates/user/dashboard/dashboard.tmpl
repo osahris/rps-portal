@@ -1,0 +1,47 @@
+{{template "base/head" .}}
+<div role="main" aria-label="{{.Title}}" class="page-content dashboard feeds">
+	{{template "user/dashboard/navbar" .}}
+	<div class="ui container">
+		{{template "base/alert" .}}
+		<div class="ui mobile reversed stackable grid">
+			{{if .HeatmapData}}
+			<div class="ui container ten wide column">
+				{{template "user/heatmap" .}}
+				{{template "user/dashboard/feeds" .}}
+			</div>
+			{{else}}
+			<div class="ui container ten wide column">
+				<div class="ui container five wide column">
+					<div class="flex flex-row max-w-md">
+						<h3 class="
+								leading-10 text-xl font-bold text-steel-600 dark:text-white
+								underline decoration-1 decoration-steel-100 dark:decoration-steel-600 underline-offset-[0.5rem]
+							">
+							Welcome to the code repository
+						</h3>
+						<p class="text-steel-600 dark:text-steel-200">
+							This service allows you to <strong>store and share your codes</strong> and benefit from the <strong>version control</strong>.
+						</p>
+					</div>
+				</div>
+				<div class="divider"></div>
+				<div class="ui container five wide column">
+					<div class="flex flex-row max-w-md">
+						<h3 class="
+								leading-10 text-xl font-bold text-steel-600 dark:text-white
+								underline decoration-1 decoration-steel-100 dark:decoration-steel-600 underline-offset-[0.5rem]
+							">
+							First steps
+						</h3>
+						<p class="text-steel-600 dark:text-steel-200">
+							Create your first repository using the menu on the right. Next basic steps will be on the Quick Guide page that will be displayed.
+						</p>
+					</div>
+				</div>
+			</div>
+			{{end}}
+			{{template "user/dashboard/repolist" .}}
+		</div>
+	</div>
+</div>
+{{template "base/footer" .}}
