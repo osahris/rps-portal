@@ -19,7 +19,4 @@ services:
     networks:
       - exposed-ssh
 {% endif %}
-{% if gitea_with_header_integration %}
-    volumes:
-      - ./templates:/data/gitea/templates/custom:ro
-{% endif %}
+
