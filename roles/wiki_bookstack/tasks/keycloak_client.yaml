@@ -4,18 +4,18 @@
   local_action: keycloak_client
   become: false
   args:
-    auth_client_id: "{{ wiki_bookstack_keycloak_client_auth_client_id }}"
-    auth_keycloak_url: "{{ wiki_bookstack_keycloak_client_auth_keycloak_url }}"
-    auth_realm: "{{ wiki_bookstack_keycloak_client_auth_realm }}"
-    auth_username: "{{ wiki_bookstack_keycloak_client_auth_username }}"
-    auth_password: "{{ wiki_bookstack_keycloak_client_auth_password }}"
-    client_id: "{{ wiki_bookstack_keycloak_client_id }}"
-    realm: "{{ wiki_bookstack_keycloak_client_realm }}"
-    redirect_uris: "{{ wiki_bookstack_keycloak_client_redirect_uris }}"
+    auth_client_id: "{{ bookstack_keycloak_client_auth_client_id }}"
+    auth_keycloak_url: "{{ bookstack_keycloak_client_auth_keycloak_url }}"
+    auth_realm: "{{ bookstack_keycloak_client_auth_realm }}"
+    auth_username: "{{ bookstack_keycloak_client_auth_username }}"
+    auth_password: "{{ bookstack_keycloak_client_auth_password }}"
+    client_id: "{{ bookstack_keycloak_client_id }}"
+    realm: "{{ bookstack_keycloak_client_realm }}"
+    redirect_uris: "{{ bookstack_keycloak_client_redirect_uris }}"
     client_authenticator_type: client-secret
-    secret: "{{ wiki_bookstack_keycloak_client_secret }}"
+    secret: "{{ bookstack_keycloak_client_secret }}"
     state: present
-    validate_certs: "{{ wiki_bookstack_keycloak_client_validate_certs | default(true) }}"
+    validate_certs: "{{ bookstack_keycloak_client_validate_certs | default(true) }}"
     protocol_mappers:
       - name: groups
         config:

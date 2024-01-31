@@ -1,9 +1,10 @@
 ---
-remote_path: "/srv/{{wiki_bookstack_service_name}}"
+remote_path: "/srv/{{bookstack_service_name}}"
 
-wiki_bookstack_secrets:
-  wiki_bookstack_db_admin_password:           "{{ wiki_bookstack_db_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
-  wiki_bookstack_keycloak_client_secret: "{{ wiki_bookstack_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+bookstack_secrets:
+  bookstack_db_password:                       "{{ bookstack_db_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  bookstack_db_root_password:             "{{ bookstack_db_root_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  bookstack_keycloak_client_secret: "{{ bookstack_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
 keycloak_host: "{{keycloak_service_name}}"
 
@@ -13,16 +14,16 @@ app_port: "80"
 traefik_dynamic_config:
   http:
     routers:
-      wiki-bookstack:
-        rule: "Host(`{{wiki_bookstack_service_name}}`)"
+      bookstack:
+        rule: "Host(`{{bookstack_service_name}}`)"
         entrypoints: websecure
-        middlewares: "{{'header-redirect' if (wiki_bookstack_with_header_integration) else ''}}"
+        middlewares: "{{'header-redirect' if (bookstack_with_header_integration) else ''}}"
         tls:
           certresolver: letsencrypt
-        service: wiki-bookstack
+        service: bookstack
 
     services:
-      wiki-bookstack:
+      bookstack:
         loadBalancer:
           servers:
-            - url: "http://{{wiki_bookstack_service_name | replace('.','')}}_wiki-bookstack_1:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{bookstack_service_name | replace('.','')}}_bookstack_1:{{app_port}}" # "http://container_name:container_port"

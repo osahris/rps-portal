@@ -32,7 +32,7 @@ rps_header_top_navbar_links:
     link: https://{{ matrix_element_web_service_name | default('')}}
     icon: comments
   - title: Wiki
-    link: https://{{ wiki_bookstack_service_name  | default('')}}
+    link: https://{{ bookstack_service_name  | default('')}}
     icon: wiki
   - title: Code
     link: https://{{ gitea_service_name  | default('')}}

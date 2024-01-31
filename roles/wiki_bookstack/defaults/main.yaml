@@ -1,21 +1,21 @@
 ---
-wiki_bookstack_service_name: "wiki.{{ rps_dns_suffix }}"
+bookstack_service_name: "wiki.{{ rps_dns_suffix }}"
 
-wiki_DB_DATABASE: "bookstackapp"
-wiki_DB_USER:     "bookstack"
-wiki_DB_PASS:     "{{wiki_bookstack_db_admin_password}}"
+bookstack_db_database: "bookstack"
+bookstack_db_user:     "bookstack"
 
 # secrets
-wiki_bookstack_db_admin_password:      "{{ ansible_local.wiki_bookstack_secrets.wiki_bookstack_db_admin_password      | default(ansible_local.secrets.wiki_bookstack_db_admin_password) }}"
-wiki_bookstack_keycloak_client_secret: "{{ ansible_local.wiki_bookstack_secrets.wiki_bookstack_keycloak_client_secret | default(ansible_local.secrets.wiki_bookstack_keycloak_client_secret) }}"
+bookstack_db_password:            "{{ ansible_local[bookstack_service_name].bookstack_db_password }}"
+bookstack_db_root_password:       "{{ ansible_local[bookstack_service_name].bookstack_db_root_password }}"
+bookstack_keycloak_client_secret: "{{ ansible_local[bookstack_service_name].bookstack_keycloak_client_secret }}"
 
-wiki_bookstack_keycloak_client_auth_client_id: admin-cli
-wiki_bookstack_keycloak_client_auth_keycloak_url: "https://{{keycloak_service_name}}"
-wiki_bookstack_keycloak_client_auth_realm: master
-wiki_bookstack_keycloak_client_auth_username: admin
-wiki_bookstack_keycloak_client_auth_password: "{{ keycloak_admin_password }}"
-wiki_bookstack_keycloak_client_validate_certs: true
+bookstack_keycloak_client_auth_client_id:    admin-cli
+bookstack_keycloak_client_auth_keycloak_url: "https://{{keycloak_service_name}}"
+bookstack_keycloak_client_auth_realm:        master
+bookstack_keycloak_client_auth_username:     admin
+bookstack_keycloak_client_auth_password:     "{{ keycloak_admin_password }}"
+bookstack_keycloak_client_validate_certs:    true
 
-wiki_bookstack_keycloak_client_id: "{{ wiki_bookstack_service_name }}"
-wiki_bookstack_keycloak_client_realm: "{{ keycloak_realm }}"
-wiki_bookstack_keycloak_client_redirect_uris: https://{{ wiki_bookstack_service_name }}/*
+bookstack_keycloak_client_id:            "{{ bookstack_service_name }}"
+bookstack_keycloak_client_realm:         "{{ keycloak_realm }}"
+bookstack_keycloak_client_redirect_uris: "https://{{ bookstack_service_name }}/*"

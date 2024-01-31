@@ -48,11 +48,11 @@
 - import_role:
     name: wiki_bookstack
   tags:
-    - wiki_bookstack
+    - bookstack
     - wiki-bookstack
     - wiki
     - bookstack
-  when: rps_with_wiki_bookstack
+  when: rps_with_bookstack
 
 # forgejo
 - import_role: 

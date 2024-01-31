@@ -13,7 +13,7 @@ rps_header_allowed_default_origins:
   #- https://{{ rps_people_service_name | default('')}}
   #- https://{{ rps_profile_interface_service_name | default('')}}
   - https://{{ rps_style_service_name }}
-  - https://{{ wiki_bookstack_service_name }}
+  - https://{{ bookstack_service_name | default('')}}
   - https://{{ discourse_service_name }}
 
 rps_header_dynamic_config:
