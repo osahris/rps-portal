@@ -22,7 +22,7 @@
     password_policy: "length(12) and upperCase(1) and lowerCase(1)"
     enabled: true
     internationalization_enabled: true
-    supported_locales: ["de"]
+    supported_locales: ["de", "en"]
     default_locale: "de"
     state: present
     registration_allowed: '{{item.is_registration_allowed | default(false)}}'
