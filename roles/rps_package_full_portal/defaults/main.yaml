@@ -46,7 +46,13 @@ gitea_with_keycloak_permissions_sync:           "{{rps_with_keycloak_permissions
 matrix_with_keycloak_permissions_sync:          "{{rps_with_keycloak_permissions_sync}}"
 nextcloud_with_keycloak_permissions_sync:       "{{rps_with_keycloak_permissions_sync}}"
 wiki_bookstack_with_keycloak_permissions_sync:  "{{rps_with_keycloak_permissions_sync}}"
-
+# -------------------------------------------------------- #
+# SQL Pad -- set true if you want to expose the database to this service
+rps_with_sqlpad:         false
+discourse_with_sqlpad:   "{{rps_with_sqlpad}}"
+matrix_with_sqlpad:      "{{rps_with_sqlpad}}"
+nextcloud_with_sqlpad:   "{{rps_with_sqlpad}}"
+bookstack_with_sqlpad:   "{{rps_with_sqlpad}}"
 # -------------------------------------------------------- #
 # Watchtower
 rps_with_watchtower:                  false

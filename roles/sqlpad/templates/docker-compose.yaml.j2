@@ -1,0 +1,21 @@
+---
+version: '3.5'
+
+volumes:
+  sqlpad:
+
+services:
+
+  sqlpad:
+    image: "sqlpad/sqlpad:6"
+    restart: always
+    env_file: 
+      - "./sqlpad.env"
+    volumes:
+      - sqlpad:/var/lib/sqlpad
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

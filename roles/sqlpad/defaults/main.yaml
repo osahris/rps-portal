@@ -1,0 +1,6 @@
+---
+sqlpad_service_name: "sqlpad.{{ rps_dns_suffix }}"
+
+sqlpad_ADMIN: "sqlpad"
+# secrets
+sqlpad_ADMIN_PASSWORD: "{{ ansible_local[sqlpad_service_name].sqlpad_admin_password | default(ansible_local.secrets.sqlpad_admin_password) }}"

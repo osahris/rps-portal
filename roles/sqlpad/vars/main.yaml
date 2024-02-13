@@ -1,0 +1,25 @@
+---
+remote_path: "/srv/{{sqlpad_service_name}}"
+
+sqlpad_secrets:
+  sqlpad_admin_password: "{{ sqlpad_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+app_port: "3000"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      sqlpad:
+        rule: "Host(`{{sqlpad_service_name}}`)"
+        entrypoints: websecure
+        # middlewares: "{{'header-redirect' if (sqlpad_with_header_integration) else ''}}"
+        tls:
+          certresolver: letsencrypt
+        service: sqlpad
+
+    services:
+      sqlpad:
+        loadBalancer:
+          servers:
+            - url: "http://{{sqlpad_service_name | replace('.','')}}_sqlpad_1:{{app_port}}" # "http://container_name:container_port"
