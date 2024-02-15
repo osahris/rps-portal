@@ -44,7 +44,7 @@
     - chat
   when: rps_with_matrix
 
-# Wiki Bookstack
+# Bookstack
 - import_role:
     name: wiki_bookstack
   tags:
@@ -54,7 +54,7 @@
     - bookstack
   when: rps_with_bookstack
 
-# forgejo
+# Forgejo
 - import_role: 
     name: forgejo
   tags: 
@@ -84,7 +84,7 @@
     - openproject
   when: rps_with_openproject
 
-  # Admin Interface
+# Admin Interface
 - import_role:  
     name: rps_admin_interface
   tags:
@@ -94,7 +94,7 @@
     - admin-interface
   when: rps_with_rps_admin_interface
 
-  # Groups Interface
+# Groups Interface
 - import_role:  
     name: rps_groups_interface
   tags:
@@ -105,7 +105,7 @@
     - groups
   when: rps_with_rps_groups_interface
 
-  # Cohort Explorer
+# Cohort Explorer
 - import_role:  
     name: rps_cohort_explorer
   tags:
@@ -123,7 +123,7 @@
     - forum
   when: rps_with_discourse
 
-# group application api
+# Group application api
 - import_role:
     name: rps_group_application_api
   tags:
@@ -131,3 +131,10 @@
     - group_application_api
     - group-application-api
   when: rps_with_rps_group_application_api
+
+# SQLpad
+- import_role:
+    name: sqlpad
+  tags:
+    - sqlpad
+  when: rps_with_sqlpad

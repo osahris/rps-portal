@@ -19,17 +19,17 @@
     service_accounts_enabled: true
     validate_certs: "{{ nextcloud_keycloak_client_validate_certs | default(true) }}"
     # backchannel logout url: https://my.nextcloud.org/apps/user_oidc/backchannel-logout/{{client_id}}
-    protocol_mappers:
-      - name: groups
-        config:
-          access.token.claim: 'false'
-          claim.name: groups
-          full.path: 'false'
-          id.token.claim: 'false'
-          userinfo.token.claim: 'true'
-        consentRequired: false
-        protocol: openid-connect
-        protocolMapper: oidc-group-membership-mapper
+    # protocol_mappers:
+    #   - name: groups
+    #     config:
+    #       access.token.claim: 'false'
+    #       claim.name: groups
+    #       full.path: 'false'
+    #       id.token.claim: 'false'
+    #       userinfo.token.claim: 'true'
+    #     consentRequired: false
+    #     protocol: openid-connect
+    #     protocolMapper: oidc-group-membership-mapper
   #TODO: figure out how to use a custom CA cert here
   # environment:
   #   REQUESTS_CA_BUNDLE: /home/mkb/abrechnungspipeline/files/certs/nukleus_prod_2022_root_ca.crt

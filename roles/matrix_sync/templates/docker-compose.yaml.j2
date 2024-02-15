@@ -8,7 +8,7 @@ networks:
 services:
   sync:
     image: {{ matrix_sync_container_image }}:{{ matrix_sync_container_version }}
-    # build: ./rps-admin-tools-element_sync/
+    # build: ./rps-admin-tools/
     restart: unless-stopped
     logging:
       options:

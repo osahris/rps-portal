@@ -1,0 +1,32 @@
+---
+- name: Add sqlpad to network of the service bookstack
+  community.docker.docker_network:
+    name: "{{ bookstack_service_name|replace('.', '') }}_db"
+    connected:
+      - "{{sqlpad_service_name | replace('.','')}}_sqlpad_1"
+    appends: true
+  when: bookstack_with_sqlpad
+
+- name: Add sqlpad to network of the service discourse
+  community.docker.docker_network:
+    name: "{{ discourse_service_name|replace('.', '') }}_internal"
+    connected:
+      - "{{sqlpad_service_name | replace('.','')}}_sqlpad_1"
+    appends: true
+  when: discourse_with_sqlpad
+
+- name: Add sqlpad to network of the service matrix_synapse
+  community.docker.docker_network:
+    name: "{{ matrix_synapse_service_name|replace('.', '') }}_db"
+    connected:
+      - "{{sqlpad_service_name | replace('.','')}}_sqlpad_1"
+    appends: true
+  when: matrix_with_sqlpad
+
+- name: Add sqlpad to network of the service nextcloud
+  community.docker.docker_network:
+    name: "{{ nextcloud_service_name|replace('.', '') }}_db"
+    connected:
+      - "{{sqlpad_service_name | replace('.','')}}_sqlpad_1"
+    appends: true
+  when: nextcloud_with_sqlpad

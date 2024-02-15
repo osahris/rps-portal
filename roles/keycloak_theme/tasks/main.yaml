@@ -4,7 +4,7 @@
     name: git
     state: present
 
-- name: fetch keycloak theme - {{keycloak_theme}}
+- name: fetch keycloak theme - {{ keycloak_theme | default('') }}
   git:
     repo: "{{ keycloak_theme }}"
     dest: "{{ remote_path }}/themes/ansible-theme"
@@ -12,6 +12,20 @@
     force: true
   register: theme
   when: keycloak_theme is defined
+
+## -----For deployment from local folder ----- ##
+# - name: create path {{remote_path}}/themes/ansible-theme
+#   ansible.builtin.file:
+#     path: "{{remote_path}}/themes/ansible-theme"
+#     state: directory
+#     mode: '0755'
+
+# - name: copy all static files
+#   synchronize:
+#     recursive: true
+#     src: "./rps-keycloak-theme/" # relative to ./files on local role path
+#     dest: "{{remote_path}}/themes/ansible-theme" # relative to ~/ on remote
+## ------------------------------------------- ##
 
 - name: create config.yaml
   template:
