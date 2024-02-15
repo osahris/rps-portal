@@ -10,13 +10,15 @@ Many modern applications support push notifications. In contrast to desktop apps
 - Grant the permission to the website and press the trigger in the Element Web Settings again
 - If this did not work, check whether you have put the chat address to the block list in your browser settings
 - Additionally check whether the browser setting "block all new push notification activation requests" is on or off
+More info: [official docs](https://ems-docs.element.io/books/element-support/page/notification-settings)
 
 ## Storing the encrypting keys safely
 
-Element Web provides encryption for your messages keeping your conversations safe. All the content is stored on the Matrix server but the keys to decrypt it are only stored on the end-user side. If you clear the cache in your browser, you will likely see "Unable to decrypt message" warnings. The content of the messages can only be decrypted if at least one member of the converstion still has the decryption key. To be on the safe side, we recommend you to make a backup of your decryption keys. In order to do so, do the following steps:
+Element Web provides encryption for your messages keeping your conversations safe. All the content is stored on the Matrix server but the keys to decrypt it are only stored on the end-user side. If you clear the cache in your browser, you will likely see "Unable to decrypt message" warnings. The content of the messages can only be decrypted if at least one member of the converstion still has the decryption key, at least at one of their devices. To be on the safe side, we recommend you to make a backup of your decryption keys. In order to do so, do the following steps:
 - Login to your account
 - Go to Settings, then choose Security & Privacy, and configure the storage of the backup keys.
 - Save them in a proper place of your choice. Never share them with anyone 
+More info: [official docs](https://ems-docs.element.io/books/element-cloud-documentation/page/frequently-asked-questions)
 
 ## Accessing the API
 
@@ -25,3 +27,4 @@ Besides the generic usage of the chat through your browser, you may enreaching y
 - Login to your account
 - Go to Settings, then choose Help & About, then scroll down to Advanced and find the token. Never share it with anyone
 - Add the following header to your requests: "Authorization: Bearer <token>"
+More info: [official docs](https://ems-docs.element.io/books/element-support/page/getting-started-using-the-client-server-api)
