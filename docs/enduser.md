@@ -24,10 +24,16 @@ The user with sufficient right may use this service to view, create, edit the gr
 More info: [admin's manual](./admin/#groups-interface)
 
 
-## RocketChat
+<!-- ## RocketChat
 **Communication platform.**  
 Highly customizable chatting tool that requires no rocket-science knowledge to start using it. With RocketChat it is easy to organize a convenient structure of the chat rooms to keep in touch with your colleagues spreding the discussions into multiple chats.  
-More info: [official docs](https://docs.rocket.chat/)
+More info: [official docs](https://docs.rocket.chat/) -->
+
+
+## Element web
+**Chat platform.**  
+Highly customizable chatting tool that can be run straight from the browser, but alternatively can be used with a desktop or mobile app. With Element Web it is easy to organize a convenient structure of the chat rooms to keep in touch with your colleagues spreding the discussions into multiple chats.
+More info: [official docs](https://web-docs.element.dev/Element%20Web/index.html)
 
 
 ## Discourse
