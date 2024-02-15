@@ -52,7 +52,7 @@
     - wiki-bookstack
     - wiki
     - bookstack
-  when: rps_with_wiki_bookstack
+  when: rps_with_bookstack
 
 # Forgejo
 - import_role: 

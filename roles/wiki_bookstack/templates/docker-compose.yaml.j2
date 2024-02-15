@@ -2,14 +2,17 @@
 version: "3"
 
 networks:
-  wiki-internal:
+  db:
   proxy:
     external: true
 
+volumes:
+  bookstack_data:
+  db_data:
 
 services:
 
-  wiki-bookstack:
+  bookstack:
     image: lscr.io/linuxserver/bookstack
     restart: unless-stopped
     logging:
@@ -17,11 +20,11 @@ services:
         max-size: 5m
     networks:
       - proxy
-      - wiki-internal
+      - db
     env_file: 
-      - "./env-bookstack"
+      - "./bookstack.env"
     volumes:
-      - ./db-data:/config
+      - bookstack_data:/config
     depends_on:
       - db
 
@@ -33,9 +36,9 @@ services:
       options:
         max-size: 5m
     networks:
-      - wiki-internal
+      - db
     env_file: 
-      - "./env-db"
+      - "./db.env"
     # hae? seems wrong
     volumes:
-      - ./db-data:/config
+      - db_data:/config
