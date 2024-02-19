@@ -115,7 +115,7 @@ matrix_synapse_homeserver_config:
     user_mapping_provider:
       config:
         localpart_template: "{% raw %}{{ user.preferred_username }}{% endraw %}"
-        display_name_template: "{% raw %}{{ user.given_name }} {{ user.last_name }}{% endraw %}"
+        display_name_template: "{% raw %}{{ user.given_name }} {{ user.family_name }}{% endraw %}"
 
   old_signing_keys: null
   opentracing: null
