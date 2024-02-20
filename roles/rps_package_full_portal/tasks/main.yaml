@@ -138,3 +138,12 @@
   tags:
     - sqlpad
   when: rps_with_sqlpad
+
+# Wiki JS
+- import_role:
+    name: wiki_js
+  tags:
+    - wiki_js
+    - wiki-js
+    - wikijs
+  when: rps_with_wiki_js

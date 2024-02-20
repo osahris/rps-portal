@@ -1,9 +1,13 @@
 ---
 remote_path: "/srv/{{wiki_js_service_name}}"
 
-# # ------------------------------------------ #
-wiki_js_DB_NAME: "wiki"
-wiki_js_DB_USER: "wikijs"
+wiki_js_secrets:
+  wiki_js_DB_PASSWORD:                       "{{ wiki_js_DB_PASSWORD | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wiki_js_DB_ROOT_PASSWORD:             "{{ wiki_js_DB_ROOT_PASSWORD | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  wiki_js_keycloak_client_secret: "{{ wiki_js_keycloak_client_secret | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+# keycloak_host: "{{keycloak_service_name}}"
+
 app_port: "3000"
 
 # For each new running service add below a traefik router and a traefik service
@@ -13,7 +17,7 @@ traefik_dynamic_config:
       wiki-js:
         rule: "Host(`{{wiki_js_service_name}}`)"
         entrypoints: websecure
-        middlewares: "{{'header-redirect' if (wiki_js_with_header_integration) else ''}}"
+        # middlewares: "{{'header-redirect' if (wiki_js_with_header_integration) else ''}}"
         tls:
           certresolver: letsencrypt
         service: wiki-js
@@ -22,4 +26,4 @@ traefik_dynamic_config:
       wiki-js:
         loadBalancer:
           servers:
-            - url: "http://{{wiki_js_service_name|replace('.','')}}_wiki_1:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{wiki_js_service_name | replace('.','')}}_wikijs_1:{{app_port}}" # "http://container_name:container_port"
