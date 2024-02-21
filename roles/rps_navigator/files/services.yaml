@@ -6,25 +6,30 @@ services:
   icon: 'Discourse'
   scope: 'general'
   description: 'Communicate with your colleagues on a self-hosted forum'
-
-# - name: 'Budibase'
-#   subdomain: 'base'
-#   scope: 'general'
+  show_on_404: false
+  
+- name: 'Budibase'
+  subdomain: 'base'
+  scope: 'general'
+  show_on_404: false
 
 - name: 'Element'
   subdomain: 'chat'
   icon: 'Element'
   scope: 'general'
   description: 'Chat with your colleagues and exchange files'
+  show_on_404: false
 
 - name: 'Forgejo'
   subdomain: 'code'
   icon: 'Code'
   scope: 'general'
   description: 'Self-hosted version control repository to share codes and track changes'
+  show_on_404: false
 
 # - name: 'Header'      
 #   subdomain: 'header'
+#   show_on_404: false
 
 - name: 'Keycloak'
   subdomain: 'accounts'
@@ -32,62 +37,82 @@ services:
   scope: 'admin'
   description: 'Get logged to all services with a signle account'
 
-# - name: 'MVP'
-#   subdomain: 'mvp'
-#   icon: 'Nginx'
-#   type: 'admin'
+- name: 'MVP'
+  subdomain: 'mvp'
+  icon: 'Nginx'
+  type: 'admin'
+  show_on_404: false
 
 - name: 'Nextcloud'
   subdomain:  'cloud'
   icon: 'Nextcloud'
   scope: 'general'
   description: 'Share files and co-edit them online'
+  show_on_404: false
 
 - name: 'OpenProject'
   subdomain: 'openproject'
   icon: 'OpenProject'
   scope: 'general'
   description: "Manage your projects and keep track of your team's workflow"
+  show_on_404: false
 
-# - name: 'RocketChat'
-#   scope: 'general'
-#   subdomain: 'rocketchat'
+- name: 'RocketChat'
+  scope: 'general'
+  subdomain: 'rocketchat'
+  show_on_404: false
 
 - name: 'Admin Interface'
   subdomain: 'admin'
   scope: 'admin'
+  show_on_404: false
 
-# - name: 'rps_people'
-#   scope: 'general'
-#   subdomain:  'people'
+- name: 'rps_people'
+  subdomain:  'people'
+  scope: 'general'
+  show_on_404: false
 
 - name: 'Groups Interface'
   subdomain: 'groups'
   # path: 'realms/rps'
   scope: 'admin'
+  show_on_404: false
 
 - name: 'Traefik'
   subdomain: 'traefik'
-  # path: 'dashboard/#'
+  path: 'dashboard/#/'
   icon: 'Traefik'
   scope: 'admin'
   description: 'Keep track on the health of each service and their network configurations'
+  show_on_404: true
 
 - name: 'Bookstack'
   subdomain: 'wiki'
   icon: 'Bookstack'
   scope: 'general'
   description: 'Create your own wiki-like knowledge base'
+  show_on_404: false
 
-# - name: 'Wiki.js'
-#   subdomain: 'wiki-js'
-#   scope: 'general'
-#   description: 'Create your own wiki-like knowledge base'
+- name: 'Wiki.js'
+  subdomain: 'wiki-js'
+  icon: 'Wikijs'
+  scope: 'general'
+  description: 'Create your own wiki-like knowledge base'
+  show_on_404: false
 
-# - name: 'WordPress (Draft)'
-#   subdomain: 'www-draft'
-#   icon: 'WordPress'
+- name: 'WordPress (Draft)'
+  subdomain: 'www-draft'
+  icon: 'WordPress'
+  show_on_404: false
 
-# - name: 'WordPress (Live)'
-#   subdomain: 'www'
-#   icon: 'WordPress'
+- name: 'WordPress (Live)'
+  subdomain: 'www'
+  icon: 'WordPress'
+  show_on_404: false
+
+- name: 'SQLPad'
+  subdomain: 'sqlpad'
+  icon: 'Sqlpad'
+  scope: 'admin'
+  description: 'Manage the databases of local services as well as other remote ones'
+  show_on_404: false

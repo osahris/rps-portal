@@ -1,4 +1,4 @@
-{#- Tulsky V.A. 2023 -#}
+{#- Tulsky V.A. 2023-2024 -#}
                     <div class="column is-one-fifth">
                         <a href="{{service.url}}">
                             <img class="fit-picture"
@@ -10,8 +10,8 @@
                         {{service.description|default('') -}}
                         <br>
                         {% if service.received_code in [200,302,307] -%}
-                            <button class="button is-success is-small">Deployed</button>
+                            <span  class="tag is-success is-small">Deployed</span >
                         {%- else -%}
-                            <button class="button is-warning is-small">Error {{service.received_code}}</button>
+                            <span  class="tag is-warning is-small">Error {{service.received_code}}</span >
                         {%- endif %}
                     </div>

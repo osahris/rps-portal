@@ -1,6 +1,6 @@
-####################
-# Tulsky V.A. 2023 #
-####################
+#########################
+# Tulsky V.A. 2023-2024 #
+#########################
 from flask import Flask, render_template, request, redirect
 import requests
 import os
@@ -14,7 +14,7 @@ def read_yaml_file(filename):
 
 app = Flask(__name__)
 
-@app.route('/', methods=["POST", "GET"])
+@app.route('/', methods=["GET"])
 def home():
     title = "RPS Services Navigator"
     domain = os.environ.get("HOST_DOMAIN")
@@ -36,11 +36,24 @@ def home():
             url += '/' + service.get('path')
         try:
             status_code = requests.head(url,timeout=1).status_code
+            if status_code == 405: # If method HEAD is not allowed, try GET
+                status_code = requests.get(url,timeout=1).status_code
         except:
-            status_code = '404'
+            status_code = 404
+        
         service['received_code'] = status_code
         service['url'] = url
-        services.append(service)
+        if 'scope' not in service:
+            service['scope'] = 'general'
+        if 'show_on_404' not in service:
+            service['show_on_404'] = True
+        if status_code == 404:
+            if service['show_on_404']==True:
+                services.append(service)
+            else:
+                continue
+        else:
+            services.append(service)
     return render_template('index.html', 
                         title = title,
                         domain = domain,
