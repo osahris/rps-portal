@@ -24,9 +24,12 @@ services:
     volumes:
       - "/srv/traefik:/etc/traefik:ro"
       - ssl-certs:/ssl-certs
+
+{% if traefik_with_whomai_service %}
   whoami:
     image: traefik/whoami:v1.9
     container_name: whoami
     restart: unless-stopped
     networks:
       - {{ traefik_proxy_network }}
+{% endif %}

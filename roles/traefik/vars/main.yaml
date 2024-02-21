@@ -1,7 +1,7 @@
 ---
 traefik_static_config:
   api:
-    dashboard: true
+    dashboard: "{{traefik_with_dashboard}}"
     insecure: false
   log:
     level: "{{traefik_log_level}}"
@@ -27,5 +27,5 @@ traefik_dashboard_dynamic_config:
         rule: "Host(`{{traefik_dashboard_service_name}}`)"
         entrypoints: websecure
         tls:
-          certresolver: letsencrypt
+          certresolver: "{{traefik_certresolver}}"
         service: api@internal

@@ -1,12 +1,13 @@
 ---
-traefik_with_dashboard: false
+traefik_with_dashboard: true
 traefik_dashboard_service_name: "traefik.{{ rps_dns_suffix }}"
 
 traefik_proxy_network: "proxy"
-traefik_certresolver: "letsencrypt"
+traefik_certresolver:  "letsencrypt"
 letsencrypt_account_email: "{{ rps_admin_email }}"
 
 traefik_log_level: WARN
+traefik_with_whomai_service: false
 
 traefik_entry_points:
   web:
@@ -20,9 +21,7 @@ traefik_entry_points:
     address: ":443"
     http:
       tls:
-        certResolver: "letsencrypt"
-
-traefik_with_whomai_service: false
+        certResolver: "{{traefik_certresolver}}"
 
 traefik_certificates_resolvers:
   letsencrypt:
