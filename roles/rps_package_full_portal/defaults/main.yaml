@@ -15,6 +15,8 @@ rps_with_rps_navigator:  true
 rps_with_bookstack:      true
 rps_with_website:        true
 rps_with_wiki_js:        false
+# -------------------------------------------------------- #
+# Maintenance -- mode in which all domains lead to the maintenance page
 rps_with_maintenance:    false
 # -------------------------------------------------------- #
 # Functional services | Specific
