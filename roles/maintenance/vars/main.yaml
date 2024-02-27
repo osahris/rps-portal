@@ -1,6 +1,8 @@
 ---
 remote_path: "/srv/{{maintenance_service_name}}"
 
+activate_maintenance: True
+
 traefik_certresolver: "letsencrypt"
 app_port: "80"
 
@@ -9,7 +11,20 @@ traefik_dynamic_config:
   http:
     routers:
       maintenance:
-        rule: "Host(`{{maintenance_service_name}}`)"
+        rule: >
+          Host(`{{            collabora_service_name }}`) ||
+          Host(`{{            bookstack_service_name }}`) ||
+          Host(`{{            discourse_service_name }}`) ||
+          Host(`{{                gitea_service_name }}`) ||
+          Host(`{{             keycloak_service_name }}`) ||
+          Host(`{{   matrix_element_web_service_name }}`) ||
+          Host(`{{       matrix_synapse_service_name }}`) ||
+          Host(`{{            nextcloud_service_name }}`) ||
+          Host(`{{         oauth2_proxy_service_name }}`) ||
+          Host(`{{          openproject_service_name }}`) ||
+          Host(`{{  rps_admin_interface_service_name }}`) ||
+          Host(`{{ rps_groups_interface_service_name }}`) ||
+          Host(`{{        rps_navigator_service_name }}`)
         entrypoints: websecure
         tls:
           certresolver: "{{traefik_certresolver}}"
@@ -19,4 +34,4 @@ traefik_dynamic_config:
       maintenance:
         loadBalancer:
           servers:
-            - url: "http://{{maintenance_service_name|replace('.','')}}_nginx_1:{{app_port}}" # "http://container_name:container_port"
+            - url: "http://{{maintenance_service_name|replace('.','')}}_flask_1:{{app_port}}" # "http://container_name:container_port"

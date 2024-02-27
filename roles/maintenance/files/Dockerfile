@@ -1,6 +1,11 @@
-FROM nginx:latest
+FROM python:3.8-alpine
+# # switch working directory
+WORKDIR /app/maintenance
 
-# COPY ./nginx/conf.d/default.conf /etc/nginx/conf.d
-# COPY ./nginx/html/503.html /usr/share/nginx/html
+# # copy every content from the local file to the image
+COPY . .
 
-ENTRYPOINT nginx -g 'daemon off;'
+RUN python3 -m pip install --upgrade pip
+RUN python3 -m pip install flask
+
+CMD ["python3", "app.py" ]

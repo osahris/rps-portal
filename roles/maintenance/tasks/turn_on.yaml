@@ -1,0 +1,14 @@
+---
+- name: create traefik backup directory
+  file: path=/srv/traefik-backup/conf.d/ state=directory
+
+- name: move traefik dynamic config to backup
+  command: "rsync -av /srv/traefik/conf.d/. /srv/traefik-backup/conf.d/ --exclude maintenance.yaml"
+
+- name: delete traefik dynamic config directory
+  file: path=/srv/traefik/conf.d/ state=absent
+
+- name: create traefik dynamic config directory
+  file: path=/srv/traefik/conf.d/ state=directory
+
+- import_tasks: deploy.yaml

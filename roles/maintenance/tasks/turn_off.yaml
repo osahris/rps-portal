@@ -1,0 +1,10 @@
+---
+- name: delete maintenance traefik config
+  file: path=/srv/traefik/conf.d/maintenance.yaml state=absent
+
+- name: recover traefik dynamic config from backup
+  command: "rsync -av /srv/traefik-backup/conf.d/. /srv/traefik/conf.d/ --exclude maintenance.yaml"
+  ignore_errors: true
+
+- name: delete traefik dynamic config backup
+  file: path=/srv/traefik-backup/ state=absent

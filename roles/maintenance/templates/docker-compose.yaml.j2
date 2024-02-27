@@ -7,14 +7,13 @@ networks:
 
 services:
 
-  nginx:
+  flask: # Service name
     build:
       context: ./
       dockerfile: Dockerfile
+    logging:
+      options:
+        max-size: 5m
     restart: unless-stopped
     networks:
       - proxy
-    volumes:
-      - ./nginx/html:/usr/share/nginx/html
-      - ./nginx/conf.d:/etc/nginx/conf.d
-    command: nginx -g 'daemon off;'

@@ -147,3 +147,10 @@
     - wiki-js
     - wikijs
   when: rps_with_wiki_js
+
+# Maintenance
+- import_role:
+    name: maintenance
+  tags:
+    - maintenance
+  when: rps_with_maintenance

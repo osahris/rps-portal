@@ -15,6 +15,7 @@ rps_with_rps_navigator:  true
 rps_with_bookstack:      true
 rps_with_website:        true
 rps_with_wiki_js:        false
+rps_with_maintenance:    false
 # -------------------------------------------------------- #
 # Functional services | Specific
 rps_with_rps_admin_interface:  true
