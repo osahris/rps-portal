@@ -3,6 +3,9 @@
 remote_path: "/srv/{{nextcloud_service_name}}"
 app_port: "80"
 
+# Loglevel: 0 - DEBUG, 1 - INFO, 2 - WARN, 3 - ERROR, 4 - FATAL
+nextcloud_log_level: 1
+
 nextcloud_upgrade_path:
   - "20.0"
   - "21.0"
