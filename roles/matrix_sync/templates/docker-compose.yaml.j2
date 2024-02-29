@@ -8,8 +8,8 @@ networks:
 services:
   sync:
     image: {{ matrix_sync_container_image }}:{{ matrix_sync_container_version }}
-    # build: ./rps-admin-tools/
-    restart: unless-stopped
+    # build: ./rps-admin-tools-element_sync/
+    restart: "no"
     logging:
       options:
         max-size: 5m
@@ -20,4 +20,4 @@ services:
     entrypoint: ''
     env_file: ".env"
     # command: "tail -f /dev/null"
-    command: /opt/rps-admin-tools/command_loop.sh sync element --verbose
+    command: /opt/rps-admin-tools/command_loop.sh sync matrix

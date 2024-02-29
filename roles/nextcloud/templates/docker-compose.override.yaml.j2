@@ -12,7 +12,7 @@ services:
 
   sync:
     image: {{ nextcloud_sync_container_image }}:{{ nextcloud_sync_container_version }}
-    restart: unless-stopped
+    restart: "no"
     networks:
       - sync
     profiles:
@@ -21,4 +21,4 @@ services:
       - only-rps-sync
     entrypoint: ''
     env_file: nextcloud-sync.env
-    command: /opt/rps-admin-tools/command_loop.sh sync nextcloud --verbose
+    command: /opt/rps-admin-tools/command_loop.sh sync nextcloud
