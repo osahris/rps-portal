@@ -6,7 +6,7 @@ nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 nextcloud_oci_image: nextcloud:{{ nextcloud_version }}
 nextcloud_docker_compose_profile: full
 nextcloud_sync_container_image: "{{ rps_sync_container_image | default('registry.gitlab.com/idcohorts/rps/rps-admin-tools') }}"
-nextcloud_sync_container_version: "{{ rps_sync_container_version | default('latest') }}"
+nextcloud_sync_container_version: v0.2.3
 
 nextcloud_version: "25.0"
 # when nextcloud_upgrade is true, nextcloud_version must be the same as nextcloud_current_version, TODO this is weird so we need to improve this 
