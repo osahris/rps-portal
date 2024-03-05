@@ -1,0 +1,9 @@
+---
+- name: create /app/plugins folder in the container
+  shell: "docker exec {{ alerta_service_name | replace('.','') }}_alerta_1 mkdir -p /app/plugins/"
+
+- name: copy a matrix plugin folder into the container
+  shell: "docker cp {{alerta_service_directory}}/plugins/matrix/ {{ alerta_service_name | replace('.','') }}_alerta_1:/app/plugins"
+
+- name: install matrix plugin in the container
+  shell: "docker exec -u root {{ alerta_service_name | replace('.','') }}_alerta_1 /venv/bin/pip install \ pip install /app/plugins/matrix/"

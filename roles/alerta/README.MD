@@ -27,3 +27,15 @@ Duration is set in seconds, 10 years = 315360000 seconds. A comment section like
 4. Modify the './files/Dockerfile' adding a layer 'RUN pip install /app/plugins/<plugin_name>/'.
 5. Add the plugin settings to the './files/alertad.conf.j2' template file.
 
+# Matrix plugin
+
+A custom implementation of the plugin for creating automatic messages to a Matrix Element chat is included.
+
+The following credentials should be defined in the Ansible secrets, e.g., in './inventory/group_vars/monitoring_servers/secrets.yaml':
+
+1. alerta_matrix_homeserver - a server hosting the user who sends messages about alerts. Can be found in Matrix in 'User Settings - Help & About - Advanced - Homeserver'
+2. alerta_matrix_access_token - a token for a user that sends the messages about alerts. Can be found in Matrix in 'User Settings - Help & About - Advanced - Access Token'.
+3. alerta_matrix_room_ID - a chat room where the messages about alerts should be sent. Can be found in Matrix in 'Room Settings - Advanced - Room information - Internal room ID'.
+
+
+In './files/plugins/matrix', each change from original is labeled as 'custom block'. In particular, a custom feature is that alerts with severities listed in the variable 'MATRIX_IGNORE_SEVERITY' will not be reported.

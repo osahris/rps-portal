@@ -1,3 +1,5 @@
 ---
 - import_tasks: secrets.yaml
 - import_tasks: deploy.yaml
+- import_tasks: matrix_plugin.yaml
+  when: alerta_with_matrix_plugin
