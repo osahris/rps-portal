@@ -62,6 +62,13 @@ services:
   subdomain: 'rocketchat'
   show_on_404: false
 
+- name: 'Alerta'
+  subdomain: 'alerta'
+  icon: 'Alerta'
+  scope: 'admin'
+  description: 'Collect reports from various services in a single dashboasrd'
+  show_on_404: false
+
 - name: 'Admin Interface'
   subdomain: 'admin'
   scope: 'admin'

@@ -154,3 +154,10 @@
   tags:
     - maintenance
   when: rps_with_maintenance
+
+# Alerta
+- import_role:
+    name: alerta
+  tags:
+    - alerta
+  when: rps_with_alerta

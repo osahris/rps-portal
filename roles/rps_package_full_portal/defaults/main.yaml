@@ -58,6 +58,10 @@ matrix_with_sqlpad:      "{{rps_with_sqlpad}}"
 nextcloud_with_sqlpad:   "{{rps_with_sqlpad}}"
 bookstack_with_sqlpad:   "{{rps_with_sqlpad}}"
 # -------------------------------------------------------- #
+# Monitoring
+rps_with_monitoring:        true
+rps_with_alerta:            "{{rps_with_monitoring}}"
+# -------------------------------------------------------- #
 # Watchtower
 rps_with_watchtower:                  false
 rps_admin_interface_with_watchtower:  "{{ rps_with_watchtower }}"
