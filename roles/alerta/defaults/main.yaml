@@ -1,0 +1,10 @@
+---
+alerta_service_name:      "alerta.{{ rps_dns_suffix }}"
+alerta_service_directory: "/srv/{{alerta_service_name}}"
+
+# secrets
+alerta_admin_api_key:     "{{ ansible_local[alerta_service_name].alerta_admin_api_key }}"
+alerta_admin_api_key_cli: "{{ ansible_local[alerta_service_name].alerta_admin_api_key_cli }}"
+alerta_admin_password:    "{{ ansible_local[alerta_service_name].alerta_admin_password }}"
+alerta_postgres_password: "{{ ansible_local[alerta_service_name].alerta_postgres_password }}"
+alerta_secret_key:        "{{ ansible_local[alerta_service_name].alerta_secret_key }}"

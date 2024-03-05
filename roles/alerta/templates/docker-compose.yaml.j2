@@ -1,0 +1,39 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+  db:
+
+volumes:
+  postgres:
+
+services:
+
+  alerta:
+    image: alerta/alerta-web
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - proxy
+      - db
+    env_file:
+      - "./alerta.env"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14 # Might not yet work with Postgres 15, see https://github.com/alerta/alerta/issues/1778
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - db
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file:
+      - "./postgres.env"

@@ -1,0 +1,37 @@
+---
+remote_path: "/srv/{{alerta_service_name}}"
+
+POSTGRES_DB:   "alerta"
+POSTGRES_USER: "alerta"
+
+alerta_secrets:
+  alerta_admin_api_key:         "{{ alerta_admin_api_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  alerta_admin_api_key_cli: "{{ alerta_admin_api_key_cli | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  alerta_admin_password:       "{{ alerta_admin_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  alerta_postgres_password: "{{ alerta_postgres_password | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+  alerta_secret_key:               "{{ alerta_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+alerta_with_matrix_plugin: True
+alerta_matrix_homeserver: "{{matrix_homeserver_name}}"
+alerta_matrix_access_token: ""
+alerta_matrix_room_ID: ""
+
+traefik_certresolver: "letsencrypt"
+app_port: "8080"
+
+# For each new running service add below a traefik router and a traefik service
+alerta_traefik_dynamic_config:
+  http:
+    routers:
+      alerta:
+        rule: "Host(`{{alerta_service_name}}`)"
+        entrypoints: websecure
+        tls:
+          certresolver: "{{traefik_certresolver}}"
+        service: alerta
+
+    services:
+      alerta:
+        loadBalancer:
+          servers:
+            - url: "http://{{ alerta_service_name | replace('.','') }}_alerta_1:{{app_port}}" # "http://container_name:container_port"
