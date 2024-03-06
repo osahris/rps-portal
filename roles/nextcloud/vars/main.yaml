@@ -16,6 +16,9 @@ nextcloud_upgrade_path:
   - "24.0"
   - "25.0"
   - "26.0"
+  - "27.0"
+  - "27.1"
+  - "28.0"
 
 nextcloud_upgrade_path_via_versions: "{{ nextcloud_upgrade_path | select('gt', nextcloud_current_version) | select('le', nextcloud_target_version) }}"
 

@@ -1,23 +1,24 @@
 ---
-nextcloud_import: false
-nextcloud_initialize: true
-nextcloud_upgrade: false
 nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
-nextcloud_oci_image: nextcloud:{{ nextcloud_version }}
-nextcloud_docker_compose_profile: full
+
+nextcloud_docker_compose_profile: full # Seems not useful. Check if this is needed at all
 nextcloud_sync_container_image: "{{ rps_sync_container_image | default('registry.gitlab.com/idcohorts/rps/rps-admin-tools') }}"
 nextcloud_sync_container_version: v0.2.3
 
-nextcloud_version: "25.0"
-# when nextcloud_upgrade is true, nextcloud_version must be the same as nextcloud_current_version, TODO this is weird so we need to improve this 
-# nextcloud_current_version TODO: this variable should read the version of the current nextcloud installation for nextcloud_upgrade
-# nextcloud_target_version: "{{ nextcloud_version }}" # this variable is used for nextcloud_upgrade to set the version that is targeted
+nextcloud_import:     false
+nextcloud_initialize: true
+nextcloud_upgrade:    false # Work in progress
+
+nextcloud_oci_image: "nextcloud:{{ nextcloud_version }}"
+nextcloud_version:   "25.0"
+# When nextcloud_upgrade is true, Nextcloud_version must be the same as nextcloud_current_version
+nextcloud_target_version: "{{ nextcloud_upgrade_path[-1] }}" # this variable is used for nextcloud_upgrade to set the version that is targeted
 
 nextcloud_defaultapp: files
 
-nextcloud_postgres_password: "{{ ansible_local[nextcloud_service_name].nextcloud_postgres_password }}"
-nextcloud_admin_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_password }}"
-nextcloud_admin_app_password: "{{ ansible_local[nextcloud_service_name].nextcloud_admin_app_password }}"
+nextcloud_postgres_password:      "{{ ansible_local[nextcloud_service_name].nextcloud_postgres_password }}"
+nextcloud_admin_password:         "{{ ansible_local[nextcloud_service_name].nextcloud_admin_password }}"
+nextcloud_admin_app_password:     "{{ ansible_local[nextcloud_service_name].nextcloud_admin_app_password }}"
 nextcloud_keycloak_client_secret: "{{ ansible_local[nextcloud_service_name].nextcloud_keycloak_client_secret }}"
 
 nextcloud_admin_user: admin
@@ -48,9 +49,9 @@ nextcloud_with_user_oidc_app: "{{nextcloud_with_keycloak_client}}"
 nextcloud_user_oidc_allow_multiple_user_backends: false
 nextcloud_user_oidc_userinfo_bearer_validation: true
 nextcloud_user_oidc_identifier: keycloak
-nextcloud_user_oidc_clientid: "{{nextcloud_keycloak_client_client_id}}"
+nextcloud_user_oidc_clientid:      "{{nextcloud_keycloak_client_client_id}}"
 nextcloud_user_oidc_client_secret: "{{nextcloud_keycloak_client_secret}}"
-nextcloud_user_oidc_discoveryuri: "{{nextcloud_keycloak_client_realm_url}}/.well-known/openid-configuration"
+nextcloud_user_oidc_discoveryuri:  "{{nextcloud_keycloak_client_realm_url}}/.well-known/openid-configuration"
 nextcloud_user_oidc_scope: openid email profile
 nextcloud_user_oidc_unique_uid: false
 nextcloud_user_oidc_check_bearer: true
@@ -63,9 +64,9 @@ nextcloud_user_oidc_extra_claims: ""
 
 # legacy oidc_login plugin options
 nextcloud_with_oidc_login_app: false
-nextcloud_oidc_login_client_id: "{{nextcloud_keycloak_client_client_id}}"
+nextcloud_oidc_login_client_id:     "{{nextcloud_keycloak_client_client_id}}"
 nextcloud_oidc_login_client_secret: "{{nextcloud_keycloak_client_secret}}"
-nextcloud_oidc_login_provider_url: "{{nextcloud_keycloak_client_realm_url}}"
+nextcloud_oidc_login_provider_url:  "{{nextcloud_keycloak_client_realm_url}}"
 #nextcloud_oidc_login_logout_url: "https://{{ keycloak_service_name }}/realms/{{keycloak_realm}}/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F{{ nextcloud_service_name }}%2F/logout"
 nextcloud_oidc_login_auto_redirect: true
 nextcloud_oidc_login_redir_fallback: true
@@ -93,4 +94,4 @@ nextcloud_with_cron: true
 nextcloud_with_admin_app_password: "{{ nextcloud_with_keycloak_permissions_sync }}"
 
 nextcloud_sync_ignore_groups: "{{ rps_sync_ignore_groups | default(['admin']) }}"
-nextcloud_sync_ignore_users: "{{ rps_sync_ignore_users | default(['admin']) }}"
+nextcloud_sync_ignore_users:   "{{ rps_sync_ignore_users | default(['admin']) }}"
