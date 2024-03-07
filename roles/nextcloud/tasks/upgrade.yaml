@@ -13,6 +13,10 @@
   debug:
     var: nextcloud_current_version
 
+- name: Upgrade -- Display the Nextcloud upgrade path
+  debug:
+    var: nextcloud_upgrade_path_via_versions
+
 - name: Upgrade -- Shutdown docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
@@ -20,37 +24,25 @@
     remove_orphans: true
     state: absent
 
-- name: Upgrade -- Bring Nextcloud database up
-  docker_compose:
-    project_src: "{{remote_path}}/"
-    pull: true
-    remove_orphans: true
-    services:
-      - postgres
-
-- name: Upgrade -- Display the Nextcloud upgrade path
-  debug:
-    var: nextcloud_upgrade_path_via_versions
-
 - name: Upgrade -- launch upgrade_loop.yaml
   include_tasks: upgrade_loop.yaml
   vars:
     nextcloud_version: "{{ item }}"
   loop: "{{ nextcloud_upgrade_path_via_versions }}"
 
-- name: Upgrade -- Deploy the docker stack with the current version of nextcloud {{ nextcloud_current_version }}}
-  docker_compose:
-    project_src: "{{remote_path}}/"
-    pull: true
-    remove_orphans: true
+# - name: Upgrade -- Deploy the docker stack with the current version of nextcloud {{ nextcloud_current_version }}}
+#   docker_compose:
+#     project_src: "{{remote_path}}/"
+#     pull: true
+#     remove_orphans: true
 
-- name: Upgrade -- Wait for docker-compose stack deployment after upgrade
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_app_container_name}}"
-    user: www-data
-    command: php occ status --output=json
-  register: _nextcloud_status_task
-  changed_when: false
-  retries: 180
-  delay: 1
-  until: _nextcloud_status_task is not failed
+# - name: Upgrade -- Wait for docker-compose stack deployment after upgrade
+#   community.docker.docker_container_exec:
+#     container: "{{nextcloud_app_container_name}}"
+#     user: www-data
+#     command: php occ status --output=json
+#   register: _nextcloud_status_task
+#   changed_when: false
+#   retries: 180
+#   delay: 1
+#   until: _nextcloud_status_task is not failed

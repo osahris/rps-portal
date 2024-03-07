@@ -7,7 +7,7 @@ nextcloud_sync_container_version: v0.2.3
 
 nextcloud_import:     false
 nextcloud_initialize: true
-nextcloud_upgrade:    false # Work in progress
+nextcloud_upgrade:    false
 
 nextcloud_oci_image: "nextcloud:{{ nextcloud_version }}"
 nextcloud_version:   "25.0"

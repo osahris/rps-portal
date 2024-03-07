@@ -4,7 +4,49 @@
     src: "docker-compose.yaml.j2"
     dest: "{{remote_path}}/docker-compose.yaml"
 
-- name: Upgrade loop -- upgrade nextcloud to version {{ nextcloud_version }}
-  command: docker-compose run --rm -e NEXTCLOUD_UPDATE=1 nextcloud /bin/true
+# Without this step a container cannot start because the name is already used
+- name: Upgrade -- Shutdown docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+    state: absent
+
+- name: Upgrade -- Bring Nextcloud database up
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+    services:
+      - postgres
+
+- name: Upgrade loop -- upgrade Nextcloud to version {{ nextcloud_version }}
+  command: "docker-compose run -d --name {{nextcloud_service_name|replace('.', '')}}_nextcloud_1 --rm -e NEXTCLOUD_UPDATE=1 nextcloud /bin/true"
   args:
     chdir: "{{remote_path}}"
+
+# Without this step a container cannot start because the name is already used
+- name: Upgrade -- Shutdown docker-compose stack
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+    state: absent
+
+- name: Upgrade -- deploy docker-compose stack
+  docker_compose:
+    profiles: "{{ nextcloud_docker_compose_profile }}"
+    project_src: "{{remote_path}}/"
+    pull: true
+    remove_orphans: true
+
+- name: Upgrade -- Wait for docker-compose stack deployment after upgrade
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_status_task
+  changed_when: false
+  retries: 180
+  delay: 1
+  until: _nextcloud_status_task is not failed

@@ -3,7 +3,7 @@
 # You give it 
 
 
-- name: create nextcloud config list
+- name: Custom theme -- Config -- create nextcloud config list
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
@@ -14,7 +14,7 @@
 - debug:
     msg: "{{_nextcloud_config}}"
 
-- name: set nextcloud system config
+- name: Custom theme -- Config -- set nextcloud system config
   loop: "{{ (nextcloud_config.system|default({})).keys() }}"
   when: "item not in _nextcloud_config.system or _nextcloud_config.system[item] != nextcloud_config.system[item]"
   community.docker.docker_container_exec: 
@@ -38,7 +38,7 @@
       php occ config:system:set {{item}} --value={{ nextcloud_config.system[item]|quote}}
       {% endif %}
 
-- name: set nextcloud app config
+- name: Custom theme -- Config -- set nextcloud app config
   loop: "[{% for app in (nextcloud_config.apps|default({})).keys() %}
         {% for entry in nextcloud_config.apps[app].keys() %}
           [{{app|to_json}},{{entry|to_json}}],

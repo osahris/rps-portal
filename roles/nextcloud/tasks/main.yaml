@@ -100,9 +100,11 @@
   vars:
     nextcloud_config: "{{nextcloud_default_config}}"
 
-- import_tasks: traefik.yaml
+- name: Traefik -- 
+  import_tasks: traefik.yaml
 
-- import_tasks: custom_theme.yaml
+- name: Custom theme -- 
+  import_tasks: custom_theme.yaml
   when: nextcloud_with_custom_theme
 
 - import_tasks: keycloak_client.yaml
