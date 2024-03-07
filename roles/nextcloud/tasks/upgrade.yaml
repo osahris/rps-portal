@@ -1,17 +1,6 @@
 ---
-- name: Upgrade -- Get current Nexcloud version
-  community.docker.docker_container_exec:
-    container: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
-    command: php occ status --output=json
-    user: www-data
-  register: nextcloud_current_version_dict
-
-- set_fact:
-    nextcloud_current_version="{{ (nextcloud_current_version_dict.stdout | from_json )['versionstring'] }}"
-
-- name: Upgrade -- Display the Nextcloud current version
-  debug:
-    var: nextcloud_current_version
+- name: Upgrade -- Get current version
+  import_tasks: get_version.yaml
 
 - name: Upgrade -- Display the Nextcloud upgrade path
   debug:
