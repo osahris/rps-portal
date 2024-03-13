@@ -20,25 +20,15 @@
     services:
       - postgres
 
-- name: Upgrade loop -- upgrade Nextcloud to version {{ nextcloud_version }}
-  command: "docker-compose run -d --name {{nextcloud_service_name|replace('.', '')}}_nextcloud_1 --rm -e NEXTCLOUD_UPDATE=1 nextcloud /bin/true"
-  args:
-    chdir: "{{remote_path}}"
-
-# Without this step a container cannot start because the name is already used
-- name: Upgrade -- Shutdown docker-compose stack
-  docker_compose:
-    project_src: "{{remote_path}}/"
-    pull: true
-    remove_orphans: true
-    state: absent
-
-- name: Upgrade -- deploy docker-compose stack
+- name: Upgrade -- deploy docker-compose stack with version {{ nextcloud_version }}
   docker_compose:
     profiles: "{{ nextcloud_docker_compose_profile }}"
     project_src: "{{remote_path}}/"
     pull: true
     remove_orphans: true
+
+# - name: Upgrade loop -- upgrade Nextcloud apps
+#   command: docker exec -u www-data cloudtulskyiodatalabsdev_nextcloud_1 php occ upgrade
 
 - name: Upgrade -- Wait for docker-compose stack deployment after upgrade
   community.docker.docker_container_exec:
@@ -50,3 +40,19 @@
   retries: 180
   delay: 1
   until: _nextcloud_status_task is not failed
+
+- name: Upgrade -- Wait for maintenance mode off after upgrade
+  community.docker.docker_container_exec:
+    container: "{{nextcloud_app_container_name}}"
+    user: www-data
+    command: php occ status --output=json
+  register: _nextcloud_occ_status_task
+  changed_when: false
+  retries: 50
+  delay: 1
+  until: (_nextcloud_occ_status_task.stdout | from_json )['maintenance'] == false
+  ignore_errors: true
+
+- name: Upgrade loop -- turn maintenance mode off if it did not happen automatically
+  command: "docker exec -u www-data {{nextcloud_app_container_name}} php occ maintenance:mode --off"
+  when: (_nextcloud_occ_status_task.stdout | from_json )['maintenance'] == true

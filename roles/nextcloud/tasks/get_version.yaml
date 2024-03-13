@@ -4,10 +4,10 @@
     container: "{{nextcloud_service_name|replace('.', '')}}_nextcloud_1"
     command: php occ status --output=json
     user: www-data
-  register: nextcloud_current_version_dict
+  register: _nextcloud_occ_status_task
 
 - set_fact:
-    nextcloud_current_version="{{ (nextcloud_current_version_dict.stdout | from_json )['versionstring'] }}"
+    nextcloud_current_version="{{ (_nextcloud_occ_status_task.stdout | from_json )['versionstring'] }}"
 
 - name: Display the Nextcloud current version
   debug:
