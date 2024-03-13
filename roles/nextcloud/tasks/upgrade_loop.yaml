@@ -5,14 +5,14 @@
     dest: "{{remote_path}}/docker-compose.yaml"
 
 # Without this step a container cannot start because the name is already used
-- name: Upgrade -- Shutdown docker-compose stack
+- name: Upgrade loop -- Shutdown docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
     pull: true
     remove_orphans: true
     state: absent
 
-- name: Upgrade -- Bring Nextcloud database up
+- name: Upgrade loop -- Bring Nextcloud database up
   docker_compose:
     project_src: "{{remote_path}}/"
     pull: true
@@ -20,7 +20,7 @@
     services:
       - postgres
 
-- name: Upgrade -- deploy docker-compose stack with version {{ nextcloud_version }}
+- name: Upgrade loop -- deploy docker-compose stack with version {{ nextcloud_version }}
   docker_compose:
     profiles: "{{ nextcloud_docker_compose_profile }}"
     project_src: "{{remote_path}}/"
@@ -30,7 +30,7 @@
 # - name: Upgrade loop -- upgrade Nextcloud apps
 #   command: docker exec -u www-data cloudtulskyiodatalabsdev_nextcloud_1 php occ upgrade
 
-- name: Upgrade -- Wait for docker-compose stack deployment after upgrade
+- name: Upgrade loop -- Wait for docker-compose stack deployment after upgrade
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
@@ -41,7 +41,7 @@
   delay: 1
   until: _nextcloud_status_task is not failed
 
-- name: Upgrade -- Wait for maintenance mode off after upgrade
+- name: Upgrade loop -- Wait for maintenance mode off after upgrade
   community.docker.docker_container_exec:
     container: "{{nextcloud_app_container_name}}"
     user: www-data
