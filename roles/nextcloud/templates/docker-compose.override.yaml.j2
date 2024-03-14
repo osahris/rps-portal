@@ -13,6 +13,9 @@ services:
   sync:
     image: {{ nextcloud_sync_container_image }}:{{ nextcloud_sync_container_version }}
     restart: "no"
+    logging:
+      options:
+        max-size: 5m
     networks:
       - sync
     profiles:
