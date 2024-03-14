@@ -3,7 +3,7 @@ nextcloud_service_name: "cloud.{{rps_dns_suffix}}"
 
 nextcloud_docker_compose_profile: full # Seems not useful. Check if this is needed at all
 nextcloud_sync_container_image: "{{ rps_sync_container_image | default('registry.gitlab.com/idcohorts/rps/rps-admin-tools') }}"
-nextcloud_sync_container_version: v0.2.4
+nextcloud_sync_container_version: v0.2.5
 
 nextcloud_import:     false
 nextcloud_initialize: true
