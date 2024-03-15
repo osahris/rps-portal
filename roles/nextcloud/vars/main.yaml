@@ -125,6 +125,9 @@ nextcloud_custom_theme_config:
   system:
     theme: "{{nextcloud_custom_theme_name}}"
 
+# Sync variables
+nextcloud_sync_alerta_hostname: "https://{{alerta_service_name | default('')}}"
+nextcloud_sync_alerta_api_key:  "{{alerta_admin_api_key | default('')}}"
 
 # Cron variables
 cron_schedule: "*/1 * * * *" # "*/5 * * * *" means run a command every 5 min
