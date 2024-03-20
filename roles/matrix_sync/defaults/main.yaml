@@ -25,7 +25,7 @@ matrix_sync_keycloak_client_realm: "{{ keycloak_realm }}"
 matrix_sync_keycloak_client_realm_url: "{{matrix_sync_keycloak_base_url}}/realms/{{matrix_sync_keycloak_client_realm}}"
 matrix_sync_keycloak_client_client_id: "{{ matrix_sync_service_name }}"
 matrix_sync_keycloak_client_redirect_uris:
-  - "{{ matrix_domain }}/auth/oidc/callback"
+  - "https://{{ matrix_domain }}/auth/oidc/callback"
 
 matrix_sync_ignore_groups: "{{ rps_sync_ignore_groups | default(['admin']) }}"
 matrix_sync_ignore_users: "{{ rps_sync_ignore_users | default(['admin']) }}"
