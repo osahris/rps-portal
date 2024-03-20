@@ -1,6 +1,6 @@
 - import_tasks: secrets.yaml
 - import_tasks: create_admin_user.yaml
-  when: matrix_sync_access_token == "not_set"
+  when: not matrix_sync_access_token
 - import_tasks: secrets.yaml
 - import_tasks: keycloak_client.yaml
 - import_tasks: deploy.yaml
