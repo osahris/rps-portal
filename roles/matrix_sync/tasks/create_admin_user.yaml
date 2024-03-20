@@ -4,6 +4,7 @@
     container: "{{matrix_synapse_service_name|replace('.','')}}_synapse_1"
     command: register_new_matrix_user -u {{matrix_sync_user}} -p {{matrix_sync_pass}} --admin -c {{matrix_sync_synapse_homeserver_config_file}}
     chdir: /root
+  ignore_errors: true
 
 - name: retreive the access token of the synapse admin user
   community.docker.docker_container_exec:
@@ -14,8 +15,3 @@
 
 - set_fact: 
     matrix_sync_access_token={{ access_token.stdout | replace(' ', '') }}
-
-# - name: display matrix sync access token
-#   debug:
-#     msg:
-#       - "{{ matrix_sync_access_token }}"
