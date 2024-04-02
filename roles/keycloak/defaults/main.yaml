@@ -19,6 +19,17 @@ keycloak_loglevel: INFO
 keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
 
+keycloak_log_level: INFO
+# The possible levels 
+# FATAL - critical failures / complete inability to serve requests of any kind.
+# ERROR - significant error or problem leading to the inability to process requests.
+# WARN - A non-critical error or problem that may not require immediate correction.
+# INFO - Keycloak lifecycle events or important information. Low frequency.
+# DEBUG - More detailed information for debugging purposes, including e.g. database logs. Higher frequency.
+# TRACE - Most detailed debugging information. Very high frequency.
+# ALL - Special level for all log messages
+# OFF - Special level to turn logging off entirely (not recommended)
+
 keycloak_validate_certs: true
 keycloak_with_proxy_network: true
 keycloak_proxy_network: proxy
