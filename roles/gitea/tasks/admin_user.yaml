@@ -5,5 +5,5 @@
     user: git
     command: gitea admin user create --username {{ gitea_admin_username }} --password {{ gitea_admin_password }} --email {{ gitea_admin_email }} --admin
   register: _gitea_create_admin_user
-  failed_when: _gitea_create_admin_user.rc == 1 and 'user already exists' not in _gitea_create_admin_user.stdout
+  failed_when: _gitea_create_admin_user.rc != 0 and not "user already exists" in _gitea_create_admin_user.stderr
   changed_when: _gitea_create_admin_user.rc == 0
