@@ -6,4 +6,4 @@
   shell: "docker cp {{alerta_service_directory}}/plugins/matrix/ {{ alerta_service_name | replace('.','') }}_alerta_1:/app/plugins"
 
 - name: install matrix plugin in the container
-  shell: "docker exec -u root {{ alerta_service_name | replace('.','') }}_alerta_1 /venv/bin/pip install \ pip install /app/plugins/matrix/"
+  shell: "docker exec -u root {{ alerta_service_name | replace('.','') }}_alerta_1 /venv/bin/pip install /app/plugins/matrix/"
