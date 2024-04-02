@@ -117,6 +117,13 @@ services:
   icon: 'WordPress'
   show_on_404: false
 
+- name: 'Matrix Admin'
+  subdomain: 'admin.matrix'
+  icon: 'Element'
+  scope: 'admin'
+  description: 'Administrate Matrix Synapse servers'
+  show_on_404: false
+
 - name: 'SQLPad'
   subdomain: 'sqlpad'
   icon: 'Sqlpad'

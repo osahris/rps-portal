@@ -1,0 +1,8 @@
+---
+matrix_admin_gui_service_name: "admin.{{matrix_homeserver_name}}"
+matrix_admin_gui_service_directory: "/srv/{{matrix_admin_gui_service_name}}"
+
+matrix_admin_gui_with_header_injection: "{{ matrix_with_header_integration }}"
+
+# matrix_admin_gui_container_image:     "{{ matrix_admin_gui_container_image | default('awesometechnologies/synapse-admin') }}"
+# matrix_admin_gui_container_version: "{{ matrix_admin_gui_container_version | default('0.9.1') }}"

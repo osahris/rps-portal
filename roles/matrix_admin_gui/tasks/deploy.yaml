@@ -1,0 +1,17 @@
+---
+- name: create directory
+  file: 
+    state: directory
+    path: "{{ matrix_admin_gui_service_directory }}"
+
+- name: template docker-compose file
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ matrix_admin_gui_service_directory }}/docker-compose.yaml"
+
+- name: deploy docker-compose stack
+  docker_compose:
+    project_src: "{{ matrix_admin_gui_service_directory }}/"
+    # build: true
+    pull: true
+    remove_orphans: true

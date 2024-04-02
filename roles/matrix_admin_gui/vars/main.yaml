@@ -1,0 +1,23 @@
+---
+remote_path: "/srv/{{matrix_admin_gui_service_name}}"
+app_port: "80"
+
+# For each new running service add below a traefik router and a traefik service
+traefik_dynamic_config:
+  http:
+    routers:
+      matrix_admin_gui:
+        rule: "Host(`{{matrix_admin_gui_service_name}}`)"
+        entrypoints: websecure
+        middlewares: "{{'header-redirect' if (matrix_admin_gui_with_header_injection) else ''}}"
+        tls:
+          certresolver: letsencrypt
+          domains:
+            - main: "{{matrix_admin_gui_service_name}}"
+        service: matrix_admin_gui
+
+    services:
+      matrix_admin_gui:
+        loadBalancer:
+          servers:
+            - url: "http://{{matrix_admin_gui_service_name|replace('.', '')}}_app_1:{{app_port}}" # "http://container_name:container_port"

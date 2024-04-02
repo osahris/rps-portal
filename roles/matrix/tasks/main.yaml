@@ -26,3 +26,10 @@
     - matrix_sync
     - matrix-sync
   when: matrix_with_sync
+
+- import_role:
+    name: matrix_admin_gui
+  tags:
+    - matrix_admin_gui
+    - matrix-admin-gui
+  when: matrix_with_admin_gui
