@@ -10,7 +10,7 @@ nextcloud_initialize: true
 nextcloud_upgrade:    false
 
 nextcloud_oci_image: "nextcloud:{{ nextcloud_version }}"
-nextcloud_version:   "25.0"
+nextcloud_version:   "26.0"
 # When nextcloud_upgrade is true, Nextcloud_version must be the same as nextcloud_current_version
 nextcloud_target_version: "{{ nextcloud_upgrade_path[-1] }}" # this variable is used for nextcloud_upgrade to set the version that is targeted
 
