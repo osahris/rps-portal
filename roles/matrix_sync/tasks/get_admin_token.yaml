@@ -1,0 +1,10 @@
+---
+- name: retreive the access token of the synapse admin user
+  community.docker.docker_container_exec:
+    container: "{{matrix_synapse_service_name|replace('.','')}}_postgres_1"
+    command: psql -d {{matrix_synapse_postgres_db}} -U {{matrix_synapse_postgres_user}} -t -c "select token from access_tokens where user_id=E'@{{matrix_sync_user}}:{{matrix_domain}}' limit 1";
+    chdir: /root
+  register: access_token
+
+- set_fact: 
+    matrix_sync_access_token={{ access_token.stdout | replace(' ', '') }}

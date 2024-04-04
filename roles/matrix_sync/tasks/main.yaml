@@ -1,6 +1,7 @@
 - import_tasks: secrets.yaml
 - import_tasks: create_admin_user.yaml
   when: not matrix_sync_access_token
+- import_tasks: get_admin_token.yaml
 - import_tasks: secrets.yaml
 - import_tasks: keycloak_client.yaml
 - import_tasks: deploy.yaml
