@@ -1,14 +1,15 @@
 ---
-version: "3"
+version: "3.4"
 
 networks:
   proxy:
     external: true
 
 services:
+
   sync:
     image: {{ matrix_sync_container_image }}:{{ matrix_sync_container_version }}
-    # build: ./rps-admin-tools-element_sync/
+    # build: ./rps-admin-tools/
     restart: "no"
     logging:
       options:
@@ -18,6 +19,6 @@ services:
     profiles:
       - sync
     entrypoint: ''
-    env_file: ".env"
+    env_file: "matrix-sync.env"
     # command: "tail -f /dev/null"
     command: /opt/rps-admin-tools/command_loop.sh sync matrix

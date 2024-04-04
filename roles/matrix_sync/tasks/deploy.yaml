@@ -1,5 +1,5 @@
 ---
-- name: matrix app matrix_sync_service_directory
+- name: create matrix app matrix_sync_service_directory
   file:
     path: "{{matrix_sync_service_directory}}"
     state: directory
@@ -10,12 +10,12 @@
 #     src: "./" # relative to ./files on local role path
 #     dest: "{{matrix_sync_service_directory}}" # relative to ~/ on remote
 
-- name: matrix sync config file
+- name: copy templated matrix-sync.env file
   template:
-    src: ".env.j2"
-    dest: "{{matrix_sync_service_directory}}/.env"
+    src: "matrix-sync.env.j2"
+    dest: "{{matrix_sync_service_directory}}/matrix-sync.env"
 
-- name: docker-compose file
+- name: copy templated docker-compose.yaml file
   template:
     src: "docker-compose.yaml.j2"
     dest: "{{matrix_sync_service_directory}}/docker-compose.yaml"
