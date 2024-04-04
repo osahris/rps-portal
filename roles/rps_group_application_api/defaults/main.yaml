@@ -2,7 +2,7 @@ rps_groups_application_api_service_name: "application-api.{{ rps_dns_suffix }}"
 group_application_api_keycloak_client_secret: "{{ ansible_local[rps_groups_application_api_service_name].group_application_api_keycloak_client_secret }}"
 
 
-group_application_api_repository: "git@gitlab.com:idcohorts/rps/rps-group-application-api.git"
+group_application_api_repository: "https://gitlab.com/idcohorts/rps/rps-group-application-api.git"
 group_application_api_version: main
 group_application_api_container_image: registry.gitlab.com/idcohorts/rps/rps-group-application-api
 group_application_api_container_version: latest
