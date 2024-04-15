@@ -13,8 +13,6 @@ keycloak_import_from_controler: false
 keycloak_container_image: quay.io/keycloak/keycloak
 keycloak_container_version: 23.0
 
-keycloak_loglevel: INFO
-
 # keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587
 # keycloak_smtp_from: admin@test-discourse.idcohorts.net
