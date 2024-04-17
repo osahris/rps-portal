@@ -1,0 +1,2 @@
+keycloak_container_image: quay.io/keycloak/keycloak
+keycloak_container_version: 24.0

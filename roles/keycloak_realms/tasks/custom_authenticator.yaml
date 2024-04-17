@@ -1,0 +1,31 @@
+---
+- name: Create a browser flow
+  community.general.keycloak_authentication:
+    auth_keycloak_url: "https://{{ keycloak_service_name }}"
+    auth_realm: master
+    auth_username: admin
+    auth_password: "{{ keycloak_admin_password }}"
+    realm: "{{ keycloak_realm }}"
+    alias: "CustomBrowserFlow"
+    copyFrom: "browser"
+    authenticationExecutions:
+      - providerId: "auth-cookie"
+        requirement: "ALTERNATIVE"
+      - providerId: "identity-provider-redirector"
+        requirement: "ALTERNATIVE"
+      - providerId: "auth-username-password-form"
+        requirement: "REQUIRED"
+      - providerId: "requireApprovedRole"
+        requirement: "REQUIRED"
+    state: present
+
+- name: Set CustomBrowserFlow as the default browser flow
+  community.general.keycloak_realm:
+    auth_keycloak_url: "https://{{ keycloak_service_name }}"
+    auth_realm: master
+    auth_username: admin
+    auth_password: "{{ keycloak_admin_password }}"
+    realm: "{{ keycloak_realm }}"
+    browser_flow: "CustomBrowserFlow"
+    state: present
+

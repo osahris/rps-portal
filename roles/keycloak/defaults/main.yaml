@@ -10,8 +10,8 @@ keycloak_import: false
 keycloak_export_to_controler: false
 keycloak_import_from_controler: false
 
-keycloak_container_image: quay.io/keycloak/keycloak
-keycloak_container_version: 23.0
+keycloak_container_image: registry.gitlab.com/idcohorts/rps/rps-keycloak-package
+keycloak_container_version: v24.0.1
 
 # keycloak_smtp_host: mail.example.com
 keycloak_smtp_port: 587

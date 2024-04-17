@@ -4,7 +4,7 @@ keycloak_admin_username: admin
 keycloak_auth_realm: master
 keycloak_validate_certs: yes
 keycloak_frontend_url: https://{{keycloak_service_name}}
-
+keycloak_rps_extension: false
 keycloak_subrealm_client_default_secret: "{{ ansible_local.keycloak_realms.keycloak_subrealm_client_default_secret }}"
 
 keycloak_realms:
