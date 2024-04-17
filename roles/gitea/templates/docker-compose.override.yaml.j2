@@ -9,7 +9,7 @@ networks:
 {% endif %}
 
 services:
-  gitea:
+  code:
 {% if gitea_override_image %}
     image: "{{gitea_override_image}}"
 {% endif %}
