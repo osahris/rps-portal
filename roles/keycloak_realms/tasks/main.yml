@@ -11,3 +11,7 @@
   include_tasks: per_realm.yml
   # get all realms that are sub realms (keycloak_realm is not equal to realm name)
   loop: "{{ keycloak_realms | rejectattr('name', 'equalto', keycloak_realm) | list }}"
+
+- name: Configure custom authenticator approvedCheck
+  include_tasks: custom_authenticator.yaml
+  when: keycloak_rps_extension is defined and keycloak_rps_extension
