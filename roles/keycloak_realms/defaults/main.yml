@@ -27,6 +27,7 @@ keycloak_realms:
           - realm-management.query-groups
           - realm-management.manage-users
     is_registration_allowed: true
+    supported_locales: ["en","de"]
     default_groups: []
     default_roles:
       - new

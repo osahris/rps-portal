@@ -436,7 +436,7 @@ label {
       <div class="box block error-box has-text-centered">
         <div>
           {% endraw %}
-            <img width="320" height="320" src="{{ oauth2_proxy_logo_src }}">
+            <img style="height: 100px; margin: 0px auto; display: block;" src="{{ oauth2_proxy_logo_src }}">
           {% raw %}
         </div>
         <h4 class="text-center font-weight-bold">Vielen Dank für Ihre Anmeldung.</h4>
@@ -447,7 +447,7 @@ label {
           <p>
             Sollten Sie länger als 5 Werktage auf eine Bearbeitung warten, informieren Sie uns bitte unter 
             {% endraw %}
-              <a href="mailto:support@hub.netzwerk-universitaetsmedizin.de" class="authButton">support@hub.netzwerk-universitaetsmedizin.de</a>
+              <a href="mailto:{{ support_mail_address }}" class="authButton">{{ support_mail_address }}</a>
             {% raw %}
           </p>
           <div class="columns">

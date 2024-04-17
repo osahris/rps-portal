@@ -20,6 +20,8 @@
     id: "{{ item.name }}"
     realm: "{{ item.name }}"
     registration_allowed: '{{item.is_registration_allowed | default(false)}}'
+    supported_locales: '{{item.supported_locales | default(["en","de"])}}'
+    default_locale: "de"
     account_theme: rps
     login_theme: rps
     #TODO:
