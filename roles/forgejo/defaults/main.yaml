@@ -1,0 +1,2 @@
+---
+forgejo_service_name: "{{gitea_service_name}}"
