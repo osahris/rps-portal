@@ -1,7 +1,5 @@
 ---
-rps_header_allowed_additional_origins:
-  - https://{{ nextcloud_service_name }}
-  - https://{{ gitea_service_name }}
+rps_header_allowed_additional_origins: []
 
 rps_header_bottom_navbar_links:
   - title: Suite
