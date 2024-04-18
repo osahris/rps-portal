@@ -1,6 +1,8 @@
 project_name: "rocketchat"
 remote_path: "/srv/{{rocketchat_service_name}}"
 
+rocketchat_traefik_certresolver: "{{traefik_certresolver}}"
+
 rocketchat_traefik_dynamic_config:
   http:
     middlewares:
@@ -14,7 +16,7 @@ rocketchat_traefik_dynamic_config:
         entrypoints: websecure
         service: rocketchat
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: "{{rocketchat_traefik_certresolver}}"
         middlewares:
           - header-redirect
           - rocketchat-add-oauth2-redirect-header

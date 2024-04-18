@@ -3,7 +3,7 @@ remote_path: "/srv/{{maintenance_service_name}}"
 
 activate_maintenance: True
 
-traefik_certresolver: "letsencrypt"
+maintenance_traefik_certresolver: "{{traefik_certresolver}}"
 app_port: "80"
 
 # For each new running service add below a traefik router and a traefik service
@@ -27,7 +27,7 @@ traefik_maintenance_dynamic_config:
           Host(`{{        rps_navigator_service_name }}`)
         entrypoints: websecure
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: "{{maintenance_traefik_certresolver}}"
         service: "maintenance"
 
     services:

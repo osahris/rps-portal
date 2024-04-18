@@ -19,7 +19,7 @@ service_name: "budibase"
 
 remote_path: "/srv/{{service_domain_name}}"
 
-traefik_certresolver: "letsencrypt"
+budibase_traefik_certresolver: "{{traefik_certresolver}}"
 app_port: "80"
 
 # For each new running service add below a traefik router and a traefik service
@@ -31,7 +31,7 @@ traefik_dynamic_config:
         entrypoints: websecure
         middlewares: "{{'header-redirect' if (nextcloud_with_header_integration) else ''}}"
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: "{{budibase_traefik_certresolver}}"
         service: "budibase"
 
     services:

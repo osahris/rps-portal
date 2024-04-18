@@ -16,7 +16,7 @@ alerta_matrix_homeserver: "{{matrix_homeserver_name}}"
 alerta_matrix_access_token: ""
 alerta_matrix_room_ID: ""
 
-traefik_certresolver: "letsencrypt"
+alerta_traefik_certresolver: "{{traefik_certresolver}}"
 app_port: "8080"
 
 # For each new running service add below a traefik router and a traefik service
@@ -27,7 +27,7 @@ alerta_traefik_dynamic_config:
         rule: "Host(`{{alerta_service_name}}`)"
         entrypoints: websecure
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: "{{alerta_traefik_certresolver}}"
         service: alerta
 
     services:

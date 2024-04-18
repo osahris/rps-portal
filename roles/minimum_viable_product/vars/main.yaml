@@ -3,7 +3,7 @@ service_name: "mvp"
 service_domain_name: "{{ mvp_service_name }}"
 remote_path: "/srv/{{mvp_service_name}}"
 
-traefik_certresolver: "letsencrypt"
+mvp_traefik_certresolver: "{{traefik_certresolver}}"
 app_port: "801"
 
 # For each new running service add below a traefik router and a traefik service
@@ -15,7 +15,7 @@ traefik_dynamic_config:
         entrypoints: websecure
         middlewares: "{{'header-redirect' if (mvp_with_header_integration) else ''}}"
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: "{{mvp_traefik_certresolver}}"
         service: "mvp" # <-- Change this to your service name
 
     services:

@@ -4,7 +4,7 @@ service_domain_name: "{{ rps_profile_interface_service_name }}"
 
 remote_path: "/srv/{{service_domain_name}}"
 
-traefik_certresolver: "letsencrypt"
+rps_profile_traefik_certresolver: "{{traefik_certresolver}}"
 app_port: "801"
 
 budibase_api_key: cebfeee24d4d0671becb513c460cf43f-87efe4b6d696ca1ab338a6226bb93e9cb688e9293bf19365c332ab436044f37f3e9e6742291cf4e2
@@ -20,7 +20,7 @@ traefik_dynamic_config:
         entrypoints: websecure
         middlewares: "{{['header-redirect','oauth2-auth'] if (rps_people_with_header_integration) else 'oauth2-auth'}}"
         tls:
-          certresolver: "{{traefik_certresolver}}"
+          certresolver: "{{rps_profile_traefik_certresolver}}"
         service: "profile" # <-- Change this to your service name
 
     services:
