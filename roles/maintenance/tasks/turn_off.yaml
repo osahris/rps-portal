@@ -2,7 +2,6 @@
 - name: delete maintenance traefik config
   file: path=/srv/traefik/conf.d/maintenance.yaml state=absent
 
----
 - name: create traefik backup directory
   file: path=/srv/traefik/conf.d/ state=directory
 
