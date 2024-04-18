@@ -7,7 +7,7 @@ traefik_certresolver: "letsencrypt"
 app_port: "80"
 
 # For each new running service add below a traefik router and a traefik service
-traefik_dynamic_config:
+traefik_maintenance_dynamic_config:
   http:
     routers:
       maintenance:
