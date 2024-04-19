@@ -6,10 +6,17 @@ networks:
     external: true
   wordpress-internal:
 
+volumes:
+  wordpress:
+  db:
+
 services:
   wordpress:
     image: {{ wordpress_container_image }}
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
     env_file: env-wordpress
     volumes:
       - wordpress:/var/www/html
@@ -32,6 +39,9 @@ services:
 
   wordpress-cli:
     image: wordpress:cli
+    logging:
+      options:
+        max-size: 5m
     env_file: env-wordpress
     volumes:
       - wordpress:/var/www/html
@@ -46,14 +56,12 @@ services:
   db:
     image: mysql:5.7
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
     env_file: env-mysql
     volumes:
       - db:/var/lib/mysql
       - ./initdb:/docker-entrypoint-initdb.d
     networks:
       - wordpress-internal
-
-
-volumes:
-  wordpress:
-  db:

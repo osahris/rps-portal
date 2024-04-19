@@ -8,6 +8,9 @@ networks:
 services:
   static-header-test:
     image: nginx
+    logging:
+      options:
+        max-size: 5m
     volumes:
       - ./html:/usr/share/nginx/html
     restart: unless-stopped

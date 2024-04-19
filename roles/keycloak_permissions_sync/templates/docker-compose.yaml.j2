@@ -10,6 +10,9 @@ services:
   keycloak_permissions_sync:
     image: {{ keycloak_permissions_sync_container_image }}:{{ keycloak_permissions_sync_container_version }}
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
     networks:
       - keycloak-internal
       - proxy

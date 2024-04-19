@@ -19,6 +19,9 @@ services:
   website:
     image: "{{ website_oci_image }}"
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
     networks:
 {% if not website_with_auth %}
       - proxy
@@ -38,6 +41,9 @@ services:
 # Auth
   website-oauth2-proxy:
     image: {{ website_auth_oauth2_proxy_oci_image | to_json }}
+    logging:
+      options:
+        max-size: 5m
     env_file: oauth2-proxy.env
     networks:
       - website
@@ -49,6 +55,9 @@ services:
   oauth2-proxy-cache:
     image: redis:6.2-alpine
     restart: always
+    logging:
+      options:
+        max-size: 5m
     env_file: oauth2-proxy-cache.env
     volumes: 
       - oauth2-proxy-redis:/data

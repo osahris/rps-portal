@@ -11,6 +11,9 @@ networks:
 services:
   rps-admin-interface:
     image: {{rps_admin_interface_container_image}}:{{rps_admin_interface_container_image_version}}
+    logging:
+      options:
+        max-size: 5m
     env_file: env
     networks:
       - service
@@ -21,6 +24,9 @@ services:
   oauth2-proxy-admin:
     image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
     networks:
       - proxy
       - service
@@ -29,6 +35,9 @@ services:
   oauth2-proxy-redis:
     image: redis:6.2-alpine
     restart: always
+    logging:
+      options:
+        max-size: 5m
     networks:
       - oauth2-proxy
     ports:

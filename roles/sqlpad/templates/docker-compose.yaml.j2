@@ -9,6 +9,9 @@ services:
   sqlpad:
     image: "sqlpad/sqlpad:6"
     restart: always
+    logging:
+      options:
+        max-size: 5m
     env_file: 
       - "./sqlpad.env"
     volumes:

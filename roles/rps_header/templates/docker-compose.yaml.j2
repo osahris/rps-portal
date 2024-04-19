@@ -9,6 +9,9 @@ services:
   header:
     image: {{ rps_header_container_image }}:{{ rps_header_container_image_version }}
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
     networks:
       - proxy
     volumes:
@@ -31,6 +34,9 @@ services:
 
   always-200-responder:
     image: nginx:1
+    logging:
+      options:
+        max-size: 5m
     command:
       - /bin/sh 
       - -c

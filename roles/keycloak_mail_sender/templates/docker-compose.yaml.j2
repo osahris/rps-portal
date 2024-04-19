@@ -9,6 +9,9 @@ services:
   keycloak-mail-sender:
     image: {{keycloak_mail_sender_container_image}}:{{keycloak_mail_sender_container_image_version}}
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
     networks:
       - {{ keycloak_mail_sender_docker_network }}
     env_file: env

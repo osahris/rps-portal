@@ -7,9 +7,12 @@ networks:
 services:
   group-application:
     image: "{{ group_application_api_container_image }}:{{ group_application_api_container_version }}"
-    networks:
-      - proxy
     restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    networks:
+      - proxy    
     env_file: .env
     ports:
       - 8000
