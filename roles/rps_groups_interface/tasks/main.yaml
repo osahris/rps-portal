@@ -16,7 +16,7 @@
 
 - name: create suite config
   copy:
-    content: "{{ rps_groups_interface_suite_config | to_nice_yaml(indent=2, width=777) }}"
+    content: "{{ rps_groups_interface_suite_config | to_json }}"
     dest: "{{remote_path}}/config/config.json"
 
 - name: deploy docker-compose stack
@@ -25,6 +25,7 @@
     files: "docker-compose.yaml"
     build: true
     pull: true
+    recreate: always
     remove_orphans: true
 
 - import_tasks: keycloak_client.yaml
