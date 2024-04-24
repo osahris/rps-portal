@@ -10,6 +10,7 @@ rps_with_discourse:      true
 rps_with_forgejo:        true
 rps_with_matrix:         true
 rps_with_nextcloud:      true
+rps_with_onlyoffice:     false
 rps_with_openproject:    true
 rps_with_rps_navigator:  true
 rps_with_bookstack:      true

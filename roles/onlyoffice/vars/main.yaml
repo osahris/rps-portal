@@ -1,0 +1,41 @@
+remote_path: "/srv/{{onlyoffice_service_name}}"
+
+onlyoffice_secrets:
+  onlyoffice_secret_key:         "{{ onlyoffice_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
+
+onlyoffice_allowed_default_origins:
+  - "https://{{ nextcloud_service_name }}"
+
+onlyoffice_traefik_middleware:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Proto: "https"
+    accessControlAllowOriginList: "{{ onlyoffice_allowed_origins }}"
+
+      # TODO: add additional clouds here
+
+onlyoffice_traefik_router:
+  rule: "Host(`{{onlyoffice_service_name}}`)"
+  entrypoints: websecure
+  middlewares: "{{onlyoffice_service_name}}"
+  service: "{{onlyoffice_service_name}}"
+
+onlyoffice_traefik_service:
+  loadBalancer:
+    servers:
+      - url: "http://{{onlyoffice_service_name | replace('.', '')}}_onlyoffice_1"
+
+onlyoffice_traefik_dynamic_config:
+  http:
+    routers: |
+      {{ { 
+        onlyoffice_service_name : onlyoffice_traefik_router
+      } }}
+    services: |
+      {{ { 
+        onlyoffice_service_name : onlyoffice_traefik_service
+      } }}
+    middlewares: |
+      {{ { 
+        onlyoffice_service_name : onlyoffice_traefik_middleware
+      } }}

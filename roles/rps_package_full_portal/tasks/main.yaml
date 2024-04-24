@@ -77,6 +77,14 @@
   tags: collabora
   when: rps_with_collabora
 
+# OnlyOffice
+- import_role: 
+    name: onlyoffice
+  tags:
+    - onlyoffice
+    - office
+  when: rps_with_onlyoffice
+
 # OpenProject
 - import_role: 
     name: openproject
