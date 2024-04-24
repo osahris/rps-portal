@@ -1,0 +1,33 @@
+---
+version: "3"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  onlyoffice:
+    image: "{{ onlyoffice_image }}:{{ onlyoffice_image_version }}"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 5m
+    environment:
+      - JWT_ENABLED=true
+      - JWT_SECRET={{ onlyoffice_secret_key }}
+      - JWT_HEADER=Authorization
+    volumes:
+      - documentserver_data:/var/www/onlyoffice/Data
+      - documentserver_cache:/var/lib/onlyoffice/documentserver/App_Data/cache/files
+      - documentserver_logs:/var/log/onlyoffice
+    networks:
+      - proxy
+    ports:
+      - "80"
+    networks:
+      - proxy
+
+volumes:
+  documentserver_data:
+  documentserver_cache:
+  documentserver_logs:
