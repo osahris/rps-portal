@@ -1,6 +1,10 @@
-# Changelog of RPS Apps
+# Changelog of RPS Portal
 
-## Release v2.0.0.alpha.1
+## Unreleased
+
+
+
+## Release v2.0.0
 
 Complete rewrite of the Research Project Suite (RPS) project.
 
