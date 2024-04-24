@@ -7,3 +7,6 @@ onlyoffice_allowed_additional_origins: []
 
 # secrets
 onlyoffice_secret_key:     "{{ ansible_local[onlyoffice_service_name].onlyoffice_secret_key }}"
+
+rps_with_onlyoffice_enterprise: false
+onlyoffice_license_path: "files/license.lic"

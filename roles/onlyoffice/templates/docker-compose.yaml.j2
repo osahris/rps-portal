@@ -17,6 +17,10 @@ services:
       - JWT_SECRET={{ onlyoffice_secret_key }}
       - JWT_HEADER=Authorization
     volumes:
+    {% if rps_with_onlyoffice_enterprise %}
+  - ./license.lic:/var/www/onlyoffice/Data/license.lic
+    {% endif %}
+    
       - documentserver_data:/var/www/onlyoffice/Data
       - documentserver_cache:/var/lib/onlyoffice/documentserver/App_Data/cache/files
       - documentserver_logs:/var/log/onlyoffice
