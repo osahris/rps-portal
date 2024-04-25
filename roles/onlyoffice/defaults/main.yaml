@@ -1,4 +1,4 @@
-onlyoffice_image: onlyoffice/documentserver
+onlyoffice_image: onlyoffice/documentserver{% if onlyoffice_with_enterprise_license %}-ee{% endif %}
 onlyoffice_image_version: "8.0.1"
 onlyoffice_service_name: "onlyoffice.{{ rps_dns_suffix }}"
 
@@ -8,5 +8,5 @@ onlyoffice_allowed_additional_origins: []
 # secrets
 onlyoffice_secret_key:     "{{ ansible_local[onlyoffice_service_name].onlyoffice_secret_key }}"
 
-onlyoffice_with_license: false
+onlyoffice_with_enterprise_license: false
 onlyoffice_license_path: "files/license.lic"

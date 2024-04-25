@@ -18,7 +18,7 @@
   copy:
     src: "{{onlyoffice_license_path}}"
     dest: "/srv/{{onlyoffice_service_name}}/license.lic"
-  when: onlyoffice_with_license
+  when: onlyoffice_with_enterprise_license
 
 - name: copy traefik dynamic config
   copy:

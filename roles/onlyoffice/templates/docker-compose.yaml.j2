@@ -17,7 +17,7 @@ services:
       - JWT_SECRET={{ onlyoffice_secret_key }}
       - JWT_HEADER=Authorization
     volumes:
-    {% if onlyoffice_with_license %}
+    {% if onlyoffice_with_enterprise_license %}
   - ./license.lic:/var/www/onlyoffice/Data/license.lic
     {% endif %}
     
