@@ -3,9 +3,6 @@ remote_path: "/srv/{{onlyoffice_service_name}}"
 onlyoffice_secrets:
   onlyoffice_secret_key:         "{{ onlyoffice_secret_key | default(lookup('ansible.builtin.password', '/dev/null length=32 chars=ascii_letters,digits')) }}"
 
-onlyoffice_allowed_default_origins:
-  - "https://{{ nextcloud_service_name }}"
-
 onlyoffice_traefik_middleware:
   headers:
     customRequestHeaders:

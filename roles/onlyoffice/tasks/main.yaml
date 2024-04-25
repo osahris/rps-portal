@@ -25,6 +25,16 @@
     content: "{{ onlyoffice_traefik_dynamic_config | to_nice_yaml(indent=2, width=777) }}"
     dest: "/srv/traefik/conf.d/{{onlyoffice_service_name}}.yaml"
 
+- name: check if docker-compose stack is running
+  docker_compose:
+    project_src: "{{remote_path}}/"
+    state: present
+  register: docker_compose_stack
+
+- name: excute command in container to check if onlyoffice is running
+  command: docker exec -it {{onlyoffice_service_name}}_onlyoffice_1 documentserver-prepare4shutdown.sh
+  when: docker_compose_stack.containers | default([]) | selectattr('name', 'search', '{{onlyoffice_service_name}}_onlyoffice_1') | list | length > 0
+
 - name: deploy docker-compose stack
   docker_compose:
     project_src: "{{remote_path}}/"
