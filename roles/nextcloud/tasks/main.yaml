@@ -123,6 +123,9 @@
   when: nextcloud_with_header_injection
   register: _nextcloud_header_injection_patch
 
+- import_tasks: csp_injection.yaml
+  when: nextcloud_with_header_injection
+
 - import_tasks: apps/install.yaml
   vars:
     nextcloud_install_apps: "{{nextcloud_apps}}"
