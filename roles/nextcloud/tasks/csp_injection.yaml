@@ -1,0 +1,62 @@
+---
+
+- name: Apply csp injection
+  community.docker.docker_container_exec:
+    container: "{{ nextcloud_app_container_name }}"
+    command: sh
+    stdin: |
+      # fail on error
+      set -e
+
+      # file to patch
+      FILE="/var/www/html/lib/public/AppFramework/Http/ContentSecurityPolicy.php"
+
+      # create a backup of the original file
+      if [ ! -e "$FILE.orig" ]; then
+        cp "$FILE" "$FILE.orig"
+      fi
+
+      # url to inject into csp arrays
+      CSP_URL={{ item }}
+
+      # function to insert a given URL into an given array if it is not already present
+      insert_url() {
+          local array_name=$1
+          local url=$2
+          
+          # extract the array block from the file
+          array_block=$(awk -v array="$array_name" '
+              BEGIN { start = 0 }
+              $0 ~ array { start = 1 }
+              start { print }
+              /]/ { if (start) exit }
+          ' "$FILE")
+          
+          # check if the URL is already present in the array
+          if ! echo "$array_block" | grep -q "'$url'"; then
+              # find the line number of the array declaration
+              line_number=$(grep -n "$array_name" "$FILE" | cut -d ':' -f 1)
+              close_bracket_line=$(echo "$array_block" | grep -n ']' | cut -d ':' -f 1 | head -n 1)
+              
+              # calculate the line number where the URL should be inserted
+              insert_line=$((line_number + close_bracket_line - 1))
+              
+              # insert the URL into the array at the correct position
+              sed -i "${insert_line} i\        '$url'," "$FILE"
+              echo "url inserted into $array_name"
+          else
+              echo "url already present in $array_name"
+          fi
+      }
+
+      # call the function for each array
+      insert_url "allowedScriptDomains" "$CSP_URL"
+      insert_url "allowedImageDomains" "$CSP_URL"
+      insert_url "allowedConnectDomains" "$CSP_URL"
+
+  changed_when: '"url inserted into" in _nextcloud_csp_injection_patch.stdout'
+  register: _nextcloud_csp_injection_patch
+  loop:
+    - "https://{{ nextcloud_service_name }}"
+    - "https://{{ rps_header_service_name }}"
+    - "https://{{ rps_style_service_name }}"
