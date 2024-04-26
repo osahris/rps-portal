@@ -43,6 +43,7 @@
               
               # insert the URL into the array at the correct position
               sed -i "${insert_line} i\        '$url'," "$FILE"
+              echo "url inserted into $array_name"
           else
               echo "url already present in $array_name"
           fi
@@ -53,7 +54,7 @@
       insert_url "allowedImageDomains" "$CSP_URL"
       insert_url "allowedConnectDomains" "$CSP_URL"
 
-  changed_when: not "url already present in" in _nextcloud_csp_injection_patch.stdout
+  changed_when: '"url inserted into" in _nextcloud_csp_injection_patch.stdout'
   register: _nextcloud_csp_injection_patch
   loop:
     - "https://{{ nextcloud_service_name }}"
