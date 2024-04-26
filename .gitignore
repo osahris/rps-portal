@@ -8,3 +8,5 @@ __pycache__
 .vscode
 
 numhub-users-*.json
+ansible_collections/community
+ansible_collections/community.general-8.6.0.info
