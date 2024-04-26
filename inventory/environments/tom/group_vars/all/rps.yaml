@@ -9,3 +9,8 @@ rps_with_discourse_sync: true
 discourse_with_category_export: false
 discourse_with_category_import: true
 nextcloud_version: "27.1"
+keycloak_rps_extension: true
+rps_with_header: true
+rps_with_header_injection: true
+rps_with_onlyoffice: true
+support_mail_address: tom-robin.raja@uk-koeln.de
